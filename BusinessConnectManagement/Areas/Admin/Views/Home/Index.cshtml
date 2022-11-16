@@ -1,0 +1,75 @@
+﻿@model IEnumerable<BusinessConnectManagement.Models.VanLangUser>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+<section class="greeting">
+    <h3 class="greeting-team">Internship Management of FIT</h3>
+    <h1 class="greeting-heading">Xin chào</h1>
+    <h2 class="greeting-wish">Chúc bạn một ngày làm việc tốt lành</h2>
+    <p class="greeting-time"></p>
+</section>
+
+@*
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FullName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Student_ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Last_Access)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Major.Major1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Role.Role_Name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FullName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Student_ID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Last_Access)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Major.Major1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Role.Role_Name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Email }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Email }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Email })
+        </td>
+    </tr>
+}
+
+</table>*@
