@@ -1,0 +1,179 @@
+body {
+  background: linear-gradient(to bottom,
+      rgba(55, 64, 144, 0.7),
+      rgba(0, 0, 0, 0.7)), url("../images/bg-vanlang.jpg") no-repeat center / cover;
+}
+
+.option {
+  padding: 5rem;
+}
+
+.option-heading {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #fff;
+  margin-top: 3rem;
+}
+
+.option-list {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 5rem;
+}
+
+.option-item {
+  width: 28rem;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 1rem;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 0.5rem;
+  animation: fadeIn 0.4s linear 0s 1 alternate forwards;
+}
+
+.option-item:last-child {
+  margin-left: 1rem;
+}
+
+.option-image {
+  width: 8rem;
+  height: 8rem;
+  object-fit: contain;
+}
+
+.option-desc {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #fff;
+  margin-top: 2rem;
+}
+
+.option-link {
+  background-color: var(--primary-color);
+  color: #fff;
+  padding: 0.8rem 2rem;
+  border-radius: 0.5rem;
+  text-align: center;
+  margin-top: 2rem;
+  font-weight: bold;
+  transition: opacity 0.1s linear;
+  will-change: opacity;
+  text-transform: uppercase;
+  line-height: 1.4;
+  cursor: pointer;
+}
+
+.option-link:hover {
+  opacity: 0.9;
+}
+
+.option-more {
+  color: #fff;
+  text-align: center;
+  margin-top: 3rem;
+  font-size: 1.5rem;
+}
+
+.is-hide {
+  display: none;
+}
+
+/* Login form */
+.login {
+  width: 40rem;
+  display: flex;
+  background-color: #fff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 1rem;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
+  display: none;
+  animation: fadeIn 0.4s linear 0s 1 alternate forwards;
+}
+
+.login-icon {
+  position: absolute;
+  right: 0.5rem;
+  top: 0.5rem;
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: #ce1b28;
+}
+
+.login-image {
+  width: 30%;
+  margin-right: auto;
+  object-fit: contain;
+  background-color: #f7f7f7;
+  border-radius: 1rem 0 0 1rem;
+  padding: 1rem;
+}
+
+.login-form {
+  width: 70%;
+  padding: 2rem;
+}
+
+.login-heading {
+  font-weight: bold;
+  text-transform: capitalize;
+  text-align: center;
+  user-select: none;
+  color: var(--primary-color);
+  font-size: 1.5rem;
+}
+
+.login-group {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.login-label {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  display: inline-block;
+  user-select: none;
+  font-weight: bold;
+}
+
+.login-input {
+  padding: 0.5rem;
+  border: 1px solid #333;
+  border-radius: 0.2rem;
+}
+
+.login-submit {
+  display: flex;
+  margin-top: 2rem;
+  align-items: center;
+}
+
+.login-button {
+  padding: 1rem;
+  background-color: var(--primary-color);
+  color: #fff;
+  border-radius: 0.2rem;
+  display: block;
+  margin-right: auto;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.login-forgot {
+  font-size: 1rem;
+  display: block;
+  cursor: pointer;
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
+.is-appear {
+  display: flex;
+}
