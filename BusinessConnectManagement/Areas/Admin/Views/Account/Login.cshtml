@@ -1,0 +1,64 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Nhập</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/assets/css/reset.css">
+    <link rel="stylesheet" href="~/assets/css/global.css">
+    <link rel="stylesheet" href="~/assets/css/style.css">
+    <link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+    <section class="option">
+        <h2 class="option-heading">Trang đăng nhập</h2>
+        <div class="option-list">
+            <div class="option-item">
+                <img src="~/assets/images/logoVLU.png" alt="logoVLU.png" class="option-image">
+                <p class="option-desc">Văn Lang</p>
+                <a href="@Url.Action("SignIn", "Account")" class="option-link">Đăng nhập</a>
+            </div>
+            <div class="option-item">
+                <img src="~/assets/images/logoDoanhNghiep.png" alt="logoDoanhNghiep.png" class="option-image">
+                <p class="option-desc">Doanh nghiệp</p>
+                <span class="option-link">Đăng nhập</span>
+            </div>
+        </div>
+        <p class="option-more">&#169; 2022 - Bản Quyền Thuộc Khoa Công nghệ Thông Tin</p>
+    </section>
+
+    <section class="login">
+        <i class="login-icon fas fa-times-circle"></i>
+        <img src="~/assets/images/logoDoanhNghiep.png" alt="logoDoanhNghiep.png" class="login-image">
+        <form action="#" class="login-form">
+            <h1 class="login-heading">Chào mừng quý doanh nghiệp</h1>
+            <div class="login-group">
+                <label for="login-username" class="login-label">Tên đăng nhập</label>
+                <input type="text" name="" id="login-username" class="login-input" placeholder="Tên đăng nhập" required
+                       autocomplete="off">
+            </div>
+            <div class="login-group">
+                <label for="login-password" class="login-label">Mật khẩu</label>
+                <input type="password" name="" id="login-password" class="login-input" placeholder="Mật khẩu" required>
+            </div>
+            <div class="login-submit">
+                <button type="submit" class="login-button">Đăng nhập</button>
+                <a href="#" class="login-forgot">Quên mật khẩu?</a>
+            </div>
+        </form>
+    </section>
+
+    <script src="~/assets/js/index.js"></script>
+</body>
+
+</html>

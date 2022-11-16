@@ -1,0 +1,74 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trang Chủ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/assets/css/reset.css" />
+    <link rel="stylesheet" href="~/assets/css/global.css" />
+    <link rel="stylesheet" href="~/assets/css/menu.css" />
+    <link rel="stylesheet" href="~/assets/css/nav.css" />
+    <link rel="stylesheet" href="~/assets/css/button.css" />
+    <link rel="stylesheet" href="~/assets/css/admin.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" />
+    <link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+    <section class="menu">
+        <a href="@Url.Action("Index", "Home")" class="menu-image">
+            <img src="~/assets/images/adminVLU.png" alt="adminVLU.png" />
+        </a>
+        <ul class="menu-list">
+            <li class="menu-item">
+                <h4 class="menu-heading">Phân quyền</h4>
+                <div class="menu-function">
+                    <a href="#" class="menu-feature">
+                        <i class="menu-icon fas fa-hand-point-right"></i>
+                        QL Đăng nhập
+                    </a>
+                </div>
+            </li>
+        </ul>
+    </section>
+
+    <nav class="nav">
+        <div class="nav-list">
+            <div class="nav-item">
+                <i class="nav-icon far fa-bell"></i>
+            </div>
+            <div class="nav-item">
+                <div style="display: flex; align-items: center;">
+                    <img src="~/assets/images/avatarAdmin.png" alt="avatarAdmin.png" class="nav-image" />@User.Identity.Name
+                </div>
+                <ul class="nav-account-list">
+                    <a href="@Url.Action("SignOut", "Account")" class="nav-account-item">Đăng xuất</a>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="greeting">
+        <h3 class="greeting-team">Internship Management of FIT</h3>
+        <h1 class="greeting-heading">Xin chào</h1>
+        <h2 class="greeting-wish"></h2>
+        <p class="greeting-timer">
+            <span class="greeting-time"></span>
+            <span class="greeting-date"></span>
+        </p>
+    </section>
+
+</body>
+<script src="~/assets/js/greet.js"></script>
+<script src="~/assets/js/time.js"></script>
+
+</html>
