@@ -1,0 +1,109 @@
+﻿@*<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>*@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" />
+    <link href="~/assets/css/reset.css" rel="stylesheet" />
+    <link href="~/assets/css/global.css" rel="stylesheet" />
+    <link href="~/assets/css/menu.css" rel="stylesheet" />
+    <link href="~/assets/css/form.css" rel="stylesheet" />
+    <link href="~/assets/css/nav.css" rel="stylesheet" />
+    <link href="~/assets/css/button.css" rel="stylesheet" />
+    <link href="~/assets/css/admin.css" rel="stylesheet" />
+
+    <link href="~/assets/css/table.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" />
+</head>
+
+<body>
+    <section class="menu">
+        <a href="" class="menu-image">
+            <img src="../../assets/images/adminVLU.png" alt="" />
+        </a>
+        <ul class="menu-list">
+            <li class="menu-item">
+                <h4 class="menu-heading">Phân quyền</h4>
+                <div class="menu-function">
+                    <a href="" class="menu-feature">
+                        <i class="menu-icon fas fa-hand-point-right"></i>
+                        @Html.ActionLink("QL Đăng Nhập", "AuthorizeList", "Home")
+                    </a>
+                </div>
+            </li>
+        </ul>
+    </section>
+
+    <nav class="nav">
+        <div class="nav-list">
+            <div class="nav-item">
+                <i class="nav-icon far fa-bell"></i>
+            </div>
+            <div class="nav-item">
+                <img src="../../assets/images/avatarAdmin.png" alt="" class="nav-image" />
+                <ul class="nav-account-list">
+                    <a href="../../index.html" class="nav-account-item">Đăng xuất</a>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    @RenderBody()
+</body>
+<script src="~/assets/js/admin.js"></script>
+<script src="~/assets/js/jquery/jquery.min.js"></script>
+<script src="~/assets/js/datatable/dataTable.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#table_id").DataTable({
+            ordering: false,
+        });
+    });
+</script>
+
+</html>
