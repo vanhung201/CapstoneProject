@@ -30,7 +30,7 @@ namespace BusinessConnectManagement.Models
         public Nullable<int> Role_ID { get; set; }
         public Nullable<System.DateTime> Last_Access { get; set; }
         public Nullable<int> Major_ID { get; set; }
-        public Nullable<bool> Status { get; set; }
+        public int Status_ID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InternshipResult> InternshipResults { get; set; }
@@ -40,6 +40,7 @@ namespace BusinessConnectManagement.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Registration> Registrations { get; set; }
         public virtual Role Role { get; set; }
+        public virtual Status Status { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Trainee> Trainees { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
