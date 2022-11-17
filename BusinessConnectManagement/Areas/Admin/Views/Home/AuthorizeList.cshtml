@@ -9,69 +9,116 @@
     <h1 class="list-heading">Danh sách đăng nhập</h1>
     <div class="list-table">
         <table id="table_id" class="display">
-            <thead>
-                <tr>
-                    <th>Tên</th>
-                    <th>Email</th>
-                    <th>Chức vụ</th>
-                    <th>Trạng thái</th>
-                    <th></th>
-                </tr>
-            </thead>
-            @foreach (var item in Model)
-            {
-                var status = item.Status == true ? "Đang Hoạt Động" : "Bị Khóa";
-                <tbody>
+            
+                <thead>
                     <tr>
-                        <td> @Html.DisplayFor(modelItem => item.FullName)</td>
-                        <td> @Html.DisplayFor(modelItem => item.Email)</td>
-                        <td> @Html.DisplayFor(modelItem => item.Role.Role_Name)</td>
-                        <td>
-                            @status
-                        </td>
-                        <td class="text-center">
-                            @Html.ActionLink("Edit", "Edit", new { id = item.Email })
-                            <button class="btn btn-action btn--update">Cập nhật</button>
-                        </td>
+                        <th>Tên</th>
+                        <th>Email</th>
+                        <th>Chức vụ</th>
+                        <th>Trạng thái</th>
+                        <th></th>
                     </tr>
-                </tbody>
-            }
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td> @Html.DisplayFor(modelItem => item.FullName)</td>
+                            <td> @Html.DisplayFor(modelItem => item.Email)</td>
+                            <td> @Html.DisplayFor(modelItem => item.Role.Role_Name)</td>
+                            <td>
+                                @item.Status.Status1
+                            </td>
+                            <td class="text-center">
+                                <button class="btn btn-action btn--update" onclick="loadEditUser('@item.Email', '@item.FullName')">Cập nhật</button>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+            
         </table>
     </div>
 </section>
 
-    <form action="" class="form">
-        <div class="form-container">
-            <i class="form-icon fas fa-times-circle"></i>
-            <h1 class="form-heading">Cập nhật vai trò</h1>
-            <div class="form-group">
-                <label for="email" class="form-label">Họ và Tên</label>
-                <input name="email" id="email" class="form-input" autocomplete="off" />
-            </div>
+<form action="" class="form" id="updateForm">
+    <div class="form-container" id="editUserRole">
+        <i class="form-icon fas fa-times-circle"></i>
+        <h1 class="form-heading">Cập nhật vai trò</h1>
+        <div class="form-group">
+            <label for="email" class="form-label">Họ và Tên</label>
+            <input name="email" id="email" class="form-input" autocomplete="off" />
+        </div>
+        <div class="edit">
             <div class="form-group">
                 <label for="role" class="form-label">Vai trò</label>
-                <input list="roleList" name="role" id="role" class="form-input" autocomplete="off" />
-                <datalist id="roleList">
-                    <option value="Faculty">Ban chủ nhiệm Khoa</option>
-                    <option value="Mentor">Giảng viên hướng dẫn</option>
-                    <option value="Student">Sinh viên</option>
-                </datalist>
-            </div>
-            <div class="form-group">
-                <label class="form-label form-label--active">
-                    Đang hoạt động
-                    <input type="radio" name="status" id="active" class="form-input" />
-                    <span class="form-radio form-radio--active"></span>
-                </label>
-                <label class="form-label form-label--block">
-                    Bị khóa
-                    <input type="radio" name="status" id="block" class="form-input" />
-                    <span class="form-radio form-radio--block"></span>
-                </label>
-            </div>
-            <div class="form-group">
-                <button type="submit" class="form-button">Lưu</button>
+                <select id="select-list-e-user-role" class="form-select">
+                </select>
             </div>
         </div>
-    </form>
 
+        <div class="editStatus">
+            <div class="form-group">
+                <label for="status" class="form-label">Vai trò</label>
+                <select name="status" id="select-status" class="form-select">
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="form-button">Lưu</button>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+
+    <script type="text/javascript">
+        //function ReplaceData(usermail) {
+        //    let data = usermail.split('.');
+        //    console.log(data);
+        //    return data[1];
+        //}
+        function loadEditUser(email,name) {
+            let formUpdate = document.getElementById("updateForm");
+            //let name = ReplaceData(usermail);
+            //name.value = email;
+            //console.log(name.innerHTML);
+            formUpdate.classList.add('is-appear')
+            document.getElementById('email').value = name;
+            $(".form-icon").on("click", function () {
+                formUpdate.classList.remove('is-appear')
+            })
+            let url = `@Url.Action("EditUserRole")`
+            console.log(url);
+                $("#editUserRole .edit select").remove()
+            $.ajax({
+                type: "GET",
+                url: `${url}`,
+                data: { email: email},
+                    dataType: "json",
+                    success: function (data) {
+                        let returnView = "";
+                        console.log(data,email)
+                        $.each(data, function (index, data) {
+                            /*let role = document.*/
+                            //if () {
+                            //    returnView += "<option selected value=" + data.Id + " " + isSelected + ">" + data.Name + "</option>"
+                            //}
+                            let isSelected = data.Selected ? "selected" : ""
+                            returnView += "<option value=" + data.Id + " " + isSelected + ">" + data.Name + "</option>"
+                        });
+
+
+                        var selectList = "<select id='select-list-e-user-role' class='form-select'>" + returnView + "</select>"
+                        $("#editUserRole .edit .form-group").append(selectList);
+                        var radio =
+                        console.log(typeof email)
+
+                    },
+                    error: function (err) {
+                        alert('error')
+                    }
+                })
+        }
+    </script>
+}

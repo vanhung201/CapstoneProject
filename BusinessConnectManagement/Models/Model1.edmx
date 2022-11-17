@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="BCMModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="BusinessConnectManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="BusinessCooperationCategorie">
           <Key>
             <PropertyRef Name="Business_ID" />
@@ -144,7 +144,7 @@
           <Property Name="Role_ID" Type="int" />
           <Property Name="Last_Access" Type="datetime" />
           <Property Name="Major_ID" Type="int" />
-          <Property Name="Status" Type="bit" />
+          <Property Name="Status_ID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="YearStudy">
           <Key>
@@ -152,6 +152,13 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="YearStudy" Type="varchar" MaxLength="15" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Status" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <Association Name="FK_BusinessCooperationCategorie_BusinessUser">
           <End Role="BusinessUser" Type="Self.BusinessUser" Multiplicity="1" />
@@ -369,7 +376,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="BCMModelStoreContainer">
+        <Association Name="FK_VanLangUser_Status">
+          <End Role="Status" Type="Self.Status" Multiplicity="1" />
+          <End Role="VanLangUser" Type="Self.VanLangUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="VanLangUser">
+              <PropertyRef Name="Status_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BusinessConnectManagementModelStoreContainer">
           <EntitySet Name="BusinessCooperationCategorie" EntityType="Self.BusinessCooperationCategorie" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BusinessUser" EntityType="Self.BusinessUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CooperationCategorie" EntityType="Self.CooperationCategorie" Schema="dbo" store:Type="Tables" />
@@ -384,6 +403,7 @@
           <EntitySet Name="Trainee" EntityType="Self.Trainee" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VanLangUser" EntityType="Self.VanLangUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="YearStudy" EntityType="Self.YearStudy" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Status" EntityType="Self.Status" Schema="fit89398_donduong" store:Type="Tables" />
           <AssociationSet Name="FK_BusinessCooperationCategorie_BusinessUser" Association="Self.FK_BusinessCooperationCategorie_BusinessUser">
             <End Role="BusinessUser" EntitySet="BusinessUser" />
             <End Role="BusinessCooperationCategorie" EntitySet="BusinessCooperationCategorie" />
@@ -456,12 +476,16 @@
             <End Role="Role" EntitySet="Role" />
             <End Role="VanLangUser" EntitySet="VanLangUser" />
           </AssociationSet>
+          <AssociationSet Name="FK_VanLangUser_Status" Association="Self.FK_VanLangUser_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="VanLangUser" EntitySet="VanLangUser" />
+          </AssociationSet>
         </EntityContainer>
       </Schema>
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="BCMModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="BusinessConnectManagementModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="BusinessUser">
           <Key>
             <PropertyRef Name="Business_ID" />
@@ -619,7 +643,7 @@
           <Property Name="Role_ID" Type="Int32" />
           <Property Name="Last_Access" Type="DateTime" Precision="3" />
           <Property Name="Major_ID" Type="Int32" />
-          <Property Name="Status" Type="Boolean" />
+          <Property Name="Status_ID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="InternshipResults" Relationship="Self.FK_InternshipResult_VanLangUser" FromRole="VanLangUser" ToRole="InternshipResult" />
           <NavigationProperty Name="InternshipResults1" Relationship="Self.FK_InternshipResult_VanLangUser1" FromRole="VanLangUser" ToRole="InternshipResult" />
           <NavigationProperty Name="Major" Relationship="Self.FK_VanLangUser_Major" FromRole="VanLangUser" ToRole="Major" />
@@ -627,6 +651,7 @@
           <NavigationProperty Name="Role" Relationship="Self.FK_VanLangUser_Role" FromRole="VanLangUser" ToRole="Role" />
           <NavigationProperty Name="Trainees" Relationship="Self.FK_Trainee_VanLangUser" FromRole="VanLangUser" ToRole="Trainee" />
           <NavigationProperty Name="Trainees1" Relationship="Self.FK_Trainee_VanLangUser1" FromRole="VanLangUser" ToRole="Trainee" />
+          <NavigationProperty Name="Status" Relationship="Self.FK_VanLangUser_Status" FromRole="VanLangUser" ToRole="Status" />
         </EntityType>
         <EntityType Name="YearStudy">
           <Key>
@@ -635,6 +660,14 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="YearStudy1" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Semesters" Relationship="Self.FK_Semester_YearStudy" FromRole="YearStudy" ToRole="Semester" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="VanLangUsers" Relationship="Self.FK_VanLangUser_Status" FromRole="Status" ToRole="VanLangUser" />
         </EntityType>
         <Association Name="FK_InternshipResult_BusinessUser">
           <End Role="BusinessUser" Type="Self.BusinessUser" Multiplicity="0..1" />
@@ -828,6 +861,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_VanLangUser_Status">
+          <End Role="Status" Type="Self.Status" Multiplicity="1" />
+          <End Role="VanLangUser" Type="Self.VanLangUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="VanLangUser">
+              <PropertyRef Name="Status_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="BusinessCooperationCategorie">
           <End Role="BusinessUser" Type="Self.BusinessUser" Multiplicity="*" />
           <End Role="CooperationCategorie" Type="Self.CooperationCategorie" Multiplicity="*" />
@@ -846,6 +891,7 @@
           <EntitySet Name="Trainees" EntityType="Self.Trainee" />
           <EntitySet Name="VanLangUsers" EntityType="Self.VanLangUser" />
           <EntitySet Name="YearStudies" EntityType="Self.YearStudy" />
+          <EntitySet Name="Status" EntityType="Self.Status" />
           <AssociationSet Name="FK_InternshipResult_BusinessUser" Association="Self.FK_InternshipResult_BusinessUser">
             <End Role="BusinessUser" EntitySet="BusinessUsers" />
             <End Role="InternshipResult" EntitySet="InternshipResults" />
@@ -910,6 +956,10 @@
             <End Role="VanLangUser" EntitySet="VanLangUsers" />
             <End Role="Trainee" EntitySet="Trainees" />
           </AssociationSet>
+          <AssociationSet Name="FK_VanLangUser_Status" Association="Self.FK_VanLangUser_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="VanLangUser" EntitySet="VanLangUsers" />
+          </AssociationSet>
           <AssociationSet Name="BusinessCooperationCategorie" Association="Self.BusinessCooperationCategorie">
             <End Role="BusinessUser" EntitySet="BusinessUsers" />
             <End Role="CooperationCategorie" EntitySet="CooperationCategories" />
@@ -920,9 +970,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="BCMModelStoreContainer" CdmEntityContainer="BCMEntities">
+        <EntityContainerMapping StorageEntityContainer="BusinessConnectManagementModelStoreContainer" CdmEntityContainer="BCMEntities">
           <EntitySetMapping Name="BusinessUsers">
-            <EntityTypeMapping TypeName="BCMModel.BusinessUser">
+            <EntityTypeMapping TypeName="BusinessConnectManagementModel.BusinessUser">
               <MappingFragment StoreEntitySet="BusinessUser">
                 <ScalarProperty Name="Business_ID" ColumnName="Business_ID" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
@@ -942,7 +992,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CooperationCategories">
-            <EntityTypeMapping TypeName="BCMModel.CooperationCategorie">
+            <EntityTypeMapping TypeName="BusinessConnectManagementModel.CooperationCategorie">
               <MappingFragment StoreEntitySet="CooperationCategorie">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="CooperationCategorieName" ColumnName="CooperationCategorieName" />
@@ -950,7 +1000,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="InternshipResults">
-            <EntityTypeMapping TypeName="BCMModel.InternshipResult">
+            <EntityTypeMapping TypeName="BusinessConnectManagementModel.InternshipResult">
               <MappingFragment StoreEntitySet="InternshipResult">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Student_Email" ColumnName="Student_Email" />
@@ -965,7 +1015,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Majors">
-            <EntityTypeMapping TypeName="BCMModel.Major">
+            <EntityTypeMapping TypeName="BusinessConnectManagementModel.Major">
               <MappingFragment StoreEntitySet="Major">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Major1" ColumnName="Major" />
@@ -973,7 +1023,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="MOUs">
-            <EntityTypeMapping TypeName="BCMModel.MOU">
+            <EntityTypeMapping TypeName="BusinessConnectManagementModel.MOU">
               <MappingFragment StoreEntitySet="MOU">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Bussiness_ID" ColumnName="Bussiness_ID" />
@@ -986,7 +1036,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Posts">
-            <EntityTypeMapping TypeName="BCMModel.Post">
+            <EntityTypeMapping TypeName="BusinessConnectManagementModel.Post">
               <MappingFragment StoreEntitySet="Post">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
@@ -999,7 +1049,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Registrations">
-            <EntityTypeMapping TypeName="BCMModel.Registration">
+            <EntityTypeMapping TypeName="BusinessConnectManagementModel.Registration">
               <MappingFragment StoreEntitySet="Registration">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Email_VanLang" ColumnName="Email_VanLang" />
@@ -1016,7 +1066,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Roles">
-            <EntityTypeMapping TypeName="BCMModel.Role">
+            <EntityTypeMapping TypeName="BusinessConnectManagementModel.Role">
               <MappingFragment StoreEntitySet="Role">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Role_Name" ColumnName="Role_Name" />
@@ -1024,7 +1074,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Semesters">
-            <EntityTypeMapping TypeName="BCMModel.Semester">
+            <EntityTypeMapping TypeName="BusinessConnectManagementModel.Semester">
               <MappingFragment StoreEntitySet="Semester">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="YearStudy_ID" ColumnName="YearStudy_ID" />
@@ -1033,7 +1083,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="BCMModel.sysdiagram">
+            <EntityTypeMapping TypeName="BusinessConnectManagementModel.sysdiagram">
               <MappingFragment StoreEntitySet="sysdiagrams">
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="principal_id" ColumnName="principal_id" />
@@ -1044,7 +1094,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Trainees">
-            <EntityTypeMapping TypeName="BCMModel.Trainee">
+            <EntityTypeMapping TypeName="BusinessConnectManagementModel.Trainee">
               <MappingFragment StoreEntitySet="Trainee">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Mentor_Email" ColumnName="Mentor_Email" />
@@ -1054,7 +1104,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="VanLangUsers">
-            <EntityTypeMapping TypeName="BCMModel.VanLangUser">
+            <EntityTypeMapping TypeName="BusinessConnectManagementModel.VanLangUser">
               <MappingFragment StoreEntitySet="VanLangUser">
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="FullName" ColumnName="FullName" />
@@ -1062,19 +1112,27 @@
                 <ScalarProperty Name="Role_ID" ColumnName="Role_ID" />
                 <ScalarProperty Name="Last_Access" ColumnName="Last_Access" />
                 <ScalarProperty Name="Major_ID" ColumnName="Major_ID" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Status_ID" ColumnName="Status_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="YearStudies">
-            <EntityTypeMapping TypeName="BCMModel.YearStudy">
+            <EntityTypeMapping TypeName="BusinessConnectManagementModel.YearStudy">
               <MappingFragment StoreEntitySet="YearStudy">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="YearStudy1" ColumnName="YearStudy" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="BusinessCooperationCategorie" TypeName="BCMModel.BusinessCooperationCategorie" StoreEntitySet="BusinessCooperationCategorie">
+          <EntitySetMapping Name="Status">
+            <EntityTypeMapping TypeName="BusinessConnectManagementModel.Status">
+              <MappingFragment StoreEntitySet="Status">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status1" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="BusinessCooperationCategorie" TypeName="BusinessConnectManagementModel.BusinessCooperationCategorie" StoreEntitySet="BusinessCooperationCategorie">
             <EndProperty Name="BusinessUser">
               <ScalarProperty Name="Business_ID" ColumnName="Business_ID" />
             </EndProperty>

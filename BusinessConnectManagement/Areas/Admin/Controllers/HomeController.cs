@@ -23,8 +23,30 @@ namespace BusinessConnectManagement.Areas.Admin.Controllers
 
         public ActionResult Authorizelist()
         {
-            var vanLangUsers = db.VanLangUsers.Include(v => v.Major).Include(v => v.Role);
+            var vanLangUsers = db.VanLangUsers.Where(x => x.Role_ID != 1);
             return View(vanLangUsers.ToList());
+        }
+
+        public ActionResult EditUserRole(string email)
+        {
+
+            var userRoles = db.Roles.Where(x => x.VanLangUsers.Any(a => a.Email == email)).OrderBy(x => x.ID).ToList();
+            var rolelist = db.Roles.Where(x => x.ID != 1).ToList();
+            List<object> ReturnData = new List<object>();
+            foreach (var role in rolelist)
+            {
+                bool isExist = userRoles.Any(x => x.ID == role.ID);
+                if (!isExist)
+                {
+                    ReturnData.Add(new { Id = role.ID, Name = role.Role_Name, Selected = false });
+                }
+                else
+                {
+                    ReturnData.Add(new { Id = role.ID, Name = role.Role_Name, Selected = true });
+                }
+            }
+            return Json(ReturnData, JsonRequestBehavior.AllowGet);
+
         }
 
         // GET: Admin/Home/Details/5

@@ -38,5 +38,6 @@ namespace BusinessConnectManagement.Models
         public virtual DbSet<Trainee> Trainees { get; set; }
         public virtual DbSet<VanLangUser> VanLangUsers { get; set; }
         public virtual DbSet<YearStudy> YearStudies { get; set; }
+        public virtual DbSet<Status> Status { get; set; }
     }
 }

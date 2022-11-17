@@ -4,37 +4,39 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="3ce941a25977461eb415aad2d8108707" Name="Diagram1">
-        <EntityTypeShape EntityType="BCMModel.BusinessUser" Width="1.5" PointX="3" PointY="10.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="BCMModel.CooperationCategorie" Width="1.5" PointX="5.25" PointY="14.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="BCMModel.InternshipResult" Width="1.5" PointX="5.25" PointY="6.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="BCMModel.Major" Width="1.5" PointX="0.75" PointY="7.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="BCMModel.MOU" Width="1.5" PointX="5.25" PointY="16.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="BCMModel.Post" Width="1.5" PointX="6" PointY="10.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="BCMModel.Registration" Width="1.5" PointX="8.25" PointY="6.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="BCMModel.Role" Width="1.5" PointX="0.75" PointY="4.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="BCMModel.Semester" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="BCMModel.sysdiagram" Width="1.5" PointX="7.75" PointY="1.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="BCMModel.Trainee" Width="1.5" PointX="5.25" PointY="2.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="BCMModel.VanLangUser" Width="1.5" PointX="3" PointY="6.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="BCMModel.YearStudy" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
-        <AssociationConnector Association="BCMModel.FK_InternshipResult_BusinessUser" ManuallyRouted="false" />
-        <AssociationConnector Association="BCMModel.FK_MOU_BusinessUser" ManuallyRouted="false" />
-        <AssociationConnector Association="BCMModel.FK_Registration_BusinessUser" ManuallyRouted="false" />
-        <AssociationConnector Association="BCMModel.FK_InternshipResult_Semester" ManuallyRouted="false" />
-        <AssociationConnector Association="BCMModel.FK_InternshipResult_VanLangUser" ManuallyRouted="false" />
-        <AssociationConnector Association="BCMModel.FK_InternshipResult_VanLangUser1" ManuallyRouted="false" />
-        <AssociationConnector Association="BCMModel.FK_VanLangUser_Major" ManuallyRouted="false" />
-        <AssociationConnector Association="BCMModel.FK_Post_Semester" ManuallyRouted="false" />
-        <AssociationConnector Association="BCMModel.FK_Registration_Post" ManuallyRouted="false" />
-        <AssociationConnector Association="BCMModel.FK_Registration_Semester" ManuallyRouted="false" />
-        <AssociationConnector Association="BCMModel.FK_Registration_VanLangUser" ManuallyRouted="false" />
-        <AssociationConnector Association="BCMModel.FK_VanLangUser_Role" ManuallyRouted="false" />
-        <AssociationConnector Association="BCMModel.FK_Semester_YearStudy" ManuallyRouted="false" />
-        <AssociationConnector Association="BCMModel.FK_Trainee_Semester" ManuallyRouted="false" />
-        <AssociationConnector Association="BCMModel.FK_Trainee_VanLangUser" ManuallyRouted="false" />
-        <AssociationConnector Association="BCMModel.FK_Trainee_VanLangUser1" ManuallyRouted="false" />
-        <AssociationConnector Association="BCMModel.BusinessCooperationCategorie" ManuallyRouted="false" />
+      <Diagram DiagramId="2ef7c090848e44b79eecb9cb4949e461" Name="Diagram1">
+        <EntityTypeShape EntityType="BusinessConnectManagementModel.BusinessUser" Width="1.5" PointX="3" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BusinessConnectManagementModel.CooperationCategorie" Width="1.5" PointX="5.25" PointY="14.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="BusinessConnectManagementModel.InternshipResult" Width="1.5" PointX="5.25" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="BusinessConnectManagementModel.Major" Width="1.5" PointX="0.75" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="BusinessConnectManagementModel.MOU" Width="1.5" PointX="5.25" PointY="16.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="BusinessConnectManagementModel.Post" Width="1.5" PointX="6" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="BusinessConnectManagementModel.Registration" Width="1.5" PointX="8.25" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="BusinessConnectManagementModel.Role" Width="1.5" PointX="0.75" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="BusinessConnectManagementModel.Semester" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BusinessConnectManagementModel.sysdiagram" Width="1.5" PointX="7.75" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BusinessConnectManagementModel.Trainee" Width="1.5" PointX="5.25" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="BusinessConnectManagementModel.VanLangUser" Width="1.5" PointX="3" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="BusinessConnectManagementModel.YearStudy" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="BusinessConnectManagementModel.Status" Width="1.5" PointX="0.75" PointY="10.375" IsExpanded="true" />
+        <AssociationConnector Association="BusinessConnectManagementModel.FK_InternshipResult_BusinessUser" ManuallyRouted="false" />
+        <AssociationConnector Association="BusinessConnectManagementModel.FK_MOU_BusinessUser" ManuallyRouted="false" />
+        <AssociationConnector Association="BusinessConnectManagementModel.FK_Registration_BusinessUser" ManuallyRouted="false" />
+        <AssociationConnector Association="BusinessConnectManagementModel.FK_InternshipResult_Semester" ManuallyRouted="false" />
+        <AssociationConnector Association="BusinessConnectManagementModel.FK_InternshipResult_VanLangUser" ManuallyRouted="false" />
+        <AssociationConnector Association="BusinessConnectManagementModel.FK_InternshipResult_VanLangUser1" ManuallyRouted="false" />
+        <AssociationConnector Association="BusinessConnectManagementModel.FK_VanLangUser_Major" ManuallyRouted="false" />
+        <AssociationConnector Association="BusinessConnectManagementModel.FK_Post_Semester" ManuallyRouted="false" />
+        <AssociationConnector Association="BusinessConnectManagementModel.FK_Registration_Post" ManuallyRouted="false" />
+        <AssociationConnector Association="BusinessConnectManagementModel.FK_Registration_Semester" ManuallyRouted="false" />
+        <AssociationConnector Association="BusinessConnectManagementModel.FK_Registration_VanLangUser" ManuallyRouted="false" />
+        <AssociationConnector Association="BusinessConnectManagementModel.FK_VanLangUser_Role" ManuallyRouted="false" />
+        <AssociationConnector Association="BusinessConnectManagementModel.FK_Semester_YearStudy" ManuallyRouted="false" />
+        <AssociationConnector Association="BusinessConnectManagementModel.FK_Trainee_Semester" ManuallyRouted="false" />
+        <AssociationConnector Association="BusinessConnectManagementModel.FK_Trainee_VanLangUser" ManuallyRouted="false" />
+        <AssociationConnector Association="BusinessConnectManagementModel.FK_Trainee_VanLangUser1" ManuallyRouted="false" />
+        <AssociationConnector Association="BusinessConnectManagementModel.FK_VanLangUser_Status" ManuallyRouted="false" />
+        <AssociationConnector Association="BusinessConnectManagementModel.BusinessCooperationCategorie" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
