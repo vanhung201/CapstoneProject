@@ -26,7 +26,7 @@ namespace BusinessConnectManagement.Models
         }
     
         public virtual DbSet<BusinessUser> BusinessUsers { get; set; }
-        public virtual DbSet<CooperationCategorie> CooperationCategories { get; set; }
+        public virtual DbSet<CooperationCategory> CooperationCategories { get; set; }
         public virtual DbSet<InternshipResult> InternshipResults { get; set; }
         public virtual DbSet<Major> Majors { get; set; }
         public virtual DbSet<MOU> MOUs { get; set; }

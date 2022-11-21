@@ -7,13 +7,13 @@
           <ScalarProperty Name="Business_ID" ColumnName="Business_ID" />
           <ScalarProperty Name="Password" ColumnName="Password" />
           <ScalarProperty Name="Last_Access" ColumnName="Last_Access" />
-          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Status_ID" ColumnName="Status_ID" />
           <ScalarProperty Name="BusinessName" ColumnName="BusinessName" />
           <ScalarProperty Name="Address" ColumnName="Address" />
           <ScalarProperty Name="BusinessPhone" ColumnName="BusinessPhone" />
           <ScalarProperty Name="Website" ColumnName="Website" />
           <ScalarProperty Name="Fanpage" ColumnName="Fanpage" />
-          <ScalarProperty Name="BussinessLogo" ColumnName="BussinessLogo" />
+          <ScalarProperty Name="BusinessLogo" ColumnName="BusinessLogo" />
           <ScalarProperty Name="ContactName" ColumnName="ContactName" />
           <ScalarProperty Name="ContactPhone_1" ColumnName="ContactPhone_1" />
           <ScalarProperty Name="ContactPhone_2" ColumnName="ContactPhone_2" />
@@ -22,10 +22,10 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="CooperationCategories">
-      <EntityTypeMapping TypeName="BCMModel.CooperationCategorie">
-        <MappingFragment StoreEntitySet="CooperationCategorie">
+      <EntityTypeMapping TypeName="BCMModel.CooperationCategory">
+        <MappingFragment StoreEntitySet="CooperationCategories">
           <ScalarProperty Name="ID" ColumnName="ID" />
-          <ScalarProperty Name="CooperationCategorieName" ColumnName="CooperationCategorieName" />
+          <ScalarProperty Name="CooperationCategoriesName" ColumnName="CooperationCategoriesName" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -38,9 +38,9 @@
           <ScalarProperty Name="Mentor_Email" ColumnName="Mentor_Email" />
           <ScalarProperty Name="MentorPoint" ColumnName="MentorPoint" />
           <ScalarProperty Name="MentorComment" ColumnName="MentorComment" />
-          <ScalarProperty Name="Bussiness_ID" ColumnName="Bussiness_ID" />
-          <ScalarProperty Name="BussinessPoint" ColumnName="BussinessPoint" />
-          <ScalarProperty Name="BussinessComment" ColumnName="BussinessComment" />
+          <ScalarProperty Name="Business_ID" ColumnName="Business_ID" />
+          <ScalarProperty Name="BusinessPoint" ColumnName="BusinessPoint" />
+          <ScalarProperty Name="BusinessComment" ColumnName="BusinessComment" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -56,7 +56,7 @@
       <EntityTypeMapping TypeName="BCMModel.MOU">
         <MappingFragment StoreEntitySet="MOU">
           <ScalarProperty Name="ID" ColumnName="ID" />
-          <ScalarProperty Name="Bussiness_ID" ColumnName="Bussiness_ID" />
+          <ScalarProperty Name="Business_ID" ColumnName="Business_ID" />
           <ScalarProperty Name="SignDay" ColumnName="SignDay" />
           <ScalarProperty Name="Signer" ColumnName="Signer" />
           <ScalarProperty Name="ContactName" ColumnName="ContactName" />
@@ -112,6 +112,14 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Status">
+      <EntityTypeMapping TypeName="BCMModel.Status">
+        <MappingFragment StoreEntitySet="Status">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Status1" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="sysdiagrams">
       <EntityTypeMapping TypeName="BCMModel.sysdiagram">
         <MappingFragment StoreEntitySet="sysdiagrams">
@@ -142,7 +150,7 @@
           <ScalarProperty Name="Role_ID" ColumnName="Role_ID" />
           <ScalarProperty Name="Last_Access" ColumnName="Last_Access" />
           <ScalarProperty Name="Major_ID" ColumnName="Major_ID" />
-          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Status_ID" ColumnName="Status_ID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -154,12 +162,12 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <AssociationSetMapping Name="BusinessCooperationCategorie" TypeName="BCMModel.BusinessCooperationCategorie" StoreEntitySet="BusinessCooperationCategorie">
+    <AssociationSetMapping Name="BusinessCooperationCategories" TypeName="BCMModel.BusinessCooperationCategories" StoreEntitySet="BusinessCooperationCategories">
       <EndProperty Name="BusinessUser">
         <ScalarProperty Name="Business_ID" ColumnName="Business_ID" />
       </EndProperty>
-      <EndProperty Name="CooperationCategorie">
-        <ScalarProperty Name="ID" ColumnName="CooperationCategorie_ID" />
+      <EndProperty Name="CooperationCategories">
+        <ScalarProperty Name="ID" ColumnName="CooperationCategories_ID" />
       </EndProperty>
     </AssociationSetMapping>
   </EntityContainerMapping>

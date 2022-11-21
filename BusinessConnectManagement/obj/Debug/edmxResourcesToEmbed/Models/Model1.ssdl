@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="BCMModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-  <EntityType Name="BusinessCooperationCategorie">
+  <EntityType Name="BusinessCooperationCategories">
     <Key>
       <PropertyRef Name="Business_ID" />
-      <PropertyRef Name="CooperationCategorie_ID" />
+      <PropertyRef Name="CooperationCategories_ID" />
     </Key>
     <Property Name="Business_ID" Type="varchar" MaxLength="25" Nullable="false" />
-    <Property Name="CooperationCategorie_ID" Type="int" Nullable="false" />
+    <Property Name="CooperationCategories_ID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="BusinessUser">
     <Key>
@@ -15,24 +15,24 @@
     <Property Name="Business_ID" Type="varchar" MaxLength="25" Nullable="false" />
     <Property Name="Password" Type="varchar" MaxLength="250" />
     <Property Name="Last_Access" Type="datetime" />
-    <Property Name="Status" Type="bit" />
+    <Property Name="Status_ID" Type="int" />
     <Property Name="BusinessName" Type="nvarchar" MaxLength="250" />
     <Property Name="Address" Type="nvarchar" MaxLength="250" />
     <Property Name="BusinessPhone" Type="varchar" MaxLength="15" />
     <Property Name="Website" Type="nvarchar" MaxLength="150" />
     <Property Name="Fanpage" Type="nvarchar" MaxLength="150" />
-    <Property Name="BussinessLogo" Type="nvarchar" MaxLength="250" />
+    <Property Name="BusinessLogo" Type="nvarchar" MaxLength="250" />
     <Property Name="ContactName" Type="nvarchar" MaxLength="100" />
     <Property Name="ContactPhone_1" Type="varchar" MaxLength="15" />
     <Property Name="ContactPhone_2" Type="varchar" MaxLength="15" />
     <Property Name="EmailContact" Type="varchar" MaxLength="150" />
   </EntityType>
-  <EntityType Name="CooperationCategorie">
+  <EntityType Name="CooperationCategories">
     <Key>
       <PropertyRef Name="ID" />
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="CooperationCategorieName" Type="nvarchar" MaxLength="100" />
+    <Property Name="CooperationCategoriesName" Type="nvarchar" MaxLength="100" />
   </EntityType>
   <EntityType Name="InternshipResult">
     <Key>
@@ -44,9 +44,9 @@
     <Property Name="Mentor_Email" Type="varchar" MaxLength="250" />
     <Property Name="MentorPoint" Type="float" />
     <Property Name="MentorComment" Type="nvarchar(max)" />
-    <Property Name="Bussiness_ID" Type="varchar" MaxLength="25" />
-    <Property Name="BussinessPoint" Type="float" />
-    <Property Name="BussinessComment" Type="nvarchar(max)" />
+    <Property Name="Business_ID" Type="varchar" MaxLength="25" />
+    <Property Name="BusinessPoint" Type="float" />
+    <Property Name="BusinessComment" Type="nvarchar(max)" />
   </EntityType>
   <EntityType Name="Major">
     <Key>
@@ -60,7 +60,7 @@
       <PropertyRef Name="ID" />
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Bussiness_ID" Type="varchar" MaxLength="25" />
+    <Property Name="Business_ID" Type="varchar" MaxLength="25" />
     <Property Name="SignDay" Type="date" />
     <Property Name="Signer" Type="nvarchar" MaxLength="100" />
     <Property Name="ContactName" Type="nvarchar" MaxLength="100" />
@@ -110,6 +110,13 @@
     <Property Name="YearStudy_ID" Type="int" />
     <Property Name="Semester" Type="varchar" MaxLength="15" />
   </EntityType>
+  <EntityType Name="Status">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Status" Type="nvarchar" MaxLength="30" />
+  </EntityType>
   <EntityType Name="sysdiagrams">
     <Key>
       <PropertyRef Name="diagram_id" />
@@ -139,7 +146,7 @@
     <Property Name="Role_ID" Type="int" />
     <Property Name="Last_Access" Type="datetime" />
     <Property Name="Major_ID" Type="int" />
-    <Property Name="Status" Type="bit" />
+    <Property Name="Status_ID" Type="int" />
   </EntityType>
   <EntityType Name="YearStudy">
     <Key>
@@ -150,25 +157,37 @@
   </EntityType>
   <Association Name="FK_BusinessCooperationCategorie_BusinessUser">
     <End Role="BusinessUser" Type="Self.BusinessUser" Multiplicity="1" />
-    <End Role="BusinessCooperationCategorie" Type="Self.BusinessCooperationCategorie" Multiplicity="*" />
+    <End Role="BusinessCooperationCategories" Type="Self.BusinessCooperationCategories" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="BusinessUser">
         <PropertyRef Name="Business_ID" />
       </Principal>
-      <Dependent Role="BusinessCooperationCategorie">
+      <Dependent Role="BusinessCooperationCategories">
         <PropertyRef Name="Business_ID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_BusinessCooperationCategorie_CooperationCategorie">
-    <End Role="CooperationCategorie" Type="Self.CooperationCategorie" Multiplicity="1" />
-    <End Role="BusinessCooperationCategorie" Type="Self.BusinessCooperationCategorie" Multiplicity="*" />
+    <End Role="CooperationCategories" Type="Self.CooperationCategories" Multiplicity="1" />
+    <End Role="BusinessCooperationCategories" Type="Self.BusinessCooperationCategories" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="CooperationCategorie">
+      <Principal Role="CooperationCategories">
         <PropertyRef Name="ID" />
       </Principal>
-      <Dependent Role="BusinessCooperationCategorie">
-        <PropertyRef Name="CooperationCategorie_ID" />
+      <Dependent Role="BusinessCooperationCategories">
+        <PropertyRef Name="CooperationCategories_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BusinessUser_Status">
+    <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
+    <End Role="BusinessUser" Type="Self.BusinessUser" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Status">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="BusinessUser">
+        <PropertyRef Name="Status_ID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -180,7 +199,7 @@
         <PropertyRef Name="Business_ID" />
       </Principal>
       <Dependent Role="InternshipResult">
-        <PropertyRef Name="Bussiness_ID" />
+        <PropertyRef Name="Business_ID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -228,7 +247,7 @@
         <PropertyRef Name="Business_ID" />
       </Principal>
       <Dependent Role="MOU">
-        <PropertyRef Name="Bussiness_ID" />
+        <PropertyRef Name="Business_ID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -364,10 +383,22 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_VanLangUser_Status">
+    <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
+    <End Role="VanLangUser" Type="Self.VanLangUser" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Status">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="VanLangUser">
+        <PropertyRef Name="Status_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="BCMModelStoreContainer">
-    <EntitySet Name="BusinessCooperationCategorie" EntityType="Self.BusinessCooperationCategorie" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="BusinessCooperationCategories" EntityType="Self.BusinessCooperationCategories" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="BusinessUser" EntityType="Self.BusinessUser" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="CooperationCategorie" EntityType="Self.CooperationCategorie" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CooperationCategories" EntityType="Self.CooperationCategories" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="InternshipResult" EntityType="Self.InternshipResult" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Major" EntityType="Self.Major" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="MOU" EntityType="Self.MOU" Schema="dbo" store:Type="Tables" />
@@ -375,17 +406,22 @@
     <EntitySet Name="Registration" EntityType="Self.Registration" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Semester" EntityType="Self.Semester" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Trainee" EntityType="Self.Trainee" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="VanLangUser" EntityType="Self.VanLangUser" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="YearStudy" EntityType="Self.YearStudy" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_BusinessCooperationCategorie_BusinessUser" Association="Self.FK_BusinessCooperationCategorie_BusinessUser">
       <End Role="BusinessUser" EntitySet="BusinessUser" />
-      <End Role="BusinessCooperationCategorie" EntitySet="BusinessCooperationCategorie" />
+      <End Role="BusinessCooperationCategories" EntitySet="BusinessCooperationCategories" />
     </AssociationSet>
     <AssociationSet Name="FK_BusinessCooperationCategorie_CooperationCategorie" Association="Self.FK_BusinessCooperationCategorie_CooperationCategorie">
-      <End Role="CooperationCategorie" EntitySet="CooperationCategorie" />
-      <End Role="BusinessCooperationCategorie" EntitySet="BusinessCooperationCategorie" />
+      <End Role="CooperationCategories" EntitySet="CooperationCategories" />
+      <End Role="BusinessCooperationCategories" EntitySet="BusinessCooperationCategories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BusinessUser_Status" Association="Self.FK_BusinessUser_Status">
+      <End Role="Status" EntitySet="Status" />
+      <End Role="BusinessUser" EntitySet="BusinessUser" />
     </AssociationSet>
     <AssociationSet Name="FK_InternshipResult_BusinessUser" Association="Self.FK_InternshipResult_BusinessUser">
       <End Role="BusinessUser" EntitySet="BusinessUser" />
@@ -449,6 +485,10 @@
     </AssociationSet>
     <AssociationSet Name="FK_VanLangUser_Role" Association="Self.FK_VanLangUser_Role">
       <End Role="Role" EntitySet="Role" />
+      <End Role="VanLangUser" EntitySet="VanLangUser" />
+    </AssociationSet>
+    <AssociationSet Name="FK_VanLangUser_Status" Association="Self.FK_VanLangUser_Status">
+      <End Role="Status" EntitySet="Status" />
       <End Role="VanLangUser" EntitySet="VanLangUser" />
     </AssociationSet>
   </EntityContainer>

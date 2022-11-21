@@ -1,8 +1,4 @@
-﻿@{
-    Layout = null;
-}
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -48,7 +44,7 @@
             </div>
             <div class="nav-item">
                 <div style="display: flex; align-items: center;">
-                    <img src="~/assets/images/avatarAdmin.png" alt="avatarAdmin.png" class="nav-image" />@User.Identity.Name
+                    <img src="~/assets/images/avatarAdmin.png" alt="avatarAdmin.png" class="nav-image" />@Session["fullname"]
                 </div>
                 <ul class="nav-account-list">
                     <a href="@Url.Action("SignOut", "Account")" class="nav-account-item">Đăng xuất</a>

@@ -12,16 +12,16 @@ namespace BusinessConnectManagement.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class CooperationCategorie
+    public partial class CooperationCategory
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CooperationCategorie()
+        public CooperationCategory()
         {
             this.BusinessUsers = new HashSet<BusinessUser>();
         }
     
         public int ID { get; set; }
-        public string CooperationCategorieName { get; set; }
+        public string CooperationCategoriesName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BusinessUser> BusinessUsers { get; set; }

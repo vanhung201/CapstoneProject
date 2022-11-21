@@ -7,29 +7,30 @@
     <Property Name="Business_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Password" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
     <Property Name="Last_Access" Type="DateTime" Precision="3" />
-    <Property Name="Status" Type="Boolean" />
+    <Property Name="Status_ID" Type="Int32" />
     <Property Name="BusinessName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="Address" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="BusinessPhone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
     <Property Name="Website" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
     <Property Name="Fanpage" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-    <Property Name="BussinessLogo" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="BusinessLogo" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="ContactName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="ContactPhone_1" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
     <Property Name="ContactPhone_2" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
     <Property Name="EmailContact" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Status" Relationship="Self.FK_BusinessUser_Status" FromRole="BusinessUser" ToRole="Status" />
     <NavigationProperty Name="InternshipResults" Relationship="Self.FK_InternshipResult_BusinessUser" FromRole="BusinessUser" ToRole="InternshipResult" />
     <NavigationProperty Name="MOUs" Relationship="Self.FK_MOU_BusinessUser" FromRole="BusinessUser" ToRole="MOU" />
     <NavigationProperty Name="Registrations" Relationship="Self.FK_Registration_BusinessUser" FromRole="BusinessUser" ToRole="Registration" />
-    <NavigationProperty Name="CooperationCategories" Relationship="Self.BusinessCooperationCategorie" FromRole="BusinessUser" ToRole="CooperationCategorie" />
+    <NavigationProperty Name="CooperationCategories" Relationship="Self.BusinessCooperationCategories" FromRole="BusinessUser" ToRole="CooperationCategories" />
   </EntityType>
-  <EntityType Name="CooperationCategorie">
+  <EntityType Name="CooperationCategory">
     <Key>
       <PropertyRef Name="ID" />
     </Key>
     <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="CooperationCategorieName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="BusinessUsers" Relationship="Self.BusinessCooperationCategorie" FromRole="CooperationCategorie" ToRole="BusinessUser" />
+    <Property Name="CooperationCategoriesName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="BusinessUsers" Relationship="Self.BusinessCooperationCategories" FromRole="CooperationCategories" ToRole="BusinessUser" />
   </EntityType>
   <EntityType Name="InternshipResult">
     <Key>
@@ -41,9 +42,9 @@
     <Property Name="Mentor_Email" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
     <Property Name="MentorPoint" Type="Double" />
     <Property Name="MentorComment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="Bussiness_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
-    <Property Name="BussinessPoint" Type="Double" />
-    <Property Name="BussinessComment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Business_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="BusinessPoint" Type="Double" />
+    <Property Name="BusinessComment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="BusinessUser" Relationship="Self.FK_InternshipResult_BusinessUser" FromRole="InternshipResult" ToRole="BusinessUser" />
     <NavigationProperty Name="Semester" Relationship="Self.FK_InternshipResult_Semester" FromRole="InternshipResult" ToRole="Semester" />
     <NavigationProperty Name="VanLangUser" Relationship="Self.FK_InternshipResult_VanLangUser" FromRole="InternshipResult" ToRole="VanLangUser" />
@@ -62,7 +63,7 @@
       <PropertyRef Name="ID" />
     </Key>
     <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Bussiness_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="Business_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
     <Property Name="SignDay" Type="DateTime" Precision="0" />
     <Property Name="Signer" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="ContactName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
@@ -125,6 +126,15 @@
     <NavigationProperty Name="YearStudy" Relationship="Self.FK_Semester_YearStudy" FromRole="Semester" ToRole="YearStudy" />
     <NavigationProperty Name="Trainees" Relationship="Self.FK_Trainee_Semester" FromRole="Semester" ToRole="Trainee" />
   </EntityType>
+  <EntityType Name="Status">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Status1" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="BusinessUsers" Relationship="Self.FK_BusinessUser_Status" FromRole="Status" ToRole="BusinessUser" />
+    <NavigationProperty Name="VanLangUsers" Relationship="Self.FK_VanLangUser_Status" FromRole="Status" ToRole="VanLangUser" />
+  </EntityType>
   <EntityType Name="sysdiagram">
     <Key>
       <PropertyRef Name="diagram_id" />
@@ -157,12 +167,13 @@
     <Property Name="Role_ID" Type="Int32" />
     <Property Name="Last_Access" Type="DateTime" Precision="3" />
     <Property Name="Major_ID" Type="Int32" />
-    <Property Name="Status" Type="Boolean" />
+    <Property Name="Status_ID" Type="Int32" />
     <NavigationProperty Name="InternshipResults" Relationship="Self.FK_InternshipResult_VanLangUser" FromRole="VanLangUser" ToRole="InternshipResult" />
     <NavigationProperty Name="InternshipResults1" Relationship="Self.FK_InternshipResult_VanLangUser1" FromRole="VanLangUser" ToRole="InternshipResult" />
     <NavigationProperty Name="Major" Relationship="Self.FK_VanLangUser_Major" FromRole="VanLangUser" ToRole="Major" />
     <NavigationProperty Name="Registrations" Relationship="Self.FK_Registration_VanLangUser" FromRole="VanLangUser" ToRole="Registration" />
     <NavigationProperty Name="Role" Relationship="Self.FK_VanLangUser_Role" FromRole="VanLangUser" ToRole="Role" />
+    <NavigationProperty Name="Status" Relationship="Self.FK_VanLangUser_Status" FromRole="VanLangUser" ToRole="Status" />
     <NavigationProperty Name="Trainees" Relationship="Self.FK_Trainee_VanLangUser" FromRole="VanLangUser" ToRole="Trainee" />
     <NavigationProperty Name="Trainees1" Relationship="Self.FK_Trainee_VanLangUser1" FromRole="VanLangUser" ToRole="Trainee" />
   </EntityType>
@@ -174,6 +185,18 @@
     <Property Name="YearStudy1" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="Semesters" Relationship="Self.FK_Semester_YearStudy" FromRole="YearStudy" ToRole="Semester" />
   </EntityType>
+  <Association Name="FK_BusinessUser_Status">
+    <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
+    <End Role="BusinessUser" Type="Self.BusinessUser" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Status">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="BusinessUser">
+        <PropertyRef Name="Status_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_InternshipResult_BusinessUser">
     <End Role="BusinessUser" Type="Self.BusinessUser" Multiplicity="0..1" />
     <End Role="InternshipResult" Type="Self.InternshipResult" Multiplicity="*" />
@@ -182,7 +205,7 @@
         <PropertyRef Name="Business_ID" />
       </Principal>
       <Dependent Role="InternshipResult">
-        <PropertyRef Name="Bussiness_ID" />
+        <PropertyRef Name="Business_ID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -194,7 +217,7 @@
         <PropertyRef Name="Business_ID" />
       </Principal>
       <Dependent Role="MOU">
-        <PropertyRef Name="Bussiness_ID" />
+        <PropertyRef Name="Business_ID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -342,6 +365,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_VanLangUser_Status">
+    <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
+    <End Role="VanLangUser" Type="Self.VanLangUser" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Status">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="VanLangUser">
+        <PropertyRef Name="Status_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Trainee_VanLangUser">
     <End Role="VanLangUser" Type="Self.VanLangUser" Multiplicity="0..1" />
     <End Role="Trainee" Type="Self.Trainee" Multiplicity="*" />
@@ -366,13 +401,13 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="BusinessCooperationCategorie">
+  <Association Name="BusinessCooperationCategories">
     <End Role="BusinessUser" Type="Self.BusinessUser" Multiplicity="*" />
-    <End Role="CooperationCategorie" Type="Self.CooperationCategorie" Multiplicity="*" />
+    <End Role="CooperationCategories" Type="Self.CooperationCategory" Multiplicity="*" />
   </Association>
   <EntityContainer Name="BCMEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="BusinessUsers" EntityType="Self.BusinessUser" />
-    <EntitySet Name="CooperationCategories" EntityType="Self.CooperationCategorie" />
+    <EntitySet Name="CooperationCategories" EntityType="Self.CooperationCategory" />
     <EntitySet Name="InternshipResults" EntityType="Self.InternshipResult" />
     <EntitySet Name="Majors" EntityType="Self.Major" />
     <EntitySet Name="MOUs" EntityType="Self.MOU" />
@@ -380,10 +415,15 @@
     <EntitySet Name="Registrations" EntityType="Self.Registration" />
     <EntitySet Name="Roles" EntityType="Self.Role" />
     <EntitySet Name="Semesters" EntityType="Self.Semester" />
+    <EntitySet Name="Status" EntityType="Self.Status" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
     <EntitySet Name="Trainees" EntityType="Self.Trainee" />
     <EntitySet Name="VanLangUsers" EntityType="Self.VanLangUser" />
     <EntitySet Name="YearStudies" EntityType="Self.YearStudy" />
+    <AssociationSet Name="FK_BusinessUser_Status" Association="Self.FK_BusinessUser_Status">
+      <End Role="Status" EntitySet="Status" />
+      <End Role="BusinessUser" EntitySet="BusinessUsers" />
+    </AssociationSet>
     <AssociationSet Name="FK_InternshipResult_BusinessUser" Association="Self.FK_InternshipResult_BusinessUser">
       <End Role="BusinessUser" EntitySet="BusinessUsers" />
       <End Role="InternshipResult" EntitySet="InternshipResults" />
@@ -440,6 +480,10 @@
       <End Role="Semester" EntitySet="Semesters" />
       <End Role="Trainee" EntitySet="Trainees" />
     </AssociationSet>
+    <AssociationSet Name="FK_VanLangUser_Status" Association="Self.FK_VanLangUser_Status">
+      <End Role="Status" EntitySet="Status" />
+      <End Role="VanLangUser" EntitySet="VanLangUsers" />
+    </AssociationSet>
     <AssociationSet Name="FK_Trainee_VanLangUser" Association="Self.FK_Trainee_VanLangUser">
       <End Role="VanLangUser" EntitySet="VanLangUsers" />
       <End Role="Trainee" EntitySet="Trainees" />
@@ -448,9 +492,9 @@
       <End Role="VanLangUser" EntitySet="VanLangUsers" />
       <End Role="Trainee" EntitySet="Trainees" />
     </AssociationSet>
-    <AssociationSet Name="BusinessCooperationCategorie" Association="Self.BusinessCooperationCategorie">
+    <AssociationSet Name="BusinessCooperationCategories" Association="Self.BusinessCooperationCategories">
       <End Role="BusinessUser" EntitySet="BusinessUsers" />
-      <End Role="CooperationCategorie" EntitySet="CooperationCategories" />
+      <End Role="CooperationCategories" EntitySet="CooperationCategories" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

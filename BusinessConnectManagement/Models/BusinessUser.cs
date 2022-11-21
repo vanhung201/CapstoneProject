@@ -20,24 +20,25 @@ namespace BusinessConnectManagement.Models
             this.InternshipResults = new HashSet<InternshipResult>();
             this.MOUs = new HashSet<MOU>();
             this.Registrations = new HashSet<Registration>();
-            this.CooperationCategories = new HashSet<CooperationCategorie>();
+            this.CooperationCategories = new HashSet<CooperationCategory>();
         }
     
         public string Business_ID { get; set; }
         public string Password { get; set; }
         public Nullable<System.DateTime> Last_Access { get; set; }
-        public Nullable<bool> Status { get; set; }
+        public Nullable<int> Status_ID { get; set; }
         public string BusinessName { get; set; }
         public string Address { get; set; }
         public string BusinessPhone { get; set; }
         public string Website { get; set; }
         public string Fanpage { get; set; }
-        public string BussinessLogo { get; set; }
+        public string BusinessLogo { get; set; }
         public string ContactName { get; set; }
         public string ContactPhone_1 { get; set; }
         public string ContactPhone_2 { get; set; }
         public string EmailContact { get; set; }
     
+        public virtual Status Status { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InternshipResult> InternshipResults { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -45,6 +46,6 @@ namespace BusinessConnectManagement.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Registration> Registrations { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CooperationCategorie> CooperationCategories { get; set; }
+        public virtual ICollection<CooperationCategory> CooperationCategories { get; set; }
     }
 }
