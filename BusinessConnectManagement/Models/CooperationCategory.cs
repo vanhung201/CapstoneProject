@@ -17,13 +17,13 @@ namespace BusinessConnectManagement.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public CooperationCategory()
         {
-            this.BusinessUsers = new HashSet<BusinessUser>();
+            this.BusinessCooperationCategories = new HashSet<BusinessCooperationCategory>();
         }
     
         public int ID { get; set; }
         public string CooperationCategoriesName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BusinessUser> BusinessUsers { get; set; }
+        public virtual ICollection<BusinessCooperationCategory> BusinessCooperationCategories { get; set; }
     }
 }

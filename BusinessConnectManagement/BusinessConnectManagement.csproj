@@ -8,7 +8,7 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{DA1D9C0F-5973-4C78-B90B-88BC17B20D80}</ProjectGuid>
+    <ProjectGuid>{ED55A8E9-2C60-4A62-AA8B-CC76F9184DBD}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -18,7 +18,7 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort>44346</IISExpressSSLPort>
+    <IISExpressSSLPort>44304</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -51,13 +51,26 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNet.Identity.Core.2.2.3\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNet.Identity.EntityFramework.2.2.3\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNet.Identity.Owin.2.2.3\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Owin.Security.OAuth, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Owin.Security.OAuth.3.0.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.IdentityModel" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -170,74 +183,84 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
-    <Compile Include="Areas\Admin\Controllers\AccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
-    <Compile Include="Areas\Admin\Middleware\CheckUserRole.cs" />
-    <Compile Include="Areas\Admin\Middleware\GetFullNameWhenLoggedIn.cs" />
     <Compile Include="Areas\Business\BusinessAreaRegistration.cs" />
+    <Compile Include="Areas\Business\Controllers\AuthController.cs" />
+    <Compile Include="Areas\Business\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Faculty\Controllers\BusinessUsersController.cs" />
+    <Compile Include="Areas\Faculty\Controllers\CooperationCategoriesController.cs" />
     <Compile Include="Areas\Faculty\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Faculty\Controllers\MOUsController.cs" />
     <Compile Include="Areas\Faculty\FacultyAreaRegistration.cs" />
+    <Compile Include="Areas\Mentor\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Mentor\MentorAreaRegistration.cs" />
     <Compile Include="Areas\Student\Controllers\HomeController.cs" />
     <Compile Include="Areas\Student\StudentAreaRegistration.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Middleware\LoginVerification.cs" />
+    <Compile Include="Middleware\RoleRedirect.cs" />
+    <Compile Include="Models\BCMModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BCMModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BCMModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BCMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BCMModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BCMModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BusinessCooperationCategory.cs">
+      <DependentUpon>BCMModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\BusinessUser.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>BCMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CooperationCategory.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>BCMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\InternshipResult.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>BCMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Major.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Model1.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Model1.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Model1.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.edmx</DependentUpon>
+      <DependentUpon>BCMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MOU.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>BCMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Post.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>BCMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Registration.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>BCMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Role.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>BCMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Semester.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>BCMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Status.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>BCMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sysdiagram.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>BCMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Trainee.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>BCMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\VanLangUser.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>BCMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\YearStudy.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>BCMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -247,15 +270,18 @@
     <Content Include="assets\css\button.css" />
     <Content Include="assets\css\form.css" />
     <Content Include="assets\css\global.css" />
+    <Content Include="assets\css\grid.css" />
     <Content Include="assets\css\jquery.dataTables.min.css" />
     <Content Include="assets\css\menu.css" />
     <Content Include="assets\css\nav.css" />
     <Content Include="assets\css\reset.css" />
     <Content Include="assets\css\style.css" />
     <Content Include="assets\css\table.css" />
+    <Content Include="assets\css\toast.css" />
     <Content Include="assets\images\adminVLU.png" />
     <Content Include="assets\images\avatarAdmin.png" />
     <Content Include="assets\images\bg-vanlang.jpg" />
+    <Content Include="assets\images\favicon.ico" />
     <Content Include="assets\images\homepage.jpg" />
     <Content Include="assets\images\logoDoanhNghiep.png" />
     <Content Include="assets\images\logoVLU.png" />
@@ -263,6 +289,7 @@
     <Content Include="assets\js\admin.js" />
     <Content Include="assets\js\business.js" />
     <Content Include="assets\js\datatable\dataTable.min.js" />
+    <Content Include="assets\js\faculty.js" />
     <Content Include="assets\js\greet.js" />
     <Content Include="assets\js\index.js" />
     <Content Include="assets\js\jquery\jquery.min.js" />
@@ -275,33 +302,53 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Models\Model1.Context.tt">
+    <Content Include="Models\BCMModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Model1.edmx</DependentUpon>
-      <LastGenOutput>Model1.Context.cs</LastGenOutput>
+      <LastGenOutput>BCMModel.Context.cs</LastGenOutput>
+      <DependentUpon>BCMModel.edmx</DependentUpon>
     </Content>
-    <Content Include="Models\Model1.tt">
+    <Content Include="Models\BCMModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Model1.edmx</DependentUpon>
-      <LastGenOutput>Model1.cs</LastGenOutput>
+      <DependentUpon>BCMModel.edmx</DependentUpon>
+      <LastGenOutput>BCMModel.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\Admin\Views\web.config" />
     <Content Include="Areas\Faculty\Views\web.config" />
-    <Content Include="Areas\Business\Views\web.config" />
+    <Content Include="Areas\Mentor\Views\web.config" />
     <Content Include="Areas\Student\Views\web.config" />
-    <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Account\Login.cshtml" />
-    <Content Include="Areas\Faculty\Views\Home\Index.cshtml" />
-    <Content Include="Areas\Student\Views\Home\Index.cshtml" />
-    <EntityDeploy Include="Models\Model1.edmx">
+    <EntityDeploy Include="Models\BCMModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
+      <LastGenOutput>BCMModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\Model1.edmx.diagram">
-      <DependentUpon>Model1.edmx</DependentUpon>
+    <Content Include="Models\BCMModel.edmx.diagram">
+      <DependentUpon>BCMModel.edmx</DependentUpon>
     </Content>
+    <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\AuthorizeList.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\Edit.cshtml" />
+    <Content Include="Areas\Faculty\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Faculty\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Faculty\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Faculty\Views\CooperationCategories\Index.cshtml" />
+    <Content Include="Areas\Faculty\Views\MOUs\Index.cshtml" />
+    <Content Include="Areas\Faculty\Views\MOUs\Details.cshtml" />
+    <Content Include="Areas\Faculty\Views\BusinessUsers\Index.cshtml" />
+    <Content Include="Areas\Faculty\Views\BusinessUsers\Details.cshtml" />
+    <Content Include="Areas\Faculty\Views\BusinessUsers\Create.cshtml" />
+    <Content Include="Areas\Business\Views\web.config" />
+    <Content Include="Areas\Business\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Business\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Business\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Business\Views\Auth\Login.cshtml" />
+    <Content Include="Areas\Student\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Mentor\Views\Home\Index.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -321,19 +368,18 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\Web.config" />
+    <Content Include="Views\Account\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
-    <Folder Include="Areas\Admin\Views\Shared\" />
-    <Folder Include="Areas\Business\Controllers\" />
     <Folder Include="Areas\Business\Data\" />
-    <Folder Include="Areas\Business\Views\Shared\" />
     <Folder Include="Areas\Faculty\Data\" />
-    <Folder Include="Areas\Faculty\Views\Shared\" />
+    <Folder Include="Areas\Mentor\Data\" />
+    <Folder Include="Areas\Mentor\Views\Shared\" />
     <Folder Include="Areas\Student\Data\" />
     <Folder Include="Areas\Student\Views\Shared\" />
-    <Folder Include="Controllers\" />
+    <Folder Include="Image\" />
     <Folder Include="Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
@@ -368,9 +414,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>62182</DevelopmentServerPort>
+          <DevelopmentServerPort>60945</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>https://localhost:44346/</IISUrl>
+          <IISUrl>https://localhost:44304/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

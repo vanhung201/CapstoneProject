@@ -1,0 +1,74 @@
+﻿@model BusinessConnectManagement.Models.VanLangUser
+
+@{
+    ViewBag.Title = "Delete Account";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Van Lang User</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FullName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FullName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Student_ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Student_ID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Last_Access)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Last_Access)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Major.Major1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Major.Major1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Role.Role_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Role.Role_Name)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

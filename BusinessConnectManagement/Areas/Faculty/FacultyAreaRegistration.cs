@@ -17,7 +17,8 @@ namespace BusinessConnectManagement.Areas.Faculty
             context.MapRoute(
                 "Faculty_default",
                 "Faculty/{controller}/{action}/{id}",
-                new { action = "Index", id = UrlParameter.Optional }
+                new { action = "Index", id = UrlParameter.Optional },
+                new[] { "BusinessConnectManagement.Areas.Faculty.Controllers" }
             );
         }
     }
