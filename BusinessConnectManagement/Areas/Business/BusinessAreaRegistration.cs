@@ -17,7 +17,8 @@ namespace BusinessConnectManagement.Areas.Business
             context.MapRoute(
                 "Business_default",
                 "Business/{controller}/{action}/{id}",
-                new { action = "Index", id = UrlParameter.Optional }
+                new { action = "Index", id = UrlParameter.Optional },
+                new[] { "BusinessConnectManagement.Areas.Business.Controllers" }
             );
         }
     }

@@ -6,7 +6,7 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{4E87FF58-C1E9-45CC-AE5D-8C66A5BC162C}</ProjectGuid>
+    <ProjectGuid>{B1698F37-03D4-4EC1-9C11-D911472B2E1A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BusinessConnectManagement.Tests</RootNamespace>
@@ -90,7 +90,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Controllers\HomeControllerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />
@@ -100,9 +99,12 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BusinessConnectManagement\BusinessConnectManagement.csproj">
-      <Project>{DA1D9C0F-5973-4C78-B90B-88BC17B20D80}</Project>
+      <Project>{ED55A8E9-2C60-4A62-AA8B-CC76F9184DBD}</Project>
       <Name>BusinessConnectManagement</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controllers\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

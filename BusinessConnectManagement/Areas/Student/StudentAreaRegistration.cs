@@ -17,7 +17,8 @@ namespace BusinessConnectManagement.Areas.Student
             context.MapRoute(
                 "Student_default",
                 "Student/{controller}/{action}/{id}",
-                new { action = "Index", id = UrlParameter.Optional }
+                new { action = "Index", id = UrlParameter.Optional },
+                new[] { "BusinessConnectManagement.Areas.Student.Controllers" }
             );
         }
     }

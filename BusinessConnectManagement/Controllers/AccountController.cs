@@ -6,39 +6,81 @@ using System.Web.Mvc;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OpenIdConnect;
 using Microsoft.Owin.Security;
+using BusinessConnectManagement.Middleware;
+using BusinessConnectManagement.Models;
+using System.Data.Entity;
 
 namespace BusinessConnectManagement.Controllers
 {
     public class AccountController : Controller
     {
+        private BCMEntities db = new BCMEntities();
+        private RoleRedirect roleRedirect = new RoleRedirect();
+
+        public ActionResult Login()
+        {
+            Session.Clear();
+            Session.RemoveAll();
+            Session.Abandon();
+
+            if (Request.IsAuthenticated)
+            {
+                // Redirect to home page if the user is authenticated.
+                return RedirectToAction("Index", "Home", new { area = "Admin" });
+            }
+
+            return View();
+        }
+
         public void SignIn()
         {
             // Send an OpenID Connect sign-in request.
             if (!Request.IsAuthenticated)
             {
-                HttpContext.GetOwinContext().Authentication.Challenge(new AuthenticationProperties { RedirectUri = "/" },
+                HttpContext.GetOwinContext().Authentication.Challenge(new AuthenticationProperties { RedirectUri = Url.Action("SignInCallback") },
                     OpenIdConnectAuthenticationDefaults.AuthenticationType);
             }
         }
 
-        public void SignOut()
+        public ActionResult SignInCallback()
         {
-            string callbackUrl = Url.Action("SignOutCallback", "Account", routeValues: null, protocol: Request.Url.Scheme);
+            var query = db.VanLangUsers.FirstOrDefault(x => x.Email == User.Identity.Name);
 
-            HttpContext.GetOwinContext().Authentication.SignOut(
-                new AuthenticationProperties { RedirectUri = callbackUrl },
-                OpenIdConnectAuthenticationDefaults.AuthenticationType, CookieAuthenticationDefaults.AuthenticationType);
+            if (query == null)
+            {
+                VanLangUser newVanLangUser = new VanLangUser();
+
+                newVanLangUser.Email = User.Identity.Name;
+                newVanLangUser.Role_ID = 4;
+                newVanLangUser.Last_Access = DateTime.Now;
+                newVanLangUser.Status_ID = 1;
+
+                db.VanLangUsers.Add(newVanLangUser);
+                db.SaveChanges();
+
+                return RedirectToAction("Index", "Home", new { area = "Student" });
+            }
+            else
+            {
+                var currentVanLangUser = db.VanLangUsers.Where(x => x.Email == User.Identity.Name).FirstOrDefault();
+
+                currentVanLangUser.Last_Access = DateTime.Now;
+
+                db.Entry(currentVanLangUser).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return roleRedirect.Redirect(currentVanLangUser.Role_ID.Value);
+            }
         }
 
-        public ActionResult SignOutCallback()
+        // Send an OpenID Connect sign-out request.
+        public void SignOut()
         {
-            if (Request.IsAuthenticated)
-            {
-                // Redirect to home page if the user is authenticated.
-                return RedirectToAction("Index", "Home");
-            }
+            HttpContext.GetOwinContext().Authentication.SignOut(
+                    OpenIdConnectAuthenticationDefaults.AuthenticationType,
+                    CookieAuthenticationDefaults.AuthenticationType);
 
-            return View();
+            Response.Redirect("~/Account/Login");
         }
     }
 }
