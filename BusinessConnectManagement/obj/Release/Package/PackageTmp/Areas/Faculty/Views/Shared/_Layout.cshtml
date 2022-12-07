@@ -1,0 +1,142 @@
+﻿@using BusinessConnectManagement.Models;
+
+@{
+    BCMEntities db = new BCMEntities();
+    var query = db.VanLangUsers.Where(x => x.Email == User.Identity.Name).FirstOrDefault();
+
+    string FullName = "";
+
+    if (string.IsNullOrEmpty(query.FullName))
+    {
+        FullName = User.Identity.Name;
+    }
+    else
+    {
+        FullName = query.FullName;
+    }
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Title</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" />
+    <link href="~/assets/css/reset.css" rel="stylesheet" />
+    <link href="~/assets/css/grid.css" rel="stylesheet" />
+    <link href="~/assets/css/global.css" rel="stylesheet" />
+    <link href="~/assets/css/menu.css" rel="stylesheet" />
+    <link href="~/assets/css/form.css" rel="stylesheet" />
+    <link href="~/assets/css/nav.css" rel="stylesheet" />
+    <link href="~/assets/css/button.css" rel="stylesheet" />
+    <link href="~/assets/css/admin.css" rel="stylesheet" />
+    <link href="~/assets/css/table.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" />
+    <link rel="shortcut icon" href="~/assets/images/favicon.ico" type="image/x-icon">
+    <style>
+        .text-danger field-validation-error {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <section class="menu">
+        <a href="@Url.Action("Index", "Home")" class="menu-image">
+            <img src="~/assets/images/adminVLU.png" alt="adminVLU.png" />
+        </a>
+        <ul class="menu-list">
+            <li class="menu-item">
+                <h4 class="menu-heading">Quản Lý Doanh Nghiệp</h4>
+                <div class="menu-function">
+                    <a href="@Url.Action("Index", "BusinessUsers")" class="menu-feature">
+                        <i class="menu-icon fas fa-hand-point-right"></i>
+                        Danh sách Doanh nghiệp
+                    </a>
+                </div>
+            </li>
+            <li class="menu-item">
+                <h4 class="menu-heading">Quản Lý Hợp Tác</h4>
+                <div class="menu-function">
+                    <a href="@Url.Action("Index", "CooperationCategories")" class="menu-feature">
+                        <i class="menu-icon fas fa-hand-point-right"></i>
+                        Danh mục Hợp tác
+                    </a>
+                </div>
+            </li>
+            <li class="menu-item">
+                <h4 class="menu-heading">Quản Lý Ký Kết MOU</h4>
+                <div class="menu-function">
+                    <a href="@Url.Action("Index", "MOUs")" class="menu-feature">
+                        <i class="menu-icon fas fa-hand-point-right"></i>
+                        Danh sách ký kết
+                    </a>
+                </div>
+            </li>
+        </ul>
+    </section>
+
+    <nav class="nav">
+        <div class="nav-list">
+            <div class="nav-item">
+                <i class="nav-icon far fa-bell"></i>
+            </div>
+            <div class="nav-item">
+                <div style="display: flex; align-items: center;">
+                    <img src="~/assets/images/avatarAdmin.png" alt="avatarAdmin.png" class="nav-image" />@FullName
+                </div>
+                <ul class="nav-account-list">
+                    <a href="@Url.Action("SignOut", "Account", new { area = "" })" class="nav-account-item">Đăng xuất</a>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    @RenderBody()
+
+</body>
+
+@RenderSection("scripts", required: false)
+
+<script src="~/assets/js/greet.js"></script>
+<script src="~/assets/js/time.js"></script>
+<script src="~/assets/js/admin.js"></script>
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/assets/js/datatable/dataTable.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#table_id").DataTable({
+            ordering: false,
+        });
+    });
+
+    $(function () {
+        $("#table_id_filter").prepend($("#filterEvent")).clone();
+    });
+    let formAdd = document.getElementById("addForm");
+    let formUpdate = document.getElementById("updateForm");
+    let icon = document.querySelector(".form-icon");
+    let isHide = "is-hide";
+    let isAppear = "is-appear";
+    $(".btn--create").on("click", function () {
+        formAdd.classList.add(isAppear)
+    });
+    $(".form-icon").on("click", function () {
+        formAdd.classList.remove(isAppear);
+    });
+    $(".form-icon").on("click", function () {
+        formUpdate.classList.remove(isAppear);
+    });
+</script>
+
+</html>

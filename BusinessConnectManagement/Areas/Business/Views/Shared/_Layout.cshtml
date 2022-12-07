@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Title</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" />
+    <link href="~/assets/css/reset.css" rel="stylesheet" />
+    <link href="~/assets/css/global.css" rel="stylesheet" />
+    <link href="~/assets/css/menu.css" rel="stylesheet" />
+    <link href="~/assets/css/form.css" rel="stylesheet" />
+    <link href="~/assets/css/nav.css" rel="stylesheet" />
+    <link href="~/assets/css/button.css" rel="stylesheet" />
+    <link href="~/assets/css/admin.css" rel="stylesheet" />
+    <link href="~/assets/css/table.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" />
+    <link rel="shortcut icon" href="~/assets/images/favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+    <section class="menu">
+        <a href="@Url.Action("Index", "Home")" class="menu-image">
+            <img src="~/assets/images/adminVLU.png" alt="adminVLU.png" />
+        </a>
+        <ul class="menu-list">
+            <li class="menu-item">
+                <h4 class="menu-heading">QL Doanh Nghiệp</h4>
+                <div class="menu-function">
+                    <a href="#" class="menu-feature">
+                        <i class="menu-icon fas fa-hand-point-right"></i>
+                        Danh sách Ứng tuyển
+                    </a>
+                    <a href="#" class="menu-feature">
+                        <i class="menu-icon fas fa-hand-point-right"></i>
+                        Kết quả Thực tập
+                    </a>
+                </div>
+            </li>
+        </ul>
+    </section>
+
+    <nav class="nav">
+        <div class="nav-list">
+            <div class="nav-item">
+                <i class="nav-icon far fa-bell"></i>
+            </div>
+            <div class="nav-item">
+                <div style="display: flex; align-items: center;">
+                    <img src="~/assets/images/avatarAdmin.png" alt="avatarAdmin.png" class="nav-image" />@Session["BusinessName"]
+                </div>
+                <ul class="nav-account-list">
+                    <a href="@Url.Action("Logout", "Auth")" class="nav-account-item">Đăng xuất</a>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    @RenderBody()
+
+</body>
+
+@RenderSection("scripts", required: false)
+
+<script src="~/assets/js/greet.js"></script>
+<script src="~/assets/js/time.js"></script>
+<script src="~/assets/js/admin.js"></script>
+<script src="~/assets/js/jquery/jquery.min.js"></script>
+<script src="~/assets/js/datatable/dataTable.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#table_id").DataTable({
+            ordering: false,
+        });
+    });
+</script>
+
+</html>
