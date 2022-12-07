@@ -30,7 +30,7 @@ namespace BusinessConnectManagement.Models
         public Nullable<int> Role_ID { get; set; }
         public Nullable<System.DateTime> Last_Access { get; set; }
         public Nullable<int> Major_ID { get; set; }
-        public int Status_ID { get; set; }
+        public Nullable<int> Status_ID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InternshipResult> InternshipResults { get; set; }

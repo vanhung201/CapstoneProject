@@ -1,0 +1,89 @@
+﻿@model BusinessConnectManagement.Models.MOU
+
+@{
+    ViewBag.Title = "MOU Details";
+    Layout = "~/Areas/Faculty/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("Edit", "MOUs", method: FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.ID)
+
+    DateTime ? mydate = Model.SignDay;
+    string datee = mydate.Value.ToString("yyyy-MM-dd");
+
+    @Html.ValidationSummary(true)
+
+    <section class="list">
+        <h1 class="list-heading">Chi tiết Ký kết MOU</h1>
+        <div class="grid wide">
+            <div class="tab-content">
+                <div class="row">
+                    <div class="col l-6">
+                        <div class="form-group">
+                            <label class="form-label">Tên Doanh Nghiệp</label>
+                            @Html.EditorFor(model => model.Business_ID, new { htmlAttributes = new { @class = "form-input" } })
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" hidden></label>
+                            @Html.ValidationMessageFor(model => model.Business_ID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col l-6">
+                        <div class="form-group">
+                            <label for="daysigning" class="form-label">Ngày Ký</label>
+                            <input list="" name="SignDay" id="daysigning" class="form-input" type="date" value="@datee"
+                                   autocomplete="off" />
+                        </div>
+                    </div>
+                    <div class="col l-6">
+                        <div class="form-group">
+                            <label for="signer" class="form-label">Người ký</label>
+                            @Html.EditorFor(model => model.Signer, new { htmlAttributes = new { @class = "form-input" } })
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" hidden></label>
+                            @Html.ValidationMessageFor(model => model.Signer, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col l-6">
+                        <div class="form-group">
+                            <label class="form-label">Tên Người Liên Hệ</label>
+                            @Html.EditorFor(model => model.ContactName, new { htmlAttributes = new { @class = "form-input" } })
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" hidden></label>
+                            @Html.ValidationMessageFor(model => model.ContactName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col l-6">
+                        <div class="form-group">
+                            <label class="form-label">SĐT Người Liên Hệ 1</label>
+                            @Html.EditorFor(model => model.ContactPhone, new { htmlAttributes = new { @class = "form-input" } })
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" hidden></label>
+                            @Html.ValidationMessageFor(model => model.ContactPhone, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col l-6">
+                        <div class="form-group">
+                            <label class="form-label">Email Người Liên Hệ</label>
+                            @Html.EditorFor(model => model.EmailContact, new { htmlAttributes = new { @class = "form-input" } })
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" hidden></label>
+                            @Html.ValidationMessageFor(model => model.EmailContact, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="button-wrapper">
+                <button onclick="@Url.Action("Index")" class="btn btn-action btn--detail">Trở Về</button>
+                <button type="submit" class="btn btn-action btn--update">Cập Nhật</button>
+            </div>
+        </div>
+
+    </section>
+}
