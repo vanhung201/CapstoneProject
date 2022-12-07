@@ -20,9 +20,9 @@ namespace BusinessConnectManagement.Models
         public string Mentor_Email { get; set; }
         public Nullable<double> MentorPoint { get; set; }
         public string MentorComment { get; set; }
-        public string Bussiness_ID { get; set; }
-        public Nullable<double> BussinessPoint { get; set; }
-        public string BussinessComment { get; set; }
+        public string Business_ID { get; set; }
+        public Nullable<double> BusinessPoint { get; set; }
+        public string BusinessComment { get; set; }
     
         public virtual BusinessUser BusinessUser { get; set; }
         public virtual Semester Semester { get; set; }
