@@ -1,0 +1,140 @@
+﻿@model IEnumerable<BusinessConnectManagement.Models.Post>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Faculty/Views/Shared/_Layout.cshtml";
+}
+
+<section class="list">
+    <h1 class="list-heading">Danh sách bài viết</h1>
+    <div class="list-table">
+        <div id="filterEvent">
+            <a class="btn btn-action btn--create mr-1" href="@Url.Action("Create", "Posts")">Thêm</a>
+        </div>
+        <table id="table_id" class="display" width="100%">
+            <thead>
+                <tr>
+                    <th>Tiêu đề</th>
+                    <th>Người đăng bài</th>
+                    <th width="15%">Ngày đăng</th>
+                    <th width="15%">Ngày cập nhật</th>
+                    <th width="20%"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    DateTime? mydate = item.PostDay;
+                    string datee = mydate.Value.ToString("dd-MM-yyyy");
+                    DateTime? modifydate = item.ModifyDay;
+                    string modifydatee = modifydate.Value.ToString("dd-MM-yyyy");
+                    <tr>
+                        <td>@item.Title</td>
+                        <td>@item.Email_ID</td>
+                        <td>@datee</td>
+                        <td>@modifydatee</td>
+                        <td class="text-center">
+                            <a href="@Url.Action("Details", "Posts",  new { id=item.ID })" class="btn btn-action btn--detail">Xem chi tiết</a>
+                            <a class="btn btn-action btn--delete" onclick="loadDeleteUser('@item.ID', '@item.Title')">Xóa</a>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</section>
+<form action="@Url.Action("Delete", "Posts")" class="form" id="deleteForm" method="post">
+    @{using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken();
+            <input name="id" id="iddele" hidden />
+            <div class="form-container">
+                <i class="form-icon fas fa-times-circle" onclick="removeForm()"></i>
+                <h1 class="form-heading">Xác nhận</h1>
+              
+                <span>
+                    Bạn có muốn <strong name="name" id="namedele" style="font-weight: bold; color: #ce1b28;">xóa bài viết </strong>
+                    này không
+                    ?
+                </span>
+                
+                <div class="form-group">
+                    <button type="submit" class="btn btn-action btn--update">Xác nhận</button>
+                </div>
+            </div>
+        }
+    }
+</form>
+@section Scripts {
+    <script type="text/javascript">
+
+        function loadDeleteUser(id, name) {
+            let formDelete = document.getElementById("deleteForm");
+            formDelete.classList.add('is-appear')
+            document.getElementById('iddele').value = id;
+            document.getElementById('namedele').value = name;
+
+        }
+
+
+    </script>
+}
+@*<h2>Index</h2>
+
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Poster_Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PostDay)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ModifyDay)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Semester.Semester1)
+            </th>
+            <th></th>
+        </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Poster_Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PostDay)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModifyDay)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Semester.Semester1)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+            </td>
+        </tr>
+    }
+
+    </table>
+*@

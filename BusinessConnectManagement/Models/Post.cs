@@ -22,13 +22,15 @@ namespace BusinessConnectManagement.Models
     
         public int ID { get; set; }
         public string Title { get; set; }
-        public string Poster_Email { get; set; }
+        public string Email_ID { get; set; }
         public string Description { get; set; }
         public Nullable<System.DateTime> PostDay { get; set; }
         public Nullable<System.DateTime> ModifyDay { get; set; }
         public Nullable<int> Semester_ID { get; set; }
     
         public virtual Semester Semester { get; set; }
+        public virtual VanLangUser VanLangUser { get; set; }
+        public virtual VanLangUser VanLangUser1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Registration> Registrations { get; set; }
     }

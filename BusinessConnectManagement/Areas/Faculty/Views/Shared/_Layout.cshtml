@@ -37,7 +37,10 @@
     <link href="~/assets/css/admin.css" rel="stylesheet" />
     <link href="~/assets/css/table.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" />
+
+    <link href="~/Content/bootstrap-chosen.css" rel="stylesheet" />
     <link rel="shortcut icon" href="~/assets/images/favicon.ico" type="image/x-icon">
+
     <style>
         .text-danger field-validation-error {
             color: red;
@@ -78,6 +81,15 @@
                     </a>
                 </div>
             </li>
+            <li class="menu-item">
+                <h4 class="menu-heading">Quản Lý Bài Viết</h4>
+                <div class="menu-function">
+                    <a href="@Url.Action("Index", "Posts")" class="menu-feature">
+                        <i class="menu-icon fas fa-hand-point-right"></i>
+                        Danh sách bài viết
+                    </a>
+                </div>
+            </li>
         </ul>
     </section>
 
@@ -101,10 +113,7 @@
 
 </body>
 
-@RenderSection("scripts", required: false)
 
-<script src="~/assets/js/greet.js"></script>
-<script src="~/assets/js/time.js"></script>
 <script src="~/assets/js/admin.js"></script>
 <script src="~/Scripts/jquery-3.4.1.js"></script>
 <script src="~/Scripts/jquery.validate.js"></script>
@@ -112,6 +121,7 @@
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 <script src="~/assets/js/datatable/dataTable.min.js"></script>
+<script src="~/Scripts/chosen.jquery.js"></script>
 
 <script>
     $(document).ready(function () {
@@ -123,20 +133,36 @@
     $(function () {
         $("#table_id_filter").prepend($("#filterEvent")).clone();
     });
+
     let formAdd = document.getElementById("addForm");
     let formUpdate = document.getElementById("updateForm");
+    let formDelete = document.getElementById("deleteForm");
     let icon = document.querySelector(".form-icon");
     let isHide = "is-hide";
     let isAppear = "is-appear";
     $(".btn--create").on("click", function () {
-        formAdd.classList.add(isAppear)
+        formAdd.classList.add(isAppear);
+    });
+    $(".form-icon").on("click", function () {
+        formDelete.classList.remove(isAppear);
     });
     $(".form-icon").on("click", function () {
         formAdd.classList.remove(isAppear);
     });
-    $(".form-icon").on("click", function () {
-        formUpdate.classList.remove(isAppear);
+
+   @* var editor = CKEDITOR.instances['editor1'];
+    if (editor) { editor.destroy(true); }
+
+    CKEDITOR.replace('editor1', {
+        enterMode: CKEDITOR.ENTER_BR,
+        });
+
+    CKFinder.setupCKEditor(null, ' @Url.Content("~/ckfinder/")');*@
+
+    $(function () {
+        $("#ddlBussines_ID").chosen();
     });
 </script>
+@RenderSection("scripts", required: false)
 
 </html>

@@ -9,30 +9,35 @@
     <h1 class="list-heading">Danh sách Ký kết MOU</h1>
     <div class="list-table">
         <div id="filterEvent">
-            <a href="#" class="btn btn-action btn--create mr-1">Thêm</a>
+
         </div>
         <table id="table_id" class="display">
             <thead>
                 <tr>
+                    <th>STT</th>
                     <th>Tên Doanh Nghiệp</th>
                     <th>Ngày Ký</th>
                     <th>Người Ký</th>
-                    <th></th>
+                    <th class="text-center"> <a href="#" class="btn btn-action btn--create mr-1">Thêm</a></th>
                 </tr>
             </thead>
             <tbody>
+                @{ int count = 1;}
                 @foreach (var item in Model)
                 {
                     DateTime? mydate = item.SignDay;
                     string datee = mydate.Value.ToString("dd-MM-yyyy");
                     <tr>
+                        <td>@count</td>
                         <td>@item.BusinessUser.BusinessName</td>
                         <td>@datee</td>
                         <td>@item.Signer</td>
                         <td class="text-center">
                             <a href="@Url.Action("Details", "MOUs",  new { id=item.ID })" class="btn btn-action btn--detail">Xem Chi tiết</a>
+                            <a class="btn btn-action btn--delete" onclick="loadDeleteUser('@item.ID', '@item.BusinessUser.BusinessName')">Xóa</a>
                         </td>
                     </tr>
+                    count++;
                 }
 
             </tbody>
@@ -42,14 +47,21 @@
 
 <form action="@Url.Action("Create", "MOUs")" class="form" id="addForm" method="post">
     <div class="form-container">
-        <i class="form-icon fas fa-times-circle"></i>
+
+        <i class="form-icon fas fa-times-circle" onclick="removeForm()"></i>
         <h1 class="form-heading">Thêm ký kết MOU</h1>
-
         <div class="form-group">
-            <label for="businessID" class="form-label">Mã Doanh Nghiệp</label>
-            <input list="" name="Business_ID" id="businessID" class="form-input" autocomplete="off" required />
+            <label for="ddlBussines_ID" class="form-label">Mã Doanh Nghiệp</label>
+            @* <input list="" name="Business_ID" id="businessID" class="form-input" autocomplete="off" required />*@
+            <select name="Business_ID" id="ddlBussines_ID" class="form-select">
+                @foreach (var item in ViewBag.Business_ID)
+                {
+                    <option value=@item.Business_ID>@item.Business_ID</option>
+                }
 
+            </select>
         </div>
+
         <div class="form-group">
             <label for="daysigning" class="form-label">Ngày Ký</label>
             <input list="" name="SignDay" id="daysigning" class="form-input" type="date" autocomplete="off" required />
@@ -71,7 +83,6 @@
             <input list="" name="EmailContact" id="email" class="form-input" autocomplete="off" required />
         </div>
         <div class="form-group">
-            <button class="btn btn-action mr-1">Hủy</button>
             <button class="btn btn-action btn--update" onclick="Submit() type="submit">Xác Nhận</button>
         </div>
 
@@ -79,10 +90,43 @@
 
 </form>
 
-@section Scripts {
-    <script type="text/javascript">
-        function Submit() {
-            $("#addForm").save();
+<form action="@Url.Action("Delete", "MOUs")" class="form" id="deleteForm" method="post">
+    @{using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken();
+            <input name="id" id="iddele" hidden />
+            <div class="form-container">
+                <i class="form-icon fas fa-times-circle" ></i>
+                <h1 class="form-heading">Xác nhận</h1>
+                <span>
+
+                    Bạn có muốn xóa ký kết MOU<strong style="font-weight: bold; color: #ce1b28;"> <span id="namedele"></span>  </strong>
+                    này không
+                    ?
+                </span>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-action btn--update">Xác nhận</button>
+                </div>
+            </div>
         }
+    }
+</form>
+@section Scripts {
+
+    <script>
+
+        function loadDeleteUser(id, name) {
+            let formDelete = document.getElementById("deleteForm");
+            formDelete.classList.add('is-appear')
+            document.getElementById('iddele').value = id;
+            $('#namedele').text(name) 
+            
+        }
+
     </script>
+
 }
+ 
+
+

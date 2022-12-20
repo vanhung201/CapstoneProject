@@ -148,7 +148,7 @@
                             <label for="logo" class="form-label">Logo</label>
                             <div style="display: flex; flex-direction: column">
                                 <img style="width: 22rem; height:fit-content; margin: 0 0 1rem 0;" />
-                                <input name="logo" id="logo" class="form-input" type="file"
+                                <input name="logo" class="form-input" type="file" id="logo"
                                        accept="image/png, image/gif, image/jpeg" required />
 
                             </div>
@@ -174,7 +174,23 @@
                 arrayCheckbox += allCheckBox[i].value + ",";
             }
             $("#CoopId").val(arrayCheckbox);
-            $("#createBusiness").save();
+            $("#createBusiness");
+
+            //Validate only get image
+            var fup = document.getElementById('logo');
+            var fileName = fup.value;
+            var ext = fileName.substring(fileName.lastIndexOf('.') + 1);
+            if ( ext == "gif" || ext == "GIF" || ext == "PNG" || ext == "png" || ext == "jpg" || ext == "JPG" || ext == "bmp" || ext == "BMP") {
+               
+                return true;
+            }
+            else {
+                fup.value = '';
+                alert("Chỉ được tải lên hình ảnh dạng PNG, JPG, GIF và BMP");
+              
+                return false;
+
+            }
         }
     </script>
 }

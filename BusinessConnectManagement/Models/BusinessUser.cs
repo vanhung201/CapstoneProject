@@ -24,47 +24,34 @@ namespace BusinessConnectManagement.Models
             this.Registrations = new HashSet<Registration>();
         }
 
-        [Required(ErrorMessage = "Vui lòng nhập Mã Doanh Nghiệp.")]
+        [Required(ErrorMessage = "Vui lòng nhập mã doanh nghiệp.")]
         public string Business_ID { get; set; }
-
         [Required(ErrorMessage = "Vui lòng nhập mật khẩu.")]
         public string Password { get; set; }
-
         public Nullable<System.DateTime> Last_Access { get; set; }
-
         public Nullable<int> Status_ID { get; set; }
-
         [Required(ErrorMessage = "Vui lòng nhập tên doanh nghiệp.")]
         public string BusinessName { get; set; }
-        
         [Required(ErrorMessage = "Vui lòng nhập địa chỉ doanh nghiệp.")]
         public string Address { get; set; }
-        
         [Required(ErrorMessage = "Vui lòng nhập số điện thoại doanh nghiệp.")]
         [DataType(DataType.PhoneNumber)]
         [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Số điện thoại này không hợp lệ.")]
         public string BusinessPhone { get; set; }
-        
-        /*[Required(ErrorMessage = "Vui lòng nhập địa chỉ website doanh nghiệp.")]*/
+        [Required(ErrorMessage = "Vui lòng nhập địa chỉ website doanh nghiệp.")]
         public string Website { get; set; }
-        
         public string Fanpage { get; set; }
-        
         public string BusinessLogo { get; set; }
-        
         [Required(ErrorMessage = "Vui lòng nhập tên người liên hệ.")]
         public string ContactName { get; set; }
-        
         [Required(ErrorMessage = "Vui lòng nhập số điện thoại người liên hệ.")]
         [DataType(DataType.PhoneNumber)]
         [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Số điện thoại này không hợp lệ.")]
         public string ContactPhone_1 { get; set; }
-        
         public string ContactPhone_2 { get; set; }
-        
         [Required(ErrorMessage = "Vui lòng nhập email người liên hệ.")]
-        [RegularExpression("^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", ErrorMessage = "Email không hợp lệ.")]
-        [EmailAddress(ErrorMessage = "Email không hợp lệ.")]
+        [RegularExpression("^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", ErrorMessage = "E-mail không hợp lệ.")]
+        [EmailAddress(ErrorMessage = "E-mail không hợp lệ.")]
         public string EmailContact { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

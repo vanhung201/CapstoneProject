@@ -18,6 +18,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         // GET: Faculty/BusinessUsers
         public ActionResult Index()
         {
+            
             return View(db.BusinessUsers.ToList());
         }
 
@@ -72,7 +73,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                 {
                     businessUser.BusinessLogo = DateTime.Now.ToString("yymmssfff") + logo.FileName;
                     BusinessCooperationCategory BCC = new BusinessCooperationCategory();
-                    var path = Server.MapPath("~/Image/");
+                    var path = Server.MapPath("~/Image");
                     logo.SaveAs(path + businessUser.BusinessLogo);
                     businessUser.Status_ID = 1;
                     db.BusinessUsers.Add(businessUser);
@@ -99,41 +100,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
             }
         }
 
-        public string uploadimage(HttpPostedFileBase logo)
-        {
-            string path = "-1";
-
-            if (logo != null && logo.ContentLength > 0)
-            {
-                string extension = Path.GetExtension(logo.FileName);
-                if (extension.ToLower().Equals(".jpg") || extension.ToLower().Equals(".jpeg") || extension.ToLower().Equals(".png"))
-                {
-                    try
-                    {
-                        path = Path.Combine(Server.MapPath("~/Images"), Path.GetFileName(logo.FileName));
-                        logo.SaveAs(path);
-                        path = Path.GetFileName(logo.FileName);
-                        //    ViewBag.Message = "File uploaded successfully";
-                    }
-                    catch (Exception)
-                    {
-                        path = "-1";
-                    }
-                }
-                else
-                {
-                    Response.Write("<script>alert('Only jpg ,jpeg or png formats are acceptable....'); </script>");
-                }
-            }
-            else
-            {
-                Response.Write("<script>alert('Please select a file'); </script>");
-                path = "-1";
-            }
-
-            return path;
-        }
-
+        
         // GET: Faculty/BusinessUsers/Edit/5
         public ActionResult Edit(string id)
         {
@@ -165,7 +132,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                 {
                     businessUser.BusinessLogo = DateTime.Now.ToString("yymmssfff") + logo.FileName;
 
-                    var path = Server.MapPath("~/Image/");
+                    var path = Server.MapPath("~/Image");
                     logo.SaveAs(path + businessUser.BusinessLogo);
                     /*businessUser.Status = businessUser.Status_ID();*/
                 }
