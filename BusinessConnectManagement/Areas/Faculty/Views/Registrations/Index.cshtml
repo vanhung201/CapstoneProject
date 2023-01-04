@@ -27,9 +27,15 @@
                         <td>@item.Email_VanLang</td>
                         <td>2</td>
                         <td class="text-center">
-                            <a href="@Url.Action("Details", "Registrations", new {id = item.ID})" class="btn btn-action btn--detail">
-                                Xem danh sách
-                                CV
+                            
+                            <a href="@Url.Action("Details", "Registrations", new {id = item.ID})">
+                                <div class="btn btn--detail">
+                                    <i class="btn-icon btn-icon--detail fas fa-info-circle"></i>
+                                    <span class="btn-text">
+                                        Xem CV
+                                        
+                                    </span>
+                                </div>
                             </a>
                         </td>
                     </tr>

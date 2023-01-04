@@ -7,15 +7,21 @@
 <section class="list">
     <h1 class="list-heading">Danh mục Hợp tác</h1>
     <div class="list-table">
-        <div id="filterEventA">
-            <button class="btn btn-action btn--create mr-1" href="#">Thêm</button>
+        <div id="filterEvent">
+            <a>
+                <div class="btn btn--create">
+                    <i class="btn-icon btn-icon--create fas fa-plus"></i>
+                    <span class="btn-text">Thêm</span>
+                </div>
+            </a>
+            
         </div>
         <table id="table_id" class="display" width="100%">
             <thead>
                 <tr>
-                    <th width="4%">STT</th>
+                    <th class="text-center" width="4%">STT</th>
                     <th class="text-center">Danh Mục</th>
-                    <th class="text-center">   </th>
+                    <th class="text-center" width="20%">   </th>
                 </tr>
             </thead>
             <tbody>
@@ -26,8 +32,18 @@
                         <td class="text-center">@count</td>
                         <td class="text-center">@item.CooperationCategoriesName</td>
                         <td class="text-center">
-                            <a class="btn btn-action btn--update" onclick="loadEditUser('@item.ID', '@item.CooperationCategoriesName')">Cập nhật</a>
-                            <a class="btn btn-action btn--delete" onclick="loadDeleteUser('@item.ID', '@item.CooperationCategoriesName')">Xóa</a>
+                            <a onclick="loadEditUser('@item.ID', '@item.CooperationCategoriesName')">
+                                <div class="btn btn--update">
+                                    <i class="btn-icon btn-icon--edit fas fa-edit"></i>
+                                    <span class="btn-text">Cập Nhật</span>
+                                </div>
+                            </a>
+                            <a onclick="loadDeleteUser('@item.ID', '@item.CooperationCategoriesName')">
+                                <div class="btn btn--delete">
+                                    <i class="btn-icon btn-icon--edit fas fa-times"></i>
+                                    <span class="btn-text">Xóa</span>
+                                </div>
+                            </a>
                         </td>
                     </tr>
                     count++;

@@ -14,7 +14,7 @@
                     @Html.HiddenFor(model => model.ID)
                     <div class="col l-6">
                         <div class="form-group">
-                            <label class="form-label">Ma Doanh Nghiep</label>
+                            <label class="form-label">Tên Doanh nghiệp</label>
                             <input name="Business_ID" value="@Model.BusinessName" class="form-input" autocomplete="off" disabled />
                         </div>
                     </div>
@@ -61,7 +61,7 @@
             </div>
             <div class="button-wrapper">
                 <a class="btn btn-action btn--detail" href="@Url.Action("Index", "BusinessCooperationCategories")">Trở Về</a>
-                <button class="btn btn-action btn--create" onclick="getValueCheckBoxAndSubmit()" type="submit">Cập Nhật</button>
+                <button class="btn btn-action btn--update" onclick="getValueCheckBoxAndSubmit()" type="submit">Cập Nhật</button>
             </div>
         </div>
     </form>

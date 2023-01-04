@@ -13,8 +13,7 @@
     else
     {
         FullName = query.FullName;
-*@    }
-}
+*@   
 
 <!DOCTYPE html>
 <html lang="en">
@@ -23,22 +22,20 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewBag.Title</title>
+    <title>Document</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet" />
+          rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" />
+    <link href="~/assets/css/grid2.css" rel="stylesheet" />
     <link href="~/assets/css/reset.css" rel="stylesheet" />
-    <link href="~/assets/css/grid.css" rel="stylesheet" />
-    <link href="~/assets/css/global.css" rel="stylesheet" />
-    <link href="~/assets/css/menu.css" rel="stylesheet" />
-    <link href="~/assets/css/form.css" rel="stylesheet" />
-    <link href="~/assets/css/nav.css" rel="stylesheet" />
-    <link href="~/assets/css/button.css" rel="stylesheet" />
-    <link href="~/assets/css/admin.css" rel="stylesheet" />
-    <link href="~/assets/css/jquery.dataTables.min.css" rel="stylesheet" />
-    <link href="~/assets/css/table.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" />
-
+    <link href="~/assets/css/global2.css" rel="stylesheet" />
+    <link href="~/assets/css/menu2.css" rel="stylesheet" />
+    <link href="~/assets/css/nav2.css" rel="stylesheet" />
+    <link href="~/assets/css/button2.css" rel="stylesheet" />
+    <link href="~/assets/css/form2.css" rel="stylesheet" />
+    <link href="~/assets/css/table2.css" rel="stylesheet" />
+    <link href="~/assets/css/greet.css" rel="stylesheet" />
+    <link href="~/assets/css/jquery2.dataTables.min.css" rel="stylesheet" />
     <link href="~/Content/bootstrap-chosen.css" rel="stylesheet" />
     <link rel="shortcut icon" href="~/assets/images/favicon.ico" type="image/x-icon">
 
@@ -52,65 +49,39 @@
 <body>
     <section class="menu">
         <a href="@Url.Action("Index", "Home")" class="menu-image">
-            <img src="~/assets/images/adminVLU.png" alt="adminVLU.png" />
+            <img src="~/assets/images/logoVL.png" />
+            <span class="menu-title">Business Connection Management</span>
         </a>
         <ul class="menu-list">
             <li class="menu-item">
-                <h4 class="menu-heading">Quản Lý Doanh Nghiệp</h4>
                 <div class="menu-function">
                     <a href="@Url.Action("Index", "BusinessUsers")" class="menu-feature">
                         <i class="menu-icon fas fa-hand-point-right"></i>
-                        Danh sách Doanh nghiệp
+                        Doanh nghiệp
                     </a>
-                </div>
-            </li>
-            <li class="menu-item">
-                <h4 class="menu-heading">Quản Lý Hợp Tác</h4>
-                <div class="menu-function">
                     <a href="@Url.Action("Index", "CooperationCategories")" class="menu-feature">
                         <i class="menu-icon fas fa-hand-point-right"></i>
-                        Danh mục Hợp tác
+                        Hợp tác
                     </a>
-                </div>
-            </li>
-            <li class="menu-item">
-                <h4 class="menu-heading">Quản Lý Ký Kết MOU</h4>
-                <div class="menu-function">
                     <a href="@Url.Action("Index", "MOUs")" class="menu-feature">
                         <i class="menu-icon fas fa-hand-point-right"></i>
-                        Danh sách ký kết
+                        Ký kết
                     </a>
-                </div>
-            </li>
-            <li class="menu-item">
-                <h4 class="menu-heading">Quản Lý Bài Viết</h4>
-                <div class="menu-function">
                     <a href="@Url.Action("Index", "Posts")" class="menu-feature">
                         <i class="menu-icon fas fa-hand-point-right"></i>
-                        Danh sách bài viết
+                        Bài viết
                     </a>
-                </div>
-            </li>
-            <li class="menu-item">
-                <h4 class="menu-heading">Quản Lý CV</h4>
-                <div class="menu-function">
-                    <a href="@Url.Action("Index", "Registrations")" class="menu-feature">
-                        <i class="menu-icon fas fa-hand-point-right"></i>
-                        Danh sách bài viết
-                    </a>
-                </div>
-            </li>
-            <li class="menu-item">
-                <h4 class="menu-heading">Quản Lý Hoạt Động Doanh Nghiệp</h4>
-                <div class="menu-function">
                     <a href="@Url.Action("Index", "BusinessCooperationCategories")" class="menu-feature">
                         <i class="menu-icon fas fa-hand-point-right"></i>
-                        Danh sách hoạt động
+                        Hoạt động
+                    </a>
+                    <a href="@Url.Action("Index", "Registrations")" class="menu-feature">
+                        <i class="menu-icon fas fa-hand-point-right"></i>
+                        CV
                     </a>
                 </div>
             </li>
         </ul>
-
     </section>
 
     <nav class="nav">
@@ -120,7 +91,7 @@
             </div>
             <div class="nav-item">
                 <div style="display: flex; align-items: center;">
-                    @*<img src="~/assets/images/avatarAdmin.png" alt="avatarAdmin.png" class="nav-image" />@FullName*@
+                    <img src="~/assets/images/avatarAdmin.png" alt="avatarAdmin.png" class="nav-image" />
                 </div>
                 <ul class="nav-account-list">
                     <a href="@Url.Action("SignOut", "Account", new { area = "" })" class="nav-account-item">Đăng xuất</a>
@@ -130,7 +101,7 @@
     </nav>
 
     @RenderBody()
-
+    <section class="footer">&copy; Phần mềm BCM thuộc về khoa CNTT, Trường Đại học Văn Lang</section>
 </body>
 
 @RenderSection("scripts", required: false)

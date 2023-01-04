@@ -10,19 +10,22 @@
 
         <h1 class="list-heading">Danh sách hoạt động</h1>
         <div class="list-table">
-            <div id="filterEventA">
-                <a class="btn btn-action btn--create mr-1" href=@Url.Action("Create","BusinessCooperationCategories")>Thêm</a>
+            <div id="filterEvent">
+                <a href=@Url.Action("Create","BusinessCooperationCategories")>
+                    <div class="btn btn--create">
+                        <i class="btn-icon btn-icon--create fas fa-plus"></i>
+                        <span class="btn-text">Thêm</span>
+                    </div>
+                </a>
+                
             </div>
-            <table id="table_id" class="display">
+            <table id="table_id" class="display" width="100%">
                 <thead>
                     <tr>
-                        <th>STT</th>
-                        <th>Tên doanh nghiệp</th>
-                        <th>Hoạt đông tài trợ</th>
-                        <th class="text-center"
-                                <a class="btn btn-action btn--create" href="./addNewBusiness.html">Thêm</a>
-
-                            </th>
+                        <th class="text-center">STT</th>
+                        <th class="text-center">Tên doanh nghiệp</th>
+                        <th class="text-center">Hoạt đông tài trợ</th>
+                        <th class="text-center" width="20%"></th>
                     </tr>
                 </thead>
                 <tbody id="example">
@@ -42,10 +45,25 @@
 
                             </td>
                             <td class="text-center">
-                                <a href="@Url.Action("Details", "BusinessCooperationCategories", new {id = item.id})" class="btn btn-action btn--detail">Xem chi tiết</a>
-                                <a href="@Url.Action("Edit", "BusinessCooperationCategories", new {id = item.id})" class="btn btn-action btn--update">Cập Nhật</a>
-                                <a class="btn btn-action btn--delete" onclick="loadDeleteUser( '@item.id')">Xóa</a>
+                                <a href="@Url.Action("Details", "BusinessCooperationCategories", new {id = item.id})">
+                                    <div class="btn btn--detail">
+                                        <i class="btn-icon btn-icon--detail fas fa-info-circle"></i>
+                                        <span class="btn-text">Xem Chi Tiết</span>
+                                    </div>
+                                </a>
 
+                                <a href="@Url.Action("Edit", "BusinessCooperationCategories", new {id = item.id})">
+                                    <div class="btn btn--update">
+                                        <i class="btn-icon btn-icon--edit fas fa-edit"></i>
+                                        <span class="btn-text">Cập Nhật</span>
+                                    </div>
+                                </a>
+                                <a onclick="loadDeleteUser( '@item.id')">
+                                    <div class="btn btn--delete">
+                                        <i class="btn-icon btn-icon--edit fas fa-times"></i>
+                                        <span class="btn-text">Xóa</span>
+                                    </div>
+                                </a>
                             </td>
                         </tr>
                         count++;

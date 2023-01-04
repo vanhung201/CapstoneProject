@@ -1,4 +1,4 @@
-﻿/*using BusinessConnectManagement.Middleware;
+﻿using BusinessConnectManagement.Middleware;
 using BusinessConnectManagement.Models;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace BusinessConnectManagement.Areas.Faculty.Controllers
 {
-    [Authorize]
+   /* [Authorize]*/
     public class HomeController : Controller
     {
         private BCMEntities db = new BCMEntities();
@@ -18,7 +18,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         // GET: Faculty/Home
         public ActionResult Index()
         {
-            var query = db.VanLangUsers.Where(x => x.Email == User.Identity.Name).FirstOrDefault();
+            /*var query = db.VanLangUsers.Where(x => x.Email == User.Identity.Name).FirstOrDefault();
 
             if (query.Role_ID == 2)
             {
@@ -26,14 +26,14 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                 query.Last_Access = DateTime.Now;
 
                 db.Entry(query).State = EntityState.Modified;
-                db.SaveChanges();
+                db.SaveChanges();*/
 
-                return View();
-            }
+                return View("Index");
+           /* }
             else
             {
                 return roleRedirect.Redirect(query.Role_ID.Value);
-            }
+            }*/
         }
     }
-}*/
+}

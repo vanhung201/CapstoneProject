@@ -277,24 +277,25 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\css\admin.css" />
-    <Content Include="assets\css\button.css" />
-    <Content Include="assets\css\form.css" />
-    <Content Include="assets\css\global.css" />
-    <Content Include="assets\css\grid.css" />
-    <Content Include="assets\css\jquery.dataTables.min.css" />
-    <Content Include="assets\css\menu.css" />
-    <Content Include="assets\css\nav.css" />
+    <Content Include="assets\css\button2.css" />
+    <Content Include="assets\css\form2.css" />
+    <Content Include="assets\css\global2.css" />
+    <Content Include="assets\css\greet.css" />
+    <Content Include="assets\css\grid2.css" />
+    <Content Include="assets\css\jquery2.dataTables.min.css" />
+    <Content Include="assets\css\menu2.css" />
+    <Content Include="assets\css\nav2.css" />
     <Content Include="assets\css\reset.css" />
     <Content Include="assets\css\style.css" />
-    <Content Include="assets\css\table.css" />
+    <Content Include="assets\css\table2.css" />
     <Content Include="assets\css\toast.css" />
     <Content Include="assets\images\adminVLU.png" />
     <Content Include="assets\images\avatarAdmin.png" />
     <Content Include="assets\images\bg-vanlang.jpg" />
     <Content Include="assets\images\favicon.ico" />
     <Content Include="assets\images\homepage.jpg" />
+    <Content Include="assets\images\logoVL.png" />
     <Content Include="assets\images\logoDoanhNghiep.png" />
-    <Content Include="assets\images\logoVLU.png" />
     <Content Include="assets\images\sidebar_VanLang.jpg" />
     <Content Include="assets\js\admin.js" />
     <Content Include="assets\js\business.js" />
