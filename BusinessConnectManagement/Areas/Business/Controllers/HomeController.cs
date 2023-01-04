@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace BusinessConnectManagement.Areas.Business.Controllers
 {
-    [BusinessVerification]
+    /*[BusinessVerification]*/
     public class HomeController : Controller
     {
         // GET: Business/Home

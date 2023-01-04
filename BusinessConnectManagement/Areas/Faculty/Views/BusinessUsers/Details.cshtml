@@ -5,21 +5,24 @@
     Layout = "~/Areas/Faculty/Views/Shared/_Layout.cshtml";
 }
 
-@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
 
 <section class="list">
-    <form id="createBusiness" action="@Url.Action("Details","BusinessUsers", new {id = Model.Business_ID})" method="post" enctype="multipart/form-data">
-        <h1 class="list-heading">Chi tiết doanh nghiệp</h1>
+    <form id="createBusiness" action="@Url.Action("Details","BusinessUsers", new {id = Model.ID})" method="post" enctype="multipart/form-data">
+        <h1 class="list-heading">Chỉnh Sửa Doanh Nghiệp</h1>
         <div class="grid wide">
             <div class="tab-content">
                 <div class="row">
-
+                    @Html.HiddenFor(model => model.ID)
                     <div class="col l-6">
                         <div class="form-group">
                             <label class="form-label">Mã Doanh Nghiệp</label>
-                            <input name="Business_ID" value="@Model.Business_ID" class="form-input" autocomplete="off" disabled />
+                            @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-input" } })
                         </div>
-                        @Html.HiddenFor(model => model.Business_ID)
+                        <div class="form-group">
+                            <label class="form-label" hidden></label>
+                            @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                        </div>
                     </div>
                     <div class="col l-6">
                         <div class="form-group">
@@ -151,42 +154,42 @@
                     </div>
                     <div class="col l-6">
                     </div>
-                        <div class="col l-6">
-                            <div class="form-group">
-                                <input id="CoopId" type="text" value="" name="ArrCoopId" hidden />
-                                <label for="cooperation" class="form-label">Loại Hợp Tác</label>
-                                <div class="checkbox-wrapper" id="checkBoxCoop">
-                                    @foreach (var item in ViewBag.CooperationCategoriesDetail)
-                                    {
-                                        <label class="container">
-                                            @item.name
-                                            @if (item.status)
-                                            {
-                                                <input type="checkbox" value="@item.value" checked="checked">
-                                                <span class="checkmark"></span>
-                                            }
-                                            else
-                                            {
-                                                <input type="checkbox" value="@item.value">
-                                                <span class="checkmark"></span>
-                                            }
-                                        </label>
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col l-6">
-                            <div class="form-group">
-                                <label for="logo" class="form-label">Logo</label>
-                                <div style="display: flex; flex-direction: column">
-                                    <img src="@Url.Content("~/Image"+ Model.BusinessLogo)" style="width: 22rem; height:fit-content; margin: 0 0 1rem 0;" />
-                                    <input name="logo" class="form-input" type="file" id="logo"
-                                           accept="image/png, image/gif, image/jpeg" (change)="onFileChange($event)" />
-                                    <input name="BusinessLogo" id="img" value="@Model.BusinessLogo" hidden/>
-                                </div>
+                    <div class="col l-6">
+                        <div class="form-group">
+                            <input id="CoopId" type="text" value="" name="ArrCoopId" hidden />
+                            <label for="cooperation" class="form-label">Loại Hợp Tác</label>
+                            <div class="checkbox-wrapper" id="checkBoxCoop">
+                                @foreach (var item in ViewBag.CooperationCategoriesDetail)
+                                {
+                                    <label class="container">
+                                        @item.name
+                                        @if (item.status)
+                                        {
+                                            <input type="checkbox" value="@item.value" checked="checked">
+                                            <span class="checkmark"></span>
+                                        }
+                                        else
+                                        {
+                                            <input type="checkbox" value="@item.value">
+                                            <span class="checkmark"></span>
+                                        }
+                                    </label>
+                                }
                             </div>
                         </div>
                     </div>
+                    <div class="col l-6">
+                        <div class="form-group">
+                            <label for="logo" class="form-label">Logo</label>
+                            <div style="display: flex; flex-direction: column">
+                                <img src="@Url.Content("~/Image/"+ Model.BusinessLogo)" style="width: 22rem; height:fit-content; margin: 0 0 1rem 0;" />
+                                <input name="logo" class="form-input" type="file" id="logo"
+                                       accept="image/png, image/gif, image/jpeg" (change)="onFileChange($event)" />
+                                <input name="BusinessLogo" id="img" value="@Model.BusinessLogo" hidden />
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 </div>
             <div class="button-wrapper">
                 <a class="btn btn-action btn--detail" href="@Url.Action("Index", "BusinessUsers")">Trở Về</a>

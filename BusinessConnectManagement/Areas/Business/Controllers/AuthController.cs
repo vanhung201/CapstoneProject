@@ -1,4 +1,4 @@
-﻿using BusinessConnectManagement.Models;
+﻿/*using BusinessConnectManagement.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -24,7 +24,7 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
         [HttpPost]
         public ActionResult Login(string username, string password)
         {
-            var query = db.BusinessUsers.FirstOrDefault(x => x.Business_ID == username);
+            var query = db.BusinessUsers.FirstOrDefault(x => x.Username == username);
 
             if (query != null)
             {
@@ -63,4 +63,4 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
             return RedirectToAction("Login", "Auth");
         }
     }
-}
+}*/

@@ -1,0 +1,42 @@
+﻿@model IEnumerable<BusinessConnectManagement.Models.Registration>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Faculty/Views/Shared/_Layout.cshtml";
+}
+
+<section class="list">
+    <h1 class="list-heading">Danh sách CV</h1>
+    <div class="list-table">
+        <table id="table_id" class="display">
+            <thead>
+                <tr>
+                    <th>MSSV</th>
+                    <th>Họ và Tên</th>
+                    <th>Email</th>
+                    <th>Số lượng CV</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.VanLangUser.Student_ID</td>
+                        <td>@item.VanLangUser.FullName</td>
+                        <td>@item.Email_VanLang</td>
+                        <td>2</td>
+                        <td class="text-center">
+                            <a href="@Url.Action("Details", "Registrations", new {id = item.ID})" class="btn btn-action btn--detail">
+                                Xem danh sách
+                                CV
+                            </a>
+                        </td>
+                    </tr>
+                }
+
+
+            </tbody>
+        </table>
+    </div>
+</section>

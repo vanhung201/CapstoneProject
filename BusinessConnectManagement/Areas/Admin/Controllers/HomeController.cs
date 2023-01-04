@@ -1,4 +1,4 @@
-﻿using BusinessConnectManagement.Middleware;
+﻿/*using BusinessConnectManagement.Middleware;
 using BusinessConnectManagement.Models;
 using System;
 using System.Collections.Generic;
@@ -22,7 +22,7 @@ namespace BusinessConnectManagement.Areas.Admin.Controllers
             var query = db.VanLangUsers.Where(x => x.Email == User.Identity.Name).FirstOrDefault();
             var vanLangUsers = db.VanLangUsers.Include(v => v.Major).Include(v => v.Role);
 
-            if (query.Role_ID == 1)
+            if (query.Role_ID == "")
             {
                 // Update Last Access when user login without click Login button
                 query.Last_Access= DateTime.Now;
@@ -84,4 +84,4 @@ namespace BusinessConnectManagement.Areas.Admin.Controllers
             base.Dispose(disposing);
         }
     }
-}
+}*/

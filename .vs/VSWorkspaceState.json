@@ -1,0 +1,15 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\BusinessConnectManagement",
+    "\\BusinessConnectManagement\\Areas",
+    "\\BusinessConnectManagement\\Areas\\Faculty",
+    "\\BusinessConnectManagement\\Areas\\Faculty\\Controllers",
+    "\\BusinessConnectManagement\\Areas\\Faculty\\Views",
+    "\\BusinessConnectManagement\\Areas\\Faculty\\Views\\BusinessCooperationCategories",
+    "\\BusinessConnectManagement\\Areas\\Faculty\\Views\\Posts",
+    "\\BusinessConnectManagement\\Models"
+  ],
+  "SelectedNode": "\\BusinessConnectManagement\\Areas\\Faculty\\Views\\Posts\\Index.cshtml",
+  "PreviewInSolutionExplorer": false
+}

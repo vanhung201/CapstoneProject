@@ -29,7 +29,8 @@ namespace BusinessConnectManagement.Models
         public string Email { get; set; }
         public string FullName { get; set; }
         public string Student_ID { get; set; }
-        public Nullable<int> Role_ID { get; set; }
+        public string Mobile { get; set; }
+        public string Role { get; set; }
         public Nullable<System.DateTime> Last_Access { get; set; }
         public Nullable<int> Major_ID { get; set; }
         public Nullable<int> Status_ID { get; set; }
@@ -45,7 +46,6 @@ namespace BusinessConnectManagement.Models
         public virtual ICollection<Post> Posts1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Registration> Registrations { get; set; }
-        public virtual Role Role { get; set; }
         public virtual Status Status { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Trainee> Trainees { get; set; }

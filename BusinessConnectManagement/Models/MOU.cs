@@ -15,12 +15,13 @@ namespace BusinessConnectManagement.Models
     public partial class MOU
     {
         public int ID { get; set; }
-        public string Business_ID { get; set; }
+        public Nullable<int> Business_ID { get; set; }
         public Nullable<System.DateTime> SignDay { get; set; }
         public string Signer { get; set; }
         public string ContactName { get; set; }
         public string ContactPhone { get; set; }
         public string EmailContact { get; set; }
+        public string ResponsibleName { get; set; }
     
         public virtual BusinessUser BusinessUser { get; set; }
     }

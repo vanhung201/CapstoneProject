@@ -27,6 +27,7 @@
           <ScalarProperty Name="Last_Access" ColumnName="Last_Access" />
           <ScalarProperty Name="Password" ColumnName="Password" />
           <ScalarProperty Name="Business_ID" ColumnName="Business_ID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -1,0 +1,68 @@
+﻿@model BusinessConnectManagement.Models.BusinessCooperationCategory
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Faculty/Views/Shared/_Layout.cshtml";
+}
+
+
+<section class="list">
+    <form id="createBusiness" action="@Url.Action("Create", "BusinessCooperationCategories")" method="post" enctype="multipart/form-data">
+        <h1 class="list-heading">Thêm Hoạt Động</h1>
+        <div class="grid wide">
+            <div class="tab-content">
+                <div class="row">
+
+                    <div class="col l-6">
+                        <div class="form-group">
+                            <label for="ddlBussines_ID" class="form-label">Mã Doanh Nghiệp</label>
+                            @* <input list="" name="Business_ID" id="businessID" class="form-input" autocomplete="off" required />*@
+                            <select name="ddlBussines_ID" id="ddlBussines_ID" class="form-select">
+                                @foreach (var item in ViewBag.Business_ID)
+                                {
+                                    <option value=@item.Business_ID>@item.BusinessUser.BusinessName</option>
+                                }
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col l-6">
+                        <div class="form-group">
+
+                            <input id="ArrCoopId" type="text" value="" name="ArrCoopId" hidden />
+                            <label for="cooperation" class="form-label">Loại Hợp Tác</label>
+                            <div class="checkbox-wrapper" id="checkBoxCoop">
+                                @foreach (var item in ViewBag.CooperationCategories)
+                                {
+                                    <label class="container">
+                                        @item.CooperationCategoriesName
+
+                                        <input type="checkbox" value="@item.ID" />
+                                        <span class="checkmark"></span>
+                                    </label>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="button-wrapper">
+                <a class="btn btn-action btn--detail" href="@Url.Action("Index", "BusinessCooperationCategories")">Trở Về</a>
+                <button class="btn btn-action btn--create" type="submit" onclick="getValueCheckBoxAndSubmit()">Thêm</button>
+            </div>
+        </div>
+    </form>
+</section>
+@section Scripts {
+    <script type="text/javascript">
+        function getValueCheckBoxAndSubmit() {
+            let arrayCheckbox = "";
+            var allCheckBox = document.querySelectorAll("#checkBoxCoop > .container > input[type='checkbox']:checked");
+            for (let i = 0; i < allCheckBox.length; i++) {
+                arrayCheckbox += allCheckBox[i].value + ",";
+            }
+            $("#ArrCoopId").val(arrayCheckbox);
+            $("#createBusiness").submit();
+        }
+    </script>
+}

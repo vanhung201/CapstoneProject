@@ -7,15 +7,15 @@
 <section class="list">
     <h1 class="list-heading">Danh mục Hợp tác</h1>
     <div class="list-table">
-        <div id="filterEvent">
-         
+        <div id="filterEventA">
+            <button class="btn btn-action btn--create mr-1" href="#">Thêm</button>
         </div>
         <table id="table_id" class="display" width="100%">
             <thead>
                 <tr>
                     <th width="4%">STT</th>
                     <th class="text-center">Danh Mục</th>
-                    <th class="text-center">   <button class="btn btn-action btn--create mr-1" href="#">Thêm</button></th>
+                    <th class="text-center">   </th>
                 </tr>
             </thead>
             <tbody>
@@ -57,7 +57,7 @@
     <input name="id" id="id" hidden />
     <div class="form-container">
         <i class="form-icon fas fa-times-circle"></i>
-        <h1 class="form-heading">Cập nhật Danh mục</h1>
+        <h1 class="form-heading">Cập Nhật Danh Mục</h1>
         <div class="form-group">
             <label for="cooperationName" class="form-label">Danh Mục</label>
             <input type="text" name="CooperationCategoriesName" class="form-input" id="name" required>
@@ -67,20 +67,7 @@
         </div>
     </div>
 </form>
-@*<form action="@Url.Action("Delete", "CooperationCategories")" class="form" id="deleteForm" method="post">
-        <input name="iddele" id="iddele" hidden />
-        <div class="form-container">
-            <i class="form-icon fas fa-times-circle"></i>
-            <h1 class="form-heading">Xóa Danh mục</h1>
-            <div class="form-group">
-                <label for="cooperationName" class="form-label">Danh Mục</label>
-                <input type="text" name="CooperationCategoriesName" class="form-input" id="namedele" required>
-            </div>
-            <div class="form-group">
-                <button class="btn btn-action btn--update" onclick="submitEdit()" type="submit">Xác Nhận</button>
-            </div>
-        </div>
-    </form>*@
+
 <form action="@Url.Action("Delete", "CooperationCategories")" class="form" id="deleteForm" method="post">
     @{using (Html.BeginForm())
         {
@@ -107,12 +94,11 @@
 
 
 @section Scripts {
-   
+
     <script type="text/javascript">
         function Submit() {
             $("#addForm").save();
         }
-
         function loadEditUser(id, name) {
             let formUpdate = document.getElementById("updateForm");
             formUpdate.classList.add('is-appear')
@@ -123,15 +109,11 @@
             let formDelete = document.getElementById("deleteForm");
             formDelete.classList.add('is-appear')
             document.getElementById('iddele').value = id;
-           
+
         }
         function submitEdit() {
             $("#updateForm").save();
-
         }
-
-        $(".form-icon").on("click", function () {
-            formUpdate.classList.remove(isAppear);
-        })
+       
     </script>
 }

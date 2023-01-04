@@ -8,8 +8,8 @@
 <section class="list">
     <h1 class="list-heading">Danh sách Doanh nghiệp</h1>
     <div class="list-table">
-        <div id="filterEvent">
-           
+        <div id="filterEventA">
+            <a class="btn btn-action btn--create mr-1" href=@Url.Action("Create", "BusinessUsers")>Thêm</a>
         </div>
         <table id="table_id" class="display">
             <thead>
@@ -19,8 +19,9 @@
                     <th>Tên Doanh Nghiệp</th>
                     <th>Email</th>
                     <th>Địa Chỉ</th>
+                    <th>Người Liên Hệ</th>
                     <th>Số Điện Thoại</th>
-                    <th class="text-center"> <a class="btn btn-action btn--create mr-1" href=@Url.Action("Create", "BusinessUsers")>Thêm</a> </th>
+                    <th class="text-center">  </th>
                 </tr>
             </thead>
             <tbody>
@@ -29,14 +30,15 @@
                 {
                     <tr>
                         <td>@count</td>
-                        <td>@item.Business_ID</td>
+                        <td>@item.Username</td>
                         <td>@item.BusinessName</td>
                         <td>@item.EmailContact</td>
                         <td>@item.Address</td>
-                        <td><a href="#">@item.BusinessPhone</a></td>
-
+                        <td>@item.ContactName</td>
+                        <td><a href="#">@item.ContactPhone_1</a></td>
                         <td class="text-center">
-                            <a href="@Url.Action("Details", "BusinessUsers", new { id = item.Business_ID})" class="btn btn-action btn--detail">Xem chi tiết</a>
+                            <a href="@Url.Action("DetailsBusiness", "BusinessUsers", new { id = item.ID})" class="btn btn-action btn--detail">Xem chi tiết</a>
+                            <a href="@Url.Action("Details", "BusinessUsers", new { id = item.ID})" class="btn btn-action btn--update">Cập Nhật</a>
                         </td>
                     </tr>
                     count++;

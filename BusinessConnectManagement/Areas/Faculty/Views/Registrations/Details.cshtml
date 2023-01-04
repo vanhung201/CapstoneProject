@@ -1,0 +1,35 @@
+﻿@model BusinessConnectManagement.Models.Registration
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Faculty/Views/Shared/_Layout.cshtml";
+}
+
+<section class="list">
+    <h1 class="list-heading">Danh sách CV của @Model.VanLangUser.FullName</h1>
+    <div class="list-table">
+        <table id="table_id" class="display">
+            <thead>
+                <tr>
+                    <th>Tên CV</th>
+                    <th>CV</th>
+                    <th>Ngày cập nhật</th>
+                    <th>Trạng Thái</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                    <tr>
+                    <td>@Model.RegistrationPosition</td>
+                    <td><a href="#" class="link-cv">@Model.CV</a></td>
+                    <td>@Model.RegistrationModify</td>
+                    <td>Chờ duyệt ?</td>
+                    <td class="text-center">
+                        <a class="btn btn-action btn--update">Gửi cho doanh nghiệp</a>
+                        <a class="btn btn-action btn--delete">Từ chối</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>

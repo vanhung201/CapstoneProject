@@ -8,13 +8,14 @@
 <section class="list">
     <h1 class="list-heading">Danh sách bài viết</h1>
     <div class="list-table">
-        <div id="filterEvent">
+        <div id="filterEventA">
             <a class="btn btn-action btn--create mr-1" href="@Url.Action("Create", "Posts")">Thêm</a>
         </div>
         <table id="table_id" class="display" width="100%">
             <thead>
                 <tr>
-                    <th>Tiêu đề</th>
+                    <th>STT</th>
+                    <th>Tiêu đề</th>    
                     <th>Người đăng bài</th>
                     <th width="15%">Ngày đăng</th>
                     <th width="15%">Ngày cập nhật</th>
@@ -22,6 +23,8 @@
                 </tr>
             </thead>
             <tbody>
+                
+                @{int count = 1;}
                 @foreach (var item in Model)
                 {
                     DateTime? mydate = item.PostDay;
@@ -29,15 +32,18 @@
                     DateTime? modifydate = item.ModifyDay;
                     string modifydatee = modifydate.Value.ToString("dd-MM-yyyy");
                     <tr>
+                        <td>@count</td>
                         <td>@item.Title</td>
                         <td>@item.Email_ID</td>
                         <td>@datee</td>
                         <td>@modifydatee</td>
                         <td class="text-center">
                             <a href="@Url.Action("Details", "Posts",  new { id=item.ID })" class="btn btn-action btn--detail">Xem chi tiết</a>
+                            <a href="@Url.Action("Edit", "Posts",  new { id=item.ID })" class="btn btn-action btn--update">Cập Nhật</a>
                             <a class="btn btn-action btn--delete" onclick="loadDeleteUser('@item.ID', '@item.Title')">Xóa</a>
                         </td>
                     </tr>
+                    count++;
                 }
 
             </tbody>

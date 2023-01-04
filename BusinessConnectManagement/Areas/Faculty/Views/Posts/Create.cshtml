@@ -5,116 +5,76 @@
     Layout = "~/Areas/Faculty/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Create</h2>
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
 
-    <form id="addForm" method="post">
+    <form id="addForm" method="post" action="@Url.Action("Create", "Posts")" enctype="multipart/form-data">
         <section class="list">
-            <h1 class="list-heading">Thêm bài viết</h1>
+            <h1 class="list-heading">Thêm Bài Viết</h1>
             <div class="grid wide">
                 <div class="tab-content">
                     <div class="row">
-                        <div class="col l-12">
-                            <div class="form-group">
-                                <label for="businessName" class="form-label">Tiêu đề</label>
-                                <div style="width: 590px;">
-                                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-input" } })
-                                </div>
+                            <div class="col l-12">
+                                <div class="form-group">
+                                    <label for="businessName" class="form-label">Tiêu đề</label>
+                                    <div style="width: 590px;">
+                                        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-input" } })
+                                    </div>
 
+                                </div>
                             </div>
-                        </div>
-                        <div class="col l-12">
-                            <div class="form-group">
-                                <label for="address" class="form-label">Mô tả</label>
-                                @Html.TextAreaFor(model => model.Description, new { @id = "Explanation" })
-                                @*   <textarea name="Description" id="editor1" rows="10" cols="80">
-                                    This is my textarea to be replaced with CKEditor 4.
-                                    </textarea>*@
+                            <div class="col l-9">
+                                <div class="form-group">
+                                    <label for="ddlBussines_ID" class="form-label">Mã Doanh Nghiệp</label>
+                                    @* <input list="" name="Business_ID" id="businessID" class="form-input" autocomplete="off" required />*@
+                                    <select name="Business_ID" id="ddlBussines_ID" class="form-select">
+                                        @foreach (var item in ViewBag.Business_ID)
+                                        {
+                                            <option value=@item.ID>@item.BusinessName</option>
+                                        }
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col l-9">
+                                <div class="form-group">
+                                    <label for="logo" class="form-label">Logo</label>
+                                    <div style="display: flex; flex-direction: column">
+                                        <img style="width: 22rem; height:fit-content; margin: 0 0 1rem 0;" />
+                                        <input name="logo" class="form-input" type="file" id="logo"
+                                               accept="image/png, image/gif, image/jpeg" required />
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col l-12">
+                                <div class="form-group">
+                                    <label for="address" class="form-label">Mô tả</label>
+                                    @Html.TextAreaFor(model => model.Description, new { @id = "Explanation" })
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 <div class="button-wrapper">
                     <a class="btn btn-action btn--detail" href="@Url.Action("Index", "Posts")">Trở Về</a>
-                    <button class="btn btn-action btn--create" onclick="Submit" type="submit">Thêm</button>
+                    <button class="btn btn-action btn--create" onclick="getValueCheckBoxAndSubmit()" type="submit">Thêm</button>
                 </div>
             </div>
         </section>
     </form>
 
 
-    @*<div class="form-horizontal">
-            <h4>Post</h4>
-            <hr />
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group">
-                @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Poster_Email, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Poster_Email, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Poster_Email, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.PostDay, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.PostDay, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.PostDay, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.ModifyDay, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.ModifyDay, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.ModifyDay, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Semester_ID, "Semester_ID", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownList("Semester_ID", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Semester_ID, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Create" class="btn btn-default" />
-                </div>
-            </div>
-        </div>*@
-}
 @section Scripts {
     <script type="text/javascript" src="@Url.Content("~/assets/js/ckeditor/ckeditor.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/assets/js/ckfinder/ckfinder.js")"></script>
     <script type="text/javascript">
-         var editor = CKEDITOR.instances['editor1'];
-	 	    if (editor) { editor.destroy(true); }
-		    CKEDITOR.replace('Explanation', {
+        
+        /* var editor = CKEDITOR.instances['editor1'];
+	 	    if (editor) { editor.destroy(true); }*/
+		    CKEDITOR.replace('Explanation'/*, {
 		        enterMode: CKEDITOR.ENTER_BR,
-		    });
-		    CKFinder.setupCKEditor(null, '@Url.Content("~/ckfinder")');
-
+		    }*/);
+		   @* CKFinder.setupCKEditor(null, '@Url.Content("~/ckfinder")');
+*@
     </script>
+
 }

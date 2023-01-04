@@ -18,6 +18,8 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         public ActionResult Index()
         {
             var mOUs = db.MOUs.Include(m => m.BusinessUser);
+            var mOU = db.MOUs.Include(m => m.BusinessUser.Registrations);
+           
             ViewBag.Business_ID = db.BusinessUsers.ToList();
             return View(mOUs.ToList());
         }
@@ -54,7 +56,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
 
-        public ActionResult Create([Bind(Include = "ID,Business_ID,SignDay,Signer,ContactName,ContactPhone,EmailContact")] MOU mOU)
+        public ActionResult Create([Bind(Include = "ID,Business_ID,SignDay,Signer,ContactName,ContactPhone,EmailContact,ResponsibleName")] MOU mOU)
         {
             if (ModelState.IsValid)
             {
@@ -93,7 +95,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Edit([Bind(Include = "ID,Business_ID,SignDay,Signer,ContactName,ContactPhone,EmailContact")] MOU mOU)
+        public ActionResult Edit([Bind(Include = "ID,Business_ID,SignDay,Signer,ContactName,ContactPhone,EmailContact,ResponsibleName")] MOU mOU)
         {
             if (ModelState.IsValid)
             {

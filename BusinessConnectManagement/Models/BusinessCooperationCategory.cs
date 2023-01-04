@@ -15,7 +15,7 @@ namespace BusinessConnectManagement.Models
     public partial class BusinessCooperationCategory
     {
         public int ID { get; set; }
-        public string Business_ID { get; set; }
+        public int Business_ID { get; set; }
         public int CooperationCategories_ID { get; set; }
     
         public virtual BusinessUser BusinessUser { get; set; }

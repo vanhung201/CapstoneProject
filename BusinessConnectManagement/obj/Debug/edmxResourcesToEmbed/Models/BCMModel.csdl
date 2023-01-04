@@ -110,16 +110,17 @@
       <PropertyRef Name="ID" />
     </Key>
     <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Business_ID" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="Business_ID" Type="Int32" Nullable="false" />
     <Property Name="CooperationCategories_ID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="BusinessUser" Relationship="BCMModel.FK_BusinessCooperationCategories_BusinessUser" FromRole="BusinessCooperationCategory" ToRole="BusinessUser" />
     <NavigationProperty Name="CooperationCategory" Relationship="BCMModel.FK_BusinessCooperationCategories_CooperationCategories" FromRole="BusinessCooperationCategory" ToRole="CooperationCategory" />
   </EntityType>
   <EntityType Name="BusinessUser">
     <Key>
-      <PropertyRef Name="Business_ID" />
+      <PropertyRef Name="ID" />
     </Key>
-    <Property Name="Business_ID" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Business_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
     <Property Name="Password" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
     <Property Name="Last_Access" Type="DateTime" Precision="3" />
     <Property Name="Status_ID" Type="Int32" />
@@ -157,7 +158,7 @@
     <Property Name="Mentor_Email" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
     <Property Name="MentorPoint" Type="Double" />
     <Property Name="MentorComment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="Business_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="Business_ID" Type="Int32" Nullable="false" />
     <Property Name="BusinessPoint" Type="Double" />
     <Property Name="BusinessComment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="BusinessUser" Relationship="BCMModel.FK_InternshipResult_BusinessUser" FromRole="InternshipResult" ToRole="BusinessUser" />
@@ -178,7 +179,7 @@
       <PropertyRef Name="ID" />
     </Key>
     <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Business_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="Business_ID" Type="Int32" Nullable="false" />
     <Property Name="SignDay" Type="DateTime" Precision="0" />
     <Property Name="Signer" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="ContactName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
@@ -213,7 +214,7 @@
     <Property Name="CV" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="RegistrationDate" Type="DateTime" Precision="3" />
     <Property Name="RegistrationModify" Type="DateTime" Precision="3" />
-    <Property Name="Business_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="Business_ID" Type="Int32" Nullable="false" />
     <Property Name="InterviewResult" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="InterviewResultComment" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -309,7 +310,7 @@
     <End Type="BCMModel.BusinessCooperationCategory" Role="BusinessCooperationCategory" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="BusinessUser">
-        <PropertyRef Name="Business_ID" />
+        <PropertyRef Name="ID" />
       </Principal>
       <Dependent Role="BusinessCooperationCategory">
         <PropertyRef Name="Business_ID" />
@@ -341,11 +342,11 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_InternshipResult_BusinessUser">
-    <End Type="BCMModel.BusinessUser" Role="BusinessUser" Multiplicity="0..1" />
+    <End Type="BCMModel.BusinessUser" Role="BusinessUser" Multiplicity="1" />
     <End Type="BCMModel.InternshipResult" Role="InternshipResult" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="BusinessUser">
-        <PropertyRef Name="Business_ID" />
+        <PropertyRef Name="ID" />
       </Principal>
       <Dependent Role="InternshipResult">
         <PropertyRef Name="Business_ID" />
@@ -353,11 +354,11 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_MOU_BusinessUser">
-    <End Type="BCMModel.BusinessUser" Role="BusinessUser" Multiplicity="0..1" />
+    <End Type="BCMModel.BusinessUser" Role="BusinessUser" Multiplicity="1" />
     <End Type="BCMModel.MOU" Role="MOU" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="BusinessUser">
-        <PropertyRef Name="Business_ID" />
+        <PropertyRef Name="ID" />
       </Principal>
       <Dependent Role="MOU">
         <PropertyRef Name="Business_ID" />
@@ -365,11 +366,11 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_Registration_BusinessUser">
-    <End Type="BCMModel.BusinessUser" Role="BusinessUser" Multiplicity="0..1" />
+    <End Type="BCMModel.BusinessUser" Role="BusinessUser" Multiplicity="1" />
     <End Type="BCMModel.Registration" Role="Registration" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="BusinessUser">
-        <PropertyRef Name="Business_ID" />
+        <PropertyRef Name="ID" />
       </Principal>
       <Dependent Role="Registration">
         <PropertyRef Name="Business_ID" />

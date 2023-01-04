@@ -192,11 +192,15 @@
     <Compile Include="Areas\Business\BusinessAreaRegistration.cs" />
     <Compile Include="Areas\Business\Controllers\AuthController.cs" />
     <Compile Include="Areas\Business\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Business\Controllers\InternshipResultsController.cs" />
+    <Compile Include="Areas\Business\Controllers\InternViewsController.cs" />
+    <Compile Include="Areas\Faculty\Controllers\BusinessCooperationCategoriesController.cs" />
     <Compile Include="Areas\Faculty\Controllers\BusinessUsersController.cs" />
     <Compile Include="Areas\Faculty\Controllers\CooperationCategoriesController.cs" />
     <Compile Include="Areas\Faculty\Controllers\HomeController.cs" />
     <Compile Include="Areas\Faculty\Controllers\MOUsController.cs" />
     <Compile Include="Areas\Faculty\Controllers\PostsController.cs" />
+    <Compile Include="Areas\Faculty\Controllers\RegistrationsController.cs" />
     <Compile Include="Areas\Faculty\FacultyAreaRegistration.cs" />
     <Compile Include="Areas\Mentor\Controllers\HomeController.cs" />
     <Compile Include="Areas\Mentor\MentorAreaRegistration.cs" />
@@ -208,65 +212,65 @@
     </Compile>
     <Compile Include="Middleware\LoginVerification.cs" />
     <Compile Include="Middleware\RoleRedirect.cs" />
-    <Compile Include="Models\BCMModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>BCMModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\BCMModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>BCMModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\BCMModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>BCMModel.edmx</DependentUpon>
-    </Compile>
     <Compile Include="Models\BusinessCooperationCategory.cs">
-      <DependentUpon>BCMModel.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\BusinessUser.cs">
-      <DependentUpon>BCMModel.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CooperationCategory.cs">
-      <DependentUpon>BCMModel.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\InternshipResult.cs">
-      <DependentUpon>BCMModel.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Major.cs">
-      <DependentUpon>BCMModel.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Model.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Model.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Model.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\MOU.cs">
-      <DependentUpon>BCMModel.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Post.cs">
-      <DependentUpon>BCMModel.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Registration.cs">
-      <DependentUpon>BCMModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Role.cs">
-      <DependentUpon>BCMModel.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Semester.cs">
-      <DependentUpon>BCMModel.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Status.cs">
-      <DependentUpon>BCMModel.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StatusInternview.cs">
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sysdiagram.cs">
-      <DependentUpon>BCMModel.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Trainee.cs">
-      <DependentUpon>BCMModel.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\VanLangUser.cs">
-      <DependentUpon>BCMModel.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\YearStudy.cs">
-      <DependentUpon>BCMModel.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -1200,15 +1204,15 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Models\BCMModel.Context.tt">
+    <Content Include="Models\Model.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>BCMModel.Context.cs</LastGenOutput>
-      <DependentUpon>BCMModel.edmx</DependentUpon>
+      <DependentUpon>Model.edmx</DependentUpon>
+      <LastGenOutput>Model.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\BCMModel.tt">
+    <Content Include="Models\Model.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>BCMModel.edmx</DependentUpon>
-      <LastGenOutput>BCMModel.cs</LastGenOutput>
+      <DependentUpon>Model.edmx</DependentUpon>
+      <LastGenOutput>Model.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -1216,13 +1220,6 @@
     <Content Include="Areas\Faculty\Views\web.config" />
     <Content Include="Areas\Mentor\Views\web.config" />
     <Content Include="Areas\Student\Views\web.config" />
-    <EntityDeploy Include="Models\BCMModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>BCMModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\BCMModel.edmx.diagram">
-      <DependentUpon>BCMModel.edmx</DependentUpon>
-    </Content>
     <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
@@ -1269,6 +1266,35 @@
     <Content Include="assets\js\ckeditor\skins\moono-lisa\readme.md" />
     <Content Include="Content\bootstrap-chosen.scss" />
     <Content Include="Content\bootstrap-chosen.less" />
+    <EntityDeploy Include="Models\Model.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Model.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Model.edmx.diagram">
+      <DependentUpon>Model.edmx</DependentUpon>
+    </Content>
+    <Content Include="Areas\Faculty\Views\BusinessCooperationCategories\Create.cshtml" />
+    <Content Include="Areas\Faculty\Views\BusinessCooperationCategories\Details.cshtml" />
+    <Content Include="Areas\Faculty\Views\BusinessCooperationCategories\Edit.cshtml" />
+    <Content Include="Areas\Faculty\Views\BusinessCooperationCategories\Index.cshtml" />
+    <Content Include="Areas\Business\Views\InternViews\Create.cshtml" />
+    <Content Include="Areas\Business\Views\InternViews\Delete.cshtml" />
+    <Content Include="Areas\Business\Views\InternViews\Details.cshtml" />
+    <Content Include="Areas\Business\Views\InternViews\Edit.cshtml" />
+    <Content Include="Areas\Business\Views\InternViews\Index.cshtml" />
+    <Content Include="Areas\Business\Views\InternshipResults\Create.cshtml" />
+    <Content Include="Areas\Business\Views\InternshipResults\Delete.cshtml" />
+    <Content Include="Areas\Business\Views\InternshipResults\Details.cshtml" />
+    <Content Include="Areas\Business\Views\InternshipResults\Edit.cshtml" />
+    <Content Include="Areas\Business\Views\InternshipResults\Index.cshtml" />
+    <Content Include="Areas\Faculty\Views\BusinessUsers\DetailsBusiness.cshtml" />
+    <Content Include="Areas\Faculty\Views\MOUs\Edit.cshtml" />
+    <Content Include="Areas\Faculty\Views\Posts\Edit.cshtml" />
+    <Content Include="Areas\Faculty\Views\Registrations\Create.cshtml" />
+    <Content Include="Areas\Faculty\Views\Registrations\Delete.cshtml" />
+    <Content Include="Areas\Faculty\Views\Registrations\Details.cshtml" />
+    <Content Include="Areas\Faculty\Views\Registrations\Edit.cshtml" />
+    <Content Include="Areas\Faculty\Views\Registrations\Index.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\chosen.jquery.js" />
     <Content Include="Scripts\chosen.jquery.min.js" />

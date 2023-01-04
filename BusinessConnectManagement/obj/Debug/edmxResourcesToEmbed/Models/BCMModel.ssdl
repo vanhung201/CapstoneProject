@@ -5,14 +5,15 @@
       <PropertyRef Name="ID" />
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Business_ID" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="Business_ID" Type="int" Nullable="false" />
     <Property Name="CooperationCategories_ID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="BusinessUser">
     <Key>
-      <PropertyRef Name="Business_ID" />
+      <PropertyRef Name="ID" />
     </Key>
-    <Property Name="Business_ID" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Business_ID" Type="varchar" MaxLength="25" />
     <Property Name="Password" Type="varchar" MaxLength="250" />
     <Property Name="Last_Access" Type="datetime" />
     <Property Name="Status_ID" Type="int" />
@@ -44,7 +45,7 @@
     <Property Name="Mentor_Email" Type="varchar" MaxLength="250" />
     <Property Name="MentorPoint" Type="float" />
     <Property Name="MentorComment" Type="nvarchar(max)" />
-    <Property Name="Business_ID" Type="varchar" MaxLength="25" />
+    <Property Name="Business_ID" Type="int" Nullable="false" />
     <Property Name="BusinessPoint" Type="float" />
     <Property Name="BusinessComment" Type="nvarchar(max)" />
   </EntityType>
@@ -60,7 +61,7 @@
       <PropertyRef Name="ID" />
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Business_ID" Type="varchar" MaxLength="25" />
+    <Property Name="Business_ID" Type="int" Nullable="false" />
     <Property Name="SignDay" Type="date" />
     <Property Name="Signer" Type="nvarchar" MaxLength="100" />
     <Property Name="ContactName" Type="nvarchar" MaxLength="100" />
@@ -90,7 +91,7 @@
     <Property Name="CV" Type="nvarchar" MaxLength="250" />
     <Property Name="RegistrationDate" Type="datetime" />
     <Property Name="RegistrationModify" Type="datetime" />
-    <Property Name="Business_ID" Type="varchar" MaxLength="25" />
+    <Property Name="Business_ID" Type="int" Nullable="false" />
     <Property Name="InterviewResult" Type="nvarchar" MaxLength="50" />
     <Property Name="InterviewResultComment" Type="nvarchar" MaxLength="250" />
     <Property Name="Status" Type="nvarchar" MaxLength="50" />
@@ -160,7 +161,7 @@
     <End Role="BusinessCooperationCategories" Type="Self.BusinessCooperationCategories" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="BusinessUser">
-        <PropertyRef Name="Business_ID" />
+        <PropertyRef Name="ID" />
       </Principal>
       <Dependent Role="BusinessCooperationCategories">
         <PropertyRef Name="Business_ID" />
@@ -192,11 +193,11 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_InternshipResult_BusinessUser">
-    <End Role="BusinessUser" Type="Self.BusinessUser" Multiplicity="0..1" />
+    <End Role="BusinessUser" Type="Self.BusinessUser" Multiplicity="1" />
     <End Role="InternshipResult" Type="Self.InternshipResult" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="BusinessUser">
-        <PropertyRef Name="Business_ID" />
+        <PropertyRef Name="ID" />
       </Principal>
       <Dependent Role="InternshipResult">
         <PropertyRef Name="Business_ID" />
@@ -240,11 +241,11 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_MOU_BusinessUser">
-    <End Role="BusinessUser" Type="Self.BusinessUser" Multiplicity="0..1" />
+    <End Role="BusinessUser" Type="Self.BusinessUser" Multiplicity="1" />
     <End Role="MOU" Type="Self.MOU" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="BusinessUser">
-        <PropertyRef Name="Business_ID" />
+        <PropertyRef Name="ID" />
       </Principal>
       <Dependent Role="MOU">
         <PropertyRef Name="Business_ID" />
@@ -288,11 +289,11 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_Registration_BusinessUser">
-    <End Role="BusinessUser" Type="Self.BusinessUser" Multiplicity="0..1" />
+    <End Role="BusinessUser" Type="Self.BusinessUser" Multiplicity="1" />
     <End Role="Registration" Type="Self.Registration" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="BusinessUser">
-        <PropertyRef Name="Business_ID" />
+        <PropertyRef Name="ID" />
       </Principal>
       <Dependent Role="Registration">
         <PropertyRef Name="Business_ID" />

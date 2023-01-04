@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="beba1ee3c7f34c8eb4cb495abad031b3" Name="Diagram1" ZoomLevel="59">
+        <EntityTypeShape EntityType="Model.BusinessCooperationCategory" Width="1.5" PointX="5.25" PointY="17" />
+        <EntityTypeShape EntityType="Model.BusinessUser" Width="1.5" PointX="3" PointY="14.5" />
+        <EntityTypeShape EntityType="Model.CooperationCategory" Width="1.5" PointX="3" PointY="21.125" />
+        <EntityTypeShape EntityType="Model.InternshipResult" Width="1.5" PointX="8.25" PointY="12.25" />
+        <EntityTypeShape EntityType="Model.Major" Width="1.5" PointX="0.75" PointY="8.125" />
+        <EntityTypeShape EntityType="Model.MOU" Width="1.5" PointX="5.25" PointY="27.5" />
+        <EntityTypeShape EntityType="Model.Post" Width="1.5" PointX="5.25" PointY="12.25" />
+        <EntityTypeShape EntityType="Model.Registration" Width="1.5" PointX="10.5" PointY="12" />
+        <EntityTypeShape EntityType="Model.Semester" Width="1.5" PointX="3" PointY="4.625" />
+        <EntityTypeShape EntityType="Model.Status" Width="1.5" PointX="0.75" PointY="11" />
+        <EntityTypeShape EntityType="Model.sysdiagram" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Model.Trainee" Width="1.5" PointX="5.25" PointY="8.75" />
+        <EntityTypeShape EntityType="Model.VanLangUser" Width="1.5" PointX="3" PointY="8.75" />
+        <EntityTypeShape EntityType="Model.YearStudy" Width="1.5" PointX="0.75" PointY="5.125" />
+        <EntityTypeShape EntityType="Model.StatusInternview" Width="1.5" PointX="8.25" PointY="9.375" />
+        <AssociationConnector Association="Model.FK_BusinessCooperationCategories_BusinessUser" />
+        <AssociationConnector Association="Model.FK_BusinessCooperationCategories_CooperationCategories" />
+        <AssociationConnector Association="Model.FK_BusinessUser_Status" />
+        <AssociationConnector Association="Model.FK_InternshipResult_BusinessUser" />
+        <AssociationConnector Association="Model.FK_MOU_BusinessUser" />
+        <AssociationConnector Association="Model.FK_Post_BusinessUser" />
+        <AssociationConnector Association="Model.FK_Registration_BusinessUser" />
+        <AssociationConnector Association="Model.FK_InternshipResult_Semester" />
+        <AssociationConnector Association="Model.FK_InternshipResult_VanLangUser" />
+        <AssociationConnector Association="Model.FK_InternshipResult_VanLangUser1" />
+        <AssociationConnector Association="Model.FK_VanLangUser_Major" />
+        <AssociationConnector Association="Model.FK_Post_Semester" />
+        <AssociationConnector Association="Model.FK_Post_VanLangUser" />
+        <AssociationConnector Association="Model.FK_Post_VanLangUser1" />
+        <AssociationConnector Association="Model.FK_Registration_Post" />
+        <AssociationConnector Association="Model.FK_Registration_Semester" />
+        <AssociationConnector Association="Model.FK_Registration_StatusInternview" />
+        <AssociationConnector Association="Model.FK_Registration_VanLangUser" />
+        <AssociationConnector Association="Model.FK_Semester_YearStudy" />
+        <AssociationConnector Association="Model.FK_Trainee_Semester" />
+        <AssociationConnector Association="Model.FK_VanLangUser_Status" />
+        <AssociationConnector Association="Model.FK_Trainee_VanLangUser" />
+        <AssociationConnector Association="Model.FK_Trainee_VanLangUser1" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

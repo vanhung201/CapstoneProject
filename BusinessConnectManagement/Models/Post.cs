@@ -27,7 +27,10 @@ namespace BusinessConnectManagement.Models
         public Nullable<System.DateTime> PostDay { get; set; }
         public Nullable<System.DateTime> ModifyDay { get; set; }
         public Nullable<int> Semester_ID { get; set; }
+        public string PostImage { get; set; }
+        public Nullable<int> Business_ID { get; set; }
     
+        public virtual BusinessUser BusinessUser { get; set; }
         public virtual Semester Semester { get; set; }
         public virtual VanLangUser VanLangUser { get; set; }
         public virtual VanLangUser VanLangUser1 { get; set; }

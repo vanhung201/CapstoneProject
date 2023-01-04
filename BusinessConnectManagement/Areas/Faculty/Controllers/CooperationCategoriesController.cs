@@ -120,7 +120,12 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             CooperationCategory cooperationCategorie = db.CooperationCategories.Find(id);
-
+           /* BusinessCooperationCategory businessCooperationCategory= db.BusinessCooperationCategories.Where()*/
+            if (db.BusinessCooperationCategories.Where(x => x.CooperationCategories_ID == id).Any() == true)
+            {
+                ViewBag.Message ="Message";
+                return RedirectToAction("Index");
+            }
             db.CooperationCategories.Remove(cooperationCategorie);
             db.SaveChanges();
 

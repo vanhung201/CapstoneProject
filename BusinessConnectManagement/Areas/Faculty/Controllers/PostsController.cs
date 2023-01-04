@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
 using BusinessConnectManagement.Models;
@@ -33,6 +34,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.Business_ID = db.BusinessUsers.ToList();
             return View(post);
         }
 
@@ -40,6 +42,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         public ActionResult Create()
         {
             ViewBag.Semester_ID = new SelectList(db.Semesters, "ID", "Semester1");
+            ViewBag.Business_ID = db.BusinessUsers.ToList();
             return View();
         }
 
@@ -47,20 +50,29 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost, ValidateInput(false)]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Title,Email_ID,Description,PostDay,ModifyDay,Semester_ID")] Post post)
+     
+        public ActionResult Create(Post post, HttpPostedFileBase logo)
         {
             if (ModelState.IsValid)
             {
-               
-                post.PostDay = DateTime.Now;
-                post.ModifyDay = DateTime.Now;
-                var query = db.VanLangUsers.Where(x => x.Email == User.Identity.Name).FirstOrDefault();
-
-                post.Email_ID = query.Email;
-                db.Posts.Add(post);
-                db.SaveChanges();
+                using (var scope = new TransactionScope())
+                {
+                    post.PostImage = DateTime.Now.ToString("yymmssfff") + logo.FileName;
+                    var path = Server.MapPath("~/Image/");
+                    logo.SaveAs(path + post.PostImage);
+                    post.PostDay = DateTime.Now;
+                    post.ModifyDay = DateTime.Now;
+                    var query = db.VanLangUsers.Where(x => x.Email == User.Identity.Name).FirstOrDefault();
+                    post.Email_ID = query.Email;
+                    
+                    db.Posts.Add(post);
+                    db.SaveChanges();
+                    scope.Complete();
+                    
+                }
+                
                 return RedirectToAction("Index");
+
             }
 
             ViewBag.Semester_ID = new SelectList(db.Semesters, "ID", "Semester1", post.Semester_ID);
@@ -79,6 +91,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
             {
                 return HttpNotFound();
             }
+           
             ViewBag.Semester_ID = new SelectList(db.Semesters, "ID", "Semester1", post.Semester_ID);
             return View(post);
         }
@@ -88,10 +101,18 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost, ValidateInput(false)]
        
-        public ActionResult Edit( Post post)
+        public ActionResult Edit( Post post, HttpPostedFileBase logo)
         {
             if (ModelState.IsValid)
             {
+                if (logo != null)
+                {
+                    post.PostImage = DateTime.Now.ToString("yymmssfff") + logo.FileName;
+
+                    var path = Server.MapPath("~/Image/");
+                    logo.SaveAs(path + post.PostImage);
+                    /*businessUser.Status = businessUser.Status_ID();*/
+                }
                 post.ModifyDay= DateTime.Now;
 
                 db.Entry(post).State = EntityState.Modified;

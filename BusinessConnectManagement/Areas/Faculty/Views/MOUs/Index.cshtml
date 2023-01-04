@@ -8,8 +8,8 @@
 <section class="list">
     <h1 class="list-heading">Danh sách Ký kết MOU</h1>
     <div class="list-table">
-        <div id="filterEvent">
-
+        <div id="filterEventA">
+            <a href="#" class="btn btn-action btn--create mr-1">Thêm</a>
         </div>
         <table id="table_id" class="display">
             <thead>
@@ -18,29 +18,36 @@
                     <th>Tên Doanh Nghiệp</th>
                     <th>Ngày Ký</th>
                     <th>Người Ký</th>
-                    <th class="text-center"> <a href="#" class="btn btn-action btn--create mr-1">Thêm</a></th>
+                    <th>Người Phụ Trách</th>
+                    <th class="text-center"> </th>
                 </tr>
             </thead>
             <tbody>
-                @{ int count = 1;}
-                @foreach (var item in Model)
-                {
-                    DateTime? mydate = item.SignDay;
-                    string datee = mydate.Value.ToString("dd-MM-yyyy");
-                    <tr>
+               
+               
+                    @{ int count = 1;}
+                    @foreach (var item in Model)
+                    {
+                        DateTime? mydate = item.SignDay;
+                        string datee = mydate.Value.ToString("dd-MM-yyyy");
+                    <tr id="checkRespon">
                         <td>@count</td>
                         <td>@item.BusinessUser.BusinessName</td>
                         <td>@datee</td>
                         <td>@item.Signer</td>
+                        <td class="abc">@item.ResponsibleName</td>
                         <td class="text-center">
                             <a href="@Url.Action("Details", "MOUs",  new { id=item.ID })" class="btn btn-action btn--detail">Xem Chi tiết</a>
+                            <a href="@Url.Action("Edit", "MOUs",  new { id=item.ID })" class="btn btn-action btn--update">Cập Nhật</a>
                             <a class="btn btn-action btn--delete" onclick="loadDeleteUser('@item.ID', '@item.BusinessUser.BusinessName')">Xóa</a>
                         </td>
                     </tr>
                     count++;
                 }
+                    
 
-            </tbody>
+
+                </tbody>
         </table>
     </div>
 </section>
@@ -56,7 +63,7 @@
             <select name="Business_ID" id="ddlBussines_ID" class="form-select">
                 @foreach (var item in ViewBag.Business_ID)
                 {
-                    <option value=@item.Business_ID>@item.Business_ID</option>
+                    <option value=@item.ID>@item.BusinessName</option>
                 }
 
             </select>
@@ -83,7 +90,11 @@
             <input list="" name="EmailContact" id="email" class="form-input" autocomplete="off" required />
         </div>
         <div class="form-group">
-            <button class="btn btn-action btn--update" onclick="Submit() type="submit">Xác Nhận</button>
+            <label for="reponsibile" class="form-label">Người Phụ Trách</label>
+            <input list="" name="ResponsibleName" id="reponsibile" class="form-input" autocomplete="off" required />
+        </div>
+        <div class="form-group">
+            <button class="btn btn-action btn--update" onclick="Submit() type="submit" >Xác Nhận</button>
         </div>
 
     </div>
@@ -118,11 +129,28 @@
 
         function loadDeleteUser(id, name) {
             let formDelete = document.getElementById("deleteForm");
+           
             formDelete.classList.add('is-appear')
             document.getElementById('iddele').value = id;
             $('#namedele').text(name) 
-            
         }
+        $(function (){
+            var fup = document.getElementById('checkRespon');
+            let a = fup.getElementsByClassName('abc');
+            var file = a.value;
+
+            if (file == null) {
+
+                $('#checkRespon').prop('hidden', false);
+
+
+            } else {
+                $('#checkRespon').prop('hidden', true);
+
+            }
+            
+        });
+       
 
     </script>
 

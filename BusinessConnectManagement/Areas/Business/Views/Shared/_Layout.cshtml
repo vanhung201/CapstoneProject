@@ -30,11 +30,11 @@
             <li class="menu-item">
                 <h4 class="menu-heading">QL Doanh Nghiệp</h4>
                 <div class="menu-function">
-                    <a href="#" class="menu-feature">
+                    <a href="@Url.Action("Index", "InternViews")" class="menu-feature">
                         <i class="menu-icon fas fa-hand-point-right"></i>
                         Danh sách Ứng tuyển
                     </a>
-                    <a href="#" class="menu-feature">
+                    <a href="@Url.Action("Index", "InternshipResults")" class="menu-feature">
                         <i class="menu-icon fas fa-hand-point-right"></i>
                         Kết quả Thực tập
                     </a>
@@ -65,17 +65,32 @@
 
 @RenderSection("scripts", required: false)
 
-<script src="~/assets/js/greet.js"></script>
-<script src="~/assets/js/time.js"></script>
 <script src="~/assets/js/admin.js"></script>
-<script src="~/assets/js/jquery/jquery.min.js"></script>
-<script src="~/assets/js/datatable/dataTable.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $("#table_id").DataTable({
-            ordering: false,
-        });
-    });
-</script>
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
-</html>
+<script src="~/Scripts/chosen.jquery.js"></script>
+<script src="~/assets/js/datatable/dataTable.min.js"></script>
+
+<script>
+
+    $(function () {
+        $("#table_id_filter").prepend($("#filterEvent")).clone();
+    });
+
+    
+    let formUpdate = document.getElementById("updateForm");
+    
+    let icon = document.querySelector(".form-icon");
+    let isHide = "is-hide";
+    let isAppear = "is-appear";
+    
+    $(".form-icon").on("click", function () {
+        formUpdate.classList.remove(isAppear);
+    })
+
+   
+</script>
