@@ -157,3 +157,6 @@ li {
   z-index: 4;
   user-select: none;
 }
+.text-danger field-validation-error {
+    color: red;
+}

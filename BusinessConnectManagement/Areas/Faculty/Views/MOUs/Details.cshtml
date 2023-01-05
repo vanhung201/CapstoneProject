@@ -24,7 +24,7 @@
                         @Html.HiddenFor(model => model.Business_ID)
                         <div class="form-group">
                             @Html.HiddenFor(model => model.BusinessUser.BusinessName)
-                            <label class="form-label">Tên Doanh Nghiệp</label>
+                            <label for="ddlBussines_ID" class="form-label">Tên Doanh Nghiệp &nbsp;&nbsp;&nbsp;</label>
                             <input class="form-input" value="@Model.BusinessUser.BusinessName"
                                    autocomplete="off" disabled />
                         </div>
@@ -35,14 +35,14 @@
                     </div>
                     <div class="col l-6">
                         <div class="form-group">
-                            <label for="daysigning" class="form-label">Ngày Ký</label>
+                            <label for="daysigning" class="form-label">Ngày Ký &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                             <input list="" name="SignDay" id="daysigning" class="form-input" type="date" value="@datee"
                                    autocomplete="off" disabled />
                         </div>
                     </div>
                     <div class="col l-6">
                         <div class="form-group">
-                            <label for="signer" class="form-label">Người ký</label>
+                            <label for="signer" class="form-label">Tên Người Ký &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                             @Html.EditorFor(model => model.Signer, new { htmlAttributes = new { @class = "form-input", disabled = "true" } })
                         </div>
                         <div class="form-group">
@@ -52,7 +52,7 @@
                     </div>
                     <div class="col l-6">
                         <div class="form-group">
-                            <label class="form-label">Tên Người Liên Hệ</label>
+                            <label class="form-label">Tên Người Liên Hệ &nbsp;&nbsp;</label>
                             @Html.EditorFor(model => model.ContactName, new { htmlAttributes = new { @class = "form-input", disabled = "true" } })
                         </div>
                         <div class="form-group">
@@ -62,7 +62,7 @@
                     </div>
                     <div class="col l-6">
                         <div class="form-group">
-                            <label class="form-label">SĐT Người Liên Hệ 1</label>
+                            <label class="form-label">SĐT Người Liên Hệ &nbsp;&nbsp; </label>
                             @Html.EditorFor(model => model.ContactPhone, new { htmlAttributes = new { @class = "form-input", disabled = "true" } })
                         </div>
                         <div class="form-group">
@@ -93,8 +93,8 @@
                 </div>
             </div>
             <div class="button-wrapper">
-                <a href="@Url.Action("Index")" class="btn btn-action btn--detail">Trở Về</a>
-                <a href="@Url.Action("Edit", "MOUs",  new { id=Model.ID })" class="btn btn-action btn--update">Cập Nhật</a>
+                <a href="@Url.Action("Index")" class="btn btn--back">Trở Về</a>
+                <a href="@Url.Action("Edit", "MOUs",  new { id=Model.ID })" class="btn btn--update">Cập Nhật</a>
             </div>
         </div>
 

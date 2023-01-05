@@ -11,7 +11,7 @@
         <table id="table_id" class="display">
             <thead>
                 <tr>
-                    <th>Tên CV</th>
+                    <th>Email</th>
                     <th>CV</th>
                     <th>Ngày cập nhật</th>
                     <th>Trạng Thái</th>
@@ -20,10 +20,10 @@
             </thead>
             <tbody>
                     <tr>
-                    <td>@Model.RegistrationPosition</td>
+                    <td>@Model.Email_VanLang</td>
                     <td><a href="#" class="link-cv">@Model.CV</a></td>
                     <td>@Model.RegistrationModify</td>
-                    <td>Chờ duyệt ?</td>
+                    <td>@Model.StatusRegistration</td>
                     <td class="text-center">
                         <a class="btn btn-action btn--update">Gửi cho doanh nghiệp</a>
                         <a class="btn btn-action btn--delete">Từ chối</a>

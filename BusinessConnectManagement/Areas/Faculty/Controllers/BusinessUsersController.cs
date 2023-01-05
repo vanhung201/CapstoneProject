@@ -115,7 +115,8 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                     db.BusinessCooperationCategories.Add(BCC);
                     db.SaveChanges();
                 }
-
+                var viewbag = db.CooperationCategories.ToList();
+                ViewBag.CooperationCategories = viewbag.ToList();
                 return RedirectToAction("Index");
             }
             else
@@ -216,9 +217,29 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         // POST: Faculty/BusinessUsers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
+        public ActionResult DeleteConfirm(int id)
         {
             BusinessUser businessUser = db.BusinessUsers.Find(id);
+            if (db.MOUs.Where(x => x.Business_ID == id).Any() == true)
+            {
+                TempData["AlertMessage"] = "Xóa không thành công vì doanh nghiệp này đã ký kết MOU!!";
+                return RedirectToAction("Index");
+            }
+            if (db.Posts.Where(x => x.Business_ID == id).Any() == true)
+            {
+                TempData["AlertMessage"] = "Xóa không thành công vì doanh nghiệp đang có bài đăng tuyển dụng!!";
+                return RedirectToAction("Index");
+            }
+            if (db.Registrations.Where(x => x.Business_ID == id).Any() == true)
+            {
+                TempData["AlertMessage"] = "Xóa không thành công vì đang có sinh viên đăng ký thực tập!!";
+                return RedirectToAction("Index");
+            }
+            var businessCooperationCategoryList = db.BusinessCooperationCategories.Where(x => x.Business_ID == businessUser.ID).ToList();
+            foreach (var item in businessCooperationCategoryList)
+            {
+                db.BusinessCooperationCategories.Remove(item);
+            }
 
             db.BusinessUsers.Remove(businessUser);
             db.SaveChanges();

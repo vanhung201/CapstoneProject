@@ -257,9 +257,6 @@
     <Compile Include="Models\Status.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\StatusInternview.cs">
-      <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -1296,6 +1293,7 @@
     <Content Include="Areas\Faculty\Views\Registrations\Details.cshtml" />
     <Content Include="Areas\Faculty\Views\Registrations\Edit.cshtml" />
     <Content Include="Areas\Faculty\Views\Registrations\Index.cshtml" />
+    <Content Include="Areas\Faculty\Views\MOUs\Create.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\chosen.jquery.js" />
     <Content Include="Scripts\chosen.jquery.min.js" />

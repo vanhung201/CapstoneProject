@@ -21,7 +21,7 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
         {
            
             var registrations = db.Registrations.Include(r => r.BusinessUser).Include(r => r.Post).Include(r => r.Semester).Include(r => r.VanLangUser);
-            ViewBag.Status_ID = db.StatusInternviews.ToList();
+           
             return View(registrations.ToList());
         }
 
@@ -95,12 +95,10 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
        
-        public ActionResult Edit([Bind(Include = "ID,Email_VanLang,Post_ID,Semester_ID,CV,RegistrationDate,RegistrationModify,Business_ID,InterviewResult,InterviewResultComment,Status,RegistrationPosition")] Registration registration, int StatusInternview_ID)
+        public ActionResult Edit([Bind(Include = "ID,Email_VanLang,Post_ID,Semester_ID,CV,RegistrationDate,RegistrationModify,Business_ID,InterviewResult,InterviewResultComment,StatusInternview,StatusRegistration")] Registration registration)
         {
             if (ModelState.IsValid)
             {
-                
-                registration.StatusInternview_ID = StatusInternview_ID;
                 db.Entry(registration).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

@@ -123,12 +123,11 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
            /* BusinessCooperationCategory businessCooperationCategory= db.BusinessCooperationCategories.Where()*/
             if (db.BusinessCooperationCategories.Where(x => x.CooperationCategories_ID == id).Any() == true)
             {
-                ViewBag.Message ="Message";
+                TempData["AlertMessage"] = "Xóa không thành công vì đã có doanh nghiệp chọn hình thưc hợp tác này!!";
                 return RedirectToAction("Index");
             }
             db.CooperationCategories.Remove(cooperationCategorie);
             db.SaveChanges();
-
             return RedirectToAction("Index");
         }
 

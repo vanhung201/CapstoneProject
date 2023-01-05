@@ -16,6 +16,7 @@
                         <div class="form-group">
                             <label class="form-label">Tên Doanh nghiệp</label>
                             <input name="Business_ID" value="@Model.BusinessName" class="form-input" autocomplete="off" disabled />
+                            @Html.HiddenFor(model => model.BusinessName)
                         </div>
                     </div>
 

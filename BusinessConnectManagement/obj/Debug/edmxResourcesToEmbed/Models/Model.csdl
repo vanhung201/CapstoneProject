@@ -15,7 +15,6 @@
     <EntitySet Name="Trainees" EntityType="Model.Trainee" />
     <EntitySet Name="VanLangUsers" EntityType="Model.VanLangUser" />
     <EntitySet Name="YearStudies" EntityType="Model.YearStudy" />
-    <EntitySet Name="StatusInternviews" EntityType="Model.StatusInternview" />
     <AssociationSet Name="FK_BusinessCooperationCategories_BusinessUser" Association="Model.FK_BusinessCooperationCategories_BusinessUser">
       <End Role="BusinessUser" EntitySet="BusinessUsers" />
       <End Role="BusinessCooperationCategory" EntitySet="BusinessCooperationCategories" />
@@ -78,10 +77,6 @@
     </AssociationSet>
     <AssociationSet Name="FK_Registration_Semester" Association="Model.FK_Registration_Semester">
       <End Role="Semester" EntitySet="Semesters" />
-      <End Role="Registration" EntitySet="Registrations" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Registration_StatusInternview" Association="Model.FK_Registration_StatusInternview">
-      <End Role="StatusInternview" EntitySet="StatusInternviews" />
       <End Role="Registration" EntitySet="Registrations" />
     </AssociationSet>
     <AssociationSet Name="FK_Registration_VanLangUser" Association="Model.FK_Registration_VanLangUser">
@@ -228,12 +223,11 @@
     <Property Name="Business_ID" Type="Int32" Nullable="false" />
     <Property Name="InterviewResult" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="InterviewResultComment" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-    <Property Name="StatusInternview_ID" Type="Int32" />
-    <Property Name="RegistrationPosition" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="StatusInternview" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="StatusRegistration" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="BusinessUser" Relationship="Model.FK_Registration_BusinessUser" FromRole="Registration" ToRole="BusinessUser" />
     <NavigationProperty Name="Post" Relationship="Model.FK_Registration_Post" FromRole="Registration" ToRole="Post" />
     <NavigationProperty Name="Semester" Relationship="Model.FK_Registration_Semester" FromRole="Registration" ToRole="Semester" />
-    <NavigationProperty Name="StatusInternview" Relationship="Model.FK_Registration_StatusInternview" FromRole="Registration" ToRole="StatusInternview" />
     <NavigationProperty Name="VanLangUser" Relationship="Model.FK_Registration_VanLangUser" FromRole="Registration" ToRole="VanLangUser" />
   </EntityType>
   <EntityType Name="Semester">
@@ -309,14 +303,6 @@
     <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="YearStudy1" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="Semesters" Relationship="Model.FK_Semester_YearStudy" FromRole="YearStudy" ToRole="Semester" />
-  </EntityType>
-  <EntityType Name="StatusInternview">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="Registrations" Relationship="Model.FK_Registration_StatusInternview" FromRole="StatusInternview" ToRole="Registration" />
   </EntityType>
   <Association Name="FK_BusinessCooperationCategories_BusinessUser">
     <End Type="Model.BusinessUser" Role="BusinessUser" Multiplicity="1" />
@@ -507,18 +493,6 @@
       </Principal>
       <Dependent Role="Registration">
         <PropertyRef Name="Semester_ID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Registration_StatusInternview">
-    <End Type="Model.StatusInternview" Role="StatusInternview" Multiplicity="0..1" />
-    <End Type="Model.Registration" Role="Registration" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="StatusInternview">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="Registration">
-        <PropertyRef Name="StatusInternview_ID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

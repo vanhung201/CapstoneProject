@@ -17,7 +17,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         // GET: Faculty/Registrations
         public ActionResult Index()
         {
-            var registrations = db.Registrations.Include(r => r.BusinessUser).Include(r => r.Post).Include(r => r.Semester).Include(r => r.StatusInternview).Include(r => r.VanLangUser);
+            var registrations = db.Registrations.Include(r => r.BusinessUser).Include(r => r.Post).Include(r => r.Semester).Include(r => r.VanLangUser);
             return View(registrations.ToList());
         }
 
@@ -44,7 +44,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
             ViewBag.Business_ID = new SelectList(db.BusinessUsers, "ID", "Username");
             ViewBag.Post_ID = new SelectList(db.Posts, "ID", "Title");
             ViewBag.Semester_ID = new SelectList(db.Semesters, "ID", "Semester1");
-            ViewBag.StatusInternview_ID = new SelectList(db.StatusInternviews, "ID", "Status");
+           
             ViewBag.Email_VanLang = new SelectList(db.VanLangUsers, "Email", "FullName");
             return View();
         }
@@ -66,7 +66,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
             ViewBag.Business_ID = new SelectList(db.BusinessUsers, "ID", "Username", registration.Business_ID);
             ViewBag.Post_ID = new SelectList(db.Posts, "ID", "Title", registration.Post_ID);
             ViewBag.Semester_ID = new SelectList(db.Semesters, "ID", "Semester1", registration.Semester_ID);
-            ViewBag.StatusInternview_ID = new SelectList(db.StatusInternviews, "ID", "Status", registration.StatusInternview_ID);
+            
             ViewBag.Email_VanLang = new SelectList(db.VanLangUsers, "Email", "FullName", registration.Email_VanLang);
             return View(registration);
         }
@@ -86,7 +86,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
             ViewBag.Business_ID = new SelectList(db.BusinessUsers, "ID", "Username", registration.Business_ID);
             ViewBag.Post_ID = new SelectList(db.Posts, "ID", "Title", registration.Post_ID);
             ViewBag.Semester_ID = new SelectList(db.Semesters, "ID", "Semester1", registration.Semester_ID);
-            ViewBag.StatusInternview_ID = new SelectList(db.StatusInternviews, "ID", "Status", registration.StatusInternview_ID);
+           
             ViewBag.Email_VanLang = new SelectList(db.VanLangUsers, "Email", "FullName", registration.Email_VanLang);
             return View(registration);
         }
@@ -107,7 +107,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
             ViewBag.Business_ID = new SelectList(db.BusinessUsers, "ID", "Username", registration.Business_ID);
             ViewBag.Post_ID = new SelectList(db.Posts, "ID", "Title", registration.Post_ID);
             ViewBag.Semester_ID = new SelectList(db.Semesters, "ID", "Semester1", registration.Semester_ID);
-            ViewBag.StatusInternview_ID = new SelectList(db.StatusInternviews, "ID", "Status", registration.StatusInternview_ID);
+          
             ViewBag.Email_VanLang = new SelectList(db.VanLangUsers, "Email", "FullName", registration.Email_VanLang);
             return View(registration);
         }

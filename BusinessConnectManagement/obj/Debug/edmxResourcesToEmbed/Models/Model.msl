@@ -96,8 +96,8 @@
     <EntitySetMapping Name="Registrations">
       <EntityTypeMapping TypeName="Model.Registration">
         <MappingFragment StoreEntitySet="Registration">
-          <ScalarProperty Name="RegistrationPosition" ColumnName="RegistrationPosition" />
-          <ScalarProperty Name="StatusInternview_ID" ColumnName="StatusInternview_ID" />
+          <ScalarProperty Name="StatusRegistration" ColumnName="StatusRegistration" />
+          <ScalarProperty Name="StatusInternview" ColumnName="StatusInternview" />
           <ScalarProperty Name="InterviewResultComment" ColumnName="InterviewResultComment" />
           <ScalarProperty Name="InterviewResult" ColumnName="InterviewResult" />
           <ScalarProperty Name="Business_ID" ColumnName="Business_ID" />
@@ -167,14 +167,6 @@
       <EntityTypeMapping TypeName="Model.YearStudy">
         <MappingFragment StoreEntitySet="YearStudy">
           <ScalarProperty Name="YearStudy1" ColumnName="YearStudy" />
-          <ScalarProperty Name="ID" ColumnName="ID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="StatusInternviews">
-      <EntityTypeMapping TypeName="Model.StatusInternview">
-        <MappingFragment StoreEntitySet="StatusInternview">
-          <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="ID" ColumnName="ID" />
         </MappingFragment>
       </EntityTypeMapping>

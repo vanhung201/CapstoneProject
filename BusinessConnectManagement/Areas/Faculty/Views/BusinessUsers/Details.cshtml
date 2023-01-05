@@ -17,13 +17,10 @@
                     <div class="col l-6">
                         <div class="form-group">
                             <label class="form-label">Mã Doanh Nghiệp</label>
-                            @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-input" } })
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label" hidden></label>
-                            @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                            @Html.EditorFor(model => model.ID, new { htmlAttributes = new { @class = "form-input", disabled = "true" } })
                         </div>
                     </div>
+
                     <div class="col l-6">
                         <div class="form-group">
                             <label class="form-label">Tên Doanh Nghiệp</label>
@@ -36,19 +33,8 @@
                     </div>
                     <div class="col l-6">
                         <div class="form-group">
-                            <label class="form-label">Mật Khẩu</label>
-                            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-input" } })
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label" hidden></label>
-                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-                        </div>
-
-                    </div>
-                    <div class="col l-6">
-                        <div class="form-group">
                             <label for="stat" class="form-label">Trạng Thái</label>
-                            <select name="Status_ID" id="" class="form-select">
+                            <select name="Status_ID" id="" class="form-input">
                                 @foreach (var item in ViewBag.StatusList)
                                 {
                                     if (item.ID == Model.Status_ID)
@@ -64,6 +50,28 @@
                             </select>
                         </div>
                     </div>
+                    <div class="col l-6">
+                        <div class="form-group">
+                            <label class="form-label">Tên Đăng Nhập</label>
+                            @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-input" } })
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" hidden></label>
+                            @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col l-6">
+                        <div class="form-group">
+                            <label class="form-label">Mật Khẩu</label>
+                            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-input" } })
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" hidden></label>
+                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                        </div>
+
+                    </div>
+
                     <div class="col l-6">
                         <div class="form-group">
                             <label for="lastAccess" class="form-label">Lần truy cập cuối</label>
@@ -152,8 +160,7 @@
                             @Html.ValidationMessageFor(model => model.EmailContact, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                    <div class="col l-6">
-                    </div>
+                    
                     <div class="col l-6">
                         <div class="form-group">
                             <input id="CoopId" type="text" value="" name="ArrCoopId" hidden />
@@ -183,8 +190,8 @@
                             <label for="logo" class="form-label">Logo</label>
                             <div style="display: flex; flex-direction: column">
                                 <img src="@Url.Content("~/Image/"+ Model.BusinessLogo)" style="width: 22rem; height:fit-content; margin: 0 0 1rem 0;" />
-                                <input name="logo" class="form-input" type="file" id="logo"
-                                       accept="image/png, image/gif, image/jpeg" (change)="onFileChange($event)" />
+                                <input name="logo" class="form-input" onchange="validateSize(this)" type="file" id="logo"
+                                       accept="image/png, image/gif, image/jpeg" />
                                 <input name="BusinessLogo" id="img" value="@Model.BusinessLogo" hidden />
                             </div>
                         </div>
@@ -192,9 +199,9 @@
                 </div>
                 </div>
             <div class="button-wrapper">
-                <a class="btn btn-action btn--detail" href="@Url.Action("Index", "BusinessUsers")">Trở Về</a>
+                <a class="btn btn--back" href="@Url.Action("Index", "BusinessUsers")">Trở Về</a>
                 @* <button class="btn btn-action btn--create" onclick="getValueCheckBoxAndSubmit()">Thêm</button>*@
-                <button class="btn btn-action btn--update" type="submit" onclick="checkImage()" >Cập Nhật</button>
+                <button class="btn btn--update" type="submit" onclick="checkImage()" >Cập Nhật</button>
             </div>
         </div>
     </form>
@@ -202,11 +209,30 @@
 
 @section Scripts {
     <script type="text/javascript">
-         function onFileChange(event) {
+        function validateSize(input) {
+            var fup = document.getElementById('logo');
+            var fileName = fup.value;
+            var ext = fileName.substring(fileName.lastIndexOf('.') + 1);
+            if (fileName == '' || ext == "gif" || ext == "GIF" || ext == "PNG" || ext == "png" || ext == "jpg" || ext == "JPG" || ext == "bmp" || ext == "BMP") {
+                const fileSize = input.files[0].size / 1024 / 1024; // in MiB
+                var fup = document.getElementById('logo');
+                if (fileSize < 2) {
+                    $("#logo").prop('required', false);
+                    return true;
+                } else {
+                    // Proceed further
+                    alert('Dung lượng hình ảnh không vượt quá 2MiB');
+                    fup.value = '';
+                    return false;
+                }
+                return true;
+            }
+            else {
+                fup.value = '';
+                alert("Chỉ được tải lên hình ảnh dạng PNG, JPG, GIF và BMP");
 
-            var blob = document.getElementById('img').value;
-            console.log(blob)
-            //console.log(newFile)
+                return false;
+            }
         }
 
         function checkImage() {
@@ -219,23 +245,6 @@
             $("#CoopId").val(arrayCheckbox);
             $("#createBusiness");
             //Validate only get image
-            var fup = document.getElementById('logo');
-            var fileName = fup.value;
-            var ext = fileName.substring(fileName.lastIndexOf('.') + 1);
-            if (fileName == '' || ext == "gif" || ext == "GIF" || ext == "PNG" || ext == "png" || ext == "jpg" || ext == "JPG" || ext == "bmp" || ext == "BMP" ) {
-                $("#logo").prop('required', false);
-                return true;
-            }
-            else {
-                fup.value = '';
-                alert("Chỉ được tải lên hình ảnh dạng PNG, JPG, GIF và BMP");
-                $("#logo").prop('required', true);
-                return false;
-               
-               
-            }
-           
-
         }
 
        

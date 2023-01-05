@@ -24,6 +24,10 @@
                             <label class="form-label">Tiêu đề</label>
                             @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-input" } })
                         </div>
+                        <div class="form-group">
+                            <label class="form-label" hidden></label>
+                            @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                        </div>
                     </div>
                     <div class="col l-6">
                         <div class="form-group">
@@ -63,7 +67,7 @@
                             <label for="logo" class="form-label">Logo</label>
                             <div style="display: flex; flex-direction: column">
                                 <img src="@Url.Content("~/Image/"+ Model.PostImage)" style="width: 22rem; height:fit-content; margin: 0 0 1rem 0;" />
-                                <input name="logo" class="form-input" type="file" id="logo"
+                                <input name="logo" onchange="validateSize(this)" class="form-input" type="file" id="logo"
                                        accept="image/png, image/gif, image/jpeg" />
                                 @Html.HiddenFor(model => model.PostImage)
                             </div>
@@ -82,7 +86,7 @@
             </div>
             <div class="button-wrapper">
                 <a class="btn btn-action btn--detail" href="@Url.Action("Index", "Posts")">Trở Về</a>
-                <button class="btn btn-action btn--update" onclick="getValueCheckBoxAndSubmit()" type="submit">Cập nhật</button>
+                <button class="btn btn--update"  onclick="checkImage()" type="submit" >Cập nhật</button>
             </div>
         </div>
     </section>
@@ -92,16 +96,36 @@
     <script type="text/javascript" src="@Url.Content("~/assets/js/ckeditor/ckeditor.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/assets/js/ckfinder/ckfinder.js")"></script>
     <script type="text/javascript">
-        function getValueCheckBoxAndSubmit() {
-            $("#updateForm").save();
-        }
+        
+        function validateSize(input) {
+            
 
-        var editor = CKEDITOR.instances['editor1'];
-	 	    if (editor) { editor.destroy(true); }
-		    CKEDITOR.replace('Explanation', {
-		        enterMode: CKEDITOR.ENTER_BR,
-		    });
-		    CKFinder.setupCKEditor(null, '@Url.Content("~/ckfinder")');
+            var fup = document.getElementById('logo');
+            var fileName = fup.value;
+            var ext = fileName.substring(fileName.lastIndexOf('.') + 1);
+            if (fileName == '' || ext == "gif" || ext == "GIF" || ext == "PNG" || ext == "png" || ext == "jpg" || ext == "JPG" || ext == "bmp" || ext == "BMP") {
+                const fileSize = input.files[0].size / 1024 / 1024; // in MiB
+                var fup = document.getElementById('logo');
+                if (fileSize < 2) {
+                    $("#logo").prop('required', false);
+                    return true;
+                } else {
+                    // Proceed further
+                    alert('Dung lượng hình ảnh không vượt quá 2MiB');
+                    fup.value = '';
+                    return false;
+                }
+                return true;
+            }
+            else {
+                fup.value = '';
+                alert("Chỉ được tải lên hình ảnh dạng PNG, JPG, GIF và BMP");
+               
+                return false;
+            }
+        }
+        
+        CKEDITOR.replace('Explanation');
 
 
     </script>

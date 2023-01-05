@@ -24,13 +24,12 @@ namespace BusinessConnectManagement.Models
         public int Business_ID { get; set; }
         public string InterviewResult { get; set; }
         public string InterviewResultComment { get; set; }
-        public Nullable<int> StatusInternview_ID { get; set; }
-        public string RegistrationPosition { get; set; }
+        public string StatusInternview { get; set; }
+        public string StatusRegistration { get; set; }
     
         public virtual BusinessUser BusinessUser { get; set; }
         public virtual Post Post { get; set; }
         public virtual Semester Semester { get; set; }
-        public virtual StatusInternview StatusInternview { get; set; }
         public virtual VanLangUser VanLangUser { get; set; }
     }
 }

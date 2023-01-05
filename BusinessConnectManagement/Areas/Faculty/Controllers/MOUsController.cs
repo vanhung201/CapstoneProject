@@ -46,7 +46,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         // GET: Faculty/MOUs/Create
         public ActionResult Create()
         {
-            ViewBag.Business_ID = new SelectList(db.BusinessUsers, "Business_ID", "Password");
+            ViewBag.Business_ID = db.BusinessUsers.ToList();
             
             return View();
         }
@@ -56,7 +56,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
 
-        public ActionResult Create([Bind(Include = "ID,Business_ID,SignDay,Signer,ContactName,ContactPhone,EmailContact,ResponsibleName")] MOU mOU)
+        public ActionResult Create([Bind(Include = "ID,Business_ID,SignDay,Signer,ContactName,ContactPhone,EmailContact,ResponsibleName")] MOU mOU, HttpPostedFileBase logo)
         {
             if (ModelState.IsValid)
             {

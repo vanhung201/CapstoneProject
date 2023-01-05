@@ -50,6 +50,9 @@
   display: flex;
   align-items: center;
 }
+    .form-group .text-danger field-validation-error {
+        color: red;
+    }
 
 .form-group:last-child {
   justify-content: center;
@@ -234,3 +237,4 @@
 .container input:checked~.checkmark:after {
   display: block;
 }
+

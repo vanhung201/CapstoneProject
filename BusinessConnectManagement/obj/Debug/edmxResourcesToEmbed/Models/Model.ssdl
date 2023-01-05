@@ -99,8 +99,8 @@
     <Property Name="Business_ID" Type="int" Nullable="false" />
     <Property Name="InterviewResult" Type="nvarchar" MaxLength="50" />
     <Property Name="InterviewResultComment" Type="nvarchar" MaxLength="250" />
-    <Property Name="StatusInternview_ID" Type="int" />
-    <Property Name="RegistrationPosition" Type="nvarchar" MaxLength="50" />
+    <Property Name="StatusInternview" Type="nvarchar" MaxLength="30" />
+    <Property Name="StatusRegistration" Type="nvarchar" MaxLength="30" />
   </EntityType>
   <EntityType Name="Semester">
     <Key>
@@ -155,13 +155,6 @@
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="YearStudy" Type="varchar" MaxLength="15" />
-  </EntityType>
-  <EntityType Name="StatusInternview">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Status" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <Association Name="FK_BusinessCooperationCategories_BusinessUser">
     <End Role="BusinessUser" Type="Self.BusinessUser" Multiplicity="1" />
@@ -343,18 +336,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Registration_StatusInternview">
-    <End Role="StatusInternview" Type="Self.StatusInternview" Multiplicity="0..1" />
-    <End Role="Registration" Type="Self.Registration" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="StatusInternview">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="Registration">
-        <PropertyRef Name="StatusInternview_ID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_Registration_VanLangUser">
     <End Role="VanLangUser" Type="Self.VanLangUser" Multiplicity="0..1" />
     <End Role="Registration" Type="Self.Registration" Multiplicity="*" />
@@ -454,7 +435,6 @@
     <EntitySet Name="Trainee" EntityType="Self.Trainee" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="VanLangUser" EntityType="Self.VanLangUser" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="YearStudy" EntityType="Self.YearStudy" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="StatusInternview" EntityType="Self.StatusInternview" Schema="fit89398_CAP" store:Type="Tables" />
     <AssociationSet Name="FK_BusinessCooperationCategories_BusinessUser" Association="Self.FK_BusinessCooperationCategories_BusinessUser">
       <End Role="BusinessUser" EntitySet="BusinessUser" />
       <End Role="BusinessCooperationCategories" EntitySet="BusinessCooperationCategories" />
@@ -513,10 +493,6 @@
     </AssociationSet>
     <AssociationSet Name="FK_Registration_Semester" Association="Self.FK_Registration_Semester">
       <End Role="Semester" EntitySet="Semester" />
-      <End Role="Registration" EntitySet="Registration" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Registration_StatusInternview" Association="Self.FK_Registration_StatusInternview">
-      <End Role="StatusInternview" EntitySet="StatusInternview" />
       <End Role="Registration" EntitySet="Registration" />
     </AssociationSet>
     <AssociationSet Name="FK_Registration_VanLangUser" Association="Self.FK_Registration_VanLangUser">

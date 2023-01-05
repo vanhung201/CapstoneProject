@@ -12,7 +12,6 @@
         <div class="grid wide">
             <div class="tab-content">
                 <div class="row">
-
                     <div class="col l-6">
                         <div class="form-group">
                             <label for="ddlBussines_ID" class="form-label">Mã Doanh Nghiệp</label>
@@ -37,7 +36,7 @@
                                     <label class="container">
                                         @item.CooperationCategoriesName
 
-                                        <input type="checkbox" value="@item.ID" />
+                                        <input type="checkbox" value="@item.ID" required />
                                         <span class="checkmark"></span>
                                     </label>
                                 }
@@ -47,8 +46,8 @@
                 </div>
             </div>
             <div class="button-wrapper">
-                <a class="btn btn-action btn--detail" href="@Url.Action("Index", "BusinessCooperationCategories")">Trở Về</a>
-                <button class="btn btn-action btn--create" type="submit" onclick="getValueCheckBoxAndSubmit()">Thêm</button>
+                <a class="btn btn--back" href="@Url.Action("Index", "BusinessCooperationCategories")">Trở Về</a>
+                <button class="btn btn--add" type="submit" onclick="getValueCheckBoxAndSubmit()">Thêm</button>
             </div>
         </div>
     </form>
@@ -56,6 +55,7 @@
 @section Scripts {
     <script type="text/javascript">
         function getValueCheckBoxAndSubmit() {
+            
             let arrayCheckbox = "";
             var allCheckBox = document.querySelectorAll("#checkBoxCoop > .container > input[type='checkbox']:checked");
             for (let i = 0; i < allCheckBox.length; i++) {
@@ -63,6 +63,10 @@
             }
             $("#ArrCoopId").val(arrayCheckbox);
             $("#createBusiness").submit();
+            if (!this.form.checkbox.checked) {
+                alert('You must agree to the terms first.');
+                return false;
+            }
         }
     </script>
 }

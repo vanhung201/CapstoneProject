@@ -9,7 +9,7 @@
     <h1 class="list-heading">Danh sách Ký kết MOU</h1>
     <div class="list-table">
         <div id="filterEvent">
-            <a>
+            <a href="@Url.Action("Create", "MOUs")">
                 <div class="btn btn--create">
                     <i class="btn-icon btn-icon--create fas fa-plus"></i>
                     <span class="btn-text">Thêm</span>
@@ -74,18 +74,18 @@
     </div>
 </section>
 
-<form action="@Url.Action("Create", "MOUs")" class="form" id="addForm" method="post">
+<!--<form action="Url.Action("Create", "MOUs")" class="form" id="addForm" method="post">
     <div class="form-container">
 
         <i class="form-icon fas fa-times-circle" onclick="removeForm()"></i>
         <h1 class="form-heading">Thêm ký kết MOU</h1>
         <div class="form-group">
-            <label for="ddlBussines_ID" class="form-label">Mã Doanh Nghiệp</label>
-            @* <input list="" name="Business_ID" id="businessID" class="form-input" autocomplete="off" required />*@
-            <select name="Business_ID" id="ddlBussines_ID" class="form-select">
-                @foreach (var item in ViewBag.Business_ID)
+            <label for="ddlBussines_ID" class="form-label">Mã Doanh Nghiệp</label>-->
+           @* <input list="" name="Business_ID" id="businessID" class="form-input" autocomplete="off" required />*@
+            <!--<select name="Business_ID" id="ddlBussines_ID" class="form-select">
+                foreach (var item in ViewBag.Business_ID)
                 {
-                    <option value=@item.ID>@item.BusinessName</option>
+                    <option value=item.ID>item.BusinessName</option>
                 }
 
             </select>
@@ -116,12 +116,12 @@
             <input list="" name="ResponsibleName" id="reponsibile" class="form-input" autocomplete="off" required />
         </div>
         <div class="form-group">
-            <button class="btn btn-action btn--update" onclick="Submit() type="submit" >Xác Nhận</button>
+            <button class="btn btn-action btn--update" onclick="Submit()" type="submit" >Xác Nhận</button>
         </div>
 
     </div>
 
-</form>
+</form>-->
 
 <form action="@Url.Action("Delete", "MOUs")" class="form" id="deleteForm" method="post">
     @{using (Html.BeginForm())
@@ -156,22 +156,29 @@
             document.getElementById('iddele').value = id;
             $('#namedele').text(name) 
         }
-        $(function (){
-            var fup = document.getElementById('checkRespon');
-            let a = fup.getElementsByClassName('abc');
-            var file = a.value;
-
-            if (file == null) {
-
-                $('#checkRespon').prop('hidden', false);
-
-
+        function Submit(){
+            var signer = document.getElementById('signer').value;
+            var contactName = document.getElementById('contactName').value;
+            var phone = document.getElementById('phone').value;
+            var email = document.getElementById('email').value;
+            var reponsibile = document.getElementById('reponsibile').value;
+                
+            if (signer.trim() == "" || contactName.trim() == "" || phone.trim() == "" || email.trim() == "" || reponsibile.trim() == "") {
+                alert("Vui lòng không nhập khoảng trắng!")
+                var check = null;
+                document.getElementById('signer').value = check;
+                document.getElementById('contactName').value = check;
+                document.getElementById('phone').value = check;
+                document.getElementById('email').value = check;
+                document.getElementById('reponsibile').value = check;
+               
+                return false;
             } else {
-                $('#checkRespon').prop('hidden', true);
-
+                return true;
+                $("#addForm");
             }
             
-        });
+        }
        
 
     </script>

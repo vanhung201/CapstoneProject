@@ -33,7 +33,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         public ActionResult Index(BusinessCooperationCategory businessCooperationCategory)
         {
             var businessUser = db.BusinessUsers.ToList();
-            int count = 1;
+            int count = 0;
             var CoopListCoop = db.BusinessCooperationCategories.ToList();
             List<CooperationCategoriesGet> cooperationCategoriesget = new List<CooperationCategoriesGet>();
             List<CooperationCategoriesGet> cooperationCategoriesgetTest = new List<CooperationCategoriesGet>();
@@ -63,11 +63,11 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                 
                 index++;
             }
-            for(int i = 0; i < listBusinessId.Count(); i++)
+            for(int i = 0; i+1 < listBusinessId.Count + 1; i++)
             {
                 cooperationCategoriesgetTest.Add(new CooperationCategoriesGet { id=listBusinessId[i], name = listBusinessName[i], value = listBusinessValue[i] });
             }
-            ViewBag.demo = cooperationCategoriesgetTest;
+                ViewBag.demo = cooperationCategoriesgetTest;
             return View(db.BusinessUsers.ToList());
         }
         // GET: Faculty/BusinessCooperationCategories/Details/5
@@ -105,12 +105,10 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
 
-        public ActionResult Create(BusinessCooperationCategory BCC, string ArrCoopId, int ddlBussines_ID, BusinessUser businessUser)
+        public ActionResult Create(BusinessCooperationCategory BCC, string ArrCoopId, int ddlBussines_ID )
         {
             if (ModelState.IsValid)
             {
-
-               
 
                 string[] arrayCoop = ArrCoopId.Split(',');
                     for (int i = 0; i < arrayCoop.Length - 1; i++)
@@ -120,17 +118,22 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                         db.BusinessCooperationCategories.Add(BCC);
                         db.SaveChanges();
                     }
-
-                /*}*/
-                db.BusinessCooperationCategories.Add(BCC);
-                db.SaveChanges();
+               
+                ViewBag.Business_ID = db.MOUs.ToList();
+                var viewbag = db.CooperationCategories.ToList();
+                ViewBag.CooperationCategories = viewbag.ToList();
                 return RedirectToAction("Index");
 
             }
+            else
+            {
+                return View(BCC);
+            }
+           
+           
 
-            ViewBag.Business_ID = new SelectList(db.BusinessUsers, "ID", "Username", BCC.Business_ID);
-            ViewBag.CooperationCategories_ID = new SelectList(db.CooperationCategories, "ID", "CooperationCategoriesName", BCC.CooperationCategories_ID);
-            return View(BCC);
+
+
         }
 
         // GET: Faculty/BusinessCooperationCategories/Edit/5

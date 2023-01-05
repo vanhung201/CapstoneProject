@@ -59,14 +59,15 @@
             <input list="" name="MentorComment" id="mentorc" class="form-input" hidden/>
             <input list="" name="BusinessPoint" id="businessp" class="form-input" hidden/>
             <input list="" name="RegistrationPosition" id="rp" class="form-input" hidden/>
-            <select name="Status" id="Status" class="form-select">
+
+            <select name="Status" id="Status" class="form-input">
                 <option class="text-center" value="Chưa Hoàn Thành">Chưa Hoàn Thành</option>
                 <option class="text-center" value="Hoàn Thành">Hoàn Thành</option>
 
             </select>
         </div>
         <div class="form-group">
-            <button type="submit" class="form-button">Lưu</button>
+            <button  type="submit" class="btn btn--add">Lưu</button>
         </div>
     </div>
 </form>
@@ -87,10 +88,7 @@
             document.getElementById('mentorc').value = mentorc;
             document.getElementById('businessp').value = businessp;
             document.getElementById('rp').value = rp;
-            document.getElementById('bcm').value = bcm;
-          
-            
-        }
+            document.getElementById('bcm').value = bcm;        }
 
 
     </script>
