@@ -1,4 +1,5 @@
-﻿using BusinessConnectManagement.Models;
+﻿using BusinessConnectManagement.Middleware;
+using BusinessConnectManagement.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -9,7 +10,7 @@ using System.Web.Mvc;
 
 namespace BusinessConnectManagement.Areas.Faculty.Controllers
 {
-    [Authorize]
+    [LoginVerification]
     public class MOUsController : Controller
     {
         private BCMEntities db = new BCMEntities();

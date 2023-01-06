@@ -20,7 +20,7 @@ namespace BusinessConnectManagement.Models
         {
             this.Registrations = new HashSet<Registration>();
         }
-    
+
         public int ID { get; set; }
         [Required(ErrorMessage = "Vui lòng nhập tên tiêu đề.")]
         [RegularExpression(@"^.*\S.*$", ErrorMessage = "Vui lòng nhập tên tiêu đề.")]
@@ -32,7 +32,7 @@ namespace BusinessConnectManagement.Models
         public Nullable<int> Semester_ID { get; set; }
         public string PostImage { get; set; }
         public Nullable<int> Business_ID { get; set; }
-    
+
         public virtual BusinessUser BusinessUser { get; set; }
         public virtual Semester Semester { get; set; }
         public virtual VanLangUser VanLangUser { get; set; }

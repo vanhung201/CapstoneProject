@@ -8,10 +8,12 @@ using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Web.Services.Description;
+using BusinessConnectManagement.Middleware;
 using BusinessConnectManagement.Models;
 
 namespace BusinessConnectManagement.Areas.Business.Controllers
 {
+    [BusinessVerification]
     public class InternViewsController : Controller
     {
         private BCMEntities db = new BCMEntities();
@@ -19,7 +21,6 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
         // GET: Business/InternViews
         public ActionResult Index()
         {
-           
             var registrations = db.Registrations.Include(r => r.BusinessUser).Include(r => r.Post).Include(r => r.Semester).Include(r => r.VanLangUser);
            
             return View(registrations.ToList());
@@ -32,11 +33,14 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Registration registration = db.Registrations.Find(id);
+
             if (registration == null)
             {
                 return HttpNotFound();
             }
+
             return View(registration);
         }
 
@@ -47,6 +51,7 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
             ViewBag.Post_ID = new SelectList(db.Posts, "ID", "Title");
             ViewBag.Semester_ID = new SelectList(db.Semesters, "ID", "Semester1");
             ViewBag.Email_VanLang = new SelectList(db.VanLangUsers, "Email", "FullName");
+
             return View();
         }
 
@@ -61,6 +66,7 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
             {
                 db.Registrations.Add(registration);
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
 
@@ -68,6 +74,7 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
             ViewBag.Post_ID = new SelectList(db.Posts, "ID", "Title", registration.Post_ID);
             ViewBag.Semester_ID = new SelectList(db.Semesters, "ID", "Semester1", registration.Semester_ID);
             ViewBag.Email_VanLang = new SelectList(db.VanLangUsers, "Email", "FullName", registration.Email_VanLang);
+            
             return View(registration);
         }
 
@@ -78,15 +85,19 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Registration registration = db.Registrations.Find(id);
+
             if (registration == null)
             {
                 return HttpNotFound();
             }
+
             ViewBag.Business_ID = new SelectList(db.BusinessUsers, "ID", "Username", registration.Business_ID);
             ViewBag.Post_ID = new SelectList(db.Posts, "ID", "Title", registration.Post_ID);
             ViewBag.Semester_ID = new SelectList(db.Semesters, "ID", "Semester1", registration.Semester_ID);
             ViewBag.Email_VanLang = new SelectList(db.VanLangUsers, "Email", "FullName", registration.Email_VanLang);
+            
             return View(registration);
         }
 
@@ -94,19 +105,21 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-       
         public ActionResult Edit([Bind(Include = "ID,Email_VanLang,Post_ID,Semester_ID,CV,RegistrationDate,RegistrationModify,Business_ID,InterviewResult,InterviewResultComment,StatusInternview,StatusRegistration")] Registration registration)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(registration).State = EntityState.Modified;
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
+
             ViewBag.Business_ID = new SelectList(db.BusinessUsers, "ID", "Username", registration.Business_ID);
             ViewBag.Post_ID = new SelectList(db.Posts, "ID", "Title", registration.Post_ID);
             ViewBag.Semester_ID = new SelectList(db.Semesters, "ID", "Semester1", registration.Semester_ID);
             ViewBag.Email_VanLang = new SelectList(db.VanLangUsers, "Email", "FullName", registration.Email_VanLang);
+            
             return View(registration);
         }
 
@@ -117,11 +130,14 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Registration registration = db.Registrations.Find(id);
+
             if (registration == null)
             {
                 return HttpNotFound();
             }
+
             return View(registration);
         }
 
@@ -131,8 +147,10 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Registration registration = db.Registrations.Find(id);
+
             db.Registrations.Remove(registration);
             db.SaveChanges();
+
             return RedirectToAction("Index");
         }
 
@@ -142,6 +160,7 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
             {
                 db.Dispose();
             }
+
             base.Dispose(disposing);
         }
     }

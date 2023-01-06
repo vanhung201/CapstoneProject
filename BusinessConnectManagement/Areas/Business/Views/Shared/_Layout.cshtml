@@ -24,11 +24,10 @@
 </head>
 
 <body>
-   
+
     <section class="menu">
-        <a href="@Url.Action("Index", "Home")" class="menu-image">
-            <img src="~/assets/images/logoVL.png" />
-            
+        <a href="@Url.Action("Index", "BusinessHome")" class="menu-image">
+            <img src="~/assets/images/logoVL.png" alt="logoVL.png" />
             <span class="menu-title">Business Connection Management</span>
         </a>
         <ul class="menu-list">
@@ -65,17 +64,20 @@
 
     @RenderBody()
 
+    <section class="footer">&copy; Phần mềm BCM thuộc về khoa CNTT, Trường Đại học Văn Lang</section>
+
 </body>
 
 @RenderSection("scripts", required: false)
 
+<script src="~/assets/js/greet.js"></script>
+<script src="~/assets/js/time.js"></script>
 <script src="~/assets/js/admin.js"></script>
 <script src="~/Scripts/jquery-3.4.1.js"></script>
 <script src="~/Scripts/jquery.validate.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-
 <script src="~/Scripts/chosen.jquery.js"></script>
 <script src="~/assets/js/datatable/dataTable.min.js"></script>
 
@@ -85,16 +87,13 @@
         $("#table_id_filter").prepend($("#filterEvent")).clone();
     });
 
-    
     let formUpdate = document.getElementById("updateForm");
-    
     let icon = document.querySelector(".form-icon");
     let isHide = "is-hide";
     let isAppear = "is-appear";
-    
+
     $(".form-icon").on("click", function () {
         formUpdate.classList.remove(isAppear);
     })
 
-   
 </script>

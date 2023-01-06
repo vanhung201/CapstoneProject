@@ -24,7 +24,7 @@ namespace BusinessConnectManagement.Models
             this.Posts = new HashSet<Post>();
             this.Registrations = new HashSet<Registration>();
         }
-    
+
         public int ID { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
@@ -50,7 +50,7 @@ namespace BusinessConnectManagement.Models
         [RegularExpression("^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", ErrorMessage = "E-mail không hợp lệ.")]
         [EmailAddress(ErrorMessage = "E-mail không hợp lệ.")]
         public string EmailContact { get; set; }
-    
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BusinessCooperationCategory> BusinessCooperationCategories { get; set; }
         public virtual Status Status { get; set; }

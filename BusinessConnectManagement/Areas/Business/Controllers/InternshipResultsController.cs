@@ -6,10 +6,12 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using BusinessConnectManagement.Middleware;
 using BusinessConnectManagement.Models;
 
 namespace BusinessConnectManagement.Areas.Business.Controllers
 {
+    [BusinessVerification]
     public class InternshipResultsController : Controller
     {
         private BCMEntities db = new BCMEntities();
@@ -18,6 +20,7 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
         public ActionResult Index()
         {
             var internshipResults = db.InternshipResults.Include(i => i.BusinessUser).Include(i => i.Semester).Include(i => i.VanLangUser).Include(i => i.VanLangUser1);
+            
             return View(internshipResults.ToList());
         }
 
@@ -28,11 +31,14 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             InternshipResult internshipResult = db.InternshipResults.Find(id);
+
             if (internshipResult == null)
             {
                 return HttpNotFound();
             }
+
             return View(internshipResult);
         }
 
@@ -43,6 +49,7 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
             ViewBag.Semester_ID = new SelectList(db.Semesters, "ID", "Semester1");
             ViewBag.Student_Email = new SelectList(db.VanLangUsers, "Email", "FullName");
             ViewBag.Mentor_Email = new SelectList(db.VanLangUsers, "Email", "FullName");
+
             return View();
         }
 
@@ -57,6 +64,7 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
             {
                 db.InternshipResults.Add(internshipResult);
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
 
@@ -64,6 +72,7 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
             ViewBag.Semester_ID = new SelectList(db.Semesters, "ID", "Semester1", internshipResult.Semester_ID);
             ViewBag.Student_Email = new SelectList(db.VanLangUsers, "Email", "FullName", internshipResult.Student_Email);
             ViewBag.Mentor_Email = new SelectList(db.VanLangUsers, "Email", "FullName", internshipResult.Mentor_Email);
+            
             return View(internshipResult);
         }
 
@@ -74,15 +83,19 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             InternshipResult internshipResult = db.InternshipResults.Find(id);
+
             if (internshipResult == null)
             {
                 return HttpNotFound();
             }
+
             ViewBag.Business_ID = new SelectList(db.BusinessUsers, "ID", "Username", internshipResult.Business_ID);
             ViewBag.Semester_ID = new SelectList(db.Semesters, "ID", "Semester1", internshipResult.Semester_ID);
             ViewBag.Student_Email = new SelectList(db.VanLangUsers, "Email", "FullName", internshipResult.Student_Email);
             ViewBag.Mentor_Email = new SelectList(db.VanLangUsers, "Email", "FullName", internshipResult.Mentor_Email);
+            
             return View(internshipResult);
         }
 
@@ -97,12 +110,15 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
             {
                 db.Entry(internshipResult).State = EntityState.Modified;
                 db.SaveChanges();
+                
                 return RedirectToAction("Index");
             }
+
             ViewBag.Business_ID = new SelectList(db.BusinessUsers, "ID", "Username", internshipResult.Business_ID);
             ViewBag.Semester_ID = new SelectList(db.Semesters, "ID", "Semester1", internshipResult.Semester_ID);
             ViewBag.Student_Email = new SelectList(db.VanLangUsers, "Email", "FullName", internshipResult.Student_Email);
             ViewBag.Mentor_Email = new SelectList(db.VanLangUsers, "Email", "FullName", internshipResult.Mentor_Email);
+            
             return View(internshipResult);
         }
 
@@ -113,11 +129,14 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             InternshipResult internshipResult = db.InternshipResults.Find(id);
+            
             if (internshipResult == null)
             {
                 return HttpNotFound();
             }
+
             return View(internshipResult);
         }
 
@@ -127,8 +146,10 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             InternshipResult internshipResult = db.InternshipResults.Find(id);
+
             db.InternshipResults.Remove(internshipResult);
             db.SaveChanges();
+
             return RedirectToAction("Index");
         }
 
@@ -138,6 +159,7 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
             {
                 db.Dispose();
             }
+
             base.Dispose(disposing);
         }
     }

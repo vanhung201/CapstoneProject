@@ -26,6 +26,7 @@ namespace BusinessConnectManagement.Models
         public string InterviewResultComment { get; set; }
         public string StatusInternview { get; set; }
         public string StatusRegistration { get; set; }
+        public string Comment { get; set; }
     
         public virtual BusinessUser BusinessUser { get; set; }
         public virtual Post Post { get; set; }

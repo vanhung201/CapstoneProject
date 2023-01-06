@@ -9,7 +9,6 @@
     <EntitySet Name="MOUs" EntityType="BCMModel.MOU" />
     <EntitySet Name="Posts" EntityType="BCMModel.Post" />
     <EntitySet Name="Registrations" EntityType="BCMModel.Registration" />
-    <EntitySet Name="Roles" EntityType="BCMModel.Role" />
     <EntitySet Name="Semesters" EntityType="BCMModel.Semester" />
     <EntitySet Name="Status" EntityType="BCMModel.Status" />
     <EntitySet Name="sysdiagrams" EntityType="BCMModel.sysdiagram" />
@@ -35,6 +34,10 @@
     <AssociationSet Name="FK_MOU_BusinessUser" Association="BCMModel.FK_MOU_BusinessUser">
       <End Role="BusinessUser" EntitySet="BusinessUsers" />
       <End Role="MOU" EntitySet="MOUs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Post_BusinessUser" Association="BCMModel.FK_Post_BusinessUser">
+      <End Role="BusinessUser" EntitySet="BusinessUsers" />
+      <End Role="Post" EntitySet="Posts" />
     </AssociationSet>
     <AssociationSet Name="FK_Registration_BusinessUser" Association="BCMModel.FK_Registration_BusinessUser">
       <End Role="BusinessUser" EntitySet="BusinessUsers" />
@@ -80,10 +83,6 @@
       <End Role="VanLangUser" EntitySet="VanLangUsers" />
       <End Role="Registration" EntitySet="Registrations" />
     </AssociationSet>
-    <AssociationSet Name="FK_VanLangUser_Role" Association="BCMModel.FK_VanLangUser_Role">
-      <End Role="Role" EntitySet="Roles" />
-      <End Role="VanLangUser" EntitySet="VanLangUsers" />
-    </AssociationSet>
     <AssociationSet Name="FK_Semester_YearStudy" Association="BCMModel.FK_Semester_YearStudy">
       <End Role="YearStudy" EntitySet="YearStudies" />
       <End Role="Semester" EntitySet="Semesters" />
@@ -120,7 +119,7 @@
       <PropertyRef Name="ID" />
     </Key>
     <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Business_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="Username" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
     <Property Name="Password" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
     <Property Name="Last_Access" Type="DateTime" Precision="3" />
     <Property Name="Status_ID" Type="Int32" />
@@ -138,6 +137,7 @@
     <NavigationProperty Name="Status" Relationship="BCMModel.FK_BusinessUser_Status" FromRole="BusinessUser" ToRole="Status" />
     <NavigationProperty Name="InternshipResults" Relationship="BCMModel.FK_InternshipResult_BusinessUser" FromRole="BusinessUser" ToRole="InternshipResult" />
     <NavigationProperty Name="MOUs" Relationship="BCMModel.FK_MOU_BusinessUser" FromRole="BusinessUser" ToRole="MOU" />
+    <NavigationProperty Name="Posts" Relationship="BCMModel.FK_Post_BusinessUser" FromRole="BusinessUser" ToRole="Post" />
     <NavigationProperty Name="Registrations" Relationship="BCMModel.FK_Registration_BusinessUser" FromRole="BusinessUser" ToRole="Registration" />
   </EntityType>
   <EntityType Name="CooperationCategory">
@@ -161,6 +161,8 @@
     <Property Name="Business_ID" Type="Int32" Nullable="false" />
     <Property Name="BusinessPoint" Type="Double" />
     <Property Name="BusinessComment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="RegistrationPosition" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="BusinessUser" Relationship="BCMModel.FK_InternshipResult_BusinessUser" FromRole="InternshipResult" ToRole="BusinessUser" />
     <NavigationProperty Name="Semester" Relationship="BCMModel.FK_InternshipResult_Semester" FromRole="InternshipResult" ToRole="Semester" />
     <NavigationProperty Name="VanLangUser" Relationship="BCMModel.FK_InternshipResult_VanLangUser" FromRole="InternshipResult" ToRole="VanLangUser" />
@@ -179,12 +181,13 @@
       <PropertyRef Name="ID" />
     </Key>
     <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Business_ID" Type="Int32" Nullable="false" />
+    <Property Name="Business_ID" Type="Int32" />
     <Property Name="SignDay" Type="DateTime" Precision="0" />
     <Property Name="Signer" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="ContactName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="ContactPhone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
     <Property Name="EmailContact" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="ResponsibleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="BusinessUser" Relationship="BCMModel.FK_MOU_BusinessUser" FromRole="MOU" ToRole="BusinessUser" />
   </EntityType>
   <EntityType Name="Post">
@@ -198,6 +201,9 @@
     <Property Name="PostDay" Type="DateTime" Precision="3" />
     <Property Name="ModifyDay" Type="DateTime" Precision="3" />
     <Property Name="Semester_ID" Type="Int32" />
+    <Property Name="PostImage" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Business_ID" Type="Int32" />
+    <NavigationProperty Name="BusinessUser" Relationship="BCMModel.FK_Post_BusinessUser" FromRole="Post" ToRole="BusinessUser" />
     <NavigationProperty Name="Semester" Relationship="BCMModel.FK_Post_Semester" FromRole="Post" ToRole="Semester" />
     <NavigationProperty Name="VanLangUser" Relationship="BCMModel.FK_Post_VanLangUser" FromRole="Post" ToRole="VanLangUser" />
     <NavigationProperty Name="VanLangUser1" Relationship="BCMModel.FK_Post_VanLangUser1" FromRole="Post" ToRole="VanLangUser" />
@@ -217,19 +223,13 @@
     <Property Name="Business_ID" Type="Int32" Nullable="false" />
     <Property Name="InterviewResult" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="InterviewResultComment" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-    <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="StatusInternview" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="StatusRegistration" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="BusinessUser" Relationship="BCMModel.FK_Registration_BusinessUser" FromRole="Registration" ToRole="BusinessUser" />
     <NavigationProperty Name="Post" Relationship="BCMModel.FK_Registration_Post" FromRole="Registration" ToRole="Post" />
     <NavigationProperty Name="Semester" Relationship="BCMModel.FK_Registration_Semester" FromRole="Registration" ToRole="Semester" />
     <NavigationProperty Name="VanLangUser" Relationship="BCMModel.FK_Registration_VanLangUser" FromRole="Registration" ToRole="VanLangUser" />
-  </EntityType>
-  <EntityType Name="Role">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Role_Name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-    <NavigationProperty Name="VanLangUsers" Relationship="BCMModel.FK_VanLangUser_Role" FromRole="Role" ToRole="VanLangUser" />
   </EntityType>
   <EntityType Name="Semester">
     <Key>
@@ -282,7 +282,8 @@
     <Property Name="Email" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
     <Property Name="FullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="Student_ID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-    <Property Name="Role_ID" Type="Int32" />
+    <Property Name="Mobile" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+    <Property Name="Role" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
     <Property Name="Last_Access" Type="DateTime" Precision="3" />
     <Property Name="Major_ID" Type="Int32" />
     <Property Name="Status_ID" Type="Int32" />
@@ -292,7 +293,6 @@
     <NavigationProperty Name="Posts" Relationship="BCMModel.FK_Post_VanLangUser" FromRole="VanLangUser" ToRole="Post" />
     <NavigationProperty Name="Posts1" Relationship="BCMModel.FK_Post_VanLangUser1" FromRole="VanLangUser" ToRole="Post" />
     <NavigationProperty Name="Registrations" Relationship="BCMModel.FK_Registration_VanLangUser" FromRole="VanLangUser" ToRole="Registration" />
-    <NavigationProperty Name="Role" Relationship="BCMModel.FK_VanLangUser_Role" FromRole="VanLangUser" ToRole="Role" />
     <NavigationProperty Name="Status" Relationship="BCMModel.FK_VanLangUser_Status" FromRole="VanLangUser" ToRole="Status" />
     <NavigationProperty Name="Trainees" Relationship="BCMModel.FK_Trainee_VanLangUser" FromRole="VanLangUser" ToRole="Trainee" />
     <NavigationProperty Name="Trainees1" Relationship="BCMModel.FK_Trainee_VanLangUser1" FromRole="VanLangUser" ToRole="Trainee" />
@@ -354,13 +354,25 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_MOU_BusinessUser">
-    <End Type="BCMModel.BusinessUser" Role="BusinessUser" Multiplicity="1" />
+    <End Type="BCMModel.BusinessUser" Role="BusinessUser" Multiplicity="0..1" />
     <End Type="BCMModel.MOU" Role="MOU" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="BusinessUser">
         <PropertyRef Name="ID" />
       </Principal>
       <Dependent Role="MOU">
+        <PropertyRef Name="Business_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Post_BusinessUser">
+    <End Type="BCMModel.BusinessUser" Role="BusinessUser" Multiplicity="0..1" />
+    <End Type="BCMModel.Post" Role="Post" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BusinessUser">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Post">
         <PropertyRef Name="Business_ID" />
       </Dependent>
     </ReferentialConstraint>
@@ -494,18 +506,6 @@
       </Principal>
       <Dependent Role="Registration">
         <PropertyRef Name="Email_VanLang" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_VanLangUser_Role">
-    <End Type="BCMModel.Role" Role="Role" Multiplicity="0..1" />
-    <End Type="BCMModel.VanLangUser" Role="VanLangUser" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Role">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="VanLangUser">
-        <PropertyRef Name="Role_ID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

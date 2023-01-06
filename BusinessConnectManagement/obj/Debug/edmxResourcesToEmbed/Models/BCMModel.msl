@@ -26,7 +26,7 @@
           <ScalarProperty Name="Status_ID" ColumnName="Status_ID" />
           <ScalarProperty Name="Last_Access" ColumnName="Last_Access" />
           <ScalarProperty Name="Password" ColumnName="Password" />
-          <ScalarProperty Name="Business_ID" ColumnName="Business_ID" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
           <ScalarProperty Name="ID" ColumnName="ID" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -42,6 +42,8 @@
     <EntitySetMapping Name="InternshipResults">
       <EntityTypeMapping TypeName="BCMModel.InternshipResult">
         <MappingFragment StoreEntitySet="InternshipResult">
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="RegistrationPosition" ColumnName="RegistrationPosition" />
           <ScalarProperty Name="BusinessComment" ColumnName="BusinessComment" />
           <ScalarProperty Name="BusinessPoint" ColumnName="BusinessPoint" />
           <ScalarProperty Name="Business_ID" ColumnName="Business_ID" />
@@ -65,6 +67,7 @@
     <EntitySetMapping Name="MOUs">
       <EntityTypeMapping TypeName="BCMModel.MOU">
         <MappingFragment StoreEntitySet="MOU">
+          <ScalarProperty Name="ResponsibleName" ColumnName="ResponsibleName" />
           <ScalarProperty Name="EmailContact" ColumnName="EmailContact" />
           <ScalarProperty Name="ContactPhone" ColumnName="ContactPhone" />
           <ScalarProperty Name="ContactName" ColumnName="ContactName" />
@@ -78,6 +81,8 @@
     <EntitySetMapping Name="Posts">
       <EntityTypeMapping TypeName="BCMModel.Post">
         <MappingFragment StoreEntitySet="Post">
+          <ScalarProperty Name="Business_ID" ColumnName="Business_ID" />
+          <ScalarProperty Name="PostImage" ColumnName="PostImage" />
           <ScalarProperty Name="Semester_ID" ColumnName="Semester_ID" />
           <ScalarProperty Name="ModifyDay" ColumnName="ModifyDay" />
           <ScalarProperty Name="PostDay" ColumnName="PostDay" />
@@ -91,7 +96,9 @@
     <EntitySetMapping Name="Registrations">
       <EntityTypeMapping TypeName="BCMModel.Registration">
         <MappingFragment StoreEntitySet="Registration">
-          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Comment" ColumnName="Comment" />
+          <ScalarProperty Name="StatusRegistration" ColumnName="StatusRegistration" />
+          <ScalarProperty Name="StatusInternview" ColumnName="StatusInternview" />
           <ScalarProperty Name="InterviewResultComment" ColumnName="InterviewResultComment" />
           <ScalarProperty Name="InterviewResult" ColumnName="InterviewResult" />
           <ScalarProperty Name="Business_ID" ColumnName="Business_ID" />
@@ -101,14 +108,6 @@
           <ScalarProperty Name="Semester_ID" ColumnName="Semester_ID" />
           <ScalarProperty Name="Post_ID" ColumnName="Post_ID" />
           <ScalarProperty Name="Email_VanLang" ColumnName="Email_VanLang" />
-          <ScalarProperty Name="ID" ColumnName="ID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Roles">
-      <EntityTypeMapping TypeName="BCMModel.Role">
-        <MappingFragment StoreEntitySet="Role">
-          <ScalarProperty Name="Role_Name" ColumnName="Role_Name" />
           <ScalarProperty Name="ID" ColumnName="ID" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -157,7 +156,8 @@
           <ScalarProperty Name="Status_ID" ColumnName="Status_ID" />
           <ScalarProperty Name="Major_ID" ColumnName="Major_ID" />
           <ScalarProperty Name="Last_Access" ColumnName="Last_Access" />
-          <ScalarProperty Name="Role_ID" ColumnName="Role_ID" />
+          <ScalarProperty Name="Role" ColumnName="Role" />
+          <ScalarProperty Name="Mobile" ColumnName="Mobile" />
           <ScalarProperty Name="Student_ID" ColumnName="Student_ID" />
           <ScalarProperty Name="FullName" ColumnName="FullName" />
           <ScalarProperty Name="Email" ColumnName="Email" />

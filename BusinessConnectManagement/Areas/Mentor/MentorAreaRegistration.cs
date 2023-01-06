@@ -18,7 +18,7 @@ namespace BusinessConnectManagement.Areas.Mentor
                 "Mentor_default",
                 "Mentor/{controller}/{action}/{id}",
                 new { action = "Index", id = UrlParameter.Optional },
-                new[] { "BusinessConnectManagement.Areas.Mentor.Controllers" }
+                namespaces: new[] { "BusinessConnectManagement.Areas.Mentor.Controllers" }
             );
         }
     }

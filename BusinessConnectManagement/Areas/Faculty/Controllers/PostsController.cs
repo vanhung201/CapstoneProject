@@ -7,10 +7,12 @@ using System.Net;
 using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
+using BusinessConnectManagement.Middleware;
 using BusinessConnectManagement.Models;
 
 namespace BusinessConnectManagement.Areas.Faculty.Controllers
 {
+    [LoginVerification]
     public class PostsController : Controller
     {
         private BCMEntities db = new BCMEntities();
@@ -19,6 +21,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         public ActionResult Index()
         {
             var posts = db.Posts.Include(p => p.Semester);
+
             return View(posts.ToList());
         }
 
@@ -58,7 +61,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                 using (var scope = new TransactionScope())
                 {
                     post.PostImage = DateTime.Now.ToString("yymmssfff") + logo.FileName;
-                    var path = Server.MapPath("~/Image/");
+                    var path = Server.MapPath("~/Uploads/Images/");
                     logo.SaveAs(path + post.PostImage);
                     post.PostDay = DateTime.Now;
                     post.ModifyDay = DateTime.Now;
@@ -109,7 +112,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                 {
                     post.PostImage = DateTime.Now.ToString("yymmssfff") + logo.FileName;
 
-                    var path = Server.MapPath("~/Image/");
+                    var path = Server.MapPath("~/Uploads/Images/");
                     logo.SaveAs(path + post.PostImage);
                     /*businessUser.Status = businessUser.Status_ID();*/
                 }

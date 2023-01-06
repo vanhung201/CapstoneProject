@@ -8,18 +8,18 @@ namespace BusinessConnectManagement.Middleware
 {
     public class RoleRedirect : Controller
     {
-        public ActionResult Redirect(int role)
+        public ActionResult AutoRedirect(string role)
         {
             switch (role)
             {
-                case 1:
-                    return RedirectToAction("Index", "Home", new { area = "Admin" });
-                case 2:
-                    return RedirectToAction("Index", "Home", new { area = "Faculty" });
-                case 3:
-                    return RedirectToAction("Index", "Home", new { area = "Mentor" });
+                case "Admin":
+                    return RedirectToAction("Index", "AdminHome", new { area = "Admin" });
+                case "Faculty":
+                    return RedirectToAction("Index", "FacultyHome", new { area = "Faculty" });
+                case "Mentor":
+                    return RedirectToAction("Index", "MentorHome", new { area = "Mentor" });
                 default:
-                    return RedirectToAction("Index", "Home", new { area = "Student" });
+                    return RedirectToAction("Index", "Home", new { area = "" });
             }
         }
     }

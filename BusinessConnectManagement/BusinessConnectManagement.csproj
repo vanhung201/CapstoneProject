@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
   <Import Project="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -46,15 +45,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CKFinder, Version=2.4.0.2631, Culture=neutral, PublicKeyToken=579e7adc719a1423, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>assets\js\ckfinder\bin\Release\CKFinder.dll</HintPath>
-    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Kentor.OwinCookieSaver, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Kentor.OwinCookieSaver.1.1.1\lib\net452\Kentor.OwinCookieSaver.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.AspNet.Identity.Core.2.2.3\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
@@ -188,93 +186,99 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
-    <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminHomeController.cs" />
     <Compile Include="Areas\Business\BusinessAreaRegistration.cs" />
     <Compile Include="Areas\Business\Controllers\AuthController.cs" />
-    <Compile Include="Areas\Business\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Business\Controllers\BusinessHomeController.cs" />
     <Compile Include="Areas\Business\Controllers\InternshipResultsController.cs" />
     <Compile Include="Areas\Business\Controllers\InternViewsController.cs" />
     <Compile Include="Areas\Faculty\Controllers\BusinessCooperationCategoriesController.cs" />
     <Compile Include="Areas\Faculty\Controllers\BusinessUsersController.cs" />
     <Compile Include="Areas\Faculty\Controllers\CooperationCategoriesController.cs" />
-    <Compile Include="Areas\Faculty\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Faculty\Controllers\FacultyHomeController.cs" />
     <Compile Include="Areas\Faculty\Controllers\MOUsController.cs" />
     <Compile Include="Areas\Faculty\Controllers\PostsController.cs" />
-    <Compile Include="Areas\Faculty\Controllers\RegistrationsController.cs" />
+    <Compile Include="Areas\Faculty\Controllers\RegistrationController.cs" />
     <Compile Include="Areas\Faculty\FacultyAreaRegistration.cs" />
-    <Compile Include="Areas\Mentor\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Mentor\Controllers\MentorHomeController.cs" />
     <Compile Include="Areas\Mentor\MentorAreaRegistration.cs" />
-    <Compile Include="Areas\Student\Controllers\HomeController.cs" />
-    <Compile Include="Areas\Student\StudentAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Middleware\LoginVerification.cs" />
     <Compile Include="Middleware\RoleRedirect.cs" />
+    <Compile Include="Models\BCMModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BCMModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BCMModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BCMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BCMModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BCMModel.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Models\BusinessCooperationCategory.cs">
-      <DependentUpon>Model.tt</DependentUpon>
+      <DependentUpon>BCMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\BusinessUser.cs">
-      <DependentUpon>Model.tt</DependentUpon>
+      <DependentUpon>BCMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CooperationCategory.cs">
-      <DependentUpon>Model.tt</DependentUpon>
+      <DependentUpon>BCMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\InternshipResult.cs">
-      <DependentUpon>Model.tt</DependentUpon>
+      <DependentUpon>BCMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Major.cs">
-      <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Model.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Model.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Model.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model.edmx</DependentUpon>
+      <DependentUpon>BCMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MOU.cs">
-      <DependentUpon>Model.tt</DependentUpon>
+      <DependentUpon>BCMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Post.cs">
-      <DependentUpon>Model.tt</DependentUpon>
+      <DependentUpon>BCMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Registration.cs">
-      <DependentUpon>Model.tt</DependentUpon>
+      <DependentUpon>BCMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Semester.cs">
-      <DependentUpon>Model.tt</DependentUpon>
+      <DependentUpon>BCMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Status.cs">
-      <DependentUpon>Model.tt</DependentUpon>
+      <DependentUpon>BCMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sysdiagram.cs">
-      <DependentUpon>Model.tt</DependentUpon>
+      <DependentUpon>BCMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Trainee.cs">
-      <DependentUpon>Model.tt</DependentUpon>
+      <DependentUpon>BCMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\VanLangUser.cs">
-      <DependentUpon>Model.tt</DependentUpon>
+      <DependentUpon>BCMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\YearStudy.cs">
-      <DependentUpon>Model.tt</DependentUpon>
+      <DependentUpon>BCMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\css\admin.css" />
+    <Content Include="assets\css\admin\global.css" />
+    <Content Include="assets\css\admin\reset.css" />
+    <Content Include="assets\css\admin\style.css" />
+    <Content Include="assets\css\admin\toast.css" />
     <Content Include="assets\css\button2.css" />
+    <Content Include="assets\css\dashboard.css" />
+    <Content Include="assets\css\dropdownsearch.css" />
     <Content Include="assets\css\form2.css" />
     <Content Include="assets\css\global2.css" />
     <Content Include="assets\css\greet.css" />
@@ -289,10 +293,11 @@
     <Content Include="assets\images\adminVLU.png" />
     <Content Include="assets\images\avatarAdmin.png" />
     <Content Include="assets\images\bg-vanlang.jpg" />
+    <Content Include="assets\images\download.png" />
     <Content Include="assets\images\favicon.ico" />
     <Content Include="assets\images\homepage.jpg" />
-    <Content Include="assets\images\logoVL.png" />
     <Content Include="assets\images\logoDoanhNghiep.png" />
+    <Content Include="assets\images\logoVL.png" />
     <Content Include="assets\images\sidebar_VanLang.jpg" />
     <Content Include="assets\js\admin.js" />
     <Content Include="assets\js\business.js" />
@@ -545,6 +550,7 @@
     <Content Include="assets\js\ckeditor\samples\old\appendto.html" />
     <Content Include="assets\js\ckeditor\samples\old\assets\inlineall\logo.png" />
     <Content Include="assets\js\ckeditor\samples\old\assets\outputxhtml\outputxhtml.css" />
+    <Content Include="assets\js\ckeditor\samples\old\assets\posteddata.php" />
     <Content Include="assets\js\ckeditor\samples\old\assets\sample.jpg" />
     <Content Include="assets\js\ckeditor\samples\old\assets\uilanguages\languages.js" />
     <Content Include="assets\js\ckeditor\samples\old\datafiltering.html" />
@@ -564,6 +570,7 @@
     <Content Include="assets\js\ckeditor\samples\old\replacebycode.html" />
     <Content Include="assets\js\ckeditor\samples\old\sample.css" />
     <Content Include="assets\js\ckeditor\samples\old\sample.js" />
+    <Content Include="assets\js\ckeditor\samples\old\sample_posteddata.php" />
     <Content Include="assets\js\ckeditor\samples\old\tabindex.html" />
     <Content Include="assets\js\ckeditor\samples\old\toolbar\toolbar.html" />
     <Content Include="assets\js\ckeditor\samples\old\uicolor.html" />
@@ -1185,6 +1192,7 @@
     <Content Include="assets\js\ckfinder\skins\v1\skin.js" />
     <Content Include="assets\js\ckfinder\skins\v1\uipanel.css" />
     <Content Include="assets\js\ckfinder\translations.txt" />
+    <Content Include="assets\js\dashboard.js" />
     <Content Include="assets\js\datatable\dataTable.min.js" />
     <Content Include="assets\js\faculty.js" />
     <Content Include="assets\js\greet.js" />
@@ -1202,50 +1210,69 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Models\Model.Context.tt">
+    <Content Include="Scripts\chosen.jquery.js" />
+    <Content Include="Scripts\chosen.jquery.min.js" />
+    <Content Include="Uploads\Images\alila.png" />
+    <Content Include="Uploads\Images\bigprotech.png" />
+    <Content Include="Uploads\Images\candt.png" />
+    <Content Include="Uploads\Images\ctgroupvn.png" />
+    <Content Include="Uploads\Images\DiCentral.png" />
+    <Content Include="Uploads\Images\logoWisdom.jpg" />
+    <Content Include="Uploads\Images\log_titkul.jpg" />
+    <Content Include="Uploads\Images\morsoftware.png" />
+    <Content Include="Uploads\Images\NamiqLogo.png" />
+    <Content Include="Uploads\Images\nashtech.png" />
+    <Content Include="Uploads\Images\onlinecrmlogo.png" />
+    <Content Include="Uploads\Images\payrro.png" />
+    <Content Include="Uploads\Images\smartservices.png" />
+    <Content Include="Uploads\Images\ss4u.png" />
+    <Content Include="Uploads\Images\tinhocdaiduong.png" />
+    <Content Include="Models\BCMModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Model.edmx</DependentUpon>
-      <LastGenOutput>Model.Context.cs</LastGenOutput>
+      <LastGenOutput>BCMModel.Context.cs</LastGenOutput>
+      <DependentUpon>BCMModel.edmx</DependentUpon>
     </Content>
-    <Content Include="Models\Model.tt">
+    <Content Include="Models\BCMModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Model.edmx</DependentUpon>
-      <LastGenOutput>Model.cs</LastGenOutput>
+      <DependentUpon>BCMModel.edmx</DependentUpon>
+      <LastGenOutput>BCMModel.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Areas\Admin\Views\web.config" />
-    <Content Include="Areas\Faculty\Views\web.config" />
     <Content Include="Areas\Mentor\Views\web.config" />
-    <Content Include="Areas\Student\Views\web.config" />
-    <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
-    <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Home\AuthorizeList.cshtml" />
-    <Content Include="Areas\Admin\Views\Home\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\Home\Delete.cshtml" />
-    <Content Include="Areas\Admin\Views\Home\Details.cshtml" />
-    <Content Include="Areas\Admin\Views\Home\Edit.cshtml" />
-    <Content Include="Areas\Faculty\Views\_ViewStart.cshtml" />
-    <Content Include="Areas\Faculty\Views\Shared\_Layout.cshtml" />
-    <Content Include="Areas\Faculty\Views\Home\Index.cshtml" />
-    <Content Include="Areas\Faculty\Views\CooperationCategories\Index.cshtml" />
-    <Content Include="Areas\Faculty\Views\MOUs\Index.cshtml" />
-    <Content Include="Areas\Faculty\Views\MOUs\Details.cshtml" />
-    <Content Include="Areas\Faculty\Views\BusinessUsers\Index.cshtml" />
-    <Content Include="Areas\Faculty\Views\BusinessUsers\Details.cshtml" />
-    <Content Include="Areas\Faculty\Views\BusinessUsers\Create.cshtml" />
+    <EntityDeploy Include="Models\BCMModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>BCMModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\BCMModel.edmx.diagram">
+      <DependentUpon>BCMModel.edmx</DependentUpon>
+    </Content>
     <Content Include="Areas\Business\Views\web.config" />
-    <Content Include="Areas\Business\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Business\Views\BusinessHome\Index.cshtml" />
     <Content Include="Areas\Business\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Business\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Business\Views\Auth\Login.cshtml" />
-    <Content Include="Areas\Student\Views\Home\Index.cshtml" />
-    <Content Include="Areas\Mentor\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Mentor\Views\MentorHome\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\web.config" />
+    <Content Include="Areas\Faculty\Views\web.config" />
+    <Content Include="Areas\Faculty\Views\BusinessCooperationCategories\Create.cshtml" />
+    <Content Include="Areas\Faculty\Views\BusinessCooperationCategories\Details.cshtml" />
+    <Content Include="Areas\Faculty\Views\BusinessCooperationCategories\Edit.cshtml" />
+    <Content Include="Areas\Faculty\Views\BusinessCooperationCategories\Index.cshtml" />
+    <Content Include="Areas\Faculty\Views\BusinessUsers\Create.cshtml" />
+    <Content Include="Areas\Faculty\Views\BusinessUsers\Details.cshtml" />
+    <Content Include="Areas\Faculty\Views\BusinessUsers\DetailsBusiness.cshtml" />
+    <Content Include="Areas\Faculty\Views\BusinessUsers\Index.cshtml" />
+    <Content Include="Areas\Faculty\Views\CooperationCategories\Index.cshtml" />
+    <Content Include="Areas\Faculty\Views\MOUs\Create.cshtml" />
+    <Content Include="Areas\Faculty\Views\MOUs\Details.cshtml" />
+    <Content Include="Areas\Faculty\Views\MOUs\Edit.cshtml" />
+    <Content Include="Areas\Faculty\Views\MOUs\Index.cshtml" />
     <Content Include="Areas\Faculty\Views\Posts\Create.cshtml" />
     <Content Include="Areas\Faculty\Views\Posts\Details.cshtml" />
+    <Content Include="Areas\Faculty\Views\Posts\Edit.cshtml" />
     <Content Include="Areas\Faculty\Views\Posts\Index.cshtml" />
-    <Content Include="assets\js\ckfinder\plugins\fileeditor\codemirror\LICENSE" />
+    <Content Include="Areas\Faculty\Views\Shared\_Layout.cshtml" />
     <Content Include="assets\js\ckeditor\bender-runner.config.json" />
     <Content Include="assets\js\ckeditor\CHANGES.md" />
     <Content Include="assets\js\ckeditor\LICENSE.md" />
@@ -1253,8 +1280,6 @@
     <Content Include="assets\js\ckeditor\plugins\scayt\LICENSE.md" />
     <Content Include="assets\js\ckeditor\plugins\scayt\README.md" />
     <Content Include="assets\js\ckeditor\README.md" />
-    <Content Include="assets\js\ckeditor\samples\old\assets\posteddata.php" />
-    <Content Include="assets\js\ckeditor\samples\old\sample_posteddata.php" />
     <Content Include="assets\js\ckeditor\samples\toolbarconfigurator\font\config.json" />
     <Content Include="assets\js\ckeditor\samples\toolbarconfigurator\font\fontello.eot" />
     <Content Include="assets\js\ckeditor\samples\toolbarconfigurator\font\fontello.ttf" />
@@ -1262,41 +1287,26 @@
     <Content Include="assets\js\ckeditor\samples\toolbarconfigurator\lib\codemirror\LICENSE" />
     <Content Include="assets\js\ckeditor\SECURITY.md" />
     <Content Include="assets\js\ckeditor\skins\moono-lisa\readme.md" />
-    <Content Include="Content\bootstrap-chosen.scss" />
-    <Content Include="Content\bootstrap-chosen.less" />
-    <EntityDeploy Include="Models\Model.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Model.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\Model.edmx.diagram">
-      <DependentUpon>Model.edmx</DependentUpon>
-    </Content>
-    <Content Include="Areas\Faculty\Views\BusinessCooperationCategories\Create.cshtml" />
-    <Content Include="Areas\Faculty\Views\BusinessCooperationCategories\Details.cshtml" />
-    <Content Include="Areas\Faculty\Views\BusinessCooperationCategories\Edit.cshtml" />
-    <Content Include="Areas\Faculty\Views\BusinessCooperationCategories\Index.cshtml" />
-    <Content Include="Areas\Business\Views\InternViews\Create.cshtml" />
-    <Content Include="Areas\Business\Views\InternViews\Delete.cshtml" />
-    <Content Include="Areas\Business\Views\InternViews\Details.cshtml" />
-    <Content Include="Areas\Business\Views\InternViews\Edit.cshtml" />
-    <Content Include="Areas\Business\Views\InternViews\Index.cshtml" />
+    <Content Include="assets\js\ckfinder\plugins\fileeditor\codemirror\LICENSE" />
+    <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Admin\Views\AdminHome\Index.cshtml" />
     <Content Include="Areas\Business\Views\InternshipResults\Create.cshtml" />
     <Content Include="Areas\Business\Views\InternshipResults\Delete.cshtml" />
     <Content Include="Areas\Business\Views\InternshipResults\Details.cshtml" />
     <Content Include="Areas\Business\Views\InternshipResults\Edit.cshtml" />
     <Content Include="Areas\Business\Views\InternshipResults\Index.cshtml" />
-    <Content Include="Areas\Faculty\Views\BusinessUsers\DetailsBusiness.cshtml" />
-    <Content Include="Areas\Faculty\Views\MOUs\Edit.cshtml" />
-    <Content Include="Areas\Faculty\Views\Posts\Edit.cshtml" />
-    <Content Include="Areas\Faculty\Views\Registrations\Create.cshtml" />
-    <Content Include="Areas\Faculty\Views\Registrations\Delete.cshtml" />
-    <Content Include="Areas\Faculty\Views\Registrations\Details.cshtml" />
-    <Content Include="Areas\Faculty\Views\Registrations\Edit.cshtml" />
-    <Content Include="Areas\Faculty\Views\Registrations\Index.cshtml" />
-    <Content Include="Areas\Faculty\Views\MOUs\Create.cshtml" />
+    <Content Include="Areas\Business\Views\InternViews\Create.cshtml" />
+    <Content Include="Areas\Business\Views\InternViews\Delete.cshtml" />
+    <Content Include="Areas\Business\Views\InternViews\Details.cshtml" />
+    <Content Include="Areas\Business\Views\InternViews\Edit.cshtml" />
+    <Content Include="Areas\Business\Views\InternViews\Index.cshtml" />
+    <Content Include="Areas\Faculty\Views\Registration\Index.cshtml" />
+    <Content Include="Content\bootstrap-chosen.scss" />
+    <Content Include="Content\bootstrap-chosen.less" />
+    <Content Include="Areas\Faculty\Views\FacultyHome\Index.cshtml" />
+    <Content Include="Areas\Faculty\Views\Registration\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\AdminHome\AuthorizeList.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
-    <Content Include="Scripts\chosen.jquery.js" />
-    <Content Include="Scripts\chosen.jquery.min.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
@@ -1316,6 +1326,11 @@
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Error\PageNotFound.cshtml" />
+    <Content Include="Views\Shared\_ErrorLayout.cshtml" />
+    <Content Include="Views\Error\ServerError.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Uploads\CV\CV_ENG_LeVanHung_JavaDeveloper.pdf" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1324,12 +1339,7 @@
     <Folder Include="Areas\Faculty\Data\" />
     <Folder Include="Areas\Mentor\Data\" />
     <Folder Include="Areas\Mentor\Views\Shared\" />
-    <Folder Include="Areas\Student\Data\" />
-    <Folder Include="Areas\Student\Views\Shared\" />
     <Folder Include="assets\js\ckfinder\userfiles\" />
-    <Folder Include="Content\EditorImage\" />
-    <Folder Include="Image\" />
-    <Folder Include="Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -1380,10 +1390,7 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
-    <Error Condition="!Exists('packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
-    <Error Condition="!Exists('packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
   </Target>
-  <Import Project="packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

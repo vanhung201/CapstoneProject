@@ -1,11 +1,9 @@
 ﻿@model BusinessConnectManagement.Models.BusinessUser
 
 @{
-    ViewBag.Title = "Business Details";
+    ViewBag.Title = "Update Business";
     Layout = "~/Areas/Faculty/Views/Shared/_Layout.cshtml";
 }
-
-
 
 <section class="list">
     <form id="createBusiness" action="@Url.Action("Details","BusinessUsers", new {id = Model.ID})" method="post" enctype="multipart/form-data">
@@ -200,7 +198,6 @@
                 </div>
             <div class="button-wrapper">
                 <a class="btn btn--back" href="@Url.Action("Index", "BusinessUsers")">Trở Về</a>
-                @* <button class="btn btn-action btn--create" onclick="getValueCheckBoxAndSubmit()">Thêm</button>*@
                 <button class="btn btn--update" type="submit" onclick="checkImage()" >Cập Nhật</button>
             </div>
         </div>

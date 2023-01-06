@@ -1,10 +1,24 @@
 ﻿@using BusinessConnectManagement.Models;
 
-@*@{
+@{
     BCMEntities db = new BCMEntities();
     var query = db.VanLangUsers.Where(x => x.Email == User.Identity.Name).FirstOrDefault();
 
+    string Role = query.Role;
     string FullName = "";
+    string ControllerName = "";
+    string Area = "";
+
+    if (Role == "Admin")
+    {
+        ControllerName = "AdminHome";
+        Area = "Admin";
+    }
+    else if (Role == "Faculty")
+    {
+        ControllerName = "FacultyHome";
+        Area = "Faculty";
+    }
 
     if (string.IsNullOrEmpty(query.FullName))
     {
@@ -13,7 +27,8 @@
     else
     {
         FullName = query.FullName;
-*@   
+    }
+}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -22,7 +37,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>@ViewBag.Title</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;500;600;700&display=swap"
           rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" />
@@ -48,36 +63,43 @@
 <body>
 
     <section class="menu">
-        <a href="@Url.Action("Index", "Home")" class="menu-image">
-            <img src="~/assets/images/logoVL.png" />
+        <a href="@Url.Action("Index", ControllerName, new { area = Area })" class="menu-image">
+            <img src="~/assets/images/logoVL.png" alt="logoVL.png"/>
             <span class="menu-title">Business Connection Management</span>
         </a>
         <ul class="menu-list">
             <li class="menu-item">
                 <div class="menu-function">
+                    @if (Role == "Admin")
+                    {
+                        <a href="@Url.Action("AuthorizeList", "AdminHome", new { area = "Admin" })" class="menu-feature">
+                            <i class="menu-icon fas fa-hand-point-right"></i>
+                            Tài khoản
+                        </a>
+                    }
+                    <a href="@Url.Action("Index", "CooperationCategories")" class="menu-feature">
+                        <i class="menu-icon fas fa-hand-point-right"></i>
+                        Danh mục Hợp tác
+                    </a>
                     <a href="@Url.Action("Index", "BusinessUsers")" class="menu-feature">
                         <i class="menu-icon fas fa-hand-point-right"></i>
                         Doanh nghiệp
                     </a>
-                    <a href="@Url.Action("Index", "CooperationCategories")" class="menu-feature">
-                        <i class="menu-icon fas fa-hand-point-right"></i>
-                        Hợp tác
-                    </a>
                     <a href="@Url.Action("Index", "MOUs")" class="menu-feature">
                         <i class="menu-icon fas fa-hand-point-right"></i>
-                        Ký kết
-                    </a>
-                    <a href="@Url.Action("Index", "Posts")" class="menu-feature">
-                        <i class="menu-icon fas fa-hand-point-right"></i>
-                        Bài viết
+                        Ký kết MOU
                     </a>
                     <a href="@Url.Action("Index", "BusinessCooperationCategories")" class="menu-feature">
                         <i class="menu-icon fas fa-hand-point-right"></i>
-                        Hoạt động
+                        Hoạt động hợp tác
                     </a>
-                    <a href="@Url.Action("Index", "Registrations")" class="menu-feature">
+                    <a href="@Url.Action("Index", "Posts")" class="menu-feature">
                         <i class="menu-icon fas fa-hand-point-right"></i>
-                        CV
+                        Bài tuyển dụng
+                    </a>
+                    <a href="@Url.Action("Index", "Registration")" class="menu-feature">
+                        <i class="menu-icon fas fa-hand-point-right"></i>
+                        Ứng tuyển
                     </a>
                 </div>
             </li>
@@ -91,7 +113,7 @@
             </div>
             <div class="nav-item">
                 <div style="display: flex; align-items: center;">
-                    <img src="~/assets/images/avatarAdmin.png" alt="avatarAdmin.png" class="nav-image" />
+                    <img src="~/assets/images/avatarAdmin.png" alt="avatarAdmin.png" class="nav-image" />@FullName
                 </div>
                 <ul class="nav-account-list">
                     <a href="@Url.Action("SignOut", "Account", new { area = "" })" class="nav-account-item">Đăng xuất</a>
@@ -101,10 +123,13 @@
     </nav>
 
     @RenderBody()
+
     <section class="footer">&copy; Phần mềm BCM thuộc về khoa CNTT, Trường Đại học Văn Lang</section>
+
 </body>
 
 @RenderSection("scripts", required: false)
+
 <script src="~/assets/js/admin.js"></script>
 <script src="~/Scripts/jquery-3.4.1.js"></script>
 <script src="~/Scripts/jquery.validate.js"></script>
@@ -115,11 +140,6 @@
 <script src="~/assets/js/datatable/dataTable.min.js"></script>
 
 <script>
- /*   $(document).ready(function () {
-        $("#table_id").DataTable({
-            ordering: false,
-        });
-    });*/
 
     $(function () {
         $("#table_id_filter").prepend($("#filterEvent")).clone();
@@ -134,28 +154,22 @@
     $(".btn--create").on("click", function () {
         formAdd.classList.add(isAppear);
     });
+
+    $(".form-icon").on("click", function () {
+        formUpdate.classList.remove(isAppear);
+    });
+
     $(".form-icon").on("click", function () {
         formDelete.classList.remove(isAppear);
     });
+
     $(".form-icon").on("click", function () {
         formAdd.classList.remove(isAppear);
     });
-    $(".form-icon").on("click", function () {
-        formUpdate.classList.remove(isAppear);
-    })
-   @* var editor = CKEDITOR.instances['editor1'];
-    if (editor) { editor.destroy(true); }
-
-    CKEDITOR.replace('editor1', {
-        enterMode: CKEDITOR.ENTER_BR,
-        });
-
-    CKFinder.setupCKEditor(null, ' @Url.Content("~/ckfinder/")');*@
 
     $(function () {
         $("#ddlBussines_ID").chosen();
     });
 </script>
-
 
 </html>

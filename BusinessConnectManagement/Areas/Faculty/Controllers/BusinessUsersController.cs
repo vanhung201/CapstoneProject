@@ -1,4 +1,5 @@
-﻿using BusinessConnectManagement.Models;
+﻿using BusinessConnectManagement.Middleware;
+using BusinessConnectManagement.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -11,6 +12,7 @@ using System.Web.Mvc;
 
 namespace BusinessConnectManagement.Areas.Faculty.Controllers
 {
+    [LoginVerification]
     public class BusinessUsersController : Controller
     {
         private BCMEntities db = new BCMEntities();
@@ -18,7 +20,6 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         // GET: Faculty/BusinessUsers
         public ActionResult Index()
         {
-            
             return View(db.BusinessUsers.ToList());
         }
 
@@ -44,7 +45,6 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
             {
                 bool isExist = BusinessCoopList.Where(x => x.CooperationCategories_ID == item.ID).Any();
                 cooperationCategoriesDetails.Add(new CooperationCategoriesDetail { name = item.CooperationCategoriesName, value = item.ID, status = isExist });
-
             }
 
             ViewBag.CooperationCategoriesDetail = cooperationCategoriesDetails;
@@ -97,7 +97,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                 {
                     businessUser.BusinessLogo = DateTime.Now.ToString("yymmssfff") + logo.FileName;
                     BusinessCooperationCategory BCC = new BusinessCooperationCategory();
-                    var path = Server.MapPath("~/Image/");
+                    var path = Server.MapPath("~/Uploads/Images/");
                     logo.SaveAs(path + businessUser.BusinessLogo);
                     businessUser.Status_ID = 1;
                     db.BusinessUsers.Add(businessUser);
@@ -157,7 +157,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                 {
                     businessUser.BusinessLogo = DateTime.Now.ToString("yymmssfff") + logo.FileName;
 
-                    var path = Server.MapPath("~/Image/");
+                    var path = Server.MapPath("~/Uploads/Images/");
                     logo.SaveAs(path + businessUser.BusinessLogo);
                     /*businessUser.Status = businessUser.Status_ID();*/
                 }
@@ -266,6 +266,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
             {
                 db.Dispose();
             }
+
             base.Dispose(disposing);
         }
     }

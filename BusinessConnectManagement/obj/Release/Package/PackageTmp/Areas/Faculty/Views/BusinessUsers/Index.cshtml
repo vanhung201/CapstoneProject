@@ -7,36 +7,140 @@
 
 <section class="list">
     <h1 class="list-heading">Danh sách Doanh nghiệp</h1>
+    @if (TempData != null)
+    {
+        <div class="alert alert-success" style="text-align: center; color: red; font-size: 1.5rem;">
+
+            @TempData["AlertMessage"]
+        </div>
+    }
     <div class="list-table">
         <div id="filterEvent">
-            <a class="btn btn-action btn--create mr-1" href=@Url.Action("Create", "BusinessUsers")>Thêm</a>
+            <a href=@Url.Action("Create", "BusinessUsers")>
+                <div class="btn btn--create">
+                    <i class="btn-icon btn-icon--create fas fa-plus"></i>
+                    <span class="btn-text">Thêm</span>
+                </div>
+            </a>
+
         </div>
         <table id="table_id" class="display">
             <thead>
                 <tr>
-                    <th>Tên Doanh Nghiệp</th>
-                    <th>Email</th>
-                    <th>Địa Chỉ</th>
-                    <th>Số Điện Thoại</th>
-
-                    <th></th>
+                    <th class="text-center">STT</th>
+                    <th class="text-center">Mã Doanh Nghiệp</th>
+                    <th class="text-center">Tên Doanh Nghiệp</th>
+                    <th class="text-center">Email</th>
+                    <th class="text-center">Người Liên Hệ</th>
+                    <th class="text-center">Số Điện Thoại</th>
+                    <th class="text-center" width="20%">Chức năng</th>
                 </tr>
             </thead>
             <tbody>
+                @{int count = 1;}
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td>@item.BusinessName</td>
-                        <td>@item.EmailContact</td>
-                        <td>@item.Address</td>
-                        <td><a href="#">@item.BusinessPhone</a></td>
+                        <td @Url.Action("DetailsBusiness", "BusinessUsers", new { id = item.ID })>@count</td>
+
+                        <td>
+                            <a href="@Url.Action("DetailsBusiness", "BusinessUsers", new { id = item.ID })">
+                                <div>
+                                    @item.ID
+                                </div>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="@Url.Action("DetailsBusiness", "BusinessUsers", new { id = item.ID })">
+                                <div>
+                                    @item.BusinessName
+                                </div>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="@Url.Action("DetailsBusiness", "BusinessUsers", new { id = item.ID })">
+                                <div>
+                                    @item.EmailContact
+                                </div>
+                            </a>
+                        </td>
+
+                        <td>
+                            <a href="@Url.Action("DetailsBusiness", "BusinessUsers", new { id = item.ID })">
+                                <div>
+                                    @item.ContactName
+                                </div>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="@Url.Action("DetailsBusiness", "BusinessUsers", new { id = item.ID })">
+                                <div>
+                                    @item.ContactPhone_1
+                                </div>
+                            </a>
+                        </td>
 
                         <td class="text-center">
-                            <a href="@Url.Action("Details", "BusinessUsers", new { id = item.Business_ID})" class="btn btn-action btn--detail">Xem chi tiết</a>
+                            <a href="@Url.Action("DetailsBusiness", "BusinessUsers", new { id = item.ID})">
+                                <div class="btn btn--detail">
+                                    <i class="btn-icon btn-icon--detail fas fa-info-circle"></i>
+                                    <span class="btn-text">Xem Chi Tiết</span>
+                                </div>
+                            </a>
+
+                            <a href="@Url.Action("Details", "BusinessUsers", new { id = item.ID})">
+                                <div class="btn btn--update">
+                                    <i class="btn-icon btn-icon--edit fas fa-edit"></i>
+                                    <span class="btn-text">Cập Nhật</span>
+                                </div>
+                            </a>
+                            <a onclick="loadDeleteUser('@item.ID')">
+                                <div class="btn btn--delete">
+                                    <i class="btn-icon btn-icon--edit fas fa-times"></i>
+                                    <span class="btn-text">Xóa</span>
+                                </div>
+                            </a>
                         </td>
+
                     </tr>
+                    count++;
                 }
             </tbody>
         </table>
     </div>
 </section>
+<form action="@Url.Action("Delete", "BusinessUsers")" class="form" id="deleteForm" method="post">
+    @{using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken();
+            
+    <div class="form-container">
+        <i class="form-icon fas fa-times-circle"></i>
+        <h1 class="form-heading">Thông báo</h1>
+        <input name="id" id="iddele" hidden/>
+        <span>
+            Bạn chắc chắn muốn <strong style="font-weight: bold; color: #ce1b28;">xóa doanh nghiệp </strong>
+            này không?
+        </span>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-action btn--update">Xác nhận</button>
+        </div>
+    </div>
+        }
+    }
+</form>
+
+@section Scripts {
+
+    <script type="text/javascript">
+        
+        
+        function loadDeleteUser(id) {
+            let formDelete = document.getElementById("deleteForm");
+            formDelete.classList.add('is-appear')
+            document.getElementById('iddele').value = id;
+        }
+        
+    </script>
+}

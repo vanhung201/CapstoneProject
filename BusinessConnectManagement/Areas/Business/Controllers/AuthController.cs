@@ -1,4 +1,4 @@
-﻿/*using BusinessConnectManagement.Models;
+﻿using BusinessConnectManagement.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -24,21 +24,21 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
         [HttpPost]
         public ActionResult Login(string username, string password)
         {
-            var query = db.BusinessUsers.FirstOrDefault(x => x.Username == username);
+            var query = db.BusinessUsers.FirstOrDefault(x => x.Username.Equals(username));
 
             if (query != null)
             {
-                if (query.Password == password)
+                if (query.Password.Equals(password))
                 {
-                    Session["BusinessID"] = query.Business_ID;
+                    Session["BusinessID"] = query.ID;
                     Session["BusinessName"] = query.BusinessName;
 
                     query.Last_Access= DateTime.Now;
 
                     db.Entry(query).State = EntityState.Modified;
                     db.SaveChanges();
-
-                    return RedirectToAction("Index", "Home");
+                    
+                    return RedirectToAction("Index", "BusinessHome");
                 }
                 else
                 {
@@ -63,4 +63,4 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
             return RedirectToAction("Login", "Auth");
         }
     }
-}*/
+}

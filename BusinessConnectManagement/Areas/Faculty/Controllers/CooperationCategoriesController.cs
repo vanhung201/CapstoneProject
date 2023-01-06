@@ -1,4 +1,5 @@
-﻿using BusinessConnectManagement.Models;
+﻿using BusinessConnectManagement.Middleware;
+using BusinessConnectManagement.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -9,7 +10,7 @@ using System.Web.Mvc;
 
 namespace BusinessConnectManagement.Areas.Faculty.Controllers
 {
-    [Authorize]
+    [LoginVerification]
     public class CooperationCategoriesController : Controller
     {
         private BCMEntities db = new BCMEntities();
@@ -120,14 +121,17 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             CooperationCategory cooperationCategorie = db.CooperationCategories.Find(id);
-           /* BusinessCooperationCategory businessCooperationCategory= db.BusinessCooperationCategories.Where()*/
+           
             if (db.BusinessCooperationCategories.Where(x => x.CooperationCategories_ID == id).Any() == true)
             {
                 TempData["AlertMessage"] = "Xóa không thành công vì đã có doanh nghiệp chọn hình thưc hợp tác này!!";
+                
                 return RedirectToAction("Index");
             }
+
             db.CooperationCategories.Remove(cooperationCategorie);
             db.SaveChanges();
+
             return RedirectToAction("Index");
         }
 
