@@ -279,6 +279,7 @@
     <Content Include="assets\css\button2.css" />
     <Content Include="assets\css\dashboard.css" />
     <Content Include="assets\css\dropdownsearch.css" />
+    <Content Include="assets\css\ErrorPageCSS.css" />
     <Content Include="assets\css\form2.css" />
     <Content Include="assets\css\global2.css" />
     <Content Include="assets\css\greet.css" />

@@ -51,14 +51,14 @@
 <body>
 
     <section class="menu">
-        <a href="@Url.Action("Index", "AdminHome")" class="menu-image">
+        <a href="@Url.Action("Index", "AdminHome", new { area = "Admin" })" class="menu-image">
             <img src="~/assets/images/logoVL.png" alt="logoVL.png"/>
             <span class="menu-title">Business Connection Management</span>
         </a>
         <ul class="menu-list">
             <li class="menu-item">
                 <div class="menu-function">
-                    <a href="@Url.Action("AuthorizeList", "AdminHome")" class="menu-feature">
+                    <a href="@Url.Action("AuthorizeList", "AdminHome", new { area = "Admin" })" class="menu-feature">
                         <i class="menu-icon fas fa-hand-point-right"></i>
                         Tài khoản
                     </a>
