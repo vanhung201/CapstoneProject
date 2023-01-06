@@ -1,0 +1,105 @@
+﻿@model BusinessConnectManagement.Models.Post
+
+@{
+    ViewBag.Title = "Create New Post";
+    Layout = "~/Areas/Faculty/Views/Shared/_Layout.cshtml";
+}
+
+<section class="list">
+    <form id="addForm" method="post" action="@Url.Action("Create", "Posts")" enctype="multipart/form-data">
+        <h1 class="list-heading">Thêm Bài Viết</h1>
+        <div class="grid wide">
+            <div class="tab-content">
+                <div class="row">
+                    <div class="col l-12">
+                        <div class="form-group">
+                            <label for="businessName" class="form-label">Tiêu đề</label>
+                            <div style="width: 590px;">
+                                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-input" } })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col l-12">
+                        <div class="form-group">
+                            <label class="form-label" hidden></label>
+                            <div style="width: 590px;">
+                                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col l-8">
+                        <div class="form-group">
+                            <label class="form-label">Tên Doanh Nghiệp</label>
+                            <select name="Business_ID" id="ddlBussines_ID" class="form-select">
+                                @foreach (var item in ViewBag.Business_ID)
+                                {
+                                    <option value=@item.ID>@item.BusinessName</option>
+                                }
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col l-8">
+                        <div class="form-group">
+                            <label for="logo" class="form-label">Logo</label>
+                            <div style="display: flex; flex-direction: column">
+                                <img style="width: 22rem; height:fit-content; margin: 0 0 1rem 0;" />
+                                <input name="logo" class="form-input" type="file" id="logo"
+                                       accept="image/png, image/gif, image/jpeg" onchange="validateSize(this)" required />
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col l-12">
+                        <div class="form-group">
+                            <label for="address" class="form-label">Mô tả</label>
+                            @Html.TextAreaFor(model => model.Description, new { @id = "Explanation" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="button-wrapper">
+                <a class="btn btn--detail" href="@Url.Action("Index", "Posts")">Trở Về</a>
+                <button class="btn btn--add" onclick="checkImage()" type="submit">Thêm</button>
+            </div>
+        </div>
+    </form>
+</section>
+    
+
+
+@section Scripts {
+    <script type="text/javascript" src="@Url.Content("~/assets/js/ckeditor/ckeditor.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/assets/js/ckfinder/ckfinder.js")"></script>
+    <script type="text/javascript">
+        function validateSize(input) {
+            var fup = document.getElementById('logo');
+            var fileName = fup.value;
+            var ext = fileName.substring(fileName.lastIndexOf('.') + 1);
+            if (fileName == '' || ext == "gif" || ext == "GIF" || ext == "PNG" || ext == "png" || ext == "jpg" || ext == "JPG" || ext == "bmp" || ext == "BMP") {
+                const fileSize = input.files[0].size / 1024 / 1024; // in MiB
+                var fup = document.getElementById('logo');
+                if (fileSize < 2) {
+                  
+                    return true;
+                } else {
+                    // Proceed further
+                    alert('Dung lượng hình ảnh không vượt quá 2MB');
+                    fup.value = '';
+                    return false;
+                }
+                return true;
+            }
+            else {
+                fup.value = '';
+                alert("Chỉ được tải lên hình ảnh dạng PNG, JPG, GIF và BMP");
+
+                return false;
+            }
+        }
+		    CKEDITOR.replace('Explanation');
+		  
+    </script>
+
+}

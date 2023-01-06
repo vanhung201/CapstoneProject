@@ -1,0 +1,162 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  --primary-color: #374090;
+  --warn-bg: #d62e4a;
+  --warn-text: #af233a;
+  --font-primary: "Nunito Sans", sans-serif;
+  --font-toast: 'Roboto', sans-serif;
+}
+
+::-webkit-scrollbar {
+  width: 0.6rem;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #ccc;
+  border-radius: 1rem;
+
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color);
+  border-radius: 1rem;
+}
+
+
+html {
+  font-size: 10px;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: "Nunito Sans", sans-serif;
+  color: #333;
+  height: 100vh;
+  width: 100vw;
+  font-size: 1.4rem;
+  line-height: 1.4;
+}
+
+img {
+  object-fit: cover;
+  max-width: 100%;
+}
+
+button,
+input,
+table,
+textarea {
+  outline: none;
+  font-family: "Nunito Sans", sans-serif;
+  border: 0;
+  cursor: pointer;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  background-color: #fff;
+}
+
+textarea {
+  height: 6rem;
+  font-size: 1.3rem !important;
+}
+
+td,
+th {
+  border: 1px solid #ddd;
+  text-align: left;
+  padding: 1rem;
+  line-height: 1.5;
+}
+
+th {
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+a {
+  text-decoration: none;
+  color: #333;
+}
+
+ul {
+  padding-left: 0;
+}
+
+li {
+  list-style: none;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.d-none {
+  display: none;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+.text-red {
+  color: #ce1b28;
+  font-weight: bold;
+}
+
+.text-green {
+  color: #308446;
+  font-weight: bold;
+}
+
+.dataTables_filter {
+  display: flex;
+}
+
+.mr-1 {
+  margin-right: 1rem;
+}
+
+.tab-content {
+  padding: 20px;
+  /* border: 1px solid rgba(172, 172, 172, 0.7); */
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.is-hide {
+  display: none;
+}
+
+.is-active {
+  display: block;
+}
+
+.footer {
+  background-color: #fff;
+  color: var(--primary-color);
+  border-top: 1px solid #eee;
+  padding-top: 1px;
+  padding-right: 0.5rem;
+  width: 100%;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  text-align: right;
+  font-weight: bold;
+  z-index: 4;
+  user-select: none;
+}
+.text-danger field-validation-error {
+    color: red;
+}

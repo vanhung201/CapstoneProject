@@ -1,4 +1,5 @@
-﻿using BusinessConnectManagement.Models;
+﻿using BusinessConnectManagement.Middleware;
+using BusinessConnectManagement.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -11,6 +12,7 @@ using System.Web.Mvc;
 
 namespace BusinessConnectManagement.Areas.Faculty.Controllers
 {
+    [LoginVerification]
     public class BusinessUsersController : Controller
     {
         private BCMEntities db = new BCMEntities();
@@ -24,12 +26,13 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         public class CooperationCategoriesDetail
         {
             public string name { get; set; }
+            public string namee { get; set; }
             public int value { get; set; }
             public bool status { get; set; }
         }
 
         // GET: Faculty/BusinessUsers/Details/5
-        public ActionResult Details(string id)
+        public ActionResult Details(int id)
         {
             BusinessUser businessUser = db.BusinessUsers.Find(id);
 
@@ -42,6 +45,28 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
             {
                 bool isExist = BusinessCoopList.Where(x => x.CooperationCategories_ID == item.ID).Any();
                 cooperationCategoriesDetails.Add(new CooperationCategoriesDetail { name = item.CooperationCategoriesName, value = item.ID, status = isExist });
+            }
+
+            ViewBag.CooperationCategoriesDetail = cooperationCategoriesDetails;
+            ViewBag.StatusList = db.Status.ToList();
+
+            return View(businessUser);
+        }
+
+        public ActionResult DetailsBusiness(int id)
+        {
+            BusinessUser businessUser = db.BusinessUsers.Find(id);
+
+            var BusinessCoopList = db.BusinessCooperationCategories.Where(x => x.Business_ID == id).ToList();
+            var CoopList = db.CooperationCategories.ToList();
+
+            List<CooperationCategoriesDetail> cooperationCategoriesDetails = new List<CooperationCategoriesDetail>();
+
+            foreach (var item in CoopList)
+            {
+                bool isExist = BusinessCoopList.Where(x => x.CooperationCategories_ID == item.ID).Any();
+                cooperationCategoriesDetails.Add(new CooperationCategoriesDetail { name = item.CooperationCategoriesName, value = item.ID, status = isExist });
+
             }
 
             ViewBag.CooperationCategoriesDetail = cooperationCategoriesDetails;
@@ -72,7 +97,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                 {
                     businessUser.BusinessLogo = DateTime.Now.ToString("yymmssfff") + logo.FileName;
                     BusinessCooperationCategory BCC = new BusinessCooperationCategory();
-                    var path = Server.MapPath("~/Image/");
+                    var path = Server.MapPath("~/Uploads/Images/");
                     logo.SaveAs(path + businessUser.BusinessLogo);
                     businessUser.Status_ID = 1;
                     db.BusinessUsers.Add(businessUser);
@@ -85,12 +110,13 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                 for (int i = 0; i < arrayCoop.Length - 1; i++)
                 {
                     BusinessCooperationCategory BCC = new BusinessCooperationCategory();
-                    BCC.Business_ID = businessUser.Business_ID;
+                    BCC.Business_ID = businessUser.ID;
                     BCC.CooperationCategories_ID = Int32.Parse(arrayCoop[i]);
                     db.BusinessCooperationCategories.Add(BCC);
                     db.SaveChanges();
                 }
-
+                var viewbag = db.CooperationCategories.ToList();
+                ViewBag.CooperationCategories = viewbag.ToList();
                 return RedirectToAction("Index");
             }
             else
@@ -99,41 +125,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
             }
         }
 
-        public string uploadimage(HttpPostedFileBase logo)
-        {
-            string path = "-1";
-
-            if (logo != null && logo.ContentLength > 0)
-            {
-                string extension = Path.GetExtension(logo.FileName);
-                if (extension.ToLower().Equals(".jpg") || extension.ToLower().Equals(".jpeg") || extension.ToLower().Equals(".png"))
-                {
-                    try
-                    {
-                        path = Path.Combine(Server.MapPath("~/Images"), Path.GetFileName(logo.FileName));
-                        logo.SaveAs(path);
-                        path = Path.GetFileName(logo.FileName);
-                        //    ViewBag.Message = "File uploaded successfully";
-                    }
-                    catch (Exception)
-                    {
-                        path = "-1";
-                    }
-                }
-                else
-                {
-                    Response.Write("<script>alert('Only jpg ,jpeg or png formats are acceptable....'); </script>");
-                }
-            }
-            else
-            {
-                Response.Write("<script>alert('Please select a file'); </script>");
-                path = "-1";
-            }
-
-            return path;
-        }
-
+        
         // GET: Faculty/BusinessUsers/Edit/5
         public ActionResult Edit(string id)
         {
@@ -165,7 +157,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                 {
                     businessUser.BusinessLogo = DateTime.Now.ToString("yymmssfff") + logo.FileName;
 
-                    var path = Server.MapPath("~/Image/");
+                    var path = Server.MapPath("~/Uploads/Images/");
                     logo.SaveAs(path + businessUser.BusinessLogo);
                     /*businessUser.Status = businessUser.Status_ID();*/
                 }
@@ -175,7 +167,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                 db.SaveChanges();
 
                 // Xóa toàn bộ liên kết theo Id của Bussiness
-                var businessCooperationCategoryList = db.BusinessCooperationCategories.Where(x => x.Business_ID == businessUser.Business_ID).ToList();
+                var businessCooperationCategoryList = db.BusinessCooperationCategories.Where(x => x.Business_ID == businessUser.ID).ToList();
 
                 foreach (var item in businessCooperationCategoryList)
                 {
@@ -188,7 +180,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                 for (int i = 0; i < arrayCoop.Length - 1; i++)
                 {
                     BusinessCooperationCategory businessCooperationCategory1 = new BusinessCooperationCategory();
-                    businessCooperationCategory1.Business_ID = businessUser.Business_ID;
+                    businessCooperationCategory1.Business_ID = businessUser.ID;
                     businessCooperationCategory1.CooperationCategories_ID = Int32.Parse(arrayCoop[i]);
 
                     db.BusinessCooperationCategories.Add(businessCooperationCategory1);
@@ -225,22 +217,56 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         // POST: Faculty/BusinessUsers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
+        public ActionResult DeleteConfirm(int id)
         {
             BusinessUser businessUser = db.BusinessUsers.Find(id);
+            if (db.MOUs.Where(x => x.Business_ID == id).Any() == true)
+            {
+                TempData["AlertMessage"] = "Xóa không thành công vì doanh nghiệp này đã ký kết MOU!!";
+                return RedirectToAction("Index");
+            }
+            if (db.Posts.Where(x => x.Business_ID == id).Any() == true)
+            {
+                TempData["AlertMessage"] = "Xóa không thành công vì doanh nghiệp đang có bài đăng tuyển dụng!!";
+                return RedirectToAction("Index");
+            }
+            if (db.Registrations.Where(x => x.Business_ID == id).Any() == true)
+            {
+                TempData["AlertMessage"] = "Xóa không thành công vì đang có sinh viên đăng ký thực tập!!";
+                return RedirectToAction("Index");
+            }
+            var businessCooperationCategoryList = db.BusinessCooperationCategories.Where(x => x.Business_ID == businessUser.ID).ToList();
+            foreach (var item in businessCooperationCategoryList)
+            {
+                db.BusinessCooperationCategories.Remove(item);
+            }
 
             db.BusinessUsers.Remove(businessUser);
             db.SaveChanges();
 
             return RedirectToAction("Index");
         }
+        [HttpPost, ActionName("DeleteActivity")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            BusinessUser businessUser = db.BusinessUsers.Find(id);
+            var businessCooperationCategoryList = db.BusinessCooperationCategories.Where(x => x.Business_ID == businessUser.ID).ToList();
 
+            foreach (var item in businessCooperationCategoryList)
+            {
+                db.BusinessCooperationCategories.Remove(item);
+            }
+            db.SaveChanges();
+            return RedirectToAction("Index", "BusinessCooperationCategories");
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
                 db.Dispose();
             }
+
             base.Dispose(disposing);
         }
     }

@@ -53,6 +53,7 @@ D:\LAPTRINHASP.NET_MVC\Capstone Project Local\BusinessConnectManagement\bin\rosl
 D:\LAPTRINHASP.NET_MVC\Capstone Project Local\BusinessConnectManagement\bin\Antlr3.Runtime.dll
 D:\LAPTRINHASP.NET_MVC\Capstone Project Local\BusinessConnectManagement\bin\EntityFramework.dll
 D:\LAPTRINHASP.NET_MVC\Capstone Project Local\BusinessConnectManagement\bin\EntityFramework.SqlServer.dll
+D:\LAPTRINHASP.NET_MVC\Capstone Project Local\BusinessConnectManagement\bin\Kentor.OwinCookieSaver.dll
 D:\LAPTRINHASP.NET_MVC\Capstone Project Local\BusinessConnectManagement\bin\Microsoft.AspNet.Identity.Core.dll
 D:\LAPTRINHASP.NET_MVC\Capstone Project Local\BusinessConnectManagement\bin\Microsoft.AspNet.Identity.EntityFramework.dll
 D:\LAPTRINHASP.NET_MVC\Capstone Project Local\BusinessConnectManagement\bin\Microsoft.AspNet.Identity.Owin.dll
@@ -83,6 +84,7 @@ D:\LAPTRINHASP.NET_MVC\Capstone Project Local\BusinessConnectManagement\bin\Syst
 D:\LAPTRINHASP.NET_MVC\Capstone Project Local\BusinessConnectManagement\bin\WebGrease.dll
 D:\LAPTRINHASP.NET_MVC\Capstone Project Local\BusinessConnectManagement\bin\EntityFramework.xml
 D:\LAPTRINHASP.NET_MVC\Capstone Project Local\BusinessConnectManagement\bin\EntityFramework.SqlServer.xml
+D:\LAPTRINHASP.NET_MVC\Capstone Project Local\BusinessConnectManagement\bin\Kentor.OwinCookieSaver.xml
 D:\LAPTRINHASP.NET_MVC\Capstone Project Local\BusinessConnectManagement\bin\Microsoft.AspNet.Identity.Core.xml
 D:\LAPTRINHASP.NET_MVC\Capstone Project Local\BusinessConnectManagement\bin\Microsoft.AspNet.Identity.EntityFramework.xml
 D:\LAPTRINHASP.NET_MVC\Capstone Project Local\BusinessConnectManagement\bin\Microsoft.AspNet.Identity.Owin.xml

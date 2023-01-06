@@ -33,7 +33,6 @@ namespace BusinessConnectManagement.Models
         public virtual DbSet<MOU> MOUs { get; set; }
         public virtual DbSet<Post> Posts { get; set; }
         public virtual DbSet<Registration> Registrations { get; set; }
-        public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<Semester> Semesters { get; set; }
         public virtual DbSet<Status> Status { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }

@@ -16,27 +16,25 @@ namespace BusinessConnectManagement.Models
     public partial class MOU
     {
         public int ID { get; set; }
-
-        [Required(ErrorMessage = "Vui lòng nhập mã doanh nghiệp.")]
-        public string Business_ID { get; set; }
-
+        public Nullable<int> Business_ID { get; set; }
         public Nullable<System.DateTime> SignDay { get; set; }
-
         [Required(ErrorMessage = "Vui lòng nhập tên người ký.")]
+        [RegularExpression(@"^.*\S.*$", ErrorMessage = "Vui lòng nhập tên người ký.")]
         public string Signer { get; set; }
-
         [Required(ErrorMessage = "Vui lòng nhập tên người liên hệ.")]
+        [RegularExpression(@"^.*\S.*$", ErrorMessage = "Vui lòng nhập tên người liên hệ.")]
         public string ContactName { get; set; }
-
         [Required(ErrorMessage = "Vui lòng nhập số điện thoại người liên hệ.")]
         [DataType(DataType.PhoneNumber)]
-        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Số điện thoại này không hợp lệ.")]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$|[0-9]{11}", ErrorMessage = "Số điện thoại này không hợp lệ.")]
         public string ContactPhone { get; set; }
-
         [Required(ErrorMessage = "Vui lòng nhập email người liên hệ.")]
         [RegularExpression("^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", ErrorMessage = "E-mail không hợp lệ.")]
         [EmailAddress(ErrorMessage = "E-mail không hợp lệ.")]
         public string EmailContact { get; set; }
+        [Required(ErrorMessage = "Vui lòng nhập tên người phụ trách.")]
+        [RegularExpression(@"^.*\S.*$", ErrorMessage = "Vui lòng nhập tên người phụ trách.")]
+        public string ResponsibleName { get; set; }
 
         public virtual BusinessUser BusinessUser { get; set; }
     }

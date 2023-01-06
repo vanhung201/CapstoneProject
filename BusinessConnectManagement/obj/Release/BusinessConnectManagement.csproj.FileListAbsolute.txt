@@ -114,3 +114,5 @@ D:\LAPTRINHASP.NET_MVC\Capstone Project Local\BusinessConnectManagement\obj\Rele
 D:\LAPTRINHASP.NET_MVC\Capstone Project Local\BusinessConnectManagement\obj\Release\BusinessConnectManagement.csproj.CopyComplete
 D:\LAPTRINHASP.NET_MVC\Capstone Project Local\BusinessConnectManagement\obj\Release\BusinessConnectManagement.dll
 D:\LAPTRINHASP.NET_MVC\Capstone Project Local\BusinessConnectManagement\obj\Release\BusinessConnectManagement.pdb
+D:\LAPTRINHASP.NET_MVC\Capstone Project Local\BusinessConnectManagement\bin\Kentor.OwinCookieSaver.dll
+D:\LAPTRINHASP.NET_MVC\Capstone Project Local\BusinessConnectManagement\bin\Kentor.OwinCookieSaver.xml

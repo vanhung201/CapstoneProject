@@ -9,80 +9,129 @@
     <h1 class="list-heading">Danh sách Ký kết MOU</h1>
     <div class="list-table">
         <div id="filterEvent">
-            <a href="#" class="btn btn-action btn--create mr-1">Thêm</a>
+            <a href="@Url.Action("Create", "MOUs")">
+                <div class="btn btn--create">
+                    <i class="btn-icon btn-icon--create fas fa-plus"></i>
+                    <span class="btn-text">Thêm</span>
+                </div>
+            </a>
         </div>
-        <table id="table_id" class="display">
+        <table id="table_id" class="display" width="100%">
             <thead>
                 <tr>
+                    <th width="5%">STT</th>
                     <th>Tên Doanh Nghiệp</th>
                     <th>Ngày Ký</th>
                     <th>Người Ký</th>
-                    <th></th>
+                    <th>Người Phụ Trách</th>
+                    <th class="text-center" width="20%">Chức năng</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model)
-                {
-                    DateTime? mydate = item.SignDay;
-                    string datee = mydate.Value.ToString("dd-MM-yyyy");
-                    <tr>
+               
+               
+                    @{ int count = 1;}
+                    @foreach (var item in Model)
+                    {
+                        DateTime? mydate = item.SignDay;
+                        string datee = mydate.Value.ToString("dd-MM-yyyy");
+                    <tr id="checkRespon">
+                        <td>@count</td>
                         <td>@item.BusinessUser.BusinessName</td>
                         <td>@datee</td>
                         <td>@item.Signer</td>
+                        <td class="abc">@item.ResponsibleName</td>
                         <td class="text-center">
-                            <a href="@Url.Action("Details", "MOUs",  new { id=item.ID })" class="btn btn-action btn--detail">Xem Chi tiết</a>
+                            <a href="@Url.Action("Details", "MOUs",  new { id=item.ID })">
+                                <div class="btn btn--detail">
+                                    <i class="btn-icon btn-icon--detail fas fa-info-circle"></i>
+                                    <span class="btn-text">Xem Chi Tiết</span>
+                                </div>
+                            </a>
+
+                            <a href="@Url.Action("Edit", "MOUs",  new { id=item.ID })">
+                                <div class="btn btn--update">
+                                    <i class="btn-icon btn-icon--edit fas fa-edit"></i>
+                                    <span class="btn-text">Cập Nhật</span>
+                                </div>
+                            </a>
+                            <a onclick="loadDeleteUser('@item.ID', '@item.BusinessUser.BusinessName')">
+                                <div class="btn btn--delete">
+                                    <i class="btn-icon btn-icon--edit fas fa-times"></i>
+                                    <span class="btn-text">Xóa</span>
+                                </div>
+                            </a>
+
                         </td>
                     </tr>
-                }
 
-            </tbody>
+                    count++;
+                }
+                </tbody>
         </table>
     </div>
 </section>
 
-<form action="@Url.Action("Create", "MOUs")" class="form" id="addForm" method="post">
-    <div class="form-container">
-        <i class="form-icon fas fa-times-circle"></i>
-        <h1 class="form-heading">Thêm ký kết MOU</h1>
+<form action="@Url.Action("Delete", "MOUs")" class="form" id="deleteForm" method="post">
+    @{using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken();
+            <input name="id" id="iddele" hidden />
+            <div class="form-container">
+                <i class="form-icon fas fa-times-circle"></i>
+                <h1 class="form-heading">Thông báo</h1>
+                <span>
 
-        <div class="form-group">
-            <label for="businessID" class="form-label">Mã Doanh Nghiệp</label>
-            <input list="" name="Business_ID" id="businessID" class="form-input" autocomplete="off" required />
+                    Bạn chắc chắn muốn<strong style="font-weight: bold; color: #ce1b28;"> xóa ký kết MOU </strong>
+                    này không?
+                </span>
 
-        </div>
-        <div class="form-group">
-            <label for="daysigning" class="form-label">Ngày Ký</label>
-            <input list="" name="SignDay" id="daysigning" class="form-input" type="date" autocomplete="off" required />
-        </div>
-        <div class="form-group">
-            <label for="signer" class="form-label">Người ký</label>
-            <input list="" name="Signer" id="signer" class="form-input" autocomplete="off" required />
-        </div>
-        <div class="form-group">
-            <label for="contactName" class="form-label">Người Liên Hệ</label>
-            <input list="" name="ContactName" id="contactName" class="form-input" autocomplete="off" required />
-        </div>
-        <div class="form-group">
-            <label for="phone" class="form-label">Số Điện Thoại</label>
-            <input list="" name="ContactPhone" id="phone" class="form-input" autocomplete="off" required />
-        </div>
-        <div class="form-group">
-            <label for="email" class="form-label">Email Liên Hệ</label>
-            <input list="" name="EmailContact" id="email" class="form-input" autocomplete="off" required />
-        </div>
-        <div class="form-group">
-            <button class="btn btn-action mr-1">Hủy</button>
-            <button class="btn btn-action btn--update" onclick="Submit() type="submit">Xác Nhận</button>
-        </div>
-
-    </div>
-
-</form>
-
-@section Scripts {
-    <script type="text/javascript">
-        function Submit() {
-            $("#addForm").save();
+                <div class="form-group">
+                    <button type="submit" class="btn btn-action btn--update">Xác nhận</button>
+                </div>
+            </div>
         }
+    }
+</form>
+@section Scripts {
+
+    <script>
+
+        function loadDeleteUser(id, name) {
+            let formDelete = document.getElementById("deleteForm");
+           
+            formDelete.classList.add('is-appear')
+            document.getElementById('iddele').value = id;
+            $('#namedele').text(name) 
+        }
+        function Submit(){
+            var signer = document.getElementById('signer').value;
+            var contactName = document.getElementById('contactName').value;
+            var phone = document.getElementById('phone').value;
+            var email = document.getElementById('email').value;
+            var reponsibile = document.getElementById('reponsibile').value;
+                
+            if (signer.trim() == "" || contactName.trim() == "" || phone.trim() == "" || email.trim() == "" || reponsibile.trim() == "") {
+                alert("Vui lòng không nhập khoảng trắng!")
+                var check = null;
+                document.getElementById('signer').value = check;
+                document.getElementById('contactName').value = check;
+                document.getElementById('phone').value = check;
+                document.getElementById('email').value = check;
+                document.getElementById('reponsibile').value = check;
+               
+                return false;
+            } else {
+                return true;
+                $("#addForm");
+            }
+            
+        }
+       
+
     </script>
+
 }
+ 
+
+

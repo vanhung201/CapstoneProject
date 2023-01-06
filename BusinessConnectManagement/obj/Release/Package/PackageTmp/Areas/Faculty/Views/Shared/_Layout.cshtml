@@ -4,7 +4,21 @@
     BCMEntities db = new BCMEntities();
     var query = db.VanLangUsers.Where(x => x.Email == User.Identity.Name).FirstOrDefault();
 
+    string Role = query.Role;
     string FullName = "";
+    string ControllerName = "";
+    string Area = "";
+
+    if (Role == "Admin")
+    {
+        ControllerName = "AdminHome";
+        Area = "Admin";
+    }
+    else if (Role == "Faculty")
+    {
+        ControllerName = "FacultyHome";
+        Area = "Faculty";
+    }
 
     if (string.IsNullOrEmpty(query.FullName))
     {
@@ -25,56 +39,67 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewBag.Title</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet" />
+          rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" />
+    <link href="~/assets/css/grid2.css" rel="stylesheet" />
     <link href="~/assets/css/reset.css" rel="stylesheet" />
-    <link href="~/assets/css/grid.css" rel="stylesheet" />
-    <link href="~/assets/css/global.css" rel="stylesheet" />
-    <link href="~/assets/css/menu.css" rel="stylesheet" />
-    <link href="~/assets/css/form.css" rel="stylesheet" />
-    <link href="~/assets/css/nav.css" rel="stylesheet" />
-    <link href="~/assets/css/button.css" rel="stylesheet" />
-    <link href="~/assets/css/admin.css" rel="stylesheet" />
-    <link href="~/assets/css/table.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" />
+    <link href="~/assets/css/global2.css" rel="stylesheet" />
+    <link href="~/assets/css/menu2.css" rel="stylesheet" />
+    <link href="~/assets/css/nav2.css" rel="stylesheet" />
+    <link href="~/assets/css/button2.css" rel="stylesheet" />
+    <link href="~/assets/css/form2.css" rel="stylesheet" />
+    <link href="~/assets/css/table2.css" rel="stylesheet" />
+    <link href="~/assets/css/greet.css" rel="stylesheet" />
+    <link href="~/assets/css/jquery2.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-chosen.css" rel="stylesheet" />
     <link rel="shortcut icon" href="~/assets/images/favicon.ico" type="image/x-icon">
     <style>
-        .text-danger field-validation-error {
+       .field-validation-error{
             color: red;
         }
     </style>
 </head>
 
 <body>
+
     <section class="menu">
-        <a href="@Url.Action("Index", "Home")" class="menu-image">
-            <img src="~/assets/images/adminVLU.png" alt="adminVLU.png" />
+        <a href="@Url.Action("Index", ControllerName, new { area = Area })" class="menu-image">
+            <img src="~/assets/images/logoVL.png" alt="logoVL.png"/>
+            <span class="menu-title">Business Connection Management</span>
         </a>
         <ul class="menu-list">
             <li class="menu-item">
-                <h4 class="menu-heading">Quản Lý Doanh Nghiệp</h4>
                 <div class="menu-function">
-                    <a href="@Url.Action("Index", "BusinessUsers")" class="menu-feature">
-                        <i class="menu-icon fas fa-hand-point-right"></i>
-                        Danh sách Doanh nghiệp
-                    </a>
-                </div>
-            </li>
-            <li class="menu-item">
-                <h4 class="menu-heading">Quản Lý Hợp Tác</h4>
-                <div class="menu-function">
+                    @if (Role == "Admin")
+                    {
+                        <a href="@Url.Action("AuthorizeList", "AdminHome", new { area = "Admin" })" class="menu-feature">
+                            <i class="menu-icon fas fa-hand-point-right"></i>
+                            Tài khoản
+                        </a>
+                    }
                     <a href="@Url.Action("Index", "CooperationCategories")" class="menu-feature">
                         <i class="menu-icon fas fa-hand-point-right"></i>
                         Danh mục Hợp tác
                     </a>
-                </div>
-            </li>
-            <li class="menu-item">
-                <h4 class="menu-heading">Quản Lý Ký Kết MOU</h4>
-                <div class="menu-function">
+                    <a href="@Url.Action("Index", "BusinessUsers")" class="menu-feature">
+                        <i class="menu-icon fas fa-hand-point-right"></i>
+                        Doanh nghiệp
+                    </a>
                     <a href="@Url.Action("Index", "MOUs")" class="menu-feature">
                         <i class="menu-icon fas fa-hand-point-right"></i>
-                        Danh sách ký kết
+                        Ký kết MOU
+                    </a>
+                    <a href="@Url.Action("Index", "BusinessCooperationCategories")" class="menu-feature">
+                        <i class="menu-icon fas fa-hand-point-right"></i>
+                        Hoạt động hợp tác
+                    </a>
+                    <a href="@Url.Action("Index", "Posts")" class="menu-feature">
+                        <i class="menu-icon fas fa-hand-point-right"></i>
+                        Bài tuyển dụng
+                    </a>
+                    <a href="@Url.Action("Index", "Registration")" class="menu-feature">
+                        <i class="menu-icon fas fa-hand-point-right"></i>
+                        Ứng tuyển
                     </a>
                 </div>
             </li>
@@ -99,43 +124,51 @@
 
     @RenderBody()
 
+    <section class="footer">&copy; Phần mềm BCM thuộc về khoa CNTT, Trường Đại học Văn Lang</section>
+
 </body>
 
 @RenderSection("scripts", required: false)
 
-<script src="~/assets/js/greet.js"></script>
-<script src="~/assets/js/time.js"></script>
 <script src="~/assets/js/admin.js"></script>
 <script src="~/Scripts/jquery-3.4.1.js"></script>
 <script src="~/Scripts/jquery.validate.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Scripts/chosen.jquery.js"></script>
 <script src="~/assets/js/datatable/dataTable.min.js"></script>
 
 <script>
-    $(document).ready(function () {
-        $("#table_id").DataTable({
-            ordering: false,
-        });
-    });
 
     $(function () {
         $("#table_id_filter").prepend($("#filterEvent")).clone();
     });
+
     let formAdd = document.getElementById("addForm");
     let formUpdate = document.getElementById("updateForm");
+    let formDelete = document.getElementById("deleteForm");
     let icon = document.querySelector(".form-icon");
     let isHide = "is-hide";
     let isAppear = "is-appear";
     $(".btn--create").on("click", function () {
-        formAdd.classList.add(isAppear)
+        formAdd.classList.add(isAppear);
     });
+
+    $(".form-icon").on("click", function () {
+        formUpdate.classList.remove(isAppear);
+    });
+
+    $(".form-icon").on("click", function () {
+        formDelete.classList.remove(isAppear);
+    });
+
     $(".form-icon").on("click", function () {
         formAdd.classList.remove(isAppear);
     });
-    $(".form-icon").on("click", function () {
-        formUpdate.classList.remove(isAppear);
+
+    $(function () {
+        $("#ddlBussines_ID").chosen();
     });
 </script>
 

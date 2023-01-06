@@ -20,6 +20,8 @@ namespace BusinessConnectManagement
         {
             app.SetDefaultSignInAsAuthenticationType(CookieAuthenticationDefaults.AuthenticationType);
 
+            app.UseKentorOwinCookieSaver();
+
             app.UseCookieAuthentication(new CookieAuthenticationOptions());
 
             app.UseOpenIdConnectAuthentication(
@@ -39,7 +41,6 @@ namespace BusinessConnectManagement
                         }
                     }
                 });
-                 
         }
 
         private static string EnsureTrailingSlash(string value)
