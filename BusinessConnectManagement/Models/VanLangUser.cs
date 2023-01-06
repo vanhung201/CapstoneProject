@@ -19,6 +19,8 @@ namespace BusinessConnectManagement.Models
         {
             this.InternshipResults = new HashSet<InternshipResult>();
             this.InternshipResults1 = new HashSet<InternshipResult>();
+            this.Posts = new HashSet<Post>();
+            this.Posts1 = new HashSet<Post>();
             this.Registrations = new HashSet<Registration>();
             this.Trainees = new HashSet<Trainee>();
             this.Trainees1 = new HashSet<Trainee>();
@@ -27,7 +29,8 @@ namespace BusinessConnectManagement.Models
         public string Email { get; set; }
         public string FullName { get; set; }
         public string Student_ID { get; set; }
-        public Nullable<int> Role_ID { get; set; }
+        public string Mobile { get; set; }
+        public string Role { get; set; }
         public Nullable<System.DateTime> Last_Access { get; set; }
         public Nullable<int> Major_ID { get; set; }
         public Nullable<int> Status_ID { get; set; }
@@ -38,8 +41,11 @@ namespace BusinessConnectManagement.Models
         public virtual ICollection<InternshipResult> InternshipResults1 { get; set; }
         public virtual Major Major { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Post> Posts { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Post> Posts1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Registration> Registrations { get; set; }
-        public virtual Role Role { get; set; }
         public virtual Status Status { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Trainee> Trainees { get; set; }

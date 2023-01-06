@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "Trang quản lý - BCM";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<section class="dashboard">
+    <h1 class="dashboard-heading">Thống kê số liệu người dùng</h1>
+    <div class="dashboard-list">
+        <div class="dashboard-item">
+            <div class="dashboard-chart" id="typeChart"></div>
+            <div class="dashboard-content">
+                <h2 class="dashboard-desc">Loại người dùng</h2>
+                <p id="student"></p>
+                <p id="mentor"></p>
+                <p id="faculty"></p>
+            </div>
+        </div>
+        <div class="dashboard-item">
+            <div class="dashboard-chart" id="peopleChart"></div>
+            <div class="dashboard-content">
+                <h2 class="dashboard-desc">Lượng người dùng</h2>
+                <p id="block"></p>
+                <p id="active"></p>
+            </div>
+        </div>
+
+    </div>
+</section>

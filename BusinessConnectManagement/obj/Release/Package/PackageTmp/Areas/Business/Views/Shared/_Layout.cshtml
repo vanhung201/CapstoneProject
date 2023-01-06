@@ -9,34 +9,37 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;500;600;700&display=swap"
           rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" />
+    <link href="~/assets/css/grid2.css" rel="stylesheet" />
     <link href="~/assets/css/reset.css" rel="stylesheet" />
-    <link href="~/assets/css/global.css" rel="stylesheet" />
-    <link href="~/assets/css/menu.css" rel="stylesheet" />
-    <link href="~/assets/css/form.css" rel="stylesheet" />
-    <link href="~/assets/css/nav.css" rel="stylesheet" />
-    <link href="~/assets/css/button.css" rel="stylesheet" />
-    <link href="~/assets/css/admin.css" rel="stylesheet" />
-    <link href="~/assets/css/table.css" rel="stylesheet" />
+    <link href="~/assets/css/global2.css" rel="stylesheet" />
+    <link href="~/assets/css/menu2.css" rel="stylesheet" />
+    <link href="~/assets/css/nav2.css" rel="stylesheet" />
+    <link href="~/assets/css/button2.css" rel="stylesheet" />
+    <link href="~/assets/css/form2.css" rel="stylesheet" />
+    <link href="~/assets/css/table2.css" rel="stylesheet" />
+    <link href="~/assets/css/greet.css" rel="stylesheet" />
+    <link href="~/assets/css/jquery2.dataTables.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" />
     <link rel="shortcut icon" href="~/assets/images/favicon.ico" type="image/x-icon">
 </head>
 
 <body>
+
     <section class="menu">
-        <a href="@Url.Action("Index", "Home")" class="menu-image">
-            <img src="~/assets/images/adminVLU.png" alt="adminVLU.png" />
+        <a href="@Url.Action("Index", "BusinessHome")" class="menu-image">
+            <img src="~/assets/images/logoVL.png" alt="logoVL.png" />
+            <span class="menu-title">Business Connection Management</span>
         </a>
         <ul class="menu-list">
             <li class="menu-item">
-                <h4 class="menu-heading">QL Doanh Nghiệp</h4>
                 <div class="menu-function">
-                    <a href="#" class="menu-feature">
+                    <a href="@Url.Action("Index", "InternViews")" class="menu-feature">
                         <i class="menu-icon fas fa-hand-point-right"></i>
-                        Danh sách Ứng tuyển
+                        Ứng tuyển
                     </a>
-                    <a href="#" class="menu-feature">
+                    <a href="@Url.Action("Index", "InternshipResults")" class="menu-feature">
                         <i class="menu-icon fas fa-hand-point-right"></i>
-                        Kết quả Thực tập
+                        Thực tập
                     </a>
                 </div>
             </li>
@@ -61,6 +64,8 @@
 
     @RenderBody()
 
+    <section class="footer">&copy; Phần mềm BCM thuộc về khoa CNTT, Trường Đại học Văn Lang</section>
+
 </body>
 
 @RenderSection("scripts", required: false)
@@ -68,14 +73,27 @@
 <script src="~/assets/js/greet.js"></script>
 <script src="~/assets/js/time.js"></script>
 <script src="~/assets/js/admin.js"></script>
-<script src="~/assets/js/jquery/jquery.min.js"></script>
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Scripts/chosen.jquery.js"></script>
 <script src="~/assets/js/datatable/dataTable.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $("#table_id").DataTable({
-            ordering: false,
-        });
-    });
-</script>
 
-</html>
+<script>
+
+    $(function () {
+        $("#table_id_filter").prepend($("#filterEvent")).clone();
+    });
+
+    let formUpdate = document.getElementById("updateForm");
+    let icon = document.querySelector(".form-icon");
+    let isHide = "is-hide";
+    let isAppear = "is-appear";
+
+    $(".form-icon").on("click", function () {
+        formUpdate.classList.remove(isAppear);
+    })
+
+</script>

@@ -1,0 +1,91 @@
+﻿@model IEnumerable<BusinessConnectManagement.Models.InternshipResult>
+
+@{
+    ViewBag.Title = "Internship";
+    Layout = "~/Areas/Business/Views/Shared/_Layout.cshtml";
+}
+
+<section class="list">
+    <h1 class="list-heading">Danh sách thực tập</h1>
+    <div class="list-table">
+        <table id="table_id" class="display">
+            <thead>
+                <tr>
+                    <th>Họ và Tên</th>
+                    <th>Email</th>
+                    <th>Vị trí đăng ký</th>
+                    <th>Nhận xét</th>
+                    <th>Trạng thái</th>
+                    <th>Chức năng</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.VanLangUser.FullName</td>
+                        <td>@item.Student_Email</td>
+                        <td>@item.RegistrationPosition</td>
+                        <td class="">@item.BusinessComment</td>
+                        <td class="text-green">@item.Status</td>
+
+                        <td class=""><button class="btn btn-action btn--update" onclick="loadEditUser('@item.ID', '@item.Business_ID', '@item.Student_Email', '@item.Semester_ID', '@item.Mentor_Email', '@item.MentorPoint', '@item.MentorComment', '@item.BusinessPoint', ' @item.RegistrationPosition', '@item.BusinessComment')">Cập nhật</button></td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</section>
+<form action="@Url.Action("Edit", "InternshipResults")" class="form" id="updateForm" method="post">
+    
+    <div class="form-container">
+        <i class="form-icon fas fa-times-circle"></i>
+        <h1 class="form-heading">Cập nhật Kết quả</h1>
+        <div class="form-group">
+            <label for="comment" class="form-label">Nhận xét</label>
+            <textarea name="BusinessComment" id="bcm" class="form-input" autocomplete="off"></textarea>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Trạng Thái</label>
+            <input list="" name="id" id="id" class="form-input" hidden/>
+            <input list="" name="Business_ID" id="idb" class="form-input" hidden/>
+            <input list="" name="Student_Email" id="email" class="form-input" hidden/>
+            <input list="" name="Semester_ID" id="semeter" class="form-input" hidden/>
+            <input list="" name="Mentor_Email" id="mail_mentor" class="form-input" hidden/>
+            <input list="" name="MentorPoint" id="mentorp" class="form-input" hidden/>
+            <input list="" name="MentorComment" id="mentorc" class="form-input" hidden/>
+            <input list="" name="BusinessPoint" id="businessp" class="form-input" hidden/>
+            <input list="" name="RegistrationPosition" id="rp" class="form-input" hidden/>
+
+            <select name="Status" id="Status" class="form-input">
+                <option class="text-center" value="Chưa Hoàn Thành">Chưa Hoàn Thành</option>
+                <option class="text-center" value="Hoàn Thành">Hoàn Thành</option>
+
+            </select>
+        </div>
+        <div class="form-group">
+            <button  type="submit" class="btn btn--add">Lưu</button>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+        function loadEditUser(id, idb, email, semeter, mail_mentor, mentorp, mentorc, businessp,  rp, bcm) {
+            let formUpdate = document.getElementById("updateForm");
+            formUpdate.classList.add('is-appear')
+            document.getElementById('id').value = id;
+            document.getElementById('idb').value = idb;
+            document.getElementById('email').value = email;
+            document.getElementById('semeter').value = semeter;
+            document.getElementById('mail_mentor').value = mail_mentor;
+            document.getElementById('mentorp').value = mentorp;
+            document.getElementById('mentorc').value = mentorc;
+            document.getElementById('businessp').value = businessp;
+            document.getElementById('rp').value = rp;
+            document.getElementById('bcm').value = bcm;        }
+    </script>
+}

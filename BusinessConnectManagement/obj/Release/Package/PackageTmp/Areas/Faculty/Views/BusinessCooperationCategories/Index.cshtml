@@ -1,0 +1,106 @@
+﻿@model IEnumerable<BusinessConnectManagement.Models.BusinessUser>
+
+@{
+    ViewBag.Title = "Cooperation Activity";
+    Layout = "~/Areas/Faculty/Views/Shared/_Layout.cshtml";
+}
+
+<section class="list">
+    <form id="createBusiness" action="@Url.Action("Index","BusinessCooperationCategories")" method="post" enctype="multipart/form-data">
+
+        <h1 class="list-heading">Danh sách hoạt động</h1>
+        <div class="list-table">
+            <div id="filterEvent">
+                <a href=@Url.Action("Create","BusinessCooperationCategories")>
+                    <div class="btn btn--create">
+                        <i class="btn-icon btn-icon--create fas fa-plus"></i>
+                        <span class="btn-text">Thêm</span>
+                    </div>
+                </a>
+                
+            </div>
+            <table id="table_id" class="display" width="100%">
+                <thead>
+                    <tr>
+                        <th class="text-center">STT</th>
+                        <th class="text-center">Tên Doanh nghiệp</th>
+                        <th class="text-center">Hoạt động hợp tác</th>
+                        <th class="text-center" width="20%">Chức năng</th>
+                    </tr>
+                </thead>
+                <tbody id="example">
+                    @{int count = 1;}
+                    @foreach (var item in ViewBag.demo)
+                    {
+                        <tr class="example2">
+                            <td>@count</td>
+                            <td>
+                                @item.name
+                            </td>
+
+
+                            <td>
+
+                                @item.value
+
+                            </td>
+                            <td class="text-center">
+                                <a href="@Url.Action("Details", "BusinessCooperationCategories", new {id = item.id})">
+                                    <div class="btn btn--detail">
+                                        <i class="btn-icon btn-icon--detail fas fa-info-circle"></i>
+                                        <span class="btn-text">Xem Chi Tiết</span>
+                                    </div>
+                                </a>
+
+                                <a href="@Url.Action("Edit", "BusinessCooperationCategories", new {id = item.id})">
+                                    <div class="btn btn--update">
+                                        <i class="btn-icon btn-icon--edit fas fa-edit"></i>
+                                        <span class="btn-text">Cập Nhật</span>
+                                    </div>
+                                </a>
+                                <a onclick="loadDeleteUser( '@item.id')">
+                                    <div class="btn btn--delete">
+                                        <i class="btn-icon btn-icon--edit fas fa-times"></i>
+                                        <span class="btn-text">Xóa</span>
+                                    </div>
+                                </a>
+                            </td>
+                        </tr>
+                        count++;
+                    }
+                </tbody>
+            </table>
+        </div>
+    </form>
+</section>
+<form action="@Url.Action("DeleteActivity", "BusinessUsers")" class="form" id="deleteForm" method="post">
+    @{using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken();
+           
+    <div class="form-container">
+        <i class="form-icon fas fa-times-circle"></i>
+        <h1 class="form-heading">Thông báo</h1>
+        <input name="id" id="iddele" hidden/>
+        <span>
+            Bạn chắc chắn muốn <strong style="font-weight: bold; color: #ce1b28;">xóa hoạt động </strong>
+            này không?
+        </span>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-action btn--update">Xác nhận</button>
+        </div>
+    </div>
+        }
+    }
+</form>
+@section Scripts {
+    <script type="text/javascript">
+        function loadDeleteUser(id) {
+            let formDelete = document.getElementById("deleteForm");
+            formDelete.classList.add('is-appear')
+            document.getElementById('iddele').value = id;
+        }
+       
+    </script>
+}

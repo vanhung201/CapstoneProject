@@ -1,0 +1,106 @@
+﻿@model IEnumerable<BusinessConnectManagement.Models.Post>
+
+@{
+    ViewBag.Title = "Post";
+    Layout = "~/Areas/Faculty/Views/Shared/_Layout.cshtml";
+}
+
+<section class="list">
+    <h1 class="list-heading">Danh sách bài viết tuyển dụng</h1>
+    <div class="list-table">
+        <div id="filterEvent">
+            <a  href="@Url.Action("Create", "Posts")">
+                <div class="btn btn--create">
+                    <i class="btn-icon btn-icon--create fas fa-plus"></i>
+                    <span class="btn-text">Thêm</span>
+                </div>
+            </a>
+            
+        </div>
+        <table id="table_id" class="display" width="100%">
+            <thead>
+                <tr>
+                    <th width="5%">STT</th>
+                    <th>Tiêu đề</th>    
+                    <th width="22%">Người đăng bài</th>
+                    <th width="15%">Ngày đăng</th>
+                    <th width="15%">Ngày cập nhật</th>
+                    <th width="20%">Chức năng</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                @{int count = 1;}
+                @foreach (var item in Model)
+                {
+                    DateTime? mydate = item.PostDay;
+                    string datee = mydate.Value.ToString("dd-MM-yyyy");
+                    DateTime? modifydate = item.ModifyDay;
+                    string modifydatee = modifydate.Value.ToString("dd-MM-yyyy");
+                    <tr>
+                        <td>@count</td>
+                        <td>@item.Title</td>
+                        <td>@item.Email_ID</td>
+                        <td>@datee</td>
+                        <td>@modifydatee</td>
+                        <td class="text-center">
+                            <a href="@Url.Action("Details", "Posts",  new { id=item.ID })">
+                                <div class="btn btn--detail">
+                                    <i class="btn-icon btn-icon--detail fas fa-info-circle"></i>
+                                    <span class="btn-text">Xem Chi Tiết</span>
+                                </div>
+                            </a>
+                            <a href="@Url.Action("Edit", "Posts",  new { id=item.ID })">
+                                <div class="btn btn--update">
+                                    <i class="btn-icon btn-icon--edit fas fa-edit"></i>
+                                    <span class="btn-text">Cập Nhật</span>
+                                </div>
+                            </a>
+                            <a onclick="loadDeleteUser('@item.ID', '@item.Title')">
+                                <div class="btn btn--delete">
+                                    <i class="btn-icon btn-icon--edit fas fa-times"></i>
+                                    <span class="btn-text">Xóa</span>
+                                </div>
+                            </a>
+                        </td>
+                    </tr>
+                    count++;
+                }
+
+            </tbody>
+        </table>
+    </div>
+</section>
+<form action="@Url.Action("Delete", "Posts")" class="form" id="deleteForm" method="post">
+    @{using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken();
+            <input name="id" id="iddele" hidden />
+            <div class="form-container">
+                <i class="form-icon fas fa-times-circle" onclick="removeForm()"></i>
+                <h1 class="form-heading">Xác nhận</h1>
+              
+                <span>
+                    Bạn chắc chắn muốn <strong name="name" id="namedele" style="font-weight: bold; color: #ce1b28;">xóa bài viết </strong>
+                    này không?
+                </span>
+                
+                <div class="form-group">
+                    <button type="submit" class="btn btn-action btn--update">Xác nhận</button>
+                </div>
+            </div>
+        }
+    }
+</form>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        function loadDeleteUser(id, name) {
+            let formDelete = document.getElementById("deleteForm");
+            formDelete.classList.add('is-appear')
+            document.getElementById('iddele').value = id;
+            document.getElementById('namedele').value = name;
+        }
+    </script>
+}

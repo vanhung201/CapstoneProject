@@ -21,6 +21,7 @@ D:\LAPTRINHASP.NET_MVC\Capstone Project Local\BusinessConnectManagement.Tests\bi
 D:\LAPTRINHASP.NET_MVC\Capstone Project Local\BusinessConnectManagement.Tests\bin\Debug\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 D:\LAPTRINHASP.NET_MVC\Capstone Project Local\BusinessConnectManagement.Tests\bin\Debug\Microsoft.Owin.Security.OpenIdConnect.dll
 D:\LAPTRINHASP.NET_MVC\Capstone Project Local\BusinessConnectManagement.Tests\bin\Debug\EntityFramework.dll
+D:\LAPTRINHASP.NET_MVC\Capstone Project Local\BusinessConnectManagement.Tests\bin\Debug\Kentor.OwinCookieSaver.dll
 D:\LAPTRINHASP.NET_MVC\Capstone Project Local\BusinessConnectManagement.Tests\bin\Debug\Microsoft.Owin.Security.Cookies.dll
 D:\LAPTRINHASP.NET_MVC\Capstone Project Local\BusinessConnectManagement.Tests\bin\Debug\Microsoft.Owin.Host.SystemWeb.dll
 D:\LAPTRINHASP.NET_MVC\Capstone Project Local\BusinessConnectManagement.Tests\bin\Debug\Microsoft.Owin.dll
@@ -47,6 +48,7 @@ D:\LAPTRINHASP.NET_MVC\Capstone Project Local\BusinessConnectManagement.Tests\bi
 D:\LAPTRINHASP.NET_MVC\Capstone Project Local\BusinessConnectManagement.Tests\bin\Debug\Microsoft.IdentityModel.Protocols.OpenIdConnect.xml
 D:\LAPTRINHASP.NET_MVC\Capstone Project Local\BusinessConnectManagement.Tests\bin\Debug\Microsoft.Owin.Security.OpenIdConnect.xml
 D:\LAPTRINHASP.NET_MVC\Capstone Project Local\BusinessConnectManagement.Tests\bin\Debug\EntityFramework.xml
+D:\LAPTRINHASP.NET_MVC\Capstone Project Local\BusinessConnectManagement.Tests\bin\Debug\Kentor.OwinCookieSaver.xml
 D:\LAPTRINHASP.NET_MVC\Capstone Project Local\BusinessConnectManagement.Tests\bin\Debug\Microsoft.Owin.Security.Cookies.xml
 D:\LAPTRINHASP.NET_MVC\Capstone Project Local\BusinessConnectManagement.Tests\bin\Debug\Microsoft.Owin.Host.SystemWeb.xml
 D:\LAPTRINHASP.NET_MVC\Capstone Project Local\BusinessConnectManagement.Tests\bin\Debug\Microsoft.Owin.xml

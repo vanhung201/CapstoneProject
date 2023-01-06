@@ -13,7 +13,7 @@
     else
     {
         FullName = query.FullName;
-    }
+    } 
 }
 
 <!DOCTYPE html>
@@ -25,32 +25,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewBag.Title</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet" />
+          rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" />
+    <link href="~/assets/css/grid2.css" rel="stylesheet" />
     <link href="~/assets/css/reset.css" rel="stylesheet" />
-    <link href="~/assets/css/global.css" rel="stylesheet" />
-    <link href="~/assets/css/menu.css" rel="stylesheet" />
-    <link href="~/assets/css/form.css" rel="stylesheet" />
-    <link href="~/assets/css/nav.css" rel="stylesheet" />
-    <link href="~/assets/css/button.css" rel="stylesheet" />
-    <link href="~/assets/css/admin.css" rel="stylesheet" />
-    <link href="~/assets/css/table.css" rel="stylesheet" />
+    <link href="~/assets/css/global2.css" rel="stylesheet" />
+    <link href="~/assets/css/menu2.css" rel="stylesheet" />
+    <link href="~/assets/css/nav2.css" rel="stylesheet" />
+    <link href="~/assets/css/button2.css" rel="stylesheet" />
+    <link href="~/assets/css/form2.css" rel="stylesheet" />
+    <link href="~/assets/css/table2.css" rel="stylesheet" />
+    <link href="~/assets/css/greet.css" rel="stylesheet" />
+    <link href="~/assets/css/jquery2.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-chosen.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/assets/css/dashboard.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" />
     <link rel="shortcut icon" href="~/assets/images/favicon.ico" type="image/x-icon">
+    <style>
+        .field-validation-error {
+            color: red;
+        }
+    </style>
 </head>
 
 <body>
+
     <section class="menu">
-        <a href="@Url.Action("Index", "Home")" class="menu-image">
-            <img src="~/assets/images/adminVLU.png" alt="adminVLU.png" />
+        <a href="@Url.Action("Index", "AdminHome")" class="menu-image">
+            <img src="~/assets/images/logoVL.png" alt="logoVL.png"/>
+            <span class="menu-title">Business Connection Management</span>
         </a>
         <ul class="menu-list">
             <li class="menu-item">
-                <h4 class="menu-heading">Phân quyền</h4>
                 <div class="menu-function">
-                    <a href="@Url.Action("AuthorizeList", "Home")" class="menu-feature">
+                    <a href="@Url.Action("AuthorizeList", "AdminHome")" class="menu-feature">
                         <i class="menu-icon fas fa-hand-point-right"></i>
-                        QL Đăng Nhập
+                        Tài khoản
+                    </a>
+                    <a href="@Url.Action("Index", "CooperationCategories", new { area = "Faculty" })" class="menu-feature">
+                        <i class="menu-icon fas fa-hand-point-right"></i>
+                        Danh mục Hợp tác
+                    </a>
+                    <a href="@Url.Action("Index", "BusinessUsers", new { area = "Faculty" })" class="menu-feature">
+                        <i class="menu-icon fas fa-hand-point-right"></i>
+                        Doanh nghiệp
+                    </a>
+                    <a href="@Url.Action("Index", "MOUs", new { area = "Faculty" })" class="menu-feature">
+                        <i class="menu-icon fas fa-hand-point-right"></i>
+                        Ký kết MOU
+                    </a>
+                    <a href="@Url.Action("Index", "BusinessCooperationCategories", new { area = "Faculty" })" class="menu-feature">
+                        <i class="menu-icon fas fa-hand-point-right"></i>
+                        Hoạt động hợp tác
+                    </a>
+                    <a href="@Url.Action("Index", "Posts", new { area = "Faculty" })" class="menu-feature">
+                        <i class="menu-icon fas fa-hand-point-right"></i>
+                        Bài tuyển dụng
+                    </a>
+                    <a href="@Url.Action("Index", "Registration", new { area = "Faculty" })" class="menu-feature">
+                        <i class="menu-icon fas fa-hand-point-right"></i>
+                        Ứng tuyển
                     </a>
                 </div>
             </li>
@@ -75,20 +109,53 @@
 
     @RenderBody()
 
+    <section class="footer">&copy; Phần mềm BCM thuộc về khoa CNTT, Trường Đại học Văn Lang</section>
+
 </body>
 
 @RenderSection("scripts", required: false)
 
-<script src="~/assets/js/greet.js"></script>
-<script src="~/assets/js/time.js"></script>
 <script src="~/assets/js/admin.js"></script>
-<script src="~/assets/js/jquery/jquery.min.js"></script>
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Scripts/chosen.jquery.js"></script>
 <script src="~/assets/js/datatable/dataTable.min.js"></script>
+<script src="~/assets/js/dashboard.js"></script>
+
 <script>
-    $(document).ready(function () {
-        $("#table_id").DataTable({
-            ordering: false,
-        });
+
+    $(function () {
+        $("#table_id_filter").prepend($("#filterEvent")).clone();
+    });
+
+    let formAdd = document.getElementById("addForm");
+    let formUpdate = document.getElementById("updateForm");
+    let formDelete = document.getElementById("deleteForm");
+    let icon = document.querySelector(".form-icon");
+    let isHide = "is-hide";
+    let isAppear = "is-appear";
+
+    $(".btn--create").on("click", function () {
+        formAdd.classList.add(isAppear);
+    });
+
+    $(".form-icon").on("click", function () {
+        formDelete.classList.remove(isAppear);
+    });
+
+    $(".form-icon").on("click", function () {
+        formAdd.classList.remove(isAppear);
+    });
+
+    $(".form-icon").on("click", function () {
+        formUpdate.classList.remove(isAppear);
+    })
+
+    $(function () {
+        $("#ddlBussines_ID").chosen();
     });
 </script>
 

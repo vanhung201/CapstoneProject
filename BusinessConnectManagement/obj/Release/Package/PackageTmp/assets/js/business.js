@@ -12,6 +12,7 @@ icon.addEventListener("click", function () {
   form.classList.remove(isAppear);
 });
 let buttonUpdate = document.querySelectorAll(".btn--update");
+
 for (let i = 0; i < buttonUpdate.length; i++) {
   buttonUpdate[i].onclick = function () {
     form.classList.add(isAppear);
@@ -34,5 +35,6 @@ for (let i = 0; i < buttonUpdate.length; i++) {
 
     document.getElementById("comment").textContent =
       document.querySelectorAll("td:nth-child(4)")[i].textContent;
-  };
+    };
+   
 }

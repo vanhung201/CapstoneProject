@@ -16,11 +16,11 @@
                     <div class="col l-6">
                         <div class="form-group">
                             <label class="form-label">Mã Doanh Nghiệp</label>
-                            @Html.EditorFor(model => model.Business_ID, new { htmlAttributes = new { @class = "form-input" } })
+                            @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-input" } })
                         </div>
                         <div class="form-group">
                             <label class="form-label" hidden></label>
-                            @Html.ValidationMessageFor(model => model.Business_ID, "", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="col l-6">
@@ -148,8 +148,8 @@
                             <label for="logo" class="form-label">Logo</label>
                             <div style="display: flex; flex-direction: column">
                                 <img style="width: 22rem; height:fit-content; margin: 0 0 1rem 0;" />
-                                <input name="logo" id="logo" class="form-input" type="file"
-                                       accept="image/png, image/gif, image/jpeg" required />
+                                <input name="logo" class="form-input" type="file" id="logo"
+                                       accept="image/png, image/gif, image/jpeg" onchange="validateSize(this)" required />
 
                             </div>
                         </div>
@@ -158,7 +158,7 @@
             </div>
             <div class="button-wrapper">
                 <a class="btn btn-action btn--detail" href="@Url.Action("Index", "BusinessUsers")">Trở Về</a>
-                <button class="btn btn-action btn--create" type="submit" onclick="getValueCheckBoxAndSubmit()">Thêm</button>
+                <button class="btn btn--add"  onclick="getValueCheckBoxAndSubmit()" type="submit">Thêm</button>
             </div>
         </div>
     </form>
@@ -167,6 +167,29 @@
 
 @section Scripts {
     <script type="text/javascript">
+        function validateSize(input) {
+            var fup = document.getElementById('logo');
+            var fileName = fup.value;
+            var ext = fileName.substring(fileName.lastIndexOf('.') + 1);
+            if (fileName == '' || ext == "gif" || ext == "GIF" || ext == "PNG" || ext == "png" || ext == "jpg" || ext == "JPG" || ext == "bmp" || ext == "BMP") {
+                const fileSize = input.files[0].size / 1024 / 1024; // in MiB
+                var fup = document.getElementById('logo');
+                if (fileSize < 2) {
+                    return true;
+                } else {
+                    // Proceed further
+                    alert('Dung lượng hình ảnh không vượt quá 2MiB');
+                    fup.value = '';
+                    return false;
+                }
+                return true;
+            }
+            else {
+                fup.value = '';
+                alert("Chỉ được tải lên hình ảnh dạng PNG, JPG, GIF và BMP");
+                return false;
+            }
+        }
         function getValueCheckBoxAndSubmit() {
             let arrayCheckbox = "";
             var allCheckBox = document.querySelectorAll("#checkBoxCoop > .container > input[type='checkbox']:checked");
@@ -174,7 +197,10 @@
                 arrayCheckbox += allCheckBox[i].value + ",";
             }
             $("#CoopId").val(arrayCheckbox);
-            $("#createBusiness").save();
+            $("#createBusiness");
+            //Validate only get image
+
+
         }
     </script>
 }
