@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project>
   <PropertyGroup>
     <_PublishTargetUrl>D:\LAPTRINHASP.NET_MVC\Capstone Project Local\Publish</_PublishTargetUrl>
-    <History>True|2023-01-06T16:58:32.0851220Z;True|2023-01-02T23:31:45.5267487+07:00;True|2022-12-21T14:08:12.7755171+07:00;True|2022-12-21T02:58:45.0472550+07:00;True|2022-12-21T01:04:07.1804830+07:00;True|2022-12-18T23:42:08.0549693+07:00;True|2022-12-18T23:16:38.6381391+07:00;True|2022-12-18T22:54:57.4654200+07:00;True|2022-12-18T22:45:42.7817294+07:00;True|2022-12-18T22:43:18.1194935+07:00;True|2022-12-13T22:30:52.4232932+07:00;True|2022-12-13T22:05:08.8225925+07:00;True|2022-12-08T20:44:32.5940203+07:00;True|2022-12-08T20:37:39.8784839+07:00;True|2022-12-06T22:58:31.4739535+07:00;</History>
+    <History>True|2023-01-06T17:45:58.6008221Z;True|2023-01-07T00:43:52.8328169+07:00;True|2023-01-06T23:58:32.0851220+07:00;True|2023-01-02T23:31:45.5267487+07:00;True|2022-12-21T14:08:12.7755171+07:00;True|2022-12-21T02:58:45.0472550+07:00;True|2022-12-21T01:04:07.1804830+07:00;True|2022-12-18T23:42:08.0549693+07:00;True|2022-12-18T23:16:38.6381391+07:00;True|2022-12-18T22:54:57.4654200+07:00;True|2022-12-18T22:45:42.7817294+07:00;True|2022-12-18T22:43:18.1194935+07:00;True|2022-12-13T22:30:52.4232932+07:00;True|2022-12-13T22:05:08.8225925+07:00;True|2022-12-08T20:44:32.5940203+07:00;True|2022-12-08T20:37:39.8784839+07:00;True|2022-12-06T22:58:31.4739535+07:00;</History>
     <LastFailureDetails />
   </PropertyGroup>
   <ItemGroup>
@@ -28,7 +28,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>05/12/2022 17:16:47</publishTime>
     </File>
     <File Include="Areas/Admin/Views/AdminHome/AuthorizeList.cshtml">
-      <publishTime>01/06/2023 23:10:47</publishTime>
+      <publishTime>01/07/2023 00:41:44</publishTime>
     </File>
     <File Include="Areas/Admin/Views/AdminHome/Index.cshtml">
       <publishTime>01/05/2023 22:51:45</publishTime>
@@ -52,7 +52,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>05/12/2022 17:16:47</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/_Layout.cshtml">
-      <publishTime>01/06/2023 23:57:41</publishTime>
+      <publishTime>01/07/2023 00:39:07</publishTime>
     </File>
     <File Include="Areas/Admin/Views/web.config">
       <publishTime>01/05/2023 22:29:07</publishTime>
@@ -178,7 +178,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/06/2023 20:49:49</publishTime>
     </File>
     <File Include="Areas/Faculty/Views/Shared/_Layout.cshtml">
-      <publishTime>01/06/2023 23:57:04</publishTime>
+      <publishTime>01/07/2023 00:38:54</publishTime>
     </File>
     <File Include="Areas/Faculty/Views/web.config">
       <publishTime>01/05/2023 22:29:39</publishTime>
@@ -274,7 +274,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/05/2023 23:29:11</publishTime>
     </File>
     <File Include="assets/css/ErrorPageCSS.css">
-      <publishTime>12/08/2022 20:02:16</publishTime>
+      <publishTime>01/07/2023 00:31:59</publishTime>
     </File>
     <File Include="assets/css/form.css">
       <publishTime>12/06/2022 01:05:46</publishTime>
@@ -3112,10 +3112,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>10/09/2013 16:29:20</publishTime>
     </File>
     <File Include="bin/BusinessConnectManagement.dll">
-      <publishTime>01/06/2023 23:58:29</publishTime>
+      <publishTime>01/07/2023 00:43:50</publishTime>
     </File>
     <File Include="bin/BusinessConnectManagement.pdb">
-      <publishTime>01/06/2023 23:58:29</publishTime>
+      <publishTime>01/07/2023 00:43:50</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>10/23/2017 13:15:18</publishTime>
@@ -3553,7 +3553,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/06/2022 00:13:35</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>01/06/2023 23:58:30</publishTime>
+      <publishTime>01/07/2023 00:45:57</publishTime>
     </File>
   </ItemGroup>
 </Project>

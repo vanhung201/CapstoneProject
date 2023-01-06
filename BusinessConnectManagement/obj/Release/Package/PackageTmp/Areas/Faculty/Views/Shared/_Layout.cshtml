@@ -151,16 +151,17 @@
     let icon = document.querySelector(".form-icon");
     let isHide = "is-hide";
     let isAppear = "is-appear";
+
     $(".btn--create").on("click", function () {
         formAdd.classList.add(isAppear);
     });
 
     $(".form-icon").on("click", function () {
-        formUpdate.classList.remove(isAppear);
+        formDelete.classList.remove(isAppear);
     });
 
     $(".form-icon").on("click", function () {
-        formDelete.classList.remove(isAppear);
+        formUpdate.classList.remove(isAppear);
     });
 
     $(".form-icon").on("click", function () {
