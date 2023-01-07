@@ -33,7 +33,7 @@
                         <div class="form-group">
                             <label class="form-label">Người đăng bài</label>
                             @Html.HiddenFor(model => model.Email_ID)
-                            <input list="" name="PostDay" id="daysigning" class="form-input" value="@Model.Email_ID"
+                            <input list="" name="PostDay" id="daysigning" class="form-input" value="@Model.VanLangUser.FullName"
                                    autocomplete="off" disabled />
 
                         </div>
@@ -77,16 +77,13 @@
                         <div class="form-group">
                             <label for="address" class="form-label">Mô tả</label>
                             @Html.TextAreaFor(model => model.Description, new { @id = "Explanation" })
-                            @* <textarea name="editor1" id="editor1" rows="10" cols="80">
-
-                                </textarea>*@
                         </div>
                     </div>
                 </div>
             </div>
             <div class="button-wrapper">
                 <a class="btn btn-action btn--detail" href="@Url.Action("Index", "Posts")">Trở Về</a>
-                <button class="btn btn--update"  onclick="checkImage()" type="submit" >Cập nhật</button>
+                <button class="btn btn--add" onclick="checkImage()" type="submit" >Luu Thay Đổi</button>
             </div>
         </div>
     </section>

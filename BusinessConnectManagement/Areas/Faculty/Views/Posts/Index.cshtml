@@ -20,12 +20,12 @@
         <table id="table_id" class="display" width="100%">
             <thead>
                 <tr>
-                    <th width="5%">STT</th>
-                    <th>Tiêu đề</th>    
-                    <th width="22%">Người đăng bài</th>
-                    <th width="15%">Ngày đăng</th>
-                    <th width="15%">Ngày cập nhật</th>
-                    <th width="20%">Chức năng</th>
+                    <th width="5%" class="text-center">STT</th>
+                    <th class="text-center">Tiêu đề</th>    
+                    <th width="22%" class="text-center">Người đăng bài</th>
+                    <th width="15%" class="text-center">Ngày đăng</th>
+                    <th width="15%" class="text-center">Ngày cập nhật</th>
+                    <th width="20%" class="text-center">Chức năng</th>
                 </tr>
             </thead>
             <tbody>
@@ -38,9 +38,9 @@
                     DateTime? modifydate = item.ModifyDay;
                     string modifydatee = modifydate.Value.ToString("dd-MM-yyyy");
                     <tr>
-                        <td>@count</td>
+                        <td class="text-center">@count</td>
                         <td>@item.Title</td>
-                        <td>@item.Email_ID</td>
+                        <td>@item.VanLangUser.FullName</td>
                         <td>@datee</td>
                         <td>@modifydatee</td>
                         <td class="text-center">

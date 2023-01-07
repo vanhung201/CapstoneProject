@@ -1,15 +1,27 @@
-﻿@{
+﻿@using BusinessConnectManagement.Models;
+
+@{ 
+    BCMEntities db = new BCMEntities();
+
+    int studentNumber = db.VanLangUsers.Count(x => x.Role == "Student");
+    int facultyNumber = db.VanLangUsers.Count(x => x.Role == "Faculty");
+    int mentorNumber = db.VanLangUsers.Count(x => x.Role == "Mentor");
+    int userActiveNumber = db.VanLangUsers.Count(x => x.Status_ID == 1);
+    int userBlockedNumber = db.VanLangUsers.Count(x => x.Status_ID == 2);
+}
+
+@{
     ViewBag.Title = "Trang quản lý - BCM";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
 <section class="dashboard">
-    <h1 class="dashboard-heading">Thống kê số liệu người dùng</h1>
+    <h1 class="dashboard-heading">Thống kê số liệu tài khoản</h1>
     <div class="dashboard-list">
         <div class="dashboard-item">
             <div class="dashboard-chart" id="typeChart"></div>
             <div class="dashboard-content">
-                <h2 class="dashboard-desc">Loại người dùng</h2>
+                <h2 class="dashboard-desc">PHÂN LOẠI TÀI KHOẢN</h2>
                 <p id="student"></p>
                 <p id="mentor"></p>
                 <p id="faculty"></p>
@@ -18,7 +30,7 @@
         <div class="dashboard-item">
             <div class="dashboard-chart" id="peopleChart"></div>
             <div class="dashboard-content">
-                <h2 class="dashboard-desc">Lượng người dùng</h2>
+                <h2 class="dashboard-desc">SỐ LƯỢNG TÀI KHOẢN</h2>
                 <p id="block"></p>
                 <p id="active"></p>
             </div>
@@ -26,3 +38,58 @@
 
     </div>
 </section>
+
+<script>
+    let typeNumber = document.getElementById("typeChart");
+    let peopleNumber = document.getElementById("peopleChart");
+
+    let numBlock = @userBlockedNumber;
+    let numActive = @userActiveNumber;
+    let total = numBlock + numActive;
+
+    let numStudent = @studentNumber;
+    let numMentor = @mentorNumber;
+    let numFaculty = @facultyNumber;
+    let block = (numBlock * 100) / total;
+    let active = (numActive * 100) / total;
+    let student = (numStudent * 100) / total;
+    let mentor = (numMentor * 100) / total;
+    let faculty = (numFaculty * 100) / total;
+
+    if (peopleNumber != undefined && typeNumber != undefined) {
+        peopleNumber.style.setProperty(
+            "background-image",
+            `repeating-conic-gradient(from 0deg,
+          #f64f59 0deg ${block * 3.6 + "deg"},
+          #00b09b ${block * 3.6 + "deg"} 360deg)`
+        );
+
+        typeNumber.style.setProperty(
+            "background-image",
+            `repeating-conic-gradient(from 0deg,
+          #2980B9 0deg ${student * 3.6 + "deg"},
+          #4e54c8 ${student * 3.6 + "deg"} calc(${student * 3.6 + "deg"} + ${mentor * 3.6 + "deg"
+            }) ,
+          #CAC531 calc(${student * 3.6 + "deg"} + ${mentor * 3.6 + "deg"
+            }) 360deg`
+        );
+
+        const blockCount = document.getElementById("block");
+
+        const activeCount = document.getElementById("active");
+
+        const studentCount = document.getElementById("student");
+
+        const facultyCount = document.getElementById("faculty");
+        const mentorCount = document.getElementById("mentor");
+
+        blockCount.innerHTML = `${numBlock} tài khoản bị khóa (${block.toFixed()}%)`;
+
+        activeCount.innerHTML = `${numActive} tài khoản đang hoạt động (${active.toFixed()}%)`;
+
+        studentCount.innerHTML = `${numStudent} tài khoản là Sinh Viên (${student.toFixed()}%)`;
+
+        facultyCount.innerHTML = `${numFaculty} tài khoản là BCN Khoa (${faculty.toFixed()}%)`;
+        mentorCount.innerHTML = `${numMentor} tài khoản là Giảng viên hướng dẫn (${mentor.toFixed()}%)`;
+    }
+</script>

@@ -51,7 +51,7 @@
                     <div class="col l-6">
                         <div class="form-group">
                             <label class="form-label">Tên Đăng Nhập</label>
-                            @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-input" } })
+                            @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-input", disabled = "true" } })
                         </div>
                         <div class="form-group">
                             <label class="form-label" hidden></label>
@@ -61,7 +61,7 @@
                     <div class="col l-6">
                         <div class="form-group">
                             <label class="form-label">Mật Khẩu</label>
-                            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-input" } })
+                            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-input", type = "password" } })
                         </div>
                         <div class="form-group">
                             <label class="form-label" hidden></label>
@@ -187,7 +187,7 @@
                         <div class="form-group">
                             <label for="logo" class="form-label">Logo</label>
                             <div style="display: flex; flex-direction: column">
-                                <img src="@Url.Content("~/Image/"+ Model.BusinessLogo)" style="width: 22rem; height:fit-content; margin: 0 0 1rem 0;" />
+                                <img src="@Url.Content("~/Uploads/Images/" + Model.BusinessLogo)" alt="businessLogo" style="width: 22rem; height:fit-content; margin: 0 0 1rem 0;" />
                                 <input name="logo" class="form-input" onchange="validateSize(this)" type="file" id="logo"
                                        accept="image/png, image/gif, image/jpeg" />
                                 <input name="BusinessLogo" id="img" value="@Model.BusinessLogo" hidden />
@@ -198,7 +198,7 @@
                 </div>
             <div class="button-wrapper">
                 <a class="btn btn--back" href="@Url.Action("Index", "BusinessUsers")">Trở Về</a>
-                <button class="btn btn--update" type="submit" onclick="checkImage()" >Cập Nhật</button>
+                <button class="btn btn--add" type="submit" onclick="checkImage()" >Lưu Thay Đổi</button>
             </div>
         </div>
     </form>

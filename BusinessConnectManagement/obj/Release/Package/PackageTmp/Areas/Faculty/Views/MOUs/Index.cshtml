@@ -19,7 +19,7 @@
         <table id="table_id" class="display" width="100%">
             <thead>
                 <tr>
-                    <th width="5%">STT</th>
+                    <th width="5%" class="text-center">STT</th>
                     <th>Tên Doanh Nghiệp</th>
                     <th>Ngày Ký</th>
                     <th>Người Ký</th>
@@ -36,7 +36,7 @@
                         DateTime? mydate = item.SignDay;
                         string datee = mydate.Value.ToString("dd-MM-yyyy");
                     <tr id="checkRespon">
-                        <td>@count</td>
+                        <td class="text-center">@count</td>
                         <td>@item.BusinessUser.BusinessName</td>
                         <td>@datee</td>
                         <td>@item.Signer</td>

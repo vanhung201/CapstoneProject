@@ -12,19 +12,22 @@
 
             <thead>
                 <tr>
-                    <th>Họ và Tên</th>
-                    <th>Email</th>
-                    <th>SĐT</th>
-                    <th>Chức vụ</th>
-                    <th>Trạng thái</th>
-                    <th>Chức năng</th>
+                    <th class="text-center">STT</th>
+                    <th class="text-center">Họ và Tên</th>
+                    <th class="text-center">Email</th>
+                    <th class="text-center">SĐT</th>
+                    <th class="text-center">Chức vụ</th>
+                    <th class="text-center">Trạng thái</th>
+                    <th class="text-center">Chức năng</th>
                 </tr>
             </thead>
 
             <tbody>
+                @{ int count = 1;}
                 @foreach (var item in Model)
                 {
                     <tr>
+                        <td class="text-center">@count</td>
                         <td>@Html.DisplayFor(modelItem => item.FullName)</td>
                         <td>@Html.DisplayFor(modelItem => item.Email)</td>
                         <td>@Html.DisplayFor(modelItem => item.Mobile)</td>
@@ -37,6 +40,8 @@
                             </button>
                         </td>
                     </tr>
+
+                    count++;
                 }
             </tbody>
 

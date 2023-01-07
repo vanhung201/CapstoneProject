@@ -29,7 +29,7 @@
                             <div class="form-group">
                                 <label class="form-label">Người đăng bài</label>
                                 @Html.HiddenFor(model => model.Email_ID)
-                                <input list="" name="PostDay" id="daysigning" class="form-input" value="@Model.Email_ID"
+                                <input list="" name="PostDay" id="daysigning" class="form-input" value="@Model.VanLangUser.FullName"
                                        autocomplete="off" disabled />
 
                             </div>
