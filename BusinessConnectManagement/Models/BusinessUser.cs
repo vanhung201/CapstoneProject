@@ -12,6 +12,8 @@ namespace BusinessConnectManagement.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Web.Mvc;
 
     public partial class BusinessUser
     {
@@ -26,7 +28,12 @@ namespace BusinessConnectManagement.Models
         }
 
         public int ID { get; set; }
+        [Required(ErrorMessage = "Vui lòng nhập tên đăng nhập cho doanh nghiệp.")]
+        [RegularExpression(@"^.*\S.*$", ErrorMessage = "Vui lòng nhập tên đăng nhập cho doanh nghiệp.")]
+        [Remote("IsUserExists", "BusinessUsers", ErrorMessage = "Tài khoản này đã tồn tại.")]
         public string Username { get; set; }
+        [Required(ErrorMessage = "Vui lòng nhập mật khẩu cho tài khoản của doanh nghiệp.")]
+        [RegularExpression(@"^.*\S.*$", ErrorMessage = "Vui lòng nhập mật khẩu cho tài khoản của doanh nghiệp.")]
         public string Password { get; set; }
         public Nullable<System.DateTime> Last_Access { get; set; }
         public Nullable<int> Status_ID { get; set; }
@@ -45,6 +52,8 @@ namespace BusinessConnectManagement.Models
         [DataType(DataType.PhoneNumber)]
         [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$|[0-9]{11}", ErrorMessage = "Số điện thoại này không hợp lệ.")]
         public string ContactPhone_1 { get; set; }
+        [DataType(DataType.PhoneNumber)]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$|[0-9]{11}", ErrorMessage = "Số điện thoại này không hợp lệ.")]
         public string ContactPhone_2 { get; set; }
         [Required(ErrorMessage = "Vui lòng nhập email người liên hệ.")]
         [RegularExpression("^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", ErrorMessage = "E-mail không hợp lệ.")]

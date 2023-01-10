@@ -52,6 +52,7 @@
                         <div class="form-group">
                             <label class="form-label">Tên Đăng Nhập</label>
                             @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-input", disabled = "true" } })
+                            @Html.HiddenFor(model => model.Username);
                         </div>
                         <div class="form-group">
                             <label class="form-label" hidden></label>
