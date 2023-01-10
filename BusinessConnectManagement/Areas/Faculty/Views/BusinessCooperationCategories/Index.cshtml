@@ -8,7 +8,7 @@
 <section class="list">
     <form id="createBusiness" action="@Url.Action("Index","BusinessCooperationCategories")" method="post" enctype="multipart/form-data">
 
-        <h1 class="list-heading">Danh sách hoạt động</h1>
+        <h1 class="list-heading">Danh sách hoạt động hợp tác</h1>
         <div class="list-table">
             <div id="filterEvent">
                 <a href=@Url.Action("Create","BusinessCooperationCategories")>
@@ -33,7 +33,7 @@
                     @foreach (var item in ViewBag.demo)
                     {
                         <tr class="example2">
-                            <td>@count</td>
+                            <td class="text-center">@count</td>
                             <td>
                                 @item.name
                             </td>

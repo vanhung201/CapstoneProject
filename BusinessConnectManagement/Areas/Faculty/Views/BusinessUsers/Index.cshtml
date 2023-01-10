@@ -28,7 +28,7 @@
             <thead>
                 <tr>
                     <th class="text-center">STT</th>
-                    <th class="text-center">Mã Doanh Nghiệp</th>
+                    <th class="text-center">Tên Đăng Nhập</th>
                     <th class="text-center">Tên Doanh Nghiệp</th>
                     <th class="text-center">Email</th>
                     <th class="text-center">Người Liên Hệ</th>
@@ -41,12 +41,12 @@
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td @Url.Action("DetailsBusiness", "BusinessUsers", new { id = item.ID })>@count</td>
+                        <td @Url.Action("DetailsBusiness", "BusinessUsers", new { id = item.ID }) class="text-center">@count</td>
 
                         <td>
                             <a href="@Url.Action("DetailsBusiness", "BusinessUsers", new { id = item.ID })">
                                 <div>
-                                    @item.ID
+                                    @item.Username
                                 </div>
                             </a>
                         </td>
@@ -132,15 +132,11 @@
 </form>
 
 @section Scripts {
-
     <script type="text/javascript">
-        
-        
         function loadDeleteUser(id) {
             let formDelete = document.getElementById("deleteForm");
             formDelete.classList.add('is-appear')
             document.getElementById('iddele').value = id;
         }
-        
     </script>
 }

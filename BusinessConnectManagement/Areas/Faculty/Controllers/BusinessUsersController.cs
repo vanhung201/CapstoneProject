@@ -125,7 +125,12 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
             }
         }
 
-        
+        public JsonResult IsUserExists(string UserName)
+        {
+            //check if any of the UserName matches the UserName specified in the Parameter using the ANY extension method.  
+            return Json(!db.BusinessUsers.Any(x => x.Username == UserName), JsonRequestBehavior.AllowGet);
+        }
+
         // GET: Faculty/BusinessUsers/Edit/5
         public ActionResult Edit(string id)
         {

@@ -21,7 +21,9 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
         // GET: Business/InternViews
         public ActionResult Index()
         {
-            var registrations = db.Registrations.Include(r => r.BusinessUser).Include(r => r.Post).Include(r => r.Semester).Include(r => r.VanLangUser);
+            int BusinessID = Convert.ToInt16(Session["BusinessID"]);
+
+            var registrations = db.Registrations.Where(x => x.Business_ID == BusinessID && x.StatusRegistration == "Phê duyệt");
            
             return View(registrations.ToList());
         }

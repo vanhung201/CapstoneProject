@@ -15,7 +15,7 @@
                 <div class="row">
                     <div class="col l-6">
                         <div class="form-group">
-                            <label class="form-label">Mã Doanh Nghiệp</label>
+                            <label class="form-label">Tên Đăng Nhập</label>
                             @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-input" } })
                         </div>
                         <div class="form-group">
@@ -113,6 +113,7 @@
                             @Html.ValidationMessageFor(model => model.ContactPhone_2, "", new { @class = "text-danger" })
                         </div>
                     </div>
+
                     <div class="col l-6">
                         <div class="form-group">
                             <label class="form-label">Email Người Liên Hệ</label>
@@ -123,34 +124,14 @@
                             @Html.ValidationMessageFor(model => model.EmailContact, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                    <div class="col l-6">
-                    </div>
+
                     <div class="col l-6">
                         <div class="form-group">
-
-                            <input id="CoopId" type="text" value="" name="ArrCoopId" hidden />
-                            <label for="cooperation" class="form-label">Loại Hợp Tác</label>
-                            <div class="checkbox-wrapper" id="checkBoxCoop">
-                                @foreach (var item in ViewBag.CooperationCategories)
-                                {
-                                    <label class="container">
-                                        @item.CooperationCategoriesName
-
-                                        <input type="checkbox" value="@item.ID" />
-                                        <span class="checkmark"></span>
-                                    </label>
-                                }
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col l-6">
-                        <div class="form-group">
-                            <label for="logo" class="form-label">Logo</label>
+                            <label for="logo" class="form-label">Logo Doanh nghiệp</label>
                             <div style="display: flex; flex-direction: column">
                                 <img style="width: 22rem; height:fit-content; margin: 0 0 1rem 0;" />
                                 <input name="logo" class="form-input" type="file" id="logo"
                                        accept="image/png, image/gif, image/jpeg" onchange="validateSize(this)" required />
-
                             </div>
                         </div>
                     </div>
