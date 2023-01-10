@@ -44,13 +44,14 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
             List<CooperationCategoriesGet> cooperationCategoriesget = new List<CooperationCategoriesGet>();
             List<CooperationCategoriesGet> cooperationCategoriesgetTest = new List<CooperationCategoriesGet>();
 
-            foreach (var item in CoopListCoop) 
+            foreach (var item in CoopListCoop)
             {
                 cooperationCategoriesget.Add(new CooperationCategoriesGet { name = item.Business_ID.ToString(), value = item.CooperationCategory.CooperationCategoriesName });
                 count++;
             }
 
-            var listBusinessId = db.BusinessCooperationCategories.Select(x=>x.Business_ID).Distinct().ToList();
+            var listBusinessId = db.BusinessCooperationCategories.Select(x => x.Business_ID).Distinct().ToList();
+            
             var listBusinessName = db.BusinessCooperationCategories.Select(x => x.BusinessUser.BusinessName).Distinct().ToList();
 
             var listBusinessValue = new string[listBusinessId.Count()];
@@ -65,18 +66,18 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                     if (int.Parse(itemGet.name) == buId)
                     {
                         listData += itemGet.value + ", ";
-                       
+
                     }
                 }
 
                 listBusinessValue[index] = listData;
-                
+
                 index++;
             }
 
-            for(int i = 0; i+1 < listBusinessId.Count + 1; i++)
+            for (int i = 0; i + 1 < listBusinessId.Count + 1; i++)
             {
-                cooperationCategoriesgetTest.Add(new CooperationCategoriesGet { id=listBusinessId[i], name = listBusinessName[i], value = listBusinessValue[i] });
+                cooperationCategoriesgetTest.Add(new CooperationCategoriesGet { id = listBusinessId[i], name = listBusinessName[i].ToString(), value = listBusinessValue[i] });
             }
 
             ViewBag.demo = cooperationCategoriesgetTest;
@@ -93,7 +94,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
             var CoopList = db.CooperationCategories.ToList();
 
             List<CooperationCategoriesDetail> cooperationCategoriesDetails = new List<CooperationCategoriesDetail>();
-            
+
             foreach (var item in CoopList)
             {
                 bool isExist = BusinessCoopList.Where(x => x.CooperationCategories_ID == item.ID).Any();
@@ -116,9 +117,9 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         {
             ViewBag.Business_ID = db.MOUs.ToList();
             ViewBag.CooperationCategories_ID = new SelectList(db.CooperationCategories, "ID", "CooperationCategoriesName");
-            
+
             var viewbag = db.CooperationCategories.ToList();
-            
+
             ViewBag.CooperationCategories = viewbag.ToList();
 
             return View();
@@ -129,26 +130,26 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
 
-        public ActionResult Create(BusinessCooperationCategory BCC, string ArrCoopId, int ddlBussines_ID )
+        public ActionResult Create(BusinessCooperationCategory BCC, string ArrCoopId, int ddlBussines_ID)
         {
             if (ModelState.IsValid)
             {
                 string[] arrayCoop = ArrCoopId.Split(',');
-                    for (int i = 0; i < arrayCoop.Length - 1; i++)
-                    {
-                        BCC.Business_ID = ddlBussines_ID;
-                        BCC.CooperationCategories_ID = Int32.Parse(arrayCoop[i]);
+                for (int i = 0; i < arrayCoop.Length - 1; i++)
+                {
+                    BCC.Business_ID = ddlBussines_ID;
+                    BCC.CooperationCategories_ID = Int32.Parse(arrayCoop[i]);
 
-                        db.BusinessCooperationCategories.Add(BCC);
-                        db.SaveChanges();
-                    }
-               
+                    db.BusinessCooperationCategories.Add(BCC);
+                    db.SaveChanges();
+                }
+
                 ViewBag.Business_ID = db.MOUs.ToList();
 
                 var viewbag = db.CooperationCategories.ToList();
 
                 ViewBag.CooperationCategories = viewbag.ToList();
-
+                TempData["AlertMessage"] = "<div class=\"toast toast--success\">\r\n     <div class=\"toast-left toast-left--success\">\r\n       <i class=\"fas fa-check-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n       <p class=\"toast-text\">Thêm thành công.</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n      <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>\r\n";
                 return RedirectToAction("Index");
 
             }
@@ -162,12 +163,12 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         public ActionResult Edit(int id)
         {
             BusinessUser businessUser = db.BusinessUsers.Find(id);
-            
+
             var BusinessCoopList = db.BusinessCooperationCategories.Where(x => x.Business_ID == id).ToList();
             var CoopList = db.CooperationCategories.ToList();
-            
+
             List<CooperationCategoriesDetail> cooperationCategoriesDetails = new List<CooperationCategoriesDetail>();
-            
+
             foreach (var item in CoopList)
             {
                 bool isExist = BusinessCoopList.Where(x => x.CooperationCategories_ID == item.ID).Any();
@@ -176,11 +177,11 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
 
             ViewBag.CooperationCategoriesDetail = cooperationCategoriesDetails;
             ViewBag.StatusList = db.Status.ToList();
-            
+
             var viewbag = db.CooperationCategories.ToList();
-            
+
             ViewBag.CooperationCategories = viewbag.ToList();
-            
+
             return View(businessUser);
         }
 
@@ -197,7 +198,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
 
                 // Xóa toàn bộ liên kết theo Id của Bussiness
                 var businessCooperationCategoryList = db.BusinessCooperationCategories.Where(x => x.Business_ID == businessUser.ID).ToList();
-                
+
                 foreach (var item in businessCooperationCategoryList)
                 {
                     db.BusinessCooperationCategories.Remove(item);
@@ -216,7 +217,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                 }
 
                 db.SaveChanges();
-
+                TempData["AlertMessage"] = "<div class=\"toast toast--success\">\r\n     <div class=\"toast-left toast-left--success\">\r\n       <i class=\"fas fa-check-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n       <p class=\"toast-text\">Cập nhật thành công.</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n      <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>\r\n";
                 return RedirectToAction("Index");
 
             }
@@ -235,7 +236,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
             }
 
             BusinessCooperationCategory businessCooperationCategory = db.BusinessCooperationCategories.Find(id);
-            
+
             if (businessCooperationCategory == null)
             {
                 return HttpNotFound();

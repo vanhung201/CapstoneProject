@@ -36,6 +36,7 @@
     <link href="~/assets/css/form2.css" rel="stylesheet" />
     <link href="~/assets/css/table2.css" rel="stylesheet" />
     <link href="~/assets/css/greet.css" rel="stylesheet" />
+    <link href="~/assets/css/toast.css" rel="stylesheet" />
     <link href="~/assets/css/jquery2.dataTables.min.css" rel="stylesheet" />
     <link href="~/Content/bootstrap-chosen.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/assets/css/dashboard.css" />
@@ -156,6 +157,20 @@
     $(function () {
         $("#ddlBussines_ID").chosen();
     });
+    $(function () {
+        const toast = document.querySelector(".toast");
+        setTimeout(() => {
+            toast.remove();
+        }, 3000);
+
+    });
+    function remove() {
+        let toast = document.querySelector(".toast");
+        document.querySelector(".toast-right").addEventListener("click", () => {
+            toast.remove();
+        });
+
+    }
 </script>
 
 </html>

@@ -20,7 +20,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         {
             var mOUs = db.MOUs.Include(m => m.BusinessUser);
             var mOU = db.MOUs.Include(m => m.BusinessUser.Registrations);
-           
+
             ViewBag.Business_ID = db.BusinessUsers.ToList();
             return View(mOUs.ToList());
         }
@@ -48,7 +48,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         public ActionResult Create()
         {
             ViewBag.Business_ID = db.BusinessUsers.ToList();
-            
+
             return View();
         }
 
@@ -61,14 +61,20 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         {
             if (ModelState.IsValid)
             {
+                if(db.MOUs.Where(x => x.Business_ID == mOU.Business_ID).Any() == true)
+                {
+                    TempData["AlertMessage"] = "<div class=\"toast toast--error\">\r\n     <div class=\"toast-left toast-left--error\">\r\n       <i class=\"fas fa-times-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n       <p class=\"toast-text\">Doanh nghiệp đã ký kết MOU.</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n       <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>";
+                    return RedirectToAction("Index");
+                }
                 db.MOUs.Add(mOU);
+                TempData["AlertMessage"] = "<div class=\"toast toast--success\">\r\n     <div class=\"toast-left toast-left--success\">\r\n       <i class=\"fas fa-check-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n       <p class=\"toast-text\">Thêm thành công.</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n      <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>\r\n";
                 db.SaveChanges();
-                
+
                 return RedirectToAction("Index");
             }
 
             ViewBag.Business_ID = new SelectList(db.BusinessUsers, "Business_ID", "Password", mOU.Business_ID);
-            
+
             return View(mOU);
         }
 
@@ -88,7 +94,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
             }
 
             ViewBag.Business_ID = new SelectList(db.BusinessUsers, "Business_ID", "Password", mOU.Business_ID);
-            
+
             return View(mOU);
         }
 
@@ -102,13 +108,13 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
             {
                 db.Entry(mOU).State = EntityState.Modified;
                 db.SaveChanges();
-                
+                TempData["AlertMessage"] = "<div class=\"toast toast--success\">\r\n     <div class=\"toast-left toast-left--success\">\r\n       <i class=\"fas fa-check-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n       <p class=\"toast-text\">Cập nhật thành công.</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n      <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>\r\n";
                 return RedirectToAction("Index");
             }
             else
             {
                 ViewBag.Business_ID = new SelectList(db.BusinessUsers, "Business_ID", "Password", mOU.Business_ID);
-                
+
                 return View(mOU);
             }
         }
@@ -140,7 +146,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
 
             db.MOUs.Remove(mOU);
             db.SaveChanges();
-
+            TempData["AlertMessage"] = "<div class=\"toast toast--success\">\r\n     <div class=\"toast-left toast-left--success\">\r\n       <i class=\"fas fa-check-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n       <p class=\"toast-text\">Xóa thành công.</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n      <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>";
             return RedirectToAction("Index");
         }
 

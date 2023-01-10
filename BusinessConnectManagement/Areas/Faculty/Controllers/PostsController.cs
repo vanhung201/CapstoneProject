@@ -53,7 +53,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost, ValidateInput(false)]
-     
+
         public ActionResult Create(Post post, HttpPostedFileBase logo)
         {
             if (ModelState.IsValid)
@@ -67,13 +67,13 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                     post.ModifyDay = DateTime.Now;
                     var query = db.VanLangUsers.Where(x => x.Email == User.Identity.Name).FirstOrDefault();
                     post.Email_ID = query.Email;
-                    
+
                     db.Posts.Add(post);
                     db.SaveChanges();
                     scope.Complete();
-                    
+
                 }
-                
+                TempData["AlertMessage"] = "<div class=\"toast toast--success\">\r\n     <div class=\"toast-left toast-left--success\">\r\n       <i class=\"fas fa-check-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n       <p class=\"toast-text\">Thêm dữ liệu thành công</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n      <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>\r\n";
                 return RedirectToAction("Index");
 
             }
@@ -94,7 +94,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
             {
                 return HttpNotFound();
             }
-           
+
             ViewBag.Semester_ID = new SelectList(db.Semesters, "ID", "Semester1", post.Semester_ID);
             return View(post);
         }
@@ -103,8 +103,8 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost, ValidateInput(false)]
-       
-        public ActionResult Edit( Post post, HttpPostedFileBase logo)
+
+        public ActionResult Edit(Post post, HttpPostedFileBase logo)
         {
             if (ModelState.IsValid)
             {
@@ -116,10 +116,11 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                     logo.SaveAs(path + post.PostImage);
                     /*businessUser.Status = businessUser.Status_ID();*/
                 }
-                post.ModifyDay= DateTime.Now;
+                post.ModifyDay = DateTime.Now;
 
                 db.Entry(post).State = EntityState.Modified;
                 db.SaveChanges();
+                TempData["AlertMessage"] = "<div class=\"toast toast--success\">\r\n     <div class=\"toast-left toast-left--success\">\r\n       <i class=\"fas fa-check-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n       <p class=\"toast-text\">Cập nhật thành công</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n      <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>";
                 return RedirectToAction("Index");
             }
             ViewBag.Semester_ID = new SelectList(db.Semesters, "ID", "Semester1", post.Semester_ID);
@@ -146,10 +147,20 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Post post = db.Posts.Find(id);
-            db.Posts.Remove(post);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            if (db.Registrations.Where(x => x.Post_ID == id).Any() == true)
+            {
+                TempData["AlertMessage"] = "<div class=\"toast toast--error\">\r\n     <div class=\"toast-left toast-left--error\">\r\n       <i class=\"fas fa-times-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n       <p class=\"toast-text\">Xóa không thành công.</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n       <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>";
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                Post post = db.Posts.Find(id);
+                db.Posts.Remove(post);
+                db.SaveChanges();
+                TempData["AlertMessage"] = "<div class=\"toast toast--success\">\r\n     <div class=\"toast-left toast-left--success\">\r\n       <i class=\"fas fa-check-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n       <p class=\"toast-text\">Xóa thành công</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n      <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>\r\n";
+                return RedirectToAction("Index");
+            }
+
         }
 
         protected override void Dispose(bool disposing)
