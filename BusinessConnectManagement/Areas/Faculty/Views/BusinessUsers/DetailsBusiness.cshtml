@@ -8,8 +8,15 @@
 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
 <section class="list">
-    <form id="createBusiness"  method="post" enctype="multipart/form-data">
+    <form id="createBusiness" method="post" enctype="multipart/form-data">
         <h1 class="list-heading">Chi Tiết Doanh Nghiệp</h1>
+        @if (TempData != null)
+        {
+            
+            <div class="alert alert-success" style="text-align: center; color: red; font-size: 1.5rem;">
+               
+            </div>
+        }
         <div class="grid wide">
             <div class="tab-content">
                 <div class="row">
@@ -154,7 +161,7 @@
                     </div>
                     <div class="col l-6">
                     </div>
-                    <div class="col l-6">
+                    @*<div class="col l-6">
                         <div class="form-group">
                             <input id="CoopId" type="text" value="" name="ArrCoopId" hidden />
                             <label for="cooperation" class="form-label">Loại Hợp Tác</label>
@@ -177,13 +184,13 @@
                                 }
                             </div>
                         </div>
-                    </div>
+                    </div>*@
                     <div class="col l-6">
                         <div class="form-group">
                             <label for="logo" class="form-label">Logo</label>
                             <div style="display: flex; flex-direction: column">
                                 <img src="@Url.Content("~/Uploads/Images/" + Model.BusinessLogo)" style="width: 22rem; height:fit-content; margin: 0 0 1rem 0;" />
-                                
+
                                 <input name="BusinessLogo" id="img" value="@Model.BusinessLogo" hidden />
                             </div>
                         </div>

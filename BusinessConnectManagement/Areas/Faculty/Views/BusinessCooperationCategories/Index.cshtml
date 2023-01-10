@@ -7,8 +7,13 @@
 
 <section class="list">
     <form id="createBusiness" action="@Url.Action("Index","BusinessCooperationCategories")" method="post" enctype="multipart/form-data">
-
         <h1 class="list-heading">Danh sách hoạt động</h1>
+        @if (TempData != null)
+        {
+
+            @Html.Raw(@TempData["AlertMessage"])
+
+        }
         <div class="list-table">
             <div id="filterEvent">
                 <a href=@Url.Action("Create","BusinessCooperationCategories")>
@@ -17,7 +22,7 @@
                         <span class="btn-text">Thêm</span>
                     </div>
                 </a>
-                
+
             </div>
             <table id="table_id" class="display" width="100%">
                 <thead>
@@ -101,6 +106,6 @@
             formDelete.classList.add('is-appear')
             document.getElementById('iddele').value = id;
         }
-       
+      
     </script>
 }

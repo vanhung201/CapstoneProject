@@ -7,6 +7,12 @@
 
 <section class="list">
     <h1 class="list-heading">Danh sách Ký kết MOU</h1>
+    @if (TempData != null)
+    {
+
+        @Html.Raw(@TempData["AlertMessage"])
+
+    }
     <div class="list-table">
         <div id="filterEvent">
             <a href="@Url.Action("Create", "MOUs")">
@@ -28,13 +34,13 @@
                 </tr>
             </thead>
             <tbody>
-               
-               
-                    @{ int count = 1;}
-                    @foreach (var item in Model)
-                    {
-                        DateTime? mydate = item.SignDay;
-                        string datee = mydate.Value.ToString("dd-MM-yyyy");
+
+
+                @{ int count = 1;}
+                @foreach (var item in Model)
+                {
+                    DateTime? mydate = item.SignDay;
+                    string datee = mydate.Value.ToString("dd-MM-yyyy");
                     <tr id="checkRespon">
                         <td>@count</td>
                         <td>@item.BusinessUser.BusinessName</td>
@@ -67,7 +73,7 @@
 
                     count++;
                 }
-                </tbody>
+            </tbody>
         </table>
     </div>
 </section>

@@ -114,7 +114,7 @@ $chosen-sprite-path: 'chosen-sprite.png';
     margin: 0 4px;
     position: absolute;
     text-align: center;
-    width: 321px;
+    width: 1000 px;
     z-index: 1;
 
     span {
@@ -190,8 +190,7 @@ $chosen-sprite-path: 'chosen-sprite.png';
       position: absolute;
       top: 0;
       right: 0;
-      width: 18px;
-
+      width: 1000px;
       b {
         background: url($chosen-sprite-path) no-repeat 0 7px;
         display: block;

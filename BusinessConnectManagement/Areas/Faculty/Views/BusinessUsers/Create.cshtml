@@ -6,6 +6,14 @@
 }
 
 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+<div style="position: absolute; right:0;z-index:10";  margin-top: 80px;>
+    @if (TempData != null)
+    {
+
+        @Html.Raw(@TempData["AlertMessage"]);
+
+    }
+</div>
 
 <section class="list">
     <form id="createBusiness" action="@Url.Action("Create", "BusinessUsers")" method="post" enctype="multipart/form-data">
@@ -125,32 +133,31 @@
                     </div>
                     <div class="col l-6">
                     </div>
-                    <div class="col l-6">
-                        <div class="form-group">
+                    @*<div class="col l-6">
+                            <div class="form-group">
 
-                            <input id="CoopId" type="text" value="" name="ArrCoopId" hidden />
-                            <label for="cooperation" class="form-label">Loại Hợp Tác</label>
-                            <div class="checkbox-wrapper" id="checkBoxCoop">
-                                @foreach (var item in ViewBag.CooperationCategories)
-                                {
-                                    <label class="container">
-                                        @item.CooperationCategoriesName
+                                <input id="CoopId" type="text" value="" name="ArrCoopId" hidden />
+                                <label for="cooperation" class="form-label">Loại Hợp Tác</label>
+                                <div class="checkbox-wrapper" id="checkBoxCoop">
+                                    @foreach (var item in ViewBag.CooperationCategories)
+                                    {
+                                        <label class="container">
+                                            @item.CooperationCategoriesName
 
-                                        <input type="checkbox" value="@item.ID" />
-                                        <span class="checkmark"></span>
-                                    </label>
-                                }
+                                            <input type="checkbox" value="@item.ID" />
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    }
+                                </div>
                             </div>
-                        </div>
-                    </div>
+                        </div>*@
                     <div class="col l-6">
                         <div class="form-group">
                             <label for="logo" class="form-label">Logo</label>
                             <div style="display: flex; flex-direction: column">
                                 <img style="width: 22rem; height:fit-content; margin: 0 0 1rem 0;" />
                                 <input name="logo" class="form-input" type="file" id="logo"
-                                       accept="image/png, image/gif, image/jpeg" onchange="validateSize(this)" required />
-
+                                       accept="image/png, image/gif, image/jpeg" onchange="validateSize(this)" />
                             </div>
                         </div>
                     </div>
@@ -158,7 +165,7 @@
             </div>
             <div class="button-wrapper">
                 <a class="btn btn-action btn--detail" href="@Url.Action("Index", "BusinessUsers")">Trở Về</a>
-                <button class="btn btn--add"  onclick="getValueCheckBoxAndSubmit()" type="submit">Thêm</button>
+                <button class="btn btn--add" onclick="getValueCheckBoxAndSubmit()" type="submit">Thêm</button>
             </div>
         </div>
     </form>
@@ -191,6 +198,19 @@
             }
         }
         function getValueCheckBoxAndSubmit() {
+
+            var fup = document.getElementById('logo');
+            var fileName = fup.value;
+            if (fup.value == '') {
+                alert("Vui lòng nhập hình ảnh!!");
+                document.getElementById("logo").required = true;
+                return false;
+            } else {
+                return true;
+            }
+
+
+
             let arrayCheckbox = "";
             var allCheckBox = document.querySelectorAll("#checkBoxCoop > .container > input[type='checkbox']:checked");
             for (let i = 0; i < allCheckBox.length; i++) {
@@ -198,6 +218,9 @@
             }
             $("#CoopId").val(arrayCheckbox);
             $("#createBusiness");
+
+
+
             //Validate only get image
 
 

@@ -45,6 +45,8 @@ namespace BusinessConnectManagement.Models
         [DataType(DataType.PhoneNumber)]
         [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$|[0-9]{11}", ErrorMessage = "Số điện thoại này không hợp lệ.")]
         public string ContactPhone_1 { get; set; }
+        [DataType(DataType.PhoneNumber)]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$|[0-9]{11}", ErrorMessage = "Số điện thoại này không hợp lệ.")]
         public string ContactPhone_2 { get; set; }
         [Required(ErrorMessage = "Vui lòng nhập email người liên hệ.")]
         [RegularExpression("^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", ErrorMessage = "E-mail không hợp lệ.")]

@@ -9,12 +9,13 @@
     <h1 class="list-heading">Danh sách Doanh nghiệp</h1>
     @if (TempData != null)
     {
-        <div class="alert alert-success" style="text-align: center; color: red; font-size: 1.5rem;">
 
-            @TempData["AlertMessage"]
-        </div>
+           @Html.Raw(@TempData["AlertMessage"]);
+       
+        
     }
     <div class="list-table">
+
         <div id="filterEvent">
             <a href=@Url.Action("Create", "BusinessUsers")>
                 <div class="btn btn--create">
@@ -24,11 +25,12 @@
             </a>
 
         </div>
+
         <table id="table_id" class="display">
             <thead>
                 <tr>
                     <th class="text-center">STT</th>
-                    <th class="text-center">Mã Doanh Nghiệp</th>
+                    <th class="text-center">Tên Đăng Nhập</th>
                     <th class="text-center">Tên Doanh Nghiệp</th>
                     <th class="text-center">Email</th>
                     <th class="text-center">Người Liên Hệ</th>
@@ -46,7 +48,7 @@
                         <td>
                             <a href="@Url.Action("DetailsBusiness", "BusinessUsers", new { id = item.ID })">
                                 <div>
-                                    @item.ID
+                                    @item.Username
                                 </div>
                             </a>
                         </td>
@@ -109,24 +111,25 @@
         </table>
     </div>
 </section>
+
 <form action="@Url.Action("Delete", "BusinessUsers")" class="form" id="deleteForm" method="post">
     @{using (Html.BeginForm())
         {
             @Html.AntiForgeryToken();
-            
-    <div class="form-container">
-        <i class="form-icon fas fa-times-circle"></i>
-        <h1 class="form-heading">Thông báo</h1>
-        <input name="id" id="iddele" hidden/>
-        <span>
-            Bạn chắc chắn muốn <strong style="font-weight: bold; color: #ce1b28;">xóa doanh nghiệp </strong>
-            này không?
-        </span>
 
-        <div class="form-group">
-            <button type="submit" class="btn btn-action btn--update">Xác nhận</button>
-        </div>
-    </div>
+            <div class="form-container">
+                <i class="form-icon fas fa-times-circle"></i>
+                <h1 class="form-heading">Thông báo</h1>
+                <input name="id" id="iddele" hidden />
+                <span>
+                    Bạn chắc chắn muốn <strong style="font-weight: bold; color: #ce1b28;">xóa doanh nghiệp </strong>
+                    này không?
+                </span>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-action btn--update">Xác nhận</button>
+                </div>
+            </div>
         }
     }
 </form>
@@ -134,13 +137,13 @@
 @section Scripts {
 
     <script type="text/javascript">
-        
-        
         function loadDeleteUser(id) {
             let formDelete = document.getElementById("deleteForm");
             formDelete.classList.add('is-appear')
             document.getElementById('iddele').value = id;
         }
+
         
+       
     </script>
 }

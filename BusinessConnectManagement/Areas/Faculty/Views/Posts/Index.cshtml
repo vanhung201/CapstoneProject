@@ -7,21 +7,27 @@
 
 <section class="list">
     <h1 class="list-heading">Danh sách bài viết tuyển dụng</h1>
+    @if (TempData != null)
+    {
+
+        @Html.Raw(@TempData["AlertMessage"])
+
+    }
     <div class="list-table">
         <div id="filterEvent">
-            <a  href="@Url.Action("Create", "Posts")">
+            <a href="@Url.Action("Create", "Posts")">
                 <div class="btn btn--create">
                     <i class="btn-icon btn-icon--create fas fa-plus"></i>
                     <span class="btn-text">Thêm</span>
                 </div>
             </a>
-            
+
         </div>
         <table id="table_id" class="display" width="100%">
             <thead>
                 <tr>
                     <th width="5%">STT</th>
-                    <th>Tiêu đề</th>    
+                    <th>Tiêu đề</th>
                     <th width="22%">Người đăng bài</th>
                     <th width="15%">Ngày đăng</th>
                     <th width="15%">Ngày cập nhật</th>
@@ -29,7 +35,7 @@
                 </tr>
             </thead>
             <tbody>
-                
+
                 @{int count = 1;}
                 @foreach (var item in Model)
                 {
@@ -71,36 +77,40 @@
         </table>
     </div>
 </section>
-<form action="@Url.Action("Delete", "Posts")" class="form" id="deleteForm" method="post">
-    @{using (Html.BeginForm())
-        {
-            @Html.AntiForgeryToken();
-            <input name="id" id="iddele" hidden />
-            <div class="form-container">
-                <i class="form-icon fas fa-times-circle" onclick="removeForm()"></i>
-                <h1 class="form-heading">Xác nhận</h1>
-              
-                <span>
-                    Bạn chắc chắn muốn <strong name="name" id="namedele" style="font-weight: bold; color: #ce1b28;">xóa bài viết </strong>
-                    này không?
-                </span>
-                
-                <div class="form-group">
-                    <button type="submit" class="btn btn-action btn--update">Xác nhận</button>
-                </div>
-            </div>
-        }
-    }
+<form class="form" id="updateForm" method="post">
 </form>
+<form class="form" id="addForm" method="post">
+</form>
+    <form action="@Url.Action("Delete", "Posts")" class="form" id="deleteForm" method="post">
+        @{using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken();
+                <input name="id" id="iddele" hidden />
+                <div class="form-container">
+                    <i class="form-icon fas fa-times-circle"></i>
+                    <h1 class="form-heading">Xác nhận</h1>
 
-@section Scripts {
-    <script type="text/javascript">
+                    <span>
+                        Bạn chắc chắn muốn <strong name="name" id="namedele" style="font-weight: bold; color: #ce1b28;">xóa bài viết </strong>
+                        này không?
+                    </span>
 
-        function loadDeleteUser(id, name) {
-            let formDelete = document.getElementById("deleteForm");
-            formDelete.classList.add('is-appear')
-            document.getElementById('iddele').value = id;
-            document.getElementById('namedele').value = name;
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-action btn--update">Xác nhận</button>
+                    </div>
+                </div>
+            }
         }
-    </script>
-}
+    </form>
+
+    @section Scripts {
+        <script type="text/javascript">
+
+            function loadDeleteUser(id, name) {
+                let formDelete = document.getElementById("deleteForm");
+                formDelete.classList.add('is-appear')
+                document.getElementById('iddele').value = id;
+                document.getElementById('namedele').value = name;
+            }
+        </script>
+    }

@@ -42,11 +42,11 @@
                     </div>
                     <div class="col l-8">
                         <div class="form-group">
-                            <label for="logo" class="form-label">Logo</label>
+                            <label for="logo" class="form-label">Hình Ảnh</label>
                             <div style="display: flex; flex-direction: column">
                                 <img style="width: 22rem; height:fit-content; margin: 0 0 1rem 0;" />
                                 <input name="logo" class="form-input" type="file" id="logo"
-                                       accept="image/png, image/gif, image/jpeg" onchange="validateSize(this)" required />
+                                       accept="image/png, image/gif, image/jpeg" onchange="validateSize(this)" />
 
                             </div>
                         </div>
@@ -96,6 +96,18 @@
                 alert("Chỉ được tải lên hình ảnh dạng PNG, JPG, GIF và BMP");
 
                 return false;
+            }
+        }
+        function checkImage() {
+
+            var fup = document.getElementById('logo');
+            var fileName = fup.value;
+            if (fileName == '') {
+                alert("Vui lòng nhập hình ảnh!!");
+                document.getElementById("logo").required = true;
+                return false;
+            } else {
+                return true;
             }
         }
 		    CKEDITOR.replace('Explanation');

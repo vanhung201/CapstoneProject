@@ -159,7 +159,7 @@
                         </div>
                     </div>
                     
-                    <div class="col l-6">
+                    @*<div class="col l-6">
                         <div class="form-group">
                             <input id="CoopId" type="text" value="" name="ArrCoopId" hidden />
                             <label for="cooperation" class="form-label">Loại Hợp Tác</label>
@@ -182,12 +182,12 @@
                                 }
                             </div>
                         </div>
-                    </div>
+                    </div>*@
                     <div class="col l-6">
                         <div class="form-group">
                             <label for="logo" class="form-label">Logo</label>
                             <div style="display: flex; flex-direction: column">
-                                <img src="@Url.Content("~/Image/"+ Model.BusinessLogo)" style="width: 22rem; height:fit-content; margin: 0 0 1rem 0;" />
+                                <img src="@Url.Content("~/Uploads/Images/"+ Model.BusinessLogo)" style="width: 22rem; height:fit-content; margin: 0 0 1rem 0;" />
                                 <input name="logo" class="form-input" onchange="validateSize(this)" type="file" id="logo"
                                        accept="image/png, image/gif, image/jpeg" />
                                 <input name="BusinessLogo" id="img" value="@Model.BusinessLogo" hidden />

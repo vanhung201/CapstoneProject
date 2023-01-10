@@ -59,7 +59,10 @@
         </table>
     </div>
 </section>
-
+<form class="form" id="deleteForm" method="post">
+</form>
+<form class="form" id="addForm" method="post">
+</form>
 <form action="@Url.Action("Edit", "Registration")" class="form" id="updateForm" method="post">
 
     <div class="form-container">
@@ -96,28 +99,30 @@
         </div>
     </div>
 </form>
+@section Scripts {
 
-<script type="text/javascript">
-    function loadEditStatus(id, comment, idb, email, post, semeter, cv, rd, rm, ir, irc, sr) {
-        let formUpdate = document.getElementById("updateForm");
-        formUpdate.classList.add('is-appear');
+    <script type="text/javascript">
+        function loadEditStatus(id, comment, idb, email, post, semeter, cv, rd, rm, ir, irc, sr) {
+            let formUpdate = document.getElementById("updateForm");
+            formUpdate.classList.add('is-appear');
 
-        document.getElementById('id').value = id;
-        document.getElementById('comment').value = comment;
-        document.getElementById('idb').value = idb;
-        document.getElementById('email').value = email;
-        document.getElementById('semeter').value = semeter;
-        document.getElementById('post').value = post;
-        document.getElementById('cv').value = cv;
-        document.getElementById('rd').value = rd;
-        document.getElementById('rm').value = rm;
-        document.getElementById('ir').value = ir;
-        document.getElementById('irc').value = irc;
-        document.getElementById('sr').value = sr;
-    }
+            document.getElementById('id').value = id;
+            document.getElementById('comment').value = comment;
+            document.getElementById('idb').value = idb;
+            document.getElementById('email').value = email;
+            document.getElementById('semeter').value = semeter;
+            document.getElementById('post').value = post;
+            document.getElementById('cv').value = cv;
+            document.getElementById('rd').value = rd;
+            document.getElementById('rm').value = rm;
+            document.getElementById('ir').value = ir;
+            document.getElementById('irc').value = irc;
+            document.getElementById('sr').value = sr;
+        }
 
-    function submitEdit() {
-        $("#updateForm").save();
-    }
+        function submitEdit() {
+            $("#updateForm").save();
+        }
 
-</script>
+    </script>
+}

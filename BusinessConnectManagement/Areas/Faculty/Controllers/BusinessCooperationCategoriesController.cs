@@ -148,7 +148,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                 var viewbag = db.CooperationCategories.ToList();
 
                 ViewBag.CooperationCategories = viewbag.ToList();
-
+                TempData["AlertMessage"] = "<div class=\"toast toast--success\">\r\n     <div class=\"toast-left toast-left--success\">\r\n       <i class=\"fas fa-check-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n       <p class=\"toast-text\">Thêm thành công.</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n      <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>\r\n";
                 return RedirectToAction("Index");
 
             }
@@ -216,7 +216,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                 }
 
                 db.SaveChanges();
-
+                TempData["AlertMessage"] = "<div class=\"toast toast--success\">\r\n     <div class=\"toast-left toast-left--success\">\r\n       <i class=\"fas fa-check-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n       <p class=\"toast-text\">Thêm thành công.</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n      <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>\r\n";
                 return RedirectToAction("Index");
 
             }

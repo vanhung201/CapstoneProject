@@ -21,9 +21,9 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
         // GET: Business/InternViews
         public ActionResult Index()
         {
-            var registrations = db.Registrations.Include(r => r.BusinessUser).Include(r => r.Post).Include(r => r.Semester).Include(r => r.VanLangUser);
-           
-            return View(registrations.ToList());
+            int BusinessID = Convert.ToInt32(Session["BusinessID"]);
+                var registrations = db.Registrations.Where(x => x.Business_ID == BusinessID);
+                return View(registrations.ToList());
         }
 
         // GET: Business/InternViews/Details/5
@@ -105,7 +105,7 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Edit([Bind(Include = "ID,Email_VanLang,Post_ID,Semester_ID,CV,RegistrationDate,RegistrationModify,Business_ID,InterviewResult,InterviewResultComment,StatusInternview,StatusRegistration")] Registration registration)
+        public ActionResult Edit([Bind(Include = "ID,Email_VanLang,Post_ID,Semester_ID,CV,RegistrationDate,RegistrationModify,Business_ID,InterviewResult,InterviewResultComment,StatusInternview,StatusRegistration,Comment")] Registration registration)
         {
             if (ModelState.IsValid)
             {

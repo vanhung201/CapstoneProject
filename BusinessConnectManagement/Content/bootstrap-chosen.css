@@ -1,6 +1,6 @@
 ﻿
 .chosen-select {
-  width: 100%;
+  width: 100px;
 }
 
 .chosen-select-deselect {
@@ -184,7 +184,7 @@
 
 .chosen-container-single .chosen-single div b {
   display: block;
-  width: 100%;
+  width: 100px;
   height: 100%;
   background: url("chosen-sprite.png") no-repeat 0 7px;
 }

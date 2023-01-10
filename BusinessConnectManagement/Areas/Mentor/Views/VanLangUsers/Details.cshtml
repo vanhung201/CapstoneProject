@@ -1,0 +1,75 @@
+﻿@model BusinessConnectManagement.Models.VanLangUser
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Faculty/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>VanLangUser</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FullName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FullName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Student_ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Student_ID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Mobile)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Mobile)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Role)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Role)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Last_Access)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Last_Access)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Major.Major1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Major.Major1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status.Status1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status.Status1)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Email }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
