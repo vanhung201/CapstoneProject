@@ -7,8 +7,11 @@
 
 <section class="list">
     <h1 class="list-heading">DANH SÁCH ỨNG TUYỂN</h1>
+    @if (TempData != null)
+    {
+        @Html.Raw(@TempData["AlertMessage"])
+    }
     <div class="list-table">
-
         <table id="table_id" class="display">
             <thead>
                 <tr>

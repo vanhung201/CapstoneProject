@@ -7,27 +7,53 @@
 
 <section class="list">
     <h1 class="list-heading">Danh sách ứng tuyển</h1>
+    @if (TempData != null)
+    {
+
+        @Html.Raw(@TempData["AlertMessage"]);
+
+
+    }
     <div class="list-table">
         <table id="table_id" class="display">
             <thead>
                 <tr>
-                    <th>Tên</th>
+                    <th>STT</th>
+                    <th>Họ và Tên</th>
                     <th>Email</th>
+                    <th>SĐT</th>
                     <th>CV</th>
                     <th>Trạng thái</th>
-                    <th></th>
+                    <th>Nhận xét</th>
+                    <th>Chức năng</th>
                 </tr>
             </thead>
             <tbody>
+                @{ int count = 1;}
                 @foreach (var item in Model)
                 {
+                    string classCSS = "";
+
+                    if (item.StatusInternview == "Đậu")
+                    {
+                        classCSS = "text-center text-green";
+                    }
+                    else
+                    {
+                        classCSS = "text-center text-red";
+                    }
+
                     <tr>
+                        <td>@count</td>
                         <td>@item.VanLangUser.FullName</td>
                         <td>@item.Email_VanLang</td>
-                        <td><a href="#">@item.CV</a></td>
-                        <td class="text-center text-green">@item.StatusInternview</td>
-                        <td class="text-center"><a class="btn btn-action btn--update" onclick="loadEditUser('@item.ID', '@item.BusinessUser.ID', '@item.Email_VanLang', '@item.Post_ID', '@item.Semester_ID', '@item.CV', '@item.RegistrationDate', '@item.RegistrationModify', '@item.InterviewResult', '@item.InterviewResultComment','@item.StatusRegistration')">Cập nhật</a></td>
+                        <td>@item.VanLangUser.Mobile</td>
+                        <td><a href="@Url.Action("DownloadFile", "Registration", new {filePath = item.CV, area = "Faculty"})">@item.CV</a></td>
+                        <td class="@classCSS">@item.StatusInternview</td>
+                        <td>@item.InterviewResultComment</td>
+                        <td class="text-center"><a class="btn btn-action btn--update" onclick="loadEditUser('@item.ID', '@item.BusinessUser.ID', '@item.Email_VanLang', '@item.Post_ID', '@item.Semester_ID', '@item.CV', '@item.RegistrationDate', '@item.RegistrationModify', '@item.InterviewResult', '@item.InterviewResultComment', '@item.StatusRegistration', '@item.StatusInternview', '@item.InterviewResultComment', '@item.Comment')">Cập nhật</a></td>
                     </tr>
+                    count++;
                 }
 
             </tbody>
@@ -37,41 +63,49 @@
 
 <form action="@Url.Action("Edit", "InternViews")" class="form" id="updateForm" method="post">
        
-                <div class="form-container">
+    <div class="form-container">
 
-                    <i class="form-icon fas fa-times-circle"></i>
-                    <h1 class="form-heading">Cập Nhật Trạng Thái</h1>
-                    <div class="form-group" style="text-align">
-                        <label class="form-label">Trạng Thái</label>
-                        <input list="" name="ID" id="id" class="form-input" hidden />
-                        <input list="" name="Business_ID" id="idb" class="form-input" hidden />
-                        <input list="" name="Email_VanLang" id="email" class="form-input" hidden />
-                        <input list="" name="Post_ID" id="post" class="form-input" hidden />
-                        <input list="" name="Semester_ID" id="semeter" class="form-input" hidden />
-                        <input list="" name="CV" id="cv" class="form-input" hidden />
-                        <input list="" name="RegistrationDate" id="rd" class="form-input" hidden/>
-                        <input list="" name="RegistrationModify" id="rm" class="form-input" hidden/>
-                        <input list="" name="InterviewResult" id="ir" class="form-input" hidden />
-                        <input list="" name="RegistrationPosition" id="rp" class="form-input" hidden />
-                        <input list="" name="InterviewResultComment" id="irc" class="form-input" hidden />
+        <i class="form-icon fas fa-times-circle"></i>
+        <h1 class="form-heading">Cập Nhật Trạng Thái</h1>
+        <div class="form-group">
+            <label class="form-label">Nhận xét</label>
+            <textarea id="irc" name="InterviewResultComment" class="form-input"></textarea>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Trạng Thái</label>
+            <input list="" name="ID" id="id" class="form-input" hidden />
+            <input list="" name="Business_ID" id="idb" class="form-input" hidden />
+            <input list="" name="Email_VanLang" id="email" class="form-input" hidden />
+            <input list="" name="Post_ID" id="post" class="form-input" hidden />
+            <input list="" name="Semester_ID" id="semeter" class="form-input" hidden />
+            <input list="" name="CV" id="cv" class="form-input" hidden />
+            <input list="" name="RegistrationDate" id="rd" class="form-input" hidden />
+            <input list="" name="RegistrationModify" id="rm" class="form-input" hidden />
+            <input list="" name="InterviewResult" id="ir" class="form-input" hidden />
+            <input list="" name="RegistrationPosition" id="rp" class="form-input" hidden />
+            <input list="" name="Comment" id="Comment" class="form-input" hidden />
+            <input list="" name="StatusRegistration" id="StatusRegistration" class="form-input" hidden />
 
-                        <select name="StatusInternview" id="" class="form-input">
-                            <option class="text-center" value="Đậu">Đậu</option>
-                            <option class="text-center" value="Rớt">Rớt</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <button class="btn btn--add" type="submit">Xác Nhận</button>
-                    </div>
-                </div>
-          
-    </form>
+            <select name="StatusInternview" id="StatusInternview" class="form-input">
+                <option class="text-center" value="Đậu">Đậu</option>
+                <option class="text-center" value="Rớt">Rớt</option>
+            </select>
+        </div>
+
+
+
+        <div class="form-group">
+            <button class="btn btn--add" type="submit">Lưu thay đổi</button>
+        </div>
+    </div>
+
+</form>
 
 @section Scripts {
 
     <script type="text/javascript">
         
-        function loadEditUser(id, idb, email, post, semeter, cv, rd, rm, ir, irc, rp) {
+        function loadEditUser(id, idb, email, post, semeter, cv, rd, rm, ir, rp, StatusRegistration, StatusInternview, irc, Comment) {
             let formUpdate = document.getElementById("updateForm");
             formUpdate.classList.add('is-appear')
             
@@ -86,8 +120,10 @@
             document.getElementById('ir').value = ir;
             document.getElementById('irc').value = irc;
             document.getElementById('rp').value = rp;
+            document.getElementById('StatusRegistration').value = StatusRegistration;
+            document.getElementById('StatusInternview').value = StatusInternview;
+            document.getElementById('rp').value = rp;
+            document.getElementById('Comment').value = Comment;
         }
-        
-        
     </script>
 }

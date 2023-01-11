@@ -28,23 +28,32 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
 
             if (query != null)
             {
-                if (query.Password.Equals(password))
+                if (query.Status_ID == 2)
                 {
-                    Session["BusinessID"] = query.ID;
-                    Session["BusinessName"] = query.BusinessName;
+                    Session["BusinessAccountBlocked"] = true;
 
-                    query.Last_Access= DateTime.Now;
-
-                    db.Entry(query).State = EntityState.Modified;
-                    db.SaveChanges();
-                    
-                    return RedirectToAction("Index", "BusinessHome");
+                    return View();
                 }
                 else
                 {
-                    Session["password-incorrect"] = true;
+                    if (query.Password.Equals(password))
+                    {
+                        Session["BusinessID"] = query.ID;
+                        Session["BusinessName"] = query.BusinessName;
 
-                    return View();
+                        query.Last_Access = DateTime.Now;
+
+                        db.Entry(query).State = EntityState.Modified;
+                        db.SaveChanges();
+
+                        return RedirectToAction("Index", "BusinessHome");
+                    }
+                    else
+                    {
+                        Session["password-incorrect"] = true;
+
+                        return View();
+                    }
                 }
             }
             else

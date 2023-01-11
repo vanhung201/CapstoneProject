@@ -7,8 +7,11 @@
 
 <section class="list">
     <form id="createBusiness" action="@Url.Action("Index","BusinessCooperationCategories")" method="post" enctype="multipart/form-data">
-
-        <h1 class="list-heading">Danh sách hoạt động hợp tác</h1>
+        <h1 class="list-heading">Danh sách hoạt động</h1>
+        @if (TempData != null)
+        {
+            @Html.Raw(@TempData["AlertMessage"])
+        }
         <div class="list-table">
             <div id="filterEvent">
                 <a href=@Url.Action("Create","BusinessCooperationCategories")>
@@ -17,7 +20,7 @@
                         <span class="btn-text">Thêm</span>
                     </div>
                 </a>
-                
+
             </div>
             <table id="table_id" class="display" width="100%">
                 <thead>
@@ -33,7 +36,7 @@
                     @foreach (var item in ViewBag.demo)
                     {
                         <tr class="example2">
-                            <td class="text-center">@count</td>
+                            <td>@count</td>
                             <td>
                                 @item.name
                             </td>
@@ -77,20 +80,20 @@
     @{using (Html.BeginForm())
         {
             @Html.AntiForgeryToken();
-           
-    <div class="form-container">
-        <i class="form-icon fas fa-times-circle"></i>
-        <h1 class="form-heading">Thông báo</h1>
-        <input name="id" id="iddele" hidden/>
-        <span>
-            Bạn chắc chắn muốn <strong style="font-weight: bold; color: #ce1b28;">xóa hoạt động </strong>
-            này không?
-        </span>
 
-        <div class="form-group">
-            <button type="submit" class="btn btn-action btn--update">Xác nhận</button>
-        </div>
-    </div>
+            <div class="form-container">
+                <i class="form-icon fas fa-times-circle"></i>
+                <h1 class="form-heading">Thông báo</h1>
+                <input name="id" id="iddele" hidden />
+                <span>
+                    Bạn chắc chắn muốn <strong style="font-weight: bold; color: #ce1b28;">xóa hoạt động </strong>
+                    này không?
+                </span>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-action btn--update">Xác nhận</button>
+                </div>
+            </div>
         }
     }
 </form>
@@ -101,6 +104,6 @@
             formDelete.classList.add('is-appear')
             document.getElementById('iddele').value = id;
         }
-       
+
     </script>
 }
