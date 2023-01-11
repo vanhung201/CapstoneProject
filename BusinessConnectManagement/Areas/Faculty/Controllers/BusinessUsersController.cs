@@ -202,7 +202,6 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
 
                     db.BusinessCooperationCategories.Add(businessCooperationCategory1);
                 }*/
-
                 /* db.SaveChanges();*/
                 TempData["AlertMessage"] = "<div class=\"toast toast--success\">            <div class=\"toast-left toast-left--success\">               <i class=\"fas fa-check-circle\"></i>\r\n            </div>\r\n            <div class=\"toast-content\">\r\n                <p class=\"toast-text\">Cập Nhật Thành Công</p>            </div>\r\n            <div class=\"toast-right\">\r\n                <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n            </div>\r\n        </div>";
                 return RedirectToAction("Index");
