@@ -46,15 +46,16 @@
     <link href="~/assets/css/global2.css" rel="stylesheet" />
     <link href="~/assets/css/menu2.css" rel="stylesheet" />
     <link href="~/assets/css/nav2.css" rel="stylesheet" />
-    <link href="~/assets/css/button2.css" rel="stylesheet" />
-    <link href="~/assets/css/form2.css" rel="stylesheet" />
+    <link href="~/assets/css/button.css" rel="stylesheet" />
+    <link href="~/assets/css/form.css" rel="stylesheet" />
     <link href="~/assets/css/table2.css" rel="stylesheet" />
     <link href="~/assets/css/greet.css" rel="stylesheet" />
+    <link href="~/assets/css/toast.css" rel="stylesheet" />
     <link href="~/assets/css/jquery2.dataTables.min.css" rel="stylesheet" />
     <link href="~/Content/bootstrap-chosen.css" rel="stylesheet" />
     <link rel="shortcut icon" href="~/assets/images/favicon.ico" type="image/x-icon">
     <style>
-       .field-validation-error{
+        .field-validation-error {
             color: red;
         }
     </style>
@@ -171,6 +172,20 @@
     $(function () {
         $("#ddlBussines_ID").chosen();
     });
+    $(function () {
+        const toast = document.querySelector(".toast");
+        setTimeout(() => {
+            toast.remove();
+        }, 3000);
+
+    })
+    function remove() {
+        let toast = document.querySelector(".toast");
+        document.querySelector(".toast-right").addEventListener("click", () => {
+            toast.remove();
+        });
+
+    }
 </script>
 
 </html>

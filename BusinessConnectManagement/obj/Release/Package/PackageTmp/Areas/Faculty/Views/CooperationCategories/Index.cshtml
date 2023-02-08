@@ -9,9 +9,9 @@
     <h1 class="list-heading">Danh mục Hợp tác</h1>
     @if (TempData != null)
     {
-        <div class="alert alert-success" style="text-align: center; color: red; font-size: 1.5rem;">
-            @TempData["AlertMessage"]
-        </div>
+
+        @Html.Raw(@TempData["AlertMessage"])
+
     }
     <div class="list-table">
         <div id="filterEvent">

@@ -7,6 +7,12 @@
 
 <section class="list">
     <h1 class="list-heading">Danh sách Ký kết MOU</h1>
+    @if (TempData != null)
+    {
+
+        @Html.Raw(@TempData["AlertMessage"])
+
+    }
     <div class="list-table">
         <div id="filterEvent">
             <a href="@Url.Action("Create", "MOUs")">
@@ -19,7 +25,7 @@
         <table id="table_id" class="display" width="100%">
             <thead>
                 <tr>
-                    <th width="5%" class="text-center">STT</th>
+                    <th width="5%">STT</th>
                     <th>Tên Doanh Nghiệp</th>
                     <th>Ngày Ký</th>
                     <th>Người Ký</th>
@@ -28,15 +34,15 @@
                 </tr>
             </thead>
             <tbody>
-               
-               
-                    @{ int count = 1;}
-                    @foreach (var item in Model)
-                    {
-                        DateTime? mydate = item.SignDay;
-                        string datee = mydate.Value.ToString("dd-MM-yyyy");
+
+
+                @{ int count = 1;}
+                @foreach (var item in Model)
+                {
+                    DateTime? mydate = item.SignDay;
+                    string datee = mydate.Value.ToString("dd-MM-yyyy");
                     <tr id="checkRespon">
-                        <td class="text-center">@count</td>
+                        <td>@count</td>
                         <td>@item.BusinessUser.BusinessName</td>
                         <td>@datee</td>
                         <td>@item.Signer</td>
@@ -67,7 +73,7 @@
 
                     count++;
                 }
-                </tbody>
+            </tbody>
         </table>
     </div>
 </section>
@@ -99,18 +105,18 @@
 
         function loadDeleteUser(id, name) {
             let formDelete = document.getElementById("deleteForm");
-           
+
             formDelete.classList.add('is-appear')
             document.getElementById('iddele').value = id;
-            $('#namedele').text(name) 
+            $('#namedele').text(name)
         }
-        function Submit(){
+        function Submit() {
             var signer = document.getElementById('signer').value;
             var contactName = document.getElementById('contactName').value;
             var phone = document.getElementById('phone').value;
             var email = document.getElementById('email').value;
             var reponsibile = document.getElementById('reponsibile').value;
-                
+
             if (signer.trim() == "" || contactName.trim() == "" || phone.trim() == "" || email.trim() == "" || reponsibile.trim() == "") {
                 alert("Vui lòng không nhập khoảng trắng!")
                 var check = null;
@@ -119,19 +125,19 @@
                 document.getElementById('phone').value = check;
                 document.getElementById('email').value = check;
                 document.getElementById('reponsibile').value = check;
-               
+
                 return false;
             } else {
                 return true;
                 $("#addForm");
             }
-            
+
         }
-       
+
 
     </script>
 
 }
- 
+
 
 
