@@ -34,6 +34,7 @@ namespace BusinessConnectManagement.Models
         public string Username { get; set; }
         [Required(ErrorMessage = "Vui lòng nhập mật khẩu cho tài khoản của doanh nghiệp.")]
         [RegularExpression(@"^.*\S.*$", ErrorMessage = "Vui lòng nhập mật khẩu cho tài khoản của doanh nghiệp.")]
+        [StringLength(20, MinimumLength = 6, ErrorMessage = "Mật khẩu cần tối thiểu 6 ký tự, tối đa 20 ký tự")]
         public string Password { get; set; }
         public Nullable<System.DateTime> Last_Access { get; set; }
         public Nullable<int> Status_ID { get; set; }
@@ -41,6 +42,8 @@ namespace BusinessConnectManagement.Models
         [RegularExpression(@"^.*\S.*$", ErrorMessage = "Vui lòng nhập tên doanh nghiệp.")]
         public string BusinessName { get; set; }
         public string Address { get; set; }
+        [DataType(DataType.PhoneNumber)]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$|[0-9]{11}", ErrorMessage = "Số điện thoại này không hợp lệ.")]
         public string BusinessPhone { get; set; }
         public string Website { get; set; }
         public string Fanpage { get; set; }

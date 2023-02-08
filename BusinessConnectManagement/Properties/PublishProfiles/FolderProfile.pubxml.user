@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project>
   <PropertyGroup>
     <_PublishTargetUrl>D:\LAPTRINHASP.NET_MVC\Capstone Project Local\Publish</_PublishTargetUrl>
-    <History>True|2023-01-06T17:45:58.6008221Z;True|2023-01-07T00:43:52.8328169+07:00;True|2023-01-06T23:58:32.0851220+07:00;True|2023-01-02T23:31:45.5267487+07:00;True|2022-12-21T14:08:12.7755171+07:00;True|2022-12-21T02:58:45.0472550+07:00;True|2022-12-21T01:04:07.1804830+07:00;True|2022-12-18T23:42:08.0549693+07:00;True|2022-12-18T23:16:38.6381391+07:00;True|2022-12-18T22:54:57.4654200+07:00;True|2022-12-18T22:45:42.7817294+07:00;True|2022-12-18T22:43:18.1194935+07:00;True|2022-12-13T22:30:52.4232932+07:00;True|2022-12-13T22:05:08.8225925+07:00;True|2022-12-08T20:44:32.5940203+07:00;True|2022-12-08T20:37:39.8784839+07:00;True|2022-12-06T22:58:31.4739535+07:00;</History>
+    <History>True|2023-01-11T17:25:19.1490398Z;True|2023-01-11T22:51:45.3098680+07:00;True|2023-01-07T00:45:58.6008221+07:00;True|2023-01-07T00:43:52.8328169+07:00;True|2023-01-06T23:58:32.0851220+07:00;True|2023-01-02T23:31:45.5267487+07:00;True|2022-12-21T14:08:12.7755171+07:00;True|2022-12-21T02:58:45.0472550+07:00;True|2022-12-21T01:04:07.1804830+07:00;True|2022-12-18T23:42:08.0549693+07:00;True|2022-12-18T23:16:38.6381391+07:00;True|2022-12-18T22:54:57.4654200+07:00;True|2022-12-18T22:45:42.7817294+07:00;True|2022-12-18T22:43:18.1194935+07:00;True|2022-12-13T22:30:52.4232932+07:00;True|2022-12-13T22:05:08.8225925+07:00;True|2022-12-08T20:44:32.5940203+07:00;True|2022-12-08T20:37:39.8784839+07:00;True|2022-12-06T22:58:31.4739535+07:00;</History>
     <LastFailureDetails />
   </PropertyGroup>
   <ItemGroup>
@@ -28,7 +28,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>05/12/2022 17:16:47</publishTime>
     </File>
     <File Include="Areas/Admin/Views/AdminHome/AuthorizeList.cshtml">
-      <publishTime>01/07/2023 23:47:40</publishTime>
+      <publishTime>01/11/2023 22:41:51</publishTime>
     </File>
     <File Include="Areas/Admin/Views/AdminHome/Index.cshtml">
       <publishTime>01/08/2023 00:22:30</publishTime>
@@ -52,7 +52,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>05/12/2022 17:16:47</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/_Layout.cshtml">
-      <publishTime>01/08/2023 00:13:03</publishTime>
+      <publishTime>01/12/2023 00:15:41</publishTime>
     </File>
     <File Include="Areas/Admin/Views/web.config">
       <publishTime>01/05/2023 22:29:07</publishTime>
@@ -61,7 +61,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>05/12/2022 01:56:31</publishTime>
     </File>
     <File Include="Areas/Business/Views/Auth/Login.cshtml">
-      <publishTime>01/06/2023 00:55:31</publishTime>
+      <publishTime>01/12/2023 00:01:33</publishTime>
     </File>
     <File Include="Areas/Business/Views/Business/Index.cshtml">
       <publishTime>12/06/2022 17:33:17</publishTime>
@@ -85,7 +85,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/05/2023 22:55:28</publishTime>
     </File>
     <File Include="Areas/Business/Views/InternshipResults/Index.cshtml">
-      <publishTime>01/05/2023 23:08:45</publishTime>
+      <publishTime>01/11/2023 22:41:51</publishTime>
     </File>
     <File Include="Areas/Business/Views/InternViews/Create.cshtml">
       <publishTime>01/05/2023 22:55:28</publishTime>
@@ -100,10 +100,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/05/2023 22:55:28</publishTime>
     </File>
     <File Include="Areas/Business/Views/InternViews/Index.cshtml">
-      <publishTime>01/05/2023 23:08:54</publishTime>
+      <publishTime>01/11/2023 22:41:51</publishTime>
     </File>
     <File Include="Areas/Business/Views/Shared/_Layout.cshtml">
-      <publishTime>01/06/2023 01:01:41</publishTime>
+      <publishTime>01/12/2023 00:15:24</publishTime>
     </File>
     <File Include="Areas/Business/Views/web.config">
       <publishTime>12/06/2022 17:24:55</publishTime>
@@ -118,31 +118,31 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/06/2023 21:46:40</publishTime>
     </File>
     <File Include="Areas/Faculty/Views/BusinessCooperationCategories/Edit.cshtml">
-      <publishTime>01/07/2023 23:50:14</publishTime>
+      <publishTime>01/11/2023 22:41:51</publishTime>
     </File>
     <File Include="Areas/Faculty/Views/BusinessCooperationCategories/Index.cshtml">
-      <publishTime>01/07/2023 23:49:27</publishTime>
+      <publishTime>01/11/2023 22:41:51</publishTime>
     </File>
     <File Include="Areas/Faculty/Views/BusinessUsers/Create.cshtml">
-      <publishTime>01/05/2023 22:32:46</publishTime>
+      <publishTime>01/11/2023 22:41:51</publishTime>
     </File>
     <File Include="Areas/Faculty/Views/BusinessUsers/Details.cshtml">
-      <publishTime>01/07/2023 23:39:09</publishTime>
+      <publishTime>01/11/2023 22:41:51</publishTime>
     </File>
     <File Include="Areas/Faculty/Views/BusinessUsers/DetailsBusiness.cshtml">
-      <publishTime>01/07/2023 23:38:10</publishTime>
+      <publishTime>01/11/2023 22:41:51</publishTime>
     </File>
     <File Include="Areas/Faculty/Views/BusinessUsers/Index.cshtml">
-      <publishTime>01/07/2023 23:42:16</publishTime>
+      <publishTime>01/11/2023 22:41:51</publishTime>
     </File>
     <File Include="Areas/Faculty/Views/CooperationCategories/Index.cshtml">
-      <publishTime>01/06/2023 22:08:30</publishTime>
+      <publishTime>01/11/2023 22:41:51</publishTime>
     </File>
     <File Include="Areas/Faculty/Views/Faculty/Index.cshtml">
       <publishTime>05/12/2022 20:11:16</publishTime>
     </File>
     <File Include="Areas/Faculty/Views/FacultyHome/Index.cshtml">
-      <publishTime>01/06/2023 01:10:03</publishTime>
+      <publishTime>01/11/2023 22:47:15</publishTime>
     </File>
     <File Include="Areas/Faculty/Views/Home/Index.cshtml">
       <publishTime>05/12/2022 20:11:16</publishTime>
@@ -157,10 +157,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/07/2023 23:48:37</publishTime>
     </File>
     <File Include="Areas/Faculty/Views/MOUs/Index.cshtml">
-      <publishTime>01/07/2023 23:43:40</publishTime>
+      <publishTime>01/11/2023 22:41:51</publishTime>
     </File>
     <File Include="Areas/Faculty/Views/Posts/Create.cshtml">
-      <publishTime>01/06/2023 21:51:51</publishTime>
+      <publishTime>01/11/2023 22:41:51</publishTime>
     </File>
     <File Include="Areas/Faculty/Views/Posts/Details.cshtml">
       <publishTime>01/07/2023 23:54:23</publishTime>
@@ -169,16 +169,16 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/07/2023 23:53:59</publishTime>
     </File>
     <File Include="Areas/Faculty/Views/Posts/Index.cshtml">
-      <publishTime>01/07/2023 23:54:50</publishTime>
+      <publishTime>01/11/2023 22:41:51</publishTime>
     </File>
     <File Include="Areas/Faculty/Views/Registration/Details.cshtml">
       <publishTime>01/06/2023 21:22:06</publishTime>
     </File>
     <File Include="Areas/Faculty/Views/Registration/Index.cshtml">
-      <publishTime>01/07/2023 23:45:31</publishTime>
+      <publishTime>01/11/2023 22:41:51</publishTime>
     </File>
     <File Include="Areas/Faculty/Views/Shared/_Layout.cshtml">
-      <publishTime>01/07/2023 00:38:54</publishTime>
+      <publishTime>01/12/2023 00:15:12</publishTime>
     </File>
     <File Include="Areas/Faculty/Views/web.config">
       <publishTime>01/05/2023 22:29:39</publishTime>
@@ -262,7 +262,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/06/2023 01:03:14</publishTime>
     </File>
     <File Include="assets/css/button.css">
-      <publishTime>12/06/2022 01:05:46</publishTime>
+      <publishTime>01/12/2023 00:12:18</publishTime>
     </File>
     <File Include="assets/css/button2.css">
       <publishTime>01/05/2023 22:37:41</publishTime>
@@ -277,7 +277,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/07/2023 00:31:59</publishTime>
     </File>
     <File Include="assets/css/form.css">
-      <publishTime>12/06/2022 01:05:46</publishTime>
+      <publishTime>01/12/2023 00:17:26</publishTime>
     </File>
     <File Include="assets/css/form2.css">
       <publishTime>01/05/2023 22:37:41</publishTime>
@@ -328,7 +328,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/05/2023 22:37:41</publishTime>
     </File>
     <File Include="assets/css/toast.css">
-      <publishTime>01/05/2023 22:37:41</publishTime>
+      <publishTime>01/11/2023 22:41:51</publishTime>
     </File>
     <File Include="assets/images/adminVLU.png">
       <publishTime>01/05/2023 22:37:41</publishTime>
@@ -3105,6 +3105,165 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="assets/js/time.js">
       <publishTime>01/05/2023 22:37:42</publishTime>
     </File>
+    <File Include="assets/User/assets/css/animation.css">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/css/custom.css">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/css/font/fontawesome/css/all.css">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/css/font/fontawesome/css/all.min.css">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/css/font/fontawesome/css/brands.css">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/css/font/fontawesome/css/brands.min.css">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/css/font/fontawesome/css/fontawesome.css">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/css/font/fontawesome/css/fontawesome.min.css">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/css/font/fontawesome/css/regular.css">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/css/font/fontawesome/css/regular.min.css">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/css/font/fontawesome/css/solid.css">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/css/font/fontawesome/css/solid.min.css">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/css/font/fontawesome/css/svg-with-js.css">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/css/font/fontawesome/css/svg-with-js.min.css">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/css/font/fontawesome/css/v4-font-face.css">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/css/font/fontawesome/css/v4-font-face.min.css">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/css/font/fontawesome/css/v4-shims.css">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/css/font/fontawesome/css/v4-shims.min.css">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/css/font/fontawesome/css/v5-font-face.css">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/css/font/fontawesome/css/v5-font-face.min.css">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/css/font/fontawesome/webfonts/fa-brands-400.ttf">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/css/font/fontawesome/webfonts/fa-brands-400.woff2">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/css/font/fontawesome/webfonts/fa-regular-400.ttf">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/css/font/fontawesome/webfonts/fa-regular-400.woff2">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/css/font/fontawesome/webfonts/fa-solid-900.ttf">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/css/font/fontawesome/webfonts/fa-solid-900.woff2">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/css/font/fontawesome/webfonts/fa-v4compatibility.ttf">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/css/font/fontawesome/webfonts/fa-v4compatibility.woff2">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/css/spectre/spectre-exp.min.css">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/css/spectre/spectre-icons.min.css">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/css/spectre/spectre.min.css">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/css/style.css">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/images/banner1.jpg">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/images/bg-bread.webp">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/images/exp.png">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/images/files.png">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/images/image-job.png">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/images/logo.png">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/images/logoOld.png">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/images/medal.png">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/images/money.png">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/images/mou1.jpg">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/images/people.png">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/images/profile.png">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/images/sex.png">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/images/slider.jpg">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/images/slider2.jpg">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/images/star.png">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/images/td1.jpg">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/images/td2.jpg">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/images/td3.jpg">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/images/user.png">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
+    <File Include="assets/User/assets/images/vali.png">
+      <publishTime>01/10/2023 20:02:28</publishTime>
+    </File>
     <File Include="bin/Antlr3.Runtime.dll">
       <publishTime>09/10/2013 16:29:20</publishTime>
     </File>
@@ -3112,10 +3271,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>09/10/2013 16:29:20</publishTime>
     </File>
     <File Include="bin/BusinessConnectManagement.dll">
-      <publishTime>01/08/2023 00:23:56</publishTime>
+      <publishTime>01/12/2023 00:25:16</publishTime>
     </File>
     <File Include="bin/BusinessConnectManagement.pdb">
-      <publishTime>01/08/2023 00:23:56</publishTime>
+      <publishTime>01/12/2023 00:25:16</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>10/23/2017 13:15:18</publishTime>
@@ -3430,7 +3589,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/05/2022 01:23:22</publishTime>
     </File>
     <File Include="Scripts/chosen.jquery.js">
-      <publishTime>01/05/2023 23:18:13</publishTime>
+      <publishTime>01/10/2023 16:50:29</publishTime>
     </File>
     <File Include="Scripts/chosen.jquery.min.js">
       <publishTime>01/05/2023 23:18:13</publishTime>
@@ -3517,7 +3676,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/21/2022 02:23:50</publishTime>
     </File>
     <File Include="Views/Account/Login.cshtml">
-      <publishTime>01/06/2023 01:06:09</publishTime>
+      <publishTime>01/08/2023 00:39:15</publishTime>
     </File>
     <File Include="Views/Error/PageNotFound.cshtml">
       <publishTime>12/08/2022 20:29:53</publishTime>
@@ -3532,7 +3691,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/06/2022 00:14:24</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>01/02/2023 22:03:57</publishTime>
+      <publishTime>01/10/2023 20:25:33</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>12/06/2022 00:14:04</publishTime>
@@ -3553,7 +3712,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/06/2022 00:13:35</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>01/08/2023 00:23:56</publishTime>
+      <publishTime>01/12/2023 00:25:17</publishTime>
     </File>
   </ItemGroup>
 </Project>

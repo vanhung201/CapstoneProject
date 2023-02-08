@@ -49,18 +49,15 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                 cooperationCategoriesget.Add(new CooperationCategoriesGet { name = item.Business_ID.ToString(), value = item.CooperationCategory.CooperationCategoriesName });
                 count++;
             }
-
             var listBusinessId = db.BusinessCooperationCategories.Select(x => x.Business_ID).Distinct().ToList();
-            
-            var listBusinessName = db.BusinessCooperationCategories.Select(x => x.BusinessUser.BusinessName).Distinct().ToList();
-
+            //var listBusinessName = db.BusinessCooperationCategories.OrderBy(a => a.Business_ID).Select(x => x.BusinessUser.BusinessName).Distinct().ToList();
+            var demo = db.BusinessCooperationCategories.OrderBy(a => a.Business_ID).DistinctBy(x => x.Business_ID).ToList();
+            var listBusinessName = demo.Select(x => x.BusinessUser.BusinessName).ToList();
             var listBusinessValue = new string[listBusinessId.Count()];
             int index = 0;
-
             foreach (var buId in listBusinessId)
             {
                 string listData = "";
-
                 foreach (var itemGet in cooperationCategoriesget)
                 {
                     if (int.Parse(itemGet.name) == buId)
@@ -69,12 +66,9 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
 
                     }
                 }
-
                 listBusinessValue[index] = listData;
-
                 index++;
             }
-
             for (int i = 0; i + 1 < listBusinessId.Count + 1; i++)
             {
                 cooperationCategoriesgetTest.Add(new CooperationCategoriesGet { id = listBusinessId[i], name = listBusinessName[i].ToString(), value = listBusinessValue[i] });

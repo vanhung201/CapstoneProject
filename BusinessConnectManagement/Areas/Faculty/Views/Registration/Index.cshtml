@@ -72,36 +72,36 @@
     <div class="form-container">
         <i class="form-icon fas fa-times-circle"></i>
         <h1 class="form-heading">Cập nhật Kết quả</h1>
-        <label class="form-label">Trạng Thái</label>
-
-        <select id="status" name="StatusRegistration" class="form-input">
-            <option value="Chờ phê duyệt">Chờ phê duyệt</option>
-            <option value="Phê duyệt">Phê duyệt</option>
-        </select>
-
         <div class="form-group">
-            <label for="comment" class="form-label">Nhận xét</label>
-            <textarea name="Comment" id="comment" class="form-input" autocomplete="off"></textarea>
+            <label class="form-label">Trạng Thái</label>
+            <select id="status" name="StatusRegistration" class="form-input">
+                <option value="Chờ phê duyệt">Chờ phê duyệt</option>
+                <option value="Phê duyệt">Phê duyệt</option>
+            </select>
         </div>
+            <div class="form-group">
+                <label for="comment" class="form-label">Nhận xét</label>
+                <textarea name="Comment" id="comment" class="form-input" autocomplete="off"></textarea>
+            </div>
 
-        <div class="form-group">
-            <input list="" name="id" id="id" class="form-input" hidden />
-            <input list="" name="Business_ID" id="idb" class="form-input" hidden />
-            <input list="" name="Email_VanLang" id="email" class="form-input" hidden />
-            <input list="" name="Post_ID" id="post" class="form-input" hidden />
-            <input list="" name="Semester_ID" id="semeter" class="form-input" hidden />
-            <input list="" name="CV" id="cv" class="form-input" hidden />
-            <input list="" name="RegistrationDate" id="rd" class="form-input" hidden />
-            <input list="" name="RegistrationModify" id="rm" class="form-input" hidden />
-            <input list="" name="InterviewResult" id="ir" class="form-input" hidden />
-            <input list="" name="InterviewResultComment" id="irc" class="form-input" hidden />
-            <input list="" name="StatusInternview" id="sr" class="form-input" hidden />
-        </div>
+            <div class="form-group">
+                <input list="" name="id" id="id" class="form-input" hidden />
+                <input list="" name="Business_ID" id="idb" class="form-input" hidden />
+                <input list="" name="Email_VanLang" id="email" class="form-input" hidden />
+                <input list="" name="Post_ID" id="post" class="form-input" hidden />
+                <input list="" name="Semester_ID" id="semeter" class="form-input" hidden />
+                <input list="" name="CV" id="cv" class="form-input" hidden />
+                <input list="" name="RegistrationDate" id="rd" class="form-input" hidden />
+                <input list="" name="RegistrationModify" id="rm" class="form-input" hidden />
+                <input list="" name="InterviewResult" id="ir" class="form-input" hidden />
+                <input list="" name="InterviewResultComment" id="irc" class="form-input" hidden />
+                <input list="" name="StatusInternview" id="sr" class="form-input" hidden />
+            </div>
 
-        <div class="form-group">
-            <button type="submit" class="btn btn--add">Lưu</button>
+            <div class="form-group">
+                <button type="submit" class="btn btn--add">Lưu</button>
+            </div>
         </div>
-    </div>
 </form>
 
 <script type="text/javascript">

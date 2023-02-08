@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="~/assets/css/reset.css">
     <link rel="stylesheet" href="~/assets/css/global2.css">
     <link rel="stylesheet" href="~/assets/css/style.css">
-    <link rel="stylesheet" href="~/assets/css/toast.css">
+    <link rel="stylesheet" href="~/assets/css/admin/toast.css">
     <link rel="shortcut icon" href="~/assets/images/favicon.ico" type="image/x-icon">
 </head>
 
@@ -48,6 +48,29 @@
             </div>
         </form>
     </section>
+
+    @if (Convert.ToBoolean(Session["BusinessAccountBlocked"]) == true)
+    {
+        <div class="toast">
+            <div class="toast-wrap">
+                <div class="toast-header">
+                    <div class="toast-left">
+                        <i class="toast-left-icon fas fa-exclamation-circle"></i>
+                        <span class="toast-left-heading">Thông báo</span>
+                    </div>
+                    <div class="toast-right">
+                        <i class="toast-right-icon fas fa-times"></i>
+                    </div>
+                </div>
+                <div class="toast-content">
+                    <p class="toast-content-text">Tài khoản của bạn đang bị khóa. Vui lòng liên hệ Khoa CNTT để được hỗ trợ.</p>
+                </div>
+            </div>
+        </div>
+    }
+
+    <script src="~/assets/js/index.js"></script>
+
 </body>
 
 </html>

@@ -62,7 +62,7 @@ namespace BusinessConnectManagement.Controllers
 
             Session["EmailVLU"] = email;
 
-            var query = db.VanLangUsers.Where(x => x.Email == email).FirstOrDefault();
+            var query = db.VanLangUsers.Where(x => x.Email == email);
 
             if (query == null)
             {
@@ -112,6 +112,15 @@ namespace BusinessConnectManagement.Controllers
         // Send an OpenID Connect sign-out request.
         public void SignOut()
         {
+            Session.Clear();
+            Session.RemoveAll();
+            Session.Abandon();
+            
+            if (Request.Cookies["ASP.NET_SessionId"] != null)
+            {
+                Response.Cookies["ASP.NET_SessionId"].Expires = DateTime.Now.AddDays(-1);
+            }
+
             HttpContext.GetOwinContext().Authentication.SignOut(
                     OpenIdConnectAuthenticationDefaults.AuthenticationType,
                     CookieAuthenticationDefaults.AuthenticationType);

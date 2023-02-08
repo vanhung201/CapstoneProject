@@ -98,6 +98,18 @@
                 return false;
             }
         }
+        function checkImage() {
+
+            var fup = document.getElementById('logo');
+            var fileName = fup.value;
+            if (fileName == '') {
+                alert("Vui lòng nhập hình ảnh!!");
+                document.getElementById("logo").required = true;
+                return false;
+            } else {
+                return true;
+            }
+        }
 		    CKEDITOR.replace('Explanation');
 		  
     </script>

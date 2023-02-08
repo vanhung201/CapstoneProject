@@ -16,7 +16,7 @@
                     @Html.HiddenFor(model => model.ID)
                     <div class="col l-6">
                         <div class="form-group">
-                            <label class="form-label">Tên Đăng Nhập</label>
+                            <label class="form-label">Tên Đăng Nhập&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                             @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-input", disabled = "true" } })
                         </div>
                         <div class="form-group">
@@ -36,7 +36,7 @@
                     </div>
                     <div class="col l-6">
                         <div class="form-group">
-                            <label class="form-label">Mật Khẩu</label>
+                            <label class="form-label">Mật Khẩu &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                             @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-input", disabled = "true", type="password" } })
                         </div>
                         <div class="form-group">
@@ -47,8 +47,8 @@
                     </div>
                     <div class="col l-6">
                         <div class="form-group">
-                            <label for="stat" class="form-label">Trạng Thái</label>
-                            <select name="Status_ID" id="" class="form-select" disabled>
+                            <label for="stat" class="form-label">Trạng Thái &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            <select name="Status_ID" id="" class="form-input" disabled>
                                 @foreach (var item in ViewBag.StatusList)
                                 {
                                     if (item.ID == Model.Status_ID)
@@ -66,7 +66,7 @@
                     </div>
                     <div class="col l-6">
                         <div class="form-group">
-                            <label for="lastAccess" class="form-label">Lần truy cập cuối</label>
+                            <label for="lastAccess" class="form-label">Lần truy cập cuối &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                             <input name="Last_Access" class="form-input" value="@Model.Last_Access"
                                    autocomplete="off" disabled />
                             @Html.HiddenFor(model => model.Last_Access)
@@ -74,7 +74,7 @@
                     </div>
                     <div class="col l-6">
                         <div class="form-group">
-                            <label class="form-label">Địa Chỉ</label>
+                            <label class="form-label">Địa Chỉ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                             @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-input", disabled = "true" } })
                         </div>
                         <div class="form-group">
@@ -84,7 +84,7 @@
                     </div>
                     <div class="col l-6">
                         <div class="form-group">
-                            <label class="form-label">Số điện thoại</label>
+                            <label class="form-label">Số điện thoại &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                             @Html.EditorFor(model => model.BusinessPhone, new { htmlAttributes = new { @class = "form-input", disabled = "true" } })
                         </div>
                         <div class="form-group">
@@ -94,7 +94,7 @@
                     </div>
                     <div class="col l-6">
                         <div class="form-group">
-                            <label class="form-label">Website</label>
+                            <label class="form-label">Website&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                             @Html.EditorFor(model => model.Website, new { htmlAttributes = new { @class = "form-input", disabled = "true" } })
                         </div>
                         <div class="form-group">
@@ -104,7 +104,7 @@
                     </div>
                     <div class="col l-6">
                         <div class="form-group">
-                            <label class="form-label">Fanpage</label>
+                            <label class="form-label">Fanpage &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                             @Html.EditorFor(model => model.Fanpage, new { htmlAttributes = new { @class = "form-input", disabled = "true" } })
                         </div>
                         <div class="form-group">
@@ -114,7 +114,7 @@
                     </div>
                     <div class="col l-6">
                         <div class="form-group">
-                            <label class="form-label">Người Liên Hệ</label>
+                            <label class="form-label">Người Liên Hệ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                             @Html.EditorFor(model => model.ContactName, new { htmlAttributes = new { @class = "form-input", disabled = "true" } })
                         </div>
                         <div class="form-group">
@@ -124,7 +124,7 @@
                     </div>
                     <div class="col l-6">
                         <div class="form-group">
-                            <label class="form-label">SĐT Người Liên Hệ </label>
+                            <label class="form-label">SĐT Người Liên Hệ &nbsp;&nbsp;</label>
                             @Html.EditorFor(model => model.ContactPhone_1, new { htmlAttributes = new { @class = "form-input", disabled = "true" } })
                         </div>
                         <div class="form-group">
@@ -144,7 +144,7 @@
                     </div>
                     <div class="col l-6">
                         <div class="form-group">
-                            <label class="form-label">Email Người Liên Hệ</label>
+                            <label class="form-label">Email Người Liên Hệ   </label>
                             @Html.EditorFor(model => model.EmailContact, new { htmlAttributes = new { @class = "form-input", disabled = "true" } })
                         </div>
                         <div class="form-group">
@@ -152,9 +152,7 @@
                             @Html.ValidationMessageFor(model => model.EmailContact, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                    <div class="col l-6">
-                    </div>
-                    <div class="col l-6">
+                    @*<div class="col l-6">
                         <div class="form-group">
                             <input id="CoopId" type="text" value="" name="ArrCoopId" hidden />
                             <label for="cooperation" class="form-label">Loại Hợp Tác</label>
@@ -177,7 +175,7 @@
                                 }
                             </div>
                         </div>
-                    </div>
+                    </div>*@
                     <div class="col l-6">
                         <div class="form-group">
                             <label for="logo" class="form-label">Logo</label>
