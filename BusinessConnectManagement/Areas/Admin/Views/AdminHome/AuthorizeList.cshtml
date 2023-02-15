@@ -11,13 +11,19 @@
     {
         @Html.Raw(@TempData["AlertMessage"])
     }
-    <div class="list-table">
-        <table id="table_id" class="display">
 
+    <div class="list-table">
+
+        <div class="rg_status"></div>
+
+
+        <div class="rg_role" style="left"></div>
+
+        <table id="table_listData" class="display">
             <thead>
                 <tr>
-                    <th class="text-center">STT</th>
-                    <th class="text-center">Họ và Tên</th>
+                    <th></th>
+                    <th class="text-center">Tên</th>
                     <th class="text-center">Email</th>
                     <th class="text-center">SĐT</th>
                     <th class="text-center">Chức vụ</th>
@@ -25,70 +31,56 @@
                     <th class="text-center">Chức năng</th>
                 </tr>
             </thead>
-
             <tbody>
-                @{ int count = 1;}
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td class="text-center">@count</td>
-                        <td>@Html.DisplayFor(modelItem => item.FullName)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Email)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Mobile)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Role)</td>
-                        <td>@item.Status.Status1</td>
-                        <td class="text-center">
-                            <button class="btn btn-action btn--update"
-                                    onclick="loadEditUser('@item.Email', '@item.FullName', '@item.Student_ID', '@item.Mobile', '@item.Role', '@item.Last_Access', '@item.Major_ID', '@item.Status_ID')">
-                                Cập nhật
-                            </button>
-                        </td>
-                    </tr>
-
-                    count++;
-                }
             </tbody>
-
         </table>
     </div>
 </section>
 
-<form class="form" id="deleteForm" method="post">
-</form>
 
-<form class="form" id="addForm" method="post">
-</form>
-
-<form action="@Url.Action("Edit", "AdminHome")" method="post" class="form" id="updateForm">
-
+<form action="@Url.Action("Edit", "AdminHome")" method="post" class="form" id="updateForm" name="myForm" enctype="multipart/form-data">
     <div class="form-container">
-        <i class="form-icon fas fa-times-circle"></i>
+
         <h1 class="form-heading">Cập nhật Tài khoản</h1>
-
-        <input name="email" id="email" class="form-input" hidden />
-        <input name="Student_ID" id="Student_ID" class="form-input" hidden />
-        <input name="Last_Access" id="Last_Access" class="form-input" hidden />
-        <input name="Major_ID" id="Major_ID" class="form-input" hidden />
-
+        <input id="access" name="Last_Access" class="form-input" autocomplete="off" />
+        <input id="student" name="Student_ID" class="form-input" autocomplete="off" />
         <div class="form-group">
             <label for="emailVLU" class="form-label">Email &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-            <input id="emailVLU" name="EmailVLU" class="form-input" autocomplete="off" disabled />
+
+            <input id="email" name="Email" class="form-input" autocomplete="off" hidden />
         </div>
 
         <div class="form-group">
             <label for="FullName" class="form-label">Họ và Tên</label>
-            <input id="FullName" name="FullName" class="form-input" autocomplete="off" />
+            <input id="username" name="FullName" class="form-input" autocomplete="off" />
         </div>
-
+        <div>
+            <input  style="height:5px" hidden>
+            <input id="validateFullName" value="a"  style="height:5px" hidden>
+        </div>
+        <div class="edit">
+            <div class="form-group">
+                <label for="Major_ID" class="form-label">Chuyên Nghành &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                <select name="Major_ID" id="majorr" class="form-input">
+                    <option value="1">Công nghệ phần mềm</option>
+                    <option value="2">Công nghệ dữ liệu</option>
+                    <option value="3">Tin học quản trị</option>
+                    <option value="4">An ninh Mạng</option>
+                    <option value="5">Hệ thống Thông tin</option>
+                    <option value="6">Kỹ thuật phần mềm</option>
+                </select>
+            </div>
+        </div>
         <div class="form-group">
             <label for="Mobile" class="form-label">SĐT &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-            <input id="Mobile" name="Mobile" class="form-input" autocomplete="off" />
+            <input id="phone" name="Mobile" class="form-input" autocomplete="off" />
+            <input id="validateMobile" value="" class="form-label" disabled>
         </div>
 
         <div class="edit">
             <div class="form-group">
                 <label for="Role" class="form-label">Vai trò &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                <select name="Role" id="Role" class="form-input">
+                <select name="Role" id="role" class="form-input">
                     <option value="Admin">Admin</option>
                     <option value="Faculty">Faculty</option>
                     <option value="Mentor">Mentor</option>
@@ -100,35 +92,211 @@
         <div class="editStatus">
             <div class="form-group">
                 <label for="Status_ID" class="form-label">Trạng thái</label>
-                <select name="Status_ID" id="Status_ID" class="form-input">
-                    @foreach (var status in ViewBag.StatusList)
-                    {
-                        <option value=@status.ID>@status.Status1</option>
-                    }
+                <select name="Status_ID" id="status" class="form-input">
+                    <option value="1">Đang Hoạt Động</option>
+                    <option value="2">Khóa</option>
                 </select>
             </div>
         </div>
 
         <div class="form-group">
-            <button type="submit" class="btn btn--add">Lưu</button>
+            <button type="submit" id="submit_edit" class="btn btn--add">Lưu</button>
+            <a class="btn btn--cancel">Hủy</a>
         </div>
     </div>
 </form>
+@section Scripts {
+    <script type="text/javascript">
 
-<script type="text/javascript">
-    function loadEditUser(email, FullName, Student_ID, Mobile, Role, Last_Access, Major_ID, Status_ID) {
-        let formUpdate = document.getElementById("updateForm");
 
-        formUpdate.classList.add('is-appear');
+        $(function () {
+            var url = "@Url.Action("getDataList", "AdminHome")"
+            "use strict";
+            (dataTable = $("#table_listData").DataTable({
+                ajax: {
+                    url: url,
+                    type: "GET",
+                    dataType: "json",
+                    dataSrc: "",
+                },
+                deferRender: !0,
+                columns: [
+                    { data: "", defaultContent: "" },
+                    { data: "email" },
+                    { data: "username" },
+                    { data: "phone" },
+                    { data: "role" },
+                    { data: "status" },
+                    {
+                        data: "email",
+                        render: function (t) {
+                            return (
+                                `
+                                <a href="@Url.Action("Details", "AdminHome")?email=${t}" id="business_detail" class="business_detail">
+                                <div class="btn btn--update">
+                                    <i class="btn-icon btn-icon--edit fas fa-edit"></i>
+                                    <span class="btn-text">Cập Nhật</span>
+                                </div>
+                                </a>
+                                <a onclick="loadDeleteUser(${t})">
+                                <div class="btn btn--delete">
+                                    <i class="btn-icon btn-icon--edit fas fa-times"></i>
+                                    <span class="btn-text">Xóa</span>
+                                </div>
+                                </a>`
+                            );
+                        },
+                    },
 
-        document.getElementById('email').value = email;
-        document.getElementById('emailVLU').value = email;
-        document.getElementById('FullName').value = FullName;
-        document.getElementById('Student_ID').value = Student_ID;
-        document.getElementById('Mobile').value = Mobile;
-        document.getElementById('Role').value = Role;
-        document.getElementById('Last_Access').value = Last_Access;
-        document.getElementById('Major_ID').value = Major_ID;
-        document.getElementById('Status_ID').value = Status_ID;
-    }
-</script>
+                ],
+                initComplete: function () {
+                    this.api()
+                        .columns(5)
+                        .every(function () {
+                            var t = this,
+                                e = $(
+                                    '<select id="UserType" class="form-select text-capitalize mb-md-0 mb-2xx"><option value="">--Chọn trạng thái để lọc--</option></select>'
+                                )
+                                    .appendTo(".rg_status")
+                                    .on("change", function () {
+                                        var e = $.fn.dataTable.util.escapeRegex($(this).val());
+                                        t.search(e ? "^" + e + "$" : "", !0, !1).draw();
+                                    });
+                            t.data()
+                                .unique()
+                                .sort()
+                                .each(function (t) {
+                                    t &&
+                                        e.append(
+                                            '<option value="' + t + '" class="text-capitalize">' + t + '</option>'
+
+                                        );
+                                })
+
+                        }),
+                    this.api()
+                        .columns(4)
+                        .every(function () {
+                            var t = this,
+                                e = $(
+                                    '<select id="UserType" class="form-select text-capitalize mb-md-0 mb-2xx"><option value="">--Chọn chức vụ để lọc--</option></select>'
+                                )
+                                    .appendTo(".rg_role")
+                                    .on("change", function () {
+                                        var e = $.fn.dataTable.util.escapeRegex($(this).val());
+                                        t.search(e ? "^" + e + "$" : "", !0, !1).draw();
+                                    });
+                            t.data()
+                                .unique()
+                                .sort()
+                                .each(function (t) {
+                                    t &&
+                                        e.append(
+                                            '<option value="' + t + '" class="text-capitalize">' + t + '</option>'
+
+                                        );
+                                })
+                        });
+                }
+            })
+            )
+        });
+        $('#table_listData').on('click', '.business_detail', function (e) {
+            e.preventDefault()
+            const form = document.getElementById('updateForm');
+            form.classList.add('is-appear');
+            const url = $(this).attr('href');
+            $.ajax({
+                url: url,
+                type: "get",
+                dataType: 'json',
+                success: function (res) {
+                    console.log(res)
+                   
+                    const actionUrl = `@Url.Action("Edit", "AdminHome")` + `/${res[0].email}`
+                   
+                    $('#email').val(res[0].email)
+                    $('#username').val(res[0].username)
+                    $('#phone').val(res[0].phone)
+                    $('#role').val(res[0].role)
+                    
+                    $('#access').val(res[0].access)
+                    $('#student').val(res[0].student)
+                   if (res[0].status === "Đang hoạt động") {
+                        $('select option[value="1"]').attr("selected", "selected");
+                    } else {
+                        $('select option[value="2"]').attr("selected", "selected");
+                    }
+                    if (res[0].majorr === "Công nghệ phần mềm") {
+                        $('select option[value="1"]').attr("selected", "selected");
+                    } else if (res[0].majorr === "Công nghệ dữ liệu") {
+                        $('select option[value="2"]').attr("selected", "selected");
+                    }
+                    else if (res[0].majorr === "Tin học quản trị") {
+                        $('select option[value="3"]').attr("selected", "selected");
+                    }
+                    else if (res[0].majorr === "An ninh Mạng") {
+                        $('select option[value="4"]').attr("selected", "selected");
+                    }
+                    else if (res[0].majorr === "Hệ thống Thông tin") {
+                        $('select option[value="5"]').attr("selected", "selected");
+                    }
+                    else if (res[0].majorr === "Kỹ thuật phần mềm") {
+                        $('select option[value="6"]').attr("selected", "selected");
+                    }
+                    $('#updateForm').attr('action', `${actionUrl}`)
+                }
+            })
+        })
+        $('.btn--cancel').on('click', function () {
+            $('#updateForm').removeClass('is-appear')
+        })
+        
+        $('#submit_edit').on('click', function (e) {
+            e.preventDefault()
+            const Email = $('input[name=Email]').val()
+            const FullName = $('input[name=FullName]').val()
+            const Student_ID = $('input[name=Student_ID]').val()
+            const Mobile = $('input[name=Mobile]').val()
+            const Role = $('select[name=Role]').val()
+            const Last_Access = $('input[name=Last_Access]').val()
+            const Major_ID = $('select[name=Major_ID]').val()
+            const Status_ID = $('select[name=Status_ID]').val()
+            const url = $('#updateForm').attr('action')
+
+            $.ajax({
+                url: url,
+                type: 'post',
+                data: {
+                    Email: Email,
+                    FullName: FullName,
+                    Student_ID: Student_ID,
+                    Mobile: Mobile,
+                    Status_ID: Status_ID,
+                    Last_Access: Last_Access,
+                    Major_ID: Major_ID,
+                    Role: Role
+                }
+            })
+           
+            if (document.myForm.FullName.value == "") {
+                $('#validateFullName').removeAttr('hidden');
+                $("#validateFullName").val("test");
+                return false;
+            }
+            if (document.myForm.Mobile.value == "") {
+                $("#validateMobile").val("test");
+                return false;
+            }
+                $('#updateForm').removeClass('is-appear')
+                $('#updateForm').submit();
+            
+           
+           
+            
+        })
+       
+    </script>
+}
+
+                   

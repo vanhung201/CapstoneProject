@@ -129,7 +129,6 @@
 
 </body>
 
-@RenderSection("scripts", required: false)
 
 <script src="~/assets/js/admin.js"></script>
 <script src="~/Scripts/jquery-3.4.1.js"></script>
@@ -148,7 +147,7 @@
 
     let formAdd = document.getElementById("addForm");
     let formUpdate = document.getElementById("updateForm");
-    let formDelete = document.getElementById("deleteForm");
+    let formDelete = document.getElementById("deleteForm"); 
     let icon = document.querySelector(".form-icon");
     let isHide = "is-hide";
     let isAppear = "is-appear";
@@ -187,5 +186,6 @@
 
     }
 </script>
+@RenderSection("scripts", required: false)
 
 </html>

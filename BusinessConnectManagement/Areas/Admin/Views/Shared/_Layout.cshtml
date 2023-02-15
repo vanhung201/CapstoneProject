@@ -114,7 +114,6 @@
 
 </body>
 
-@RenderSection("scripts", required: false)
 
 <script src="~/assets/js/admin.js"></script>
 <script src="~/Scripts/jquery-3.4.1.js"></script>
@@ -141,7 +140,9 @@
     $(".btn--create").on("click", function () {
         formAdd.classList.add(isAppear);
     });
-
+    $("#table_listData").on("click",".btn--update" ,function () {
+        formUpdate.classList.add(isAppear);
+    });
     $(".form-icon").on("click", function () {
         formDelete.classList.remove(isAppear);
     });
@@ -172,5 +173,6 @@
 
     }
 </script>
+@RenderSection("scripts", required: false)
 
 </html>
