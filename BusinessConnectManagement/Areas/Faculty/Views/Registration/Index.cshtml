@@ -11,51 +11,25 @@
     {
         @Html.Raw(@TempData["AlertMessage"])
     }
+    <div class="row">
+        <div class="rg_status"></div>
+    </div>
     <div class="list-table">
-        <table id="table_id" class="display">
+        <table id="table_listData" class="display">
             <thead>
                 <tr>
-                    <th class="text-center">STT</th>
+                    <th></th>
                     <th class="text-center">Họ và Tên</th>
                     <th class="text-center">Email</th>
                     <th class="text-center">SĐT</th>
                     <th class="text-center">Bài viết Ứng tuyển</th>
                     <th class="text-center">CV</th>
                     <th class="text-center">Trạng thái</th>
-                    <th width="13%" class="text-center">Chức năng</th>
+                    <th class="text-center">Chức Năng</th>
+
                 </tr>
             </thead>
             <tbody>
-                @{ int count = 1;}
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td class="text-center">@count</td>
-                        <td>@Html.DisplayFor(modelItem => item.VanLangUser.FullName)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Email_VanLang)</td>
-                        <td>@Html.DisplayFor(modelItem => item.VanLangUser.Mobile)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Post.Title)</td>
-                        <td><a href="@Url.Action("DownloadFile", "Registration", new {filePath = item.CV})">@Html.DisplayFor(modelItem => item.CV)</a></td>
-                        <td>@Html.DisplayFor(modelItem => item.StatusRegistration)</td>
-                        <td>
-                            <a onclick="loadEditStatus('@item.ID', '@item.Comment', '@item.Business_ID', '@item.Email_VanLang', '@item.Post_ID', '@item.Semester_ID', '@item.CV', '@item.RegistrationDate', '@item.RegistrationModify', '@item.InterviewResult', '@item.InterviewResultComment', '@item.StatusInternview')">
-                                <div class="btn btn--update">
-                                    <i class="btn-icon btn-icon--update fas fa-edit"></i>
-                                    <span class="btn-text">Cập nhật</span>
-                                </div>
-                            </a>
-
-                            <a href="@Url.Action("Details", "Registration", new { id = item.ID })">
-                                <div class="btn btn--detail">
-                                    <i class="btn-icon btn-icon--detail fas fa-info-circle"></i>
-                                    <span class="btn-text">Chi tiết</span>
-                                </div>
-                            </a>
-                        </td>
-                    </tr>
-
-                    count++;
-                }
             </tbody>
         </table>
     </div>
@@ -67,64 +41,175 @@
 <form class="form" id="addForm" method="post">
 </form>
 
-<form action="@Url.Action("Edit", "Registration")" class="form" id="updateForm" method="post">
+<form action="" class="form" id="updateForm" method="post">
 
     <div class="form-container">
         <i class="form-icon fas fa-times-circle"></i>
         <h1 class="form-heading">Cập nhật Kết quả</h1>
-        <label class="form-label">Trạng Thái</label>
-
-        <select id="status" name="StatusRegistration" class="form-input">
-            <option value="Chờ phê duyệt">Chờ phê duyệt</option>
-            <option value="Phê duyệt">Phê duyệt</option>
-        </select>
-
         <div class="form-group">
-            <label for="comment" class="form-label">Nhận xét</label>
+            <label class="form-label" for="Status">Trạng Thái</label>
+            <select id="status" name="Status" class="form-input">
+                <option value="Chờ phê duyệt">Chờ phê duyệt</option>
+                <option value="Phê duyệt">Phê duyệt</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="Comment" class="form-label">Nhận xét</label>
             <textarea name="Comment" id="comment" class="form-input" autocomplete="off"></textarea>
         </div>
 
         <div class="form-group">
-            <input list="" name="id" id="id" class="form-input" hidden />
-            <input list="" name="Business_ID" id="idb" class="form-input" hidden />
-            <input list="" name="Email_VanLang" id="email" class="form-input" hidden />
-            <input list="" name="Post_ID" id="post" class="form-input" hidden />
-            <input list="" name="Semester_ID" id="semeter" class="form-input" hidden />
-            <input list="" name="CV" id="cv" class="form-input" hidden />
-            <input list="" name="RegistrationDate" id="rd" class="form-input" hidden />
-            <input list="" name="RegistrationModify" id="rm" class="form-input" hidden />
-            <input list="" name="InterviewResult" id="ir" class="form-input" hidden />
-            <input list="" name="InterviewResultComment" id="irc" class="form-input" hidden />
-            <input list="" name="StatusInternview" id="sr" class="form-input" hidden />
+            <input list="" name="ID" id="id" class="form-input" hidden />
+           
         </div>
 
         <div class="form-group">
-            <button type="submit" class="btn btn--add">Lưu</button>
+
+            <button type="submit" class="btn btn--add" id="submit_edit">Lưu</button>
+            <a  class="btn btn--cancel">Hủy</a>
+
         </div>
     </div>
 </form>
+@section Scripts {
 
-<script type="text/javascript">
-    function loadEditStatus(id, comment, idb, email, post, semeter, cv, rd, rm, ir, irc, sr) {
-        let formUpdate = document.getElementById("updateForm");
-        formUpdate.classList.add('is-appear');
+    <script type="text/javascript">
+       /* function loadEditStatus(id, comment, idb, email, post, semeter, cv, rd, rm, ir, irc, sr) {
+            let formUpdate = document.getElementById("updateForm");
+            formUpdate.classList.add('is-appear');
+            document.getElementById('id').value = id;
+            document.getElementById('comment').value = comment;
+            document.getElementById('idb').value = idb;
+            document.getElementById('email').value = email;
+            document.getElementById('semeter').value = semeter;
+            document.getElementById('post').value = post;
+            document.getElementById('cv').value = cv;
+            document.getElementById('rd').value = rd;
+            document.getElementById('rm').value = rm;
+            document.getElementById('ir').value = ir;
+            document.getElementById('irc').value = irc;
+            document.getElementById('sr').value = sr;
+        }
 
-        document.getElementById('id').value = id;
-        document.getElementById('comment').value = comment;
-        document.getElementById('idb').value = idb;
-        document.getElementById('email').value = email;
-        document.getElementById('semeter').value = semeter;
-        document.getElementById('post').value = post;
-        document.getElementById('cv').value = cv;
-        document.getElementById('rd').value = rd;
-        document.getElementById('rm').value = rm;
-        document.getElementById('ir').value = ir;
-        document.getElementById('irc').value = irc;
-        document.getElementById('sr').value = sr;
-    }
+        function submitEdit() {
+            $("#updateForm").save();
+        }*/
 
-    function submitEdit() {
-        $("#updateForm").save();
-    }
+        $(function () {
+            var url = "@Url.Action("getDataList", "Registration")"
+            "use strict";
+            (dataTable = $("#table_listData").DataTable({
+                ajax: {
+                    url: url,
+                    type: "GET",
+                    dataType: "json",
+                    dataSrc: "",
+                },
+                deferRender: !0,
+                columns: [
+                    { data: "", defaultContent: "" },
+                    { data: "username" },
+                    { data: "email" },
+                    { data: "phone" },
+                    { data: "post_id" },
+                    { data: "cv" },
+                    { data: "status" },
+                   
 
-</script>
+                    {
+                        data: "id",
+                        render: function (t, e, a) {
+                            return (
+                                `
+                                <a href="@Url.Action("Details/", "Registration")${t}" id="business_detail" class="business_detail">
+                                <div class="btn btn--update">
+                                    <i class="btn-icon btn-icon--edit fas fa-edit"></i>
+                                    <span class="btn-text">Cập Nhật</span>
+                                </div>
+                                </a>
+                                <a onclick="loadDeleteUser(${t})">
+                                <div class="btn btn--delete">
+                                    <i class="btn-icon btn-icon--edit fas fa-times"></i>
+                                    <span class="btn-text">Xóa</span>
+                                </div>
+                                </a>`
+                            );
+                        },
+                    },
+                ],
+                initComplete: function () {
+                    this.api()
+                        .columns(6)
+                        .every(function () {
+                            var t = this,
+                                e = $(
+                                    '<select id="UserType" class="form-select text-capitalize mb-md-0 mb-2xx"><option value="">--Chọn trạng thái để lọc--</option></select>'
+                                )
+                                    .appendTo(".rg_status")
+                                    .on("change", function () {
+                                        var e = $.fn.dataTable.util.escapeRegex($(this).val());
+                                        t.search(e ? "^" + e + "$" : "", !0, !1).draw();
+                                    });
+                            t.data()
+                                .unique()
+                                .sort()
+                                .each(function (t) {
+                                    t &&
+                                        e.append(
+                                            '<option value="' + t + '" class="text-capitalize">' + t + '</option>'
+
+                                        );
+                                })
+
+                        });
+                }
+            })
+            )
+        });
+        $('#table_listData').on('click', '.business_detail', function (e) {
+            e.preventDefault()
+            const form = document.getElementById('updateForm');
+            form.classList.add('is-appear');
+            const url = $(this).attr('href');
+            $.ajax({
+                url: url,
+                type: "get",
+                dataType: 'json',
+                success: function (res) {
+                    console.log(res)
+                    const actionUrl = `@Url.Action("Edit", "Registration")` + `/${res[0].id}`
+                    if (res[0].status === "Chờ phê duyệt") {
+                        $('select option[value="active"]').attr("selected", "selected");
+                    } else {
+                        $('select option[value="block"]').attr("selected", "selected");
+                    }
+                    $('#comment').val(res[0].comment)
+                    $('#updateForm').attr('action', `${actionUrl}`)
+                }
+            })
+        })
+        $('.btn--cancel').on('click', function () {
+            $('#updateForm').removeClass('is-appear')
+        })
+        $('#submit_edit').on('click', function (e) {
+            e.preventDefault()
+            const ID = $('input[name=ID]').val()
+            const Comment = $('input[name=Comment]').val()
+            const Status = $('input[name=Status]').val()
+            const url = $('#updateForm').attr('action')
+
+            $.ajax({
+                url: url,
+                type: 'post',
+                data: {
+                    ID: ID,
+                    Comment: Comment,
+                    Status: Status
+                },
+                success: function (res) {
+                   
+                }
+            })
+        })
+    </script>
+}

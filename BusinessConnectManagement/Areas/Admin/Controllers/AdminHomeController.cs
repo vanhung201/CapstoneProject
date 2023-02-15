@@ -16,11 +16,30 @@ namespace BusinessConnectManagement.Areas.Admin.Controllers
         private BCMEntities db = new BCMEntities();
 
         // GET: Admin/AdminHome
+        [HttpGet]
         public ActionResult Index()
         {
             return View();
         }
-
+        public JsonResult getDataList()
+        {
+            var listData = (from vl in db.VanLangUsers
+                            join mj in db.Majors on vl.Major_ID equals mj.ID into major
+                            join st in db.Status on vl.Status_ID equals st.ID into status
+                            select new
+                            {
+                                email = vl.Email,
+                                username = vl.FullName,
+                                student = vl.Student_ID,
+                                phone = vl.Mobile,
+                                majorr = vl.Major.Major1,
+                                access = vl.Last_Access,
+                                role = vl.Role,
+                                status = vl.Status.Status1
+                            });
+            return Json(listData, JsonRequestBehavior.AllowGet);
+        }
+        
         public ActionResult AuthorizeList()
         {
             var vanLangUsers = db.VanLangUsers.Where(x => x.Role != "Admin");
@@ -29,26 +48,53 @@ namespace BusinessConnectManagement.Areas.Admin.Controllers
 
             return View(vanLangUsers.ToList());
         }
+        [HttpGet]
+        public ActionResult Details(string email)
+        {
+            VanLangUser vanLangUser = db.VanLangUsers.Find(email);
 
+            var list = (from vl in db.VanLangUsers
+                            join mj in db.Majors on vl.Major_ID equals mj.ID into major
+                            join st in db.Status on vl.Status_ID equals st.ID into status
+                            where vl.Email == email
+                            select new
+                            {
+                                email= vl.Email,
+                                username = vl.FullName,
+                                student = vl.Student_ID,
+                                phone = vl.Mobile,
+                                majorr = vl.Major.Major1,
+                                access = vl.Last_Access,
+                                role = vl.Role,
+                                status = vl.Status.Status1
+                            });
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
         public ActionResult Edit(string email)
         {
-            if (email == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+           
 
             VanLangUser vanLangUser = db.VanLangUsers.Find(email);
 
-            if (vanLangUser == null)
-            {
-                return HttpNotFound();
-            }
+            var listData = (from vl in db.VanLangUsers
+                            join mj in db.Majors on vl.Major_ID equals mj.ID into major
+                            join st in db.Status on vl.Status_ID equals st.ID into status
+                            where vl.Email == email
+                            select new
+                            {
+                                email = vl.Email,
+                                username = vl.FullName,
+                                phone = vl.Mobile,
+                                role = vl.Role,
+                                status = vl.Status.Status1
+                            });
+            return Json(listData, JsonRequestBehavior.AllowGet);
 
-            return View(vanLangUser);
+         
         }
         
         [HttpPost]
-        public ActionResult Edit([Bind(Include = "Email, FullName, Student_ID, Mobile, Role, Last_Access, Major_ID, Status_ID")] VanLangUser vanLangUser)
+        public ActionResult Edit(VanLangUser vanLangUser)
         {
             if (ModelState.IsValid)
             {

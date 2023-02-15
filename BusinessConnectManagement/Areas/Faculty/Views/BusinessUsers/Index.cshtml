@@ -9,13 +9,12 @@
     <h1 class="list-heading">Danh sách Doanh nghiệp</h1>
     @if (TempData != null)
     {
+        <div class="alert alert-success" style="text-align: center; color: red; font-size: 1.5rem;">
 
-        @Html.Raw(@TempData["AlertMessage"]);
-
-
+            @TempData["AlertMessage"]
+        </div>
     }
     <div class="list-table">
-
         <div id="filterEvent">
             <a href=@Url.Action("Create", "BusinessUsers")>
                 <div class="btn btn--create">
@@ -25,8 +24,10 @@
             </a>
 
         </div>
-
-        <table id="table_id" class="display">
+        <div class="filter">
+            <div class="bu_status"></div>
+        </div>
+        <table id="table_test" class="display">
             <thead>
                 <tr>
                     <th class="text-center">STT</th>
@@ -35,89 +36,121 @@
                     <th class="text-center">Email</th>
                     <th class="text-center">Người Liên Hệ</th>
                     <th class="text-center">Số Điện Thoại</th>
+                    <th class="text-center">Số Điện Thoại</th>
                     <th class="text-center" width="20%">Chức năng</th>
                 </tr>
             </thead>
-            <tbody>
-                @{int count = 1;}
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td @Url.Action("DetailsBusiness", "BusinessUsers", new { id = item.ID })>@count</td>
-
-                        <td>
-                            <a href="@Url.Action("DetailsBusiness", "BusinessUsers", new { id = item.ID })">
-                                <div>
-                                    @item.Username
-                                </div>
-                            </a>
-                        </td>
-                        <td>
-                            <a href="@Url.Action("DetailsBusiness", "BusinessUsers", new { id = item.ID })">
-                                <div>
-                                    @item.BusinessName
-                                </div>
-                            </a>
-                        </td>
-                        <td>
-                            <a href="@Url.Action("DetailsBusiness", "BusinessUsers", new { id = item.ID })">
-                                <div>
-                                    @item.EmailContact
-                                </div>
-                            </a>
-                        </td>
-
-                        <td>
-                            <a href="@Url.Action("DetailsBusiness", "BusinessUsers", new { id = item.ID })">
-                                <div>
-                                    @item.ContactName
-                                </div>
-                            </a>
-                        </td>
-                        <td>
-                            <a href="@Url.Action("DetailsBusiness", "BusinessUsers", new { id = item.ID })">
-                                <div>
-                                    @item.ContactPhone_1
-                                </div>
-                            </a>
-                        </td>
-
-                        <td class="text-center">
-                            <a href="@Url.Action("DetailsBusiness", "BusinessUsers", new { id = item.ID})">
-                                <div class="btn btn--detail">
-                                    <i class="btn-icon btn-icon--detail fas fa-info-circle"></i>
-                                    <span class="btn-text">Xem Chi Tiết</span>
-                                </div>
-                            </a>
-
-                            <a href="@Url.Action("Details", "BusinessUsers", new { id = item.ID})">
-                                <div class="btn btn--update">
-                                    <i class="btn-icon btn-icon--edit fas fa-edit"></i>
-                                    <span class="btn-text">Cập Nhật</span>
-                                </div>
-                            </a>
-                            <a onclick="loadDeleteUser('@item.ID')">
-                                <div class="btn btn--delete">
-                                    <i class="btn-icon btn-icon--edit fas fa-times"></i>
-                                    <span class="btn-text">Xóa</span>
-                                </div>
-                            </a>
-                        </td>
-
-                    </tr>
-                    count++;
-                }
-            </tbody>
         </table>
     </div>
 </section>
+<form action="" class="form" id="form_detail" method="post" enctype="multipart/form-data">
+    <div class="form-container">
+        <h1 class="form-heading">Doanh nghiệp</h1>
+        <input type="hidden" id="ID" name="ID" />
+        <div class="form-row">
+            <div class="form-column">
+                <div class="form-group">
+                    <label for="Username" class="form-label">Tên Đăng Nhập</label>
+                    <input name="Username" id="Username" class="form-input" autocomplete="off" disabled />
+                </div>
+                <div class="form-group">
+                    <label for="BusinessName" class="form-label">Tên Doanh nghiệp</label>
+                    <input name="BusinessName" id="BusinessName" class="form-input" autocomplete="off" disabled />
+                </div>
 
+                <div class="form-group">
+                    <label for="Address" class="form-label">Địa Chỉ</label>
+                    <input type="text" name="Address" id="Address" class="form-input" autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label for="Website" class="form-label">Website</label>
+                    <input type="text" name="Website" id="Website" class="form-input" autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label for="ContactName" class="form-label">Người liên hệ</label>
+                    <input type="text" name="ContactName" id="ContactName" class="form-input" autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label for="EmailContact" class="form-label">Email Liên Hệ</label>
+                    <input type="text" name="EmailContact" id="EmailContact" class="form-input" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label for="Last_Access" class="form-label">Lần đăng nhập cuối</label>
+                    <input type="datetime" name="Last_Access" id="Last_Access" class="form-input" autocomplete="off">
+                </div>
+            </div>
+            <div class="form-column">
+                <div class="form-group">
+                    <label for="Password" class="form-label">Mật khẩu</label>
+                    <input type="password" name="Password" id="Password" class="form-input" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label for="status" class="form-label">Trạng thái</label>
+                    <select name="Status_ID" id="status" class="form-input">
+                        <option value="active">Đang hoạt động</option>
+                        <option value="block">Bị khóa</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="BusinessPhone" class="form-label">Số điện thoại</label>
+                    <input type="text" id="BusinessPhone" name="BusinessPhone" class="form-input" autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label for="Fanpage" class="form-label">Fanpage</label>
+                    <input type="text" id="Fanpage" name="Fanpage" class="form-input" autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label for="ContactPhone_1" class="form-label">SĐT Người liên hệ 1</label>
+                    <input type="text" id="ContactPhone_1" name="ContactPhone_1" class="form-input" autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label for="ContactPhone_2" class="form-label">SĐT Người liên hệ 2</label>
+                    <input type="text" id="ContactPhone_2" class="form-input" autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label for="logo" class="form-label">Logo</label>
+                    <input type="file" name="logo" id="businessLogo" accept="image/*" onchange="loadFile(event)" class="form-input"
+                           autocomplete="off">
+                    <script>
+                        var loadFile = function (event) {
+                            var output = document.getElementById('output');
+                            output.src = URL.createObjectURL(event.target.files[0]);
+                            output.onload = function () {
+                                URL.revokeObjectURL(output.src); // free memory
+                                output.style.display = 'block';
+                            }
+                        };
+                    </script>
+                </div>
+                <img id="output" scr="" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="btn btn--small btn--cancel">
+                <i class="btn-icon btn-icon--cancel fas fa-times"></i>
+                <span class="btn-text btn-text--small">Hủy</span>
+            </div>
+            <div class="btn btn--small btn--add" id="submit_edit">
+                <i class="btn-icon btn-icon--add fas fa-check"></i>
+                <span class="btn-text btn-text--small">Xác nhận</span>
+            </div>
+        </div>
+    </div>
+</form>
 <form action="@Url.Action("Delete", "BusinessUsers")" class="form" id="deleteForm" method="post">
     @{using (Html.BeginForm())
         {
             @Html.AntiForgeryToken();
 
-            <div class="form-container">
+            <div class="form-container--small">
                 <i class="form-icon fas fa-times-circle"></i>
                 <h1 class="form-heading">Thông báo</h1>
                 <input name="id" id="iddele" hidden />
@@ -135,7 +168,6 @@
 </form>
 
 @section Scripts {
-
     <script type="text/javascript">
         function loadDeleteUser(id) {
             let formDelete = document.getElementById("deleteForm");
@@ -143,7 +175,166 @@
             document.getElementById('iddele').value = id;
         }
 
+    </script>
+    <script>
+        $(function () {
+            var url = "@Url.Action("getDataList","BusinessUsers")"
+            "use strict";
+            (dataTable = $("#table_test").DataTable({
+                ajax: {
+                    url: url,
+                    type: "GET",
+                    dataType: "json",
+                    dataSrc: "",
+                },
+                deferRender: !0,
+                columns: [
+                    { data: "id" },
+                    { data: "buName" },
+                    { data: "buPhone" },
+                    { data: "contactName" },
+                    { data: "status" },
+                    { data: "contactPhone2" },
+                    { data: "emailContact" },
+                    {
+                        data: "id",
+                        render: function (t, e, a) {
+                            return (
+                                `
+                                <a href="@Url.Action("Details", "BusinessUsers")${t}" id="business_detail" class="business_detail">
+                                <div class="btn btn--update">
+                                    <i class="btn-icon btn-icon--edit fas fa-edit"></i>
+                                    <span class="btn-text">Cập Nhật</span>
+                                </div>
+                                </a>
+                                <a onclick="loadDeleteUser(${t})">
+                                <div class="btn btn--delete">
+                                    <i class="btn-icon btn-icon--edit fas fa-times"></i>
+                                    <span class="btn-text">Xóa</span>
+                                </div>
+                                </a>`
+                            );
+                        },
+                    },
+                ],
+                initComplete: function () {
+                    this.api()
+                        .columns(4)
+                        .every(function () {
+                            var t = this,
+                                e = $(
+                                    '<select id="UserType" style="border: 1px solid #aaa;border-radius: 3px;padding: 5px;background-color: transparent; margin-left: 3px;" class="form-select text-capitalize mb-md-0 mb-2xx"><option value=""> Chọn Trạng Thái Để Lọc </option></select>'
+                                )
+                                    .appendTo(".bu_status")
+                                    .on("change", function () {
+                                        var e = $.fn.dataTable.util.escapeRegex($(this).val());
+                                        t.search(e ? "^" + e + "$" : "", !0, !1).draw();
+                                    });
+                            t.data()
+                                .unique()
+                                .sort()
+                                .each(function (t, a) {
+                                    t &&
+                                        e.append(
+                                            '<option value="' +
+                                            t +
+                                            '" class="text-capitalize">' +
+                                            t +
+                                            "</option>"
+                                        );
+                                });
+                        })
+                }
+            })
+            )
+        });
 
+        $(function () {
+            $('#table_test_filter').append($(".filter")).clone();
+        })
+        $('#table_test').on('click', '.business_detail', function (e) {
+            e.preventDefault()
+            const form = document.getElementById('form_detail');
+        form.classList.add('is-appear');
+            const url = $(this).attr('href');
+            $.ajax({
+                url: url,
+                type: "get",
+                dataType: 'json',
+                success: function (res) {
+                    console.log(res)
+                    const imgPath = `@Url.Content("~/Uploads/Images/")` + res[0].buLogo
+                    const actionUrl = `@Url.Action("Edit","BusinessUsers")` + `/${res[0].id}`
+                    $('#ID').val(res[0].id)
+                    $('#Username').val(res[0].username)
+                    $('#BusinessName').val(res[0].buName)
+                    $('#Address').val(res[0].address)
+                    $('#Website').val(res[0].website)
+                    $('#ContactName').val(res[0].contactName)
+                    $('#ContactPhone_1').val(res[0].contactPhone1)
+                    $('#ContactPhone_2').val(res[0].contactPhone2)
+                    $('#Last_Access').val(res[0].lastAccess)
+                    $('#BusinessPhone').val(res[0].buPhone)
+                    $('#EmailContact').val(res[0].emailContact)
+                    $('#Fanpage').val(res[0].fanpage)
+                    $('#Password').val(res[0].password)
+                    $('#output').attr('src', `${imgPath}`)
+                    $('#output').css('display','block')
+                    if (res[0].status === "Đang hoạt động") {
+                        $('select option[value="active"]').attr("selected", "selected");
+                    } else {
+                        $('select option[value="block"]').attr("selected", "selected");
+                    }
+                    $('#form_detail').attr('action', `${actionUrl}`)
+                }
+            })
+        })
+        $('.btn--cancel').on('click', function () {
+            $('#form_detail').removeClass('is-appear')
+        })
+        $('#submit_edit').on('click', function (e) {
+            e.preventDefault()
+            debugger
+            const ID = $('input[name=ID]').val()
+            const Username = $('input[name=Username]').val()
+            const BusinessName = $('input[name=BusinessName]').val()
+            const Address = $('input[name=Address]').val()
+            const Website = $('input[name=Website]').val()
+            const ContactName = $('input[name=ContactName]').val()
+            const ContactPhone_1 = $('input[name=ContactPhone_1]').val()
+            const ContactPhone_2 = $('input[name=ContactPhone_2]').val()
+            const Last_Access = $('input[name=Last_Access]').val()
+            const BusinessPhone = $('input[name=BusinessPhone]').val()
+            const EmailContact = $('input[name=EmailContact]').val()
+            const Fanpage = $('input[name=Fanpage]').val()
+            const Password = $('input[name=Password]').val()
+            const logo = $('input[type="file"]').val()
+            const url = $('#form_detail').attr('action')
 
+            $.ajax({
+                url: url,
+                type: 'post',
+                data: {
+                    ID: ID,
+                    Username: Username,
+                    BusinessName: BusinessName,
+                    Address: Address,
+                    Website: Website,
+                    ContactName: ContactName,
+                    ContactPhone_1: ContactPhone_1,
+                    ContactPhone_2: ContactPhone_2,
+                    Last_Access: Last_Access,
+                    BusinessPhone: BusinessPhone,
+                    EmailContact: EmailContact,
+                    Fanpage: Fanpage,
+                    Password: Password,
+                    logo: logo
+                },
+                success: function (res) {
+                    console.log(res)
+                }
+            })
+
+        })
     </script>
 }
