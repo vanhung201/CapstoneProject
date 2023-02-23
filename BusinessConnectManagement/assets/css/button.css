@@ -70,9 +70,6 @@
 }
 
 .btn--create {
-    position: absolute;
-    right: 0;
-    top: -1rem;
     padding: 0.5rem;
 }
 

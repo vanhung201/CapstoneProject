@@ -18,11 +18,35 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         private BCMEntities db = new BCMEntities();
 
         // GET: Faculty/BusinessUsers
+        [HttpGet]
         public ActionResult Index()
         {
             return View(db.BusinessUsers.ToList());
         }
-
+        public JsonResult getDataList()
+        {
+            var test = (from bu in db.BusinessUsers
+                        join s in db.Status on bu.Status_ID equals s.ID into status
+                        select new
+                        {
+                            id = bu.ID,
+                            username = bu.Username,
+                            password = bu.Password,
+                            lastAccess = bu.Last_Access,
+                            status = bu.Status.Status1,
+                            buName = bu.BusinessName,
+                            address = bu.Address,
+                            buPhone = bu.BusinessPhone,
+                            website = bu.Website,
+                            fanpage = bu.Fanpage,
+                            buLogo = bu.BusinessLogo,
+                            contactName = bu.ContactName,
+                            contactPhone1 = bu.ContactPhone_1,
+                            contactPhone2 = bu.ContactPhone_2,
+                            emailContact = bu.EmailContact
+                        });
+            return Json(test, JsonRequestBehavior.AllowGet);
+        }
         public class CooperationCategoriesDetail
         {
             public string name { get; set; }
@@ -36,21 +60,31 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         {
             BusinessUser businessUser = db.BusinessUsers.Find(id);
 
-            var BusinessCoopList = db.BusinessCooperationCategories.Where(x => x.Business_ID == id).ToList();
-            var CoopList = db.CooperationCategories.ToList();
+            var buUser = (from bu in db.BusinessUsers
+                          join s in db.Status on bu.Status_ID equals s.ID into status
+                          where bu.ID == id
+                          select new
+                          {
+                              id = bu.ID,
+                              username = bu.Username,
+                              password = bu.Password,
+                              lastAccess = bu.Last_Access,
+                              status = bu.Status.Status1,
+                              buName = bu.BusinessName,
+                              address = bu.Address,
+                              buPhone = bu.BusinessPhone,
+                              website = bu.Website,
+                              fanpage = bu.Fanpage,
+                              buLogo = bu.BusinessLogo,
+                              contactName = bu.ContactName,
+                              contactPhone1 = bu.ContactPhone_1,
+                              contactPhone2 = bu.ContactPhone_2,
+                              emailContact = bu.EmailContact
+                          });
 
-            List<CooperationCategoriesDetail> cooperationCategoriesDetails = new List<CooperationCategoriesDetail>();
 
-            foreach (var item in CoopList)
-            {
-                bool isExist = BusinessCoopList.Where(x => x.CooperationCategories_ID == item.ID).Any();
-                cooperationCategoriesDetails.Add(new CooperationCategoriesDetail { name = item.CooperationCategoriesName, value = item.ID, status = isExist });
-            }
 
-            ViewBag.CooperationCategoriesDetail = cooperationCategoriesDetails;
-            ViewBag.StatusList = db.Status.ToList();
-
-            return View(businessUser);
+            return Json(buUser, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult DetailsBusiness(int id)
@@ -90,14 +124,12 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         [HttpPost]
         public ActionResult Create(string ArrCoopId, BusinessUser businessUser, HttpPostedFileBase logo)
         {
-
             if (ModelState.IsValid)
             {
-
                 if (db.BusinessUsers.Where(x => x.BusinessName == businessUser.BusinessName).Any() == true)
                 {
                     TempData["AlertMessage"] = "<div class=\"toast toast--error\">\r\n     <div class=\"toast-left toast-left--error\">\r\n       <i class=\"fas fa-times-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n    <p class=\"toast-text\">Tên Doanh Nghiệp Đã Tồn Tại</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n       <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>";
-                    return View(businessUser);
+                    return RedirectToAction("Index");
                 }
                 else
                 {
@@ -114,23 +146,10 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                         scope.Complete();
                     }
 
-                    /*string[] arrayCoop = ArrCoopId.Split(',');
 
-                    for (int i = 0; i < arrayCoop.Length - 1; i++)
-                    {
-                        BusinessCooperationCategory BCC = new BusinessCooperationCategory();
-                        BCC.Business_ID = businessUser.ID;
-                        BCC.CooperationCategories_ID = Int32.Parse(arrayCoop[i]);
-                        db.BusinessCooperationCategories.Add(BCC);
-                        db.SaveChanges();
-
-                    }*/
-                    var viewbag = db.CooperationCategories.ToList();
-                    ViewBag.CooperationCategories = viewbag.ToList();
-                    TempData["AlertMessage"] = "<div class=\"toast toast--success\">            <div class=\"toast-left toast-left--success\">               <i class=\"fas fa-check-circle\"></i>\r\n            </div>\r\n            <div class=\"toast-content\">\r\n                <p class=\"toast-text\">Thêm Thành Công</p>            </div>\r\n            <div class=\"toast-right\">\r\n                <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n            </div>\r\n        </div>";
+                    TempData["AlertMessage"] = "<div class=\"toast toast--success\">\r\n     <div class=\"toast-left toast-left--success\">\r\n       <i class=\"fas fa-check-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n       <p class=\"toast-text\">Thêm thành công.</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n      <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>\r\n";
                     return RedirectToAction("Index");
                 }
-
             }
             else
             {
@@ -143,29 +162,13 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
             //check if any of the UserName matches the UserName specified in the Parameter using the ANY extension method.  
             return Json(!db.BusinessUsers.Any(x => x.Username == UserName), JsonRequestBehavior.AllowGet);
         }
-        // GET: Faculty/BusinessUsers/Edit/5
-        public ActionResult Edit(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
 
-            BusinessUser businessUser = db.BusinessUsers.Find(id);
-
-            if (businessUser == null)
-            {
-                return HttpNotFound();
-            }
-
-            return View(businessUser);
-        }
 
         // POST: Faculty/BusinessUsers/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Details(string ArrCoopId, HttpPostedFileBase logo, BusinessUser businessUser)
+        public ActionResult Edit(HttpPostedFileBase logo, BusinessUser businessUser)
         {
             if (ModelState.IsValid)
             {
@@ -178,37 +181,16 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                     logo.SaveAs(path + businessUser.BusinessLogo);
                     /*businessUser.Status = businessUser.Status_ID();*/
                 }
-
+               
                 //Lưu BusinessUser
                 db.Entry(businessUser).State = EntityState.Modified;
                 db.SaveChanges();
-
-                // Xóa toàn bộ liên kết theo Id của Bussiness
-                /*var businessCooperationCategoryList = db.BusinessCooperationCategories.Where(x => x.Business_ID == businessUser.ID).ToList();
-
-                foreach (var item in businessCooperationCategoryList)
-                {
-                    db.BusinessCooperationCategories.Remove(item);
-                }
-
-                // Add lại từ đầu với arrayCoop mới
-                string[] arrayCoop = ArrCoopId.Split(',');
-
-                for (int i = 0; i < arrayCoop.Length - 1; i++)
-                {
-                    BusinessCooperationCategory businessCooperationCategory1 = new BusinessCooperationCategory();
-                    businessCooperationCategory1.Business_ID = businessUser.ID;
-                    businessCooperationCategory1.CooperationCategories_ID = Int32.Parse(arrayCoop[i]);
-
-                    db.BusinessCooperationCategories.Add(businessCooperationCategory1);
-                }*/
-                /* db.SaveChanges();*/
-                TempData["AlertMessage"] = "<div class=\"toast toast--success\">            <div class=\"toast-left toast-left--success\">               <i class=\"fas fa-check-circle\"></i>\r\n            </div>\r\n            <div class=\"toast-content\">\r\n                <p class=\"toast-text\">Cập Nhật Thành Công</p>            </div>\r\n            <div class=\"toast-right\">\r\n                <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n            </div>\r\n        </div>";
+                TempData["AlertMessage"] = "<div class=\"toast toast--success\">\r\n     <div class=\"toast-left toast-left--success\">\r\n       <i class=\"fas fa-check-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n       <p class=\"toast-text\">Cập nhật thành công.</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n      <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>\r\n";
                 return RedirectToAction("Index");
             }
             else
             {
-                return View(businessUser);
+                return View();
             }
         }
 
@@ -226,7 +208,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
             {
                 return HttpNotFound();
             }
-
+            TempData["AlertMessage"] = "<div class=\"toast toast--success\">\r\n     <div class=\"toast-left toast-left--success\">\r\n       <i class=\"fas fa-check-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n       <p class=\"toast-text\">Xóa thành công.</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n      <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>\r\n";
             return View(businessUser);
         }
 
@@ -256,16 +238,9 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                 TempData["AlertMessage"] = "<div class=\"toast toast--error\">\r\n     <div class=\"toast-left toast-left--error\">\r\n       <i class=\"fas fa-times-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n       <p class=\"toast-text\">Xóa không thành công vì doanh nghiệp đang có hoạt động hợp tác.</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n       <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>\r\n";
                 return RedirectToAction("Index");
             }
-            /* var businessCooperationCategoryList = db.BusinessCooperationCategories.Where(x => x.Business_ID == businessUser.ID).ToList();
-             foreach (var item in businessCooperationCategoryList)
-             {
-                 db.BusinessCooperationCategories.Remove(item);
-             }*/
-
             db.BusinessUsers.Remove(businessUser);
             db.SaveChanges();
             TempData["AlertMessage"] = "<div class=\"toast toast--success\">            <div class=\"toast-left toast-left--success\">               <i class=\"fas fa-check-circle\"></i>\r\n            </div>\r\n            <div class=\"toast-content\">\r\n                <p class=\"toast-text\">Xóa Doanh Nghiệp Thành Công</p>            </div>\r\n            <div class=\"toast-right\">\r\n                <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n            </div>\r\n        </div>";
-
             return RedirectToAction("Index");
         }
         [HttpPost, ActionName("DeleteActivity")]
@@ -280,7 +255,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                 db.BusinessCooperationCategories.Remove(item);
             }
             db.SaveChanges();
-            TempData["AlertMessage"] = "<div class=\"toast toast--success\">\r\n     <div class=\"toast-left toast-left--success\">\r\n       <i class=\"fas fa-check-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n       <p class=\"toast-text\">Xóa thành công.</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n      <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>";
+            TempData["AlertMessage"] = "<div class=\"toast toast--success\">            <div class=\"toast-left toast-left--success\">               <i class=\"fas fa-check-circle\"></i>\r\n            </div>\r\n            <div class=\"toast-content\">\r\n                <p class=\"toast-text\">Xóa Thành Công</p>            </div>\r\n            <div class=\"toast-right\">\r\n                <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n            </div>\r\n        </div>";
             return RedirectToAction("Index", "BusinessCooperationCategories");
         }
         protected override void Dispose(bool disposing)

@@ -33,7 +33,7 @@ namespace BusinessConnectManagement.Controllers
                 }
                 else
                 {
-                    query.Last_Access = DateTime.Now;
+                    query.Last_Access = (DateTime.Now).ToString();
 
                     db.Entry(query).State = EntityState.Modified;
                     db.SaveChanges();
@@ -70,7 +70,7 @@ namespace BusinessConnectManagement.Controllers
 
                 newVanLangUser.Email = email;
                 newVanLangUser.Role = "Student";
-                newVanLangUser.Last_Access = DateTime.Now;
+                newVanLangUser.Last_Access = (DateTime.Now).ToString();
                 newVanLangUser.Status_ID = 1;
 
                 if (email.Split('@').Last() == "vanlanguni.vn")
@@ -91,7 +91,7 @@ namespace BusinessConnectManagement.Controllers
 
                 if (currentVanLangUser.Status_ID == 1)
                 {
-                    currentVanLangUser.Last_Access = DateTime.Now;
+                    currentVanLangUser.Last_Access = (DateTime.Now).ToString();
 
                     db.Entry(currentVanLangUser).State = EntityState.Modified;
                     db.SaveChanges();
@@ -115,7 +115,7 @@ namespace BusinessConnectManagement.Controllers
             Session.Clear();
             Session.RemoveAll();
             Session.Abandon();
-            
+
             if (Request.Cookies["ASP.NET_SessionId"] != null)
             {
                 Response.Cookies["ASP.NET_SessionId"].Expires = DateTime.Now.AddDays(-1);

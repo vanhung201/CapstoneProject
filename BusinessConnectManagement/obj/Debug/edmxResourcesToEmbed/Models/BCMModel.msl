@@ -81,8 +81,10 @@
     <EntitySetMapping Name="Posts">
       <EntityTypeMapping TypeName="BCMModel.Post">
         <MappingFragment StoreEntitySet="Post">
+          <ScalarProperty Name="Form" ColumnName="Form" />
+          <ScalarProperty Name="DueDate" ColumnName="DueDate" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
           <ScalarProperty Name="Business_ID" ColumnName="Business_ID" />
-          <ScalarProperty Name="PostImage" ColumnName="PostImage" />
           <ScalarProperty Name="Semester_ID" ColumnName="Semester_ID" />
           <ScalarProperty Name="ModifyDay" ColumnName="ModifyDay" />
           <ScalarProperty Name="PostDay" ColumnName="PostDay" />
@@ -96,6 +98,7 @@
     <EntitySetMapping Name="Registrations">
       <EntityTypeMapping TypeName="BCMModel.Registration">
         <MappingFragment StoreEntitySet="Registration">
+          <ScalarProperty Name="Position" ColumnName="Position" />
           <ScalarProperty Name="Comment" ColumnName="Comment" />
           <ScalarProperty Name="StatusRegistration" ColumnName="StatusRegistration" />
           <ScalarProperty Name="StatusInternview" ColumnName="StatusInternview" />

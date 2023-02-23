@@ -1,0 +1,228 @@
+﻿@model BusinessConnectManagement.Models.MOU
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<main>
+
+    <div id="bg-bread">
+        <div class="overlay-bread"></div>
+        <div class="container">
+            <div class="left">
+                <div class="d-flex align-middle mb10">
+                    <img class="avt" src="@Url.Content("~/Uploads/Images/" + Model.BusinessUser.BusinessLogo)" alt="image-job">
+                    <h3 class="text-h2">@Model.BusinessUser.BusinessName</h3>
+                </div>
+               
+            </div>
+            <div class="right">
+                
+            </div>
+        </div>
+    </div>
+
+    <section id="description">
+        <div class="container">
+            <div class="columns">
+                <div class="column col-8 col-sm-12 col-md-12 col-xl-9 mb10">
+                    <h4 class="text-h3">Về chúng tôi</h4>
+                    <div class="my10">
+                        <p>
+                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
+                            has been the industry's standard dummy text ever since the 1500s, when an unknown
+                            printer took a galley of type and scrambled it to make a type specimen book. It has
+                            survived not only five centuries, but also the leap into electronic typesetting,
+                            remaining essentially unchanged. It was popularised in the 1960s with the release of
+                            Letraset sheets containing Lorem Ipsum passages, and more recently with desktop
+                            publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                        </p>
+                        <p>
+                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
+                            has been the industry's standard dummy text ever since the 1500s, when an unknown
+                            printer took a galley of type and scrambled it to make a type specimen book. It has
+                            survived not only five centuries, but also the leap into electronic typesetting,
+                            remaining essentially unchanged. It was popularised in the 1960s with the release of
+                            Letraset sheets containing Lorem Ipsum passages, and more recently with desktop
+                            publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                        </p>
+                    </div>
+                </div>
+                <div class="column col-4 col-sm-12 col-md-12 col-xl-3 mb10">
+                    <div class="table-featured">
+                        <div class="title">
+                            <div class="d-flex align-middle mb10">
+                                <img class="avt" src="@Url.Content("~/Uploads/Images/" + Model.BusinessUser.BusinessLogo)" alt="image-job">
+                                <div class=" ml15">
+                                    <p class="bold-6 mb-1">@Model.BusinessUser.BusinessName</p>
+                                    <p class="mb-0"><i class="fa-solid fa-paper-plane"></i> Địa chỉ: @Model.BusinessUser.Address</p>
+                                </div>
+                            </div>
+                        </div>
+                        <ul>
+                            <li class="d-flex align-middle">
+                                <i class="fa-solid fa-phone mr10"></i> @Model.BusinessUser.ContactPhone_1
+                            </li>
+                            <li class="d-flex align-middle">
+                                <i class="fa-solid fa-envelope mr10"></i> @Model.BusinessUser.EmailContact
+                            </li>
+                            <li class="d-flex align-middle">
+                                <i class="fa-solid fa-earth-americas mr10"></i> @Model.BusinessUser.Website
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    @*<section id="rating">
+        <div class="container border-top">
+            <div class="columns py15">
+                <div class="column col-3 col-sm-12 col-md-12 col-xl-3 mb10">
+                    <div class="table-featured">
+                        <div class="title">
+                            <div class="text-center">Đánh giá:</div>
+                        </div>
+                        <ul>
+                            <li class="d-flex align-middle">
+                                Vui lòng đăng nhập để đánh giá !
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="column col-8 col-sm-12 col-md-12 col-xl-8 mb10">
+                    <div class="border-dash rounded p10">
+                        <p class="mb-0"><i>Hiện chưa có đánh giá nào.</i></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>*@
+
+
+
+
+    <section id="job">
+        <div class="container border-top">
+            <div class="py15">
+
+                <h4 class="text-h4 mb20">Công việc hiện có</h4>
+                @foreach (var item in ViewBag.Post)
+                {
+                    <a href="@Url.Action("Details", "Posts",  new { id=item.ID })">
+                        <div class="item d-flex align-middle">
+                            <img src="@Url.Content("~/Uploads/Images/" + item.BusinessUser.BusinessLogo)" alt="image-job">
+                            <div class="content">
+                                <div class="d-flex align-middle justify-between mb-2">
+                                    <h3 class="text-h4 bold-6 mb-0 ellipsis">@item.Title</h3>
+                                    <div class="chip bg-error">
+                                        <small class="bold-6">Nổi bật</small>
+                                    </div>
+                                </div>
+
+                                <p class="bold-6 text-italic mb-2">@item.BusinessUser.BusinessName</p>
+                                <div class="desc d-flex align-middle mb-2">
+                                    @* <span class="mb-0 mr10 text-error">
+                    <i class="fa-solid fa-briefcase"></i> Xây
+                    dựng
+                </span>
+                <span class="mb-0 mr10 text-success">
+                    <i class="fa-solid fa-tag"></i>
+                    Fresher
+                </span>
+                <span class="mb-0 mr10 text-warning">
+                    <i class="fa-solid fa-tag"></i>
+                    Fulltime
+                </span>*@
+                                    <span class="mb-0 mr10 text-muted">
+                                        <i class="fa-solid fa-location-dot"></i> TP.Hồ
+                                        Chí
+                                        Minh
+                                    </span>
+                                </div>
+                                <p class="text-primary bold-6">
+                                    <i>Hạn nộp: 01/01/2023</i>
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                   
+                }
+
+
+
+            </div>
+        </div>
+    </section>
+
+    <section id="news">
+        <div class="container">
+            <div class="title-line d-flex justify-center">
+                <h3>Tin tức & Sự kiện</h3>
+            </div>
+            <div class="columns py20">
+                <div class="column col-4 col-sm-12 col-md-12 col-xl-4 mb10">
+                    <div class="item">
+                        <div class="zoom-small">
+                            <img src="./assets/images/mou1.jpg" alt="mou1">
+                        </div>
+                        <div class="name ellipsis">Tập đoàn Nashtech Global Việt Nam</div>
+                        <p class="summary ellipsis-3 mb-0">
+                            NashTech is part of Harvey Nash Group, the leading global
+                            provider of talent and technology solutions. We are experts in technology, delivering
+                            smart solutions that solve business challenges and create value. Our award-winning teams
+                            apply deep expertise and passion to deliver complex IT projects globally.
+                        </p>
+                        <div class="text-center mt10">
+                            <div class="btn btn-error">
+                                Xem Thêm
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column col-4 col-sm-12 col-md-12 col-xl-4 mb10">
+                    <div class="item">
+                        <div class="zoom-small">
+                            <img src="./assets/images/mou1.jpg" alt="mou1">
+                        </div>
+                        <div class="name ellipsis">Tập đoàn Nashtech Global Việt Nam</div>
+                        <p class="summary ellipsis-3 mb-0">
+                            NashTech is part of Harvey Nash Group, the leading global
+                            provider of talent and technology solutions. We are experts in technology, delivering
+                            smart solutions that solve business challenges and create value. Our award-winning teams
+                            apply deep expertise and passion to deliver complex IT projects globally.
+                        </p>
+                        <div class="text-center mt10">
+                            <div class="btn btn-error">
+                                Xem Thêm
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column col-4 col-sm-12 col-md-12 col-xl-4 mb10">
+                    <div class="item">
+                        <div class="zoom-small">
+                            <img src="./assets/images/mou1.jpg" alt="mou1">
+                        </div>
+                        <div class="name ellipsis">Tập đoàn Nashtech Global Việt Nam</div>
+                        <p class="summary ellipsis-3 mb-0">
+                            NashTech is part of Harvey Nash Group, the leading global
+                            provider of talent and technology solutions. We are experts in technology, delivering
+                            smart solutions that solve business challenges and create value. Our award-winning teams
+                            apply deep expertise and passion to deliver complex IT projects globally.
+                        </p>
+                        <div class="text-center mt10">
+                            <div class="btn btn-error">
+                                Xem Thêm
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+</main> 

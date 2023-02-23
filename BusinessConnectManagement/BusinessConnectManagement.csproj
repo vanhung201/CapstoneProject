@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
   <Import Project="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -46,10 +47,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Kentor.OwinCookieSaver, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\Kentor.OwinCookieSaver.1.1.1\lib\net452\Kentor.OwinCookieSaver.dll</HintPath>
@@ -203,8 +204,12 @@
     <Compile Include="Areas\Mentor\Controllers\MentorHomeController.cs" />
     <Compile Include="Areas\Mentor\MentorAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AccountOfStudentController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MOUsController.cs" />
+    <Compile Include="Controllers\PostsController.cs" />
+    <Compile Include="Controllers\RegistrationController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1220,13 +1225,18 @@
     <Content Include="assets\User\assets\css\font\fontawesome\css\v4-shims.min.css" />
     <Content Include="assets\User\assets\css\font\fontawesome\css\v5-font-face.css" />
     <Content Include="assets\User\assets\css\font\fontawesome\css\v5-font-face.min.css" />
+    <Content Include="assets\User\assets\css\form.css" />
+    <Content Include="assets\User\assets\css\reset.css" />
     <Content Include="assets\User\assets\css\spectre\spectre-exp.min.css" />
     <Content Include="assets\User\assets\css\spectre\spectre-icons.min.css" />
     <Content Include="assets\User\assets\css\spectre\spectre.min.css" />
     <Content Include="assets\User\assets\css\style.css" />
+    <Content Include="assets\User\assets\css\style2.css" />
     <Content Include="assets\User\assets\images\banner1.jpg" />
+    <Content Include="assets\User\assets\images\bg.jpg" />
     <Content Include="assets\User\assets\images\exp.png" />
     <Content Include="assets\User\assets\images\files.png" />
+    <Content Include="assets\User\assets\images\HR.gif" />
     <Content Include="assets\User\assets\images\image-job.png" />
     <Content Include="assets\User\assets\images\logo.png" />
     <Content Include="assets\User\assets\images\logoOld.png" />
@@ -1251,12 +1261,16 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\chosen-sprite%402x.png" />
     <Content Include="Content\chosen-sprite.png" />
+    <Content Include="Content\toastr.css" />
+    <Content Include="Content\toastr.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\chosen.jquery.js" />
     <Content Include="Scripts\chosen.jquery.min.js" />
+    <Content Include="Scripts\toastr.js" />
+    <Content Include="Scripts\toastr.min.js" />
     <Content Include="Uploads\Images\alila.png" />
     <Content Include="Uploads\Images\bigprotech.png" />
     <Content Include="Uploads\Images\candt.png" />
@@ -1315,7 +1329,6 @@
     <Content Include="Areas\Faculty\Views\MOUs\Index.cshtml" />
     <Content Include="Areas\Faculty\Views\Posts\Create.cshtml" />
     <Content Include="Areas\Faculty\Views\Posts\Details.cshtml" />
-    <Content Include="Areas\Faculty\Views\Posts\Edit.cshtml" />
     <Content Include="Areas\Faculty\Views\Posts\Index.cshtml" />
     <Content Include="Areas\Faculty\Views\Shared\_Layout.cshtml" />
     <Content Include="assets\js\ckeditor\bender-runner.config.json" />
@@ -1360,6 +1373,8 @@
     <Content Include="assets\User\assets\css\font\fontawesome\webfonts\fa-v4compatibility.ttf" />
     <Content Include="assets\User\assets\css\font\fontawesome\webfonts\fa-v4compatibility.woff2" />
     <Content Include="assets\User\assets\images\bg-bread.webp" />
+    <Content Include="Content\toastr.less" />
+    <Content Include="Content\toastr.scss" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -1383,8 +1398,23 @@
     <Content Include="Views\Error\PageNotFound.cshtml" />
     <Content Include="Views\Shared\_ErrorLayout.cshtml" />
     <Content Include="Views\Error\ServerError.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Uploads\CV\CV_ENG_LeVanHung_JavaDeveloper.pdf" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Posts\Details.cshtml" />
+    <Content Include="Views\Posts\Index.cshtml" />
+    <Content Include="Views\MOUs\Create.cshtml" />
+    <Content Include="Views\MOUs\Delete.cshtml" />
+    <Content Include="Views\MOUs\Details.cshtml" />
+    <Content Include="Views\MOUs\Edit.cshtml" />
+    <Content Include="Views\MOUs\Index.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Posts\Search.cshtml" />
+    <Content Include="Uploads\CV\TrinhNgocPhu.pdf" />
+    <Content Include="Views\AccountOfStudent\Login.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Registration\listReg.cshtml" />
+    <Content Include="Views\AccountOfStudent\StudentInformation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1444,7 +1474,10 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
   </Target>
+  <Import Project="packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

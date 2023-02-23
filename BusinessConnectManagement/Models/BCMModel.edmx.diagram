@@ -5,20 +5,20 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="d0b24d438b5e4ea190eb28caa6be10e6" Name="Diagram1">
-        <EntityTypeShape EntityType="BCMModel.BusinessCooperationCategory" Width="1.5" PointX="5.25" PointY="17" />
+        <EntityTypeShape EntityType="BCMModel.BusinessCooperationCategory" Width="1.5" PointX="5.25" PointY="17.125" />
         <EntityTypeShape EntityType="BCMModel.BusinessUser" Width="1.5" PointX="3" PointY="14.5" />
-        <EntityTypeShape EntityType="BCMModel.CooperationCategory" Width="1.5" PointX="3" PointY="21.125" />
-        <EntityTypeShape EntityType="BCMModel.InternshipResult" Width="1.5" PointX="8.25" PointY="12.25" />
-        <EntityTypeShape EntityType="BCMModel.Major" Width="1.5" PointX="0.75" PointY="8.125" />
-        <EntityTypeShape EntityType="BCMModel.MOU" Width="1.5" PointX="5.25" PointY="27.5" />
-        <EntityTypeShape EntityType="BCMModel.Post" Width="1.5" PointX="5.25" PointY="12.25" />
+        <EntityTypeShape EntityType="BCMModel.CooperationCategory" Width="1.5" PointX="3" PointY="21.25" />
+        <EntityTypeShape EntityType="BCMModel.InternshipResult" Width="1.5" PointX="5.25" PointY="12.25" />
+        <EntityTypeShape EntityType="BCMModel.Major" Width="1.5" PointX="0.75" PointY="8.25" />
+        <EntityTypeShape EntityType="BCMModel.MOU" Width="1.5" PointX="5.25" PointY="28" />
+        <EntityTypeShape EntityType="BCMModel.Post" Width="1.5" PointX="8.25" PointY="12.25" />
         <EntityTypeShape EntityType="BCMModel.Registration" Width="1.5" PointX="10.5" PointY="12" />
-        <EntityTypeShape EntityType="BCMModel.Semester" Width="1.5" PointX="3" PointY="4.625" />
-        <EntityTypeShape EntityType="BCMModel.Status" Width="1.5" PointX="0.75" PointY="11" />
+        <EntityTypeShape EntityType="BCMModel.Semester" Width="1.5" PointX="3" PointY="4.75" />
+        <EntityTypeShape EntityType="BCMModel.Status" Width="1.5" PointX="0.75" PointY="11.125" />
         <EntityTypeShape EntityType="BCMModel.sysdiagram" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="BCMModel.Trainee" Width="1.5" PointX="5.25" PointY="8.75" />
-        <EntityTypeShape EntityType="BCMModel.VanLangUser" Width="1.5" PointX="3" PointY="8.75" />
-        <EntityTypeShape EntityType="BCMModel.YearStudy" Width="1.5" PointX="0.75" PointY="5.125" />
+        <EntityTypeShape EntityType="BCMModel.Trainee" Width="1.5" PointX="5.25" PointY="8.875" />
+        <EntityTypeShape EntityType="BCMModel.VanLangUser" Width="1.5" PointX="3" PointY="8.875" />
+        <EntityTypeShape EntityType="BCMModel.YearStudy" Width="1.5" PointX="0.75" PointY="5.25" />
         <AssociationConnector Association="BCMModel.FK_BusinessCooperationCategories_BusinessUser" />
         <AssociationConnector Association="BCMModel.FK_BusinessCooperationCategories_CooperationCategories" />
         <AssociationConnector Association="BCMModel.FK_BusinessUser_Status" />
