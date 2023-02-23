@@ -52,7 +52,8 @@
     </form>
 </section>
 @section Scripts {
-    <script type="text/javascript">function getValueCheckBoxAndSubmit() {
+    <script type="text/javascript">
+        function getValueCheckBoxAndSubmit() {
             let arrayCheckbox = "";
             var allCheckBox = document.querySelectorAll("#checkBoxCoop > .container > input[type='checkbox']:checked");
             for (let i = 0; i < allCheckBox.length; i++) {
@@ -60,6 +61,7 @@
             }
             $("#CoopId").val(arrayCheckbox);
             $("#createBusiness").save();
-        }</script>
+        }
+    </script>
 }
 

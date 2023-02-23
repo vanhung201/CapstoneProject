@@ -1,0 +1,76 @@
+﻿@model BusinessConnectManagement.Models.VanLangUser
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BCM | Thông tin Tài khoản</title>
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v5.15.4/css/all.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;500;600;700&amp;display=swap"
+          rel="stylesheet">
+    <link href="~/assets/User/assets/css/reset.css" rel="stylesheet" />
+    <link href="~/assets/User/assets/css/style2.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="~/assets/images/favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="info">
+            <h2 class="info-heading">Thông tin tài khoản</h2>
+            <form action="@Url.Action("UpdateStudentInformation", "AccountOfStudent", new { area = "" })" method="post" class="info-form">
+                @Html.HiddenFor(model => model.Email)
+
+                <div class="info-group">
+                    <label class="info-label">Mã số sinh viên</label>
+                    @*<input type="text" name="" id="studentCode" class="info-input" required>*@
+                    @Html.EditorFor(model => model.Student_ID, new { htmlAttributes = new { @class = "info-input" } })
+                    @Html.ValidationMessageFor(model => model.Student_ID, "", new { @class = "text-danger" })
+                </div>
+                <div class="info-group">
+                    <label class="info-label">Họ và Tên</label>
+                    @*<input type="text" name="" id="fullName" class="info-input" required>*@
+                    @Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "info-input" } })
+                    @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
+                </div>
+                <div class="info-group">
+                    <label class="info-label">Email</label>
+                    @*<input type="email" name="" id="email" class="info-input" disabled>*@
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "info-input", disabled = "true" } })
+                </div>
+                <div class="info-group">
+                    <label class="info-label">Số điện thoại</label>
+                    @*<input type="text" name="" id="phoneNumber" class="info-input" required>*@
+                    @Html.EditorFor(model => model.Mobile, new { htmlAttributes = new { @class = "info-input" } })
+                    @Html.ValidationMessageFor(model => model.Mobile, "", new { @class = "text-danger" })
+                </div>
+                <div class="info-group">
+                    <label class="info-label" for="major">Chuyên ngành</label>
+                    
+                    <select name="Major_ID" id="major" class="info-input" required>
+                        <option value="" selected>--- Chọn chuyên ngành ---</option>
+                        @foreach (var item in ViewBag.MajorList)
+                        {
+                            <option value=@item.ID>@item.Major1</option>
+                        }
+                    </select>
+
+                    @Html.ValidationMessageFor(model => model.Major_ID, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="info-group">
+                    <button type="submit" class="info-button">Xác nhận</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+
+</html>

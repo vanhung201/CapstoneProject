@@ -110,7 +110,7 @@
                     <div class="column col-6 col-sm-12 col-md-12 col-xl-6 mb10">
                         <a href="@Url.Action("Details", "Posts",  new { id=item.ID })">
                             <div class="item d-flex align-middle">
-                                <img src="@Url.Content("~/Uploads/Images/" + item.PostImage)" alt="image-job">
+                                <img src="@Url.Content("~/Uploads/Images/" + item.BusinessUser.BusinessLogo)" alt="image-job">
                                 <div class="content">
                                     <div class="d-flex align-middle justify-between mb-2">
                                         <h3 class="text-h4 bold-6 mb-0 ellipsis">@item.Title</h3>

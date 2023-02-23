@@ -73,9 +73,12 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
             {
                 cooperationCategoriesgetTest.Add(new CooperationCategoriesGet { id = listBusinessId[i], name = listBusinessName[i].ToString(), value = listBusinessValue[i] });
             }
-
+           
             ViewBag.demo = cooperationCategoriesgetTest;
-
+            ViewBag.Business_ID = db.MOUs.ToList();
+            var viewbag = db.CooperationCategories.ToList();
+            ViewBag.CooperationCategories = viewbag.ToList();
+           
             return View(db.BusinessUsers.ToList());
         }
 
@@ -102,7 +105,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
 
             ViewBag.CooperationCategories = viewbag.ToList();
 
-            return View(businessUser);
+            return Json(ViewBag.CooperationCategoriesDetail, JsonRequestBehavior.AllowGet);
 
         }
 
@@ -200,19 +203,25 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
 
                 // Add lại từ đầu với arrayCoop mới
                 string[] arrayCoop = ArrCoopId.Split(',');
-
-                for (int i = 0; i < arrayCoop.Length - 1; i++)
+                if(arrayCoop != null)
                 {
-                    BusinessCooperationCategory businessCooperationCategory1 = new BusinessCooperationCategory();
-                    businessCooperationCategory1.Business_ID = businessUser.ID;
-                    businessCooperationCategory1.CooperationCategories_ID = Int32.Parse(arrayCoop[i]);
+                    for (int i = 0; i < arrayCoop.Length - 1; i++)
+                    {
+                        BusinessCooperationCategory businessCooperationCategory1 = new BusinessCooperationCategory();
+                        businessCooperationCategory1.Business_ID = businessUser.ID;
+                        businessCooperationCategory1.CooperationCategories_ID = Int32.Parse(arrayCoop[i]);
 
-                    db.BusinessCooperationCategories.Add(businessCooperationCategory1);
+                        db.BusinessCooperationCategories.Add(businessCooperationCategory1);
+                    }
+                    db.SaveChanges();
+                    TempData["AlertMessage"] = "<div class=\"toast toast--success\">\r\n     <div class=\"toast-left toast-left--success\">\r\n       <i class=\"fas fa-check-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n       <p class=\"toast-text\">Cập nhật thành công.</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n      <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>\r\n";
+                    return RedirectToAction("Index");
                 }
-
-                db.SaveChanges();
-                TempData["AlertMessage"] = "<div class=\"toast toast--success\">\r\n     <div class=\"toast-left toast-left--success\">\r\n       <i class=\"fas fa-check-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n       <p class=\"toast-text\">Cập nhật thành công.</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n      <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>\r\n";
-                return RedirectToAction("Index");
+                else
+                {
+                    return View(businessCooperationCategory);
+                }
+              
 
             }
             else

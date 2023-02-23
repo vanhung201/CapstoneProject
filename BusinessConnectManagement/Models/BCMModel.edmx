@@ -20,7 +20,7 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Username" Type="varchar" MaxLength="25" />
           <Property Name="Password" Type="varchar" MaxLength="250" />
-          <Property Name="Last_Access" Type="datetime" />
+          <Property Name="Last_Access" Type="nvarchar" MaxLength="50" />
           <Property Name="Status_ID" Type="int" />
           <Property Name="BusinessName" Type="nvarchar" MaxLength="250" />
           <Property Name="Address" Type="nvarchar" MaxLength="250" />
@@ -69,7 +69,7 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Business_ID" Type="int" />
-          <Property Name="SignDay" Type="date" />
+          <Property Name="SignDay" Type="nvarchar" MaxLength="50" />
           <Property Name="Signer" Type="nvarchar" MaxLength="100" />
           <Property Name="ContactName" Type="nvarchar" MaxLength="100" />
           <Property Name="ContactPhone" Type="varchar" MaxLength="15" />
@@ -84,11 +84,13 @@
           <Property Name="Title" Type="nvarchar" MaxLength="250" />
           <Property Name="Email_ID" Type="varchar" MaxLength="250" />
           <Property Name="Description" Type="nvarchar(max)" />
-          <Property Name="PostDay" Type="datetime" />
-          <Property Name="ModifyDay" Type="datetime" />
+          <Property Name="PostDay" Type="nvarchar" MaxLength="50" />
+          <Property Name="ModifyDay" Type="nvarchar" MaxLength="50" />
           <Property Name="Semester_ID" Type="int" />
-          <Property Name="PostImage" Type="nvarchar" MaxLength="250" />
           <Property Name="Business_ID" Type="int" />
+          <Property Name="Quantity" Type="int" />
+          <Property Name="DueDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="Form" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Registration">
           <Key>
@@ -99,14 +101,15 @@
           <Property Name="Post_ID" Type="int" />
           <Property Name="Semester_ID" Type="int" />
           <Property Name="CV" Type="nvarchar" MaxLength="250" />
-          <Property Name="RegistrationDate" Type="datetime" />
-          <Property Name="RegistrationModify" Type="datetime" />
+          <Property Name="RegistrationDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="RegistrationModify" Type="nvarchar" MaxLength="50" />
           <Property Name="Business_ID" Type="int" Nullable="false" />
           <Property Name="InterviewResult" Type="nvarchar" MaxLength="50" />
           <Property Name="InterviewResultComment" Type="nvarchar" MaxLength="250" />
           <Property Name="StatusInternview" Type="nvarchar" MaxLength="30" />
           <Property Name="StatusRegistration" Type="nvarchar" MaxLength="30" />
           <Property Name="Comment" Type="nvarchar(max)" />
+          <Property Name="Position" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="Semester">
           <Key>
@@ -151,7 +154,7 @@
           <Property Name="Student_ID" Type="varchar" MaxLength="20" />
           <Property Name="Mobile" Type="varchar" MaxLength="11" />
           <Property Name="Role" Type="varchar" MaxLength="20" />
-          <Property Name="Last_Access" Type="datetime" />
+          <Property Name="Last_Access" Type="nvarchar" MaxLength="50" />
           <Property Name="Major_ID" Type="int" />
           <Property Name="Status_ID" Type="int" />
         </EntityType>
@@ -655,7 +658,7 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Username" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
           <Property Name="Password" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="Last_Access" Type="DateTime" Precision="3" />
+          <Property Name="Last_Access" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Status_ID" Type="Int32" />
           <Property Name="BusinessName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Address" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
@@ -716,7 +719,7 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Business_ID" Type="Int32" />
-          <Property Name="SignDay" Type="DateTime" Precision="0" />
+          <Property Name="SignDay" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Signer" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="ContactName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="ContactPhone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
@@ -732,11 +735,13 @@
           <Property Name="Title" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Email_ID" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PostDay" Type="DateTime" Precision="3" />
-          <Property Name="ModifyDay" Type="DateTime" Precision="3" />
+          <Property Name="PostDay" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ModifyDay" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Semester_ID" Type="Int32" />
-          <Property Name="PostImage" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Business_ID" Type="Int32" />
+          <Property Name="Quantity" Type="Int32" />
+          <Property Name="DueDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Form" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="BusinessUser" Relationship="BCMModel.FK_Post_BusinessUser" FromRole="Post" ToRole="BusinessUser" />
           <NavigationProperty Name="Semester" Relationship="BCMModel.FK_Post_Semester" FromRole="Post" ToRole="Semester" />
           <NavigationProperty Name="VanLangUser" Relationship="BCMModel.FK_Post_VanLangUser" FromRole="Post" ToRole="VanLangUser" />
@@ -752,14 +757,15 @@
           <Property Name="Post_ID" Type="Int32" />
           <Property Name="Semester_ID" Type="Int32" />
           <Property Name="CV" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="RegistrationDate" Type="DateTime" Precision="3" />
-          <Property Name="RegistrationModify" Type="DateTime" Precision="3" />
+          <Property Name="RegistrationDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RegistrationModify" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Business_ID" Type="Int32" Nullable="false" />
           <Property Name="InterviewResult" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="InterviewResultComment" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="StatusInternview" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="StatusRegistration" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Position" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="BusinessUser" Relationship="BCMModel.FK_Registration_BusinessUser" FromRole="Registration" ToRole="BusinessUser" />
           <NavigationProperty Name="Post" Relationship="BCMModel.FK_Registration_Post" FromRole="Registration" ToRole="Post" />
           <NavigationProperty Name="Semester" Relationship="BCMModel.FK_Registration_Semester" FromRole="Registration" ToRole="Semester" />
@@ -818,7 +824,7 @@
           <Property Name="Student_ID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="Mobile" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
           <Property Name="Role" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Last_Access" Type="DateTime" Precision="3" />
+          <Property Name="Last_Access" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Major_ID" Type="Int32" />
           <Property Name="Status_ID" Type="Int32" />
           <NavigationProperty Name="InternshipResults" Relationship="BCMModel.FK_InternshipResult_VanLangUser" FromRole="VanLangUser" ToRole="InternshipResult" />
@@ -1189,8 +1195,10 @@
           <EntitySetMapping Name="Posts">
             <EntityTypeMapping TypeName="BCMModel.Post">
               <MappingFragment StoreEntitySet="Post">
+                <ScalarProperty Name="Form" ColumnName="Form" />
+                <ScalarProperty Name="DueDate" ColumnName="DueDate" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
                 <ScalarProperty Name="Business_ID" ColumnName="Business_ID" />
-                <ScalarProperty Name="PostImage" ColumnName="PostImage" />
                 <ScalarProperty Name="Semester_ID" ColumnName="Semester_ID" />
                 <ScalarProperty Name="ModifyDay" ColumnName="ModifyDay" />
                 <ScalarProperty Name="PostDay" ColumnName="PostDay" />
@@ -1204,6 +1212,7 @@
           <EntitySetMapping Name="Registrations">
             <EntityTypeMapping TypeName="BCMModel.Registration">
               <MappingFragment StoreEntitySet="Registration">
+                <ScalarProperty Name="Position" ColumnName="Position" />
                 <ScalarProperty Name="Comment" ColumnName="Comment" />
                 <ScalarProperty Name="StatusRegistration" ColumnName="StatusRegistration" />
                 <ScalarProperty Name="StatusInternview" ColumnName="StatusInternview" />

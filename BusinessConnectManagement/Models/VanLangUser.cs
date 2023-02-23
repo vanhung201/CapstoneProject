@@ -31,7 +31,7 @@ namespace BusinessConnectManagement.Models
         public string Student_ID { get; set; }
         public string Mobile { get; set; }
         public string Role { get; set; }
-        public Nullable<System.DateTime> Last_Access { get; set; }
+        public string Last_Access { get; set; }
         public Nullable<int> Major_ID { get; set; }
         public Nullable<int> Status_ID { get; set; }
     

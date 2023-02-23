@@ -48,7 +48,7 @@
                         <td>@item.VanLangUser.FullName</td>
                         <td>@item.Email_VanLang</td>
                         <td>@item.VanLangUser.Mobile</td>
-                        <td><a href="@Url.Action("DownloadFile", "Registration", new {filePath = item.CV, area = "Faculty"})">@item.CV</a></td>
+                        <td><a href="@Url.Action("DownloadFile", "InternViews", new { filePath = item.CV })">@item.CV</a></td>
                         <td class="@classCSS">@item.StatusInternview</td>
                         <td>@item.InterviewResultComment</td>
                         <td class="text-center"><a class="btn btn-action btn--update" onclick="loadEditUser('@item.ID', '@item.BusinessUser.ID', '@item.Email_VanLang', '@item.Post_ID', '@item.Semester_ID', '@item.CV', '@item.RegistrationDate', '@item.RegistrationModify', '@item.InterviewResult', '@item.InterviewResultComment', '@item.StatusRegistration', '@item.StatusInternview', '@item.InterviewResultComment', '@item.Comment')">Cập nhật</a></td>
@@ -63,9 +63,7 @@
 
 <form action="@Url.Action("Edit", "InternViews")" class="form" id="updateForm" method="post">
        
-    <div class="form-container">
-
-        <i class="form-icon fas fa-times-circle"></i>
+    <div class="form-container--small">
         <h1 class="form-heading">Cập Nhật Trạng Thái</h1>
         <div class="form-group">
             <label class="form-label">Nhận xét</label>
@@ -95,20 +93,19 @@
 
 
         <div class="form-group">
-            <button class="btn btn--add" type="submit">Lưu thay đổi</button>
+            <a class="btn btn--cancel">Hủy</a>
+            <button class="btn btn--add" type="submit">Lưu</button>
         </div>
     </div>
 
 </form>
 
 @section Scripts {
-
     <script type="text/javascript">
-        
+      
         function loadEditUser(id, idb, email, post, semeter, cv, rd, rm, ir, rp, StatusRegistration, StatusInternview, irc, Comment) {
             let formUpdate = document.getElementById("updateForm");
-            formUpdate.classList.add('is-appear')
-            
+            formUpdate.classList.add('is-appear');
             document.getElementById('id').value = id;
             document.getElementById('idb').value = idb;
             document.getElementById('email').value = email;
@@ -125,5 +122,9 @@
             document.getElementById('rp').value = rp;
             document.getElementById('Comment').value = Comment;
         }
+
+       
+       
     </script>
+   
 }

@@ -19,14 +19,15 @@ namespace BusinessConnectManagement.Models
         public Nullable<int> Post_ID { get; set; }
         public Nullable<int> Semester_ID { get; set; }
         public string CV { get; set; }
-        public Nullable<System.DateTime> RegistrationDate { get; set; }
-        public Nullable<System.DateTime> RegistrationModify { get; set; }
+        public string RegistrationDate { get; set; }
+        public string RegistrationModify { get; set; }
         public int Business_ID { get; set; }
         public string InterviewResult { get; set; }
         public string InterviewResultComment { get; set; }
         public string StatusInternview { get; set; }
         public string StatusRegistration { get; set; }
         public string Comment { get; set; }
+        public string Position { get; set; }
     
         public virtual BusinessUser BusinessUser { get; set; }
         public virtual Post Post { get; set; }

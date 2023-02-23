@@ -67,11 +67,11 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
             {
                 db.Entry(registration).State = EntityState.Modified;
                 db.SaveChanges();
-                return Json(new { message = "Thành Công" }, JsonRequestBehavior.AllowGet);
+               
                 TempData["AlertMessage"] = "<div class=\"toast toast--success\">\r\n     <div class=\"toast-left toast-left--success\">\r\n       <i class=\"fas fa-check-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n       <p class=\"toast-text\">Cập nhật thành công</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n      <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>";
                 return RedirectToAction("Index");
             }
-            return Json(new { message = "Thất Bại" }, JsonRequestBehavior.AllowGet);
+        
             return View(registration);
         }
 
@@ -104,16 +104,24 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                             join post in db.Posts on rg.Post_ID equals post.ID into postPost
                             join sem in db.Semesters on rg.Semester_ID equals sem.ID into semi
                             join email in db.VanLangUsers on rg.Email_VanLang equals email.Email into emailVL
+                            where rg.ID == id
                             select new
                             {
                                 id = rg.ID,
-                                username = rg.VanLangUser.FullName,
                                 email = rg.VanLangUser.Email,
-                                phone = rg.VanLangUser.Mobile,
-                                post_id = rg.Post.Title,
+                                post_id = rg.Post_ID,
+                                semester_id = rg.Semester_ID,
                                 cv = rg.CV,
+                                registrationDate = rg.RegistrationDate,
+                                registrationModify = rg.RegistrationModify,
+                                bu_id = rg.Business_ID,
+                                interviewResult = rg.InterviewResult,
+                                interviewComment = rg.InterviewResultComment,
+                                interviewStatus = rg.StatusInternview,
                                 status = rg.StatusRegistration,
-                                comment = rg.Comment
+                                comment = rg.Comment,
+                                username = rg.VanLangUser.FullName,
+                                phone = rg.VanLangUser.Mobile
                             });
             return Json(listData, JsonRequestBehavior.AllowGet);
         }

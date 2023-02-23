@@ -13,81 +13,179 @@
         @Html.Raw(@TempData["AlertMessage"])
 
     }
-    <div class="list-table">
-        <div id="filterEvent">
-            <a href="@Url.Action("Create", "Posts")">
-                <div class="btn btn--create">
-                    <i class="btn-icon btn-icon--create fas fa-plus"></i>
-                    <span class="btn-text">Thêm</span>
-                </div>
-            </a>
 
-        </div>
-        <table id="table_id" class="display" width="100%">
+    <div class="filter">
+        <div class="bu_status"></div>
+    </div>
+
+    <div class="btn btn--create" id="btn-create" style="float:right">
+        <i class="btn-icon btn-icon--create fas fa-plus"></i>
+        <span class="btn-text">Thêm</span>
+    </div>
+
+    <div class="list-table">
+
+        <table id="table_listData" class="display" width="100%">
             <thead>
                 <tr>
-                    <th width="5%">STT</th>
+                    <th>STT</th>
                     <th>Tiêu đề</th>
-                    <th width="22%">Người đăng bài</th>
-                    <th width="15%">Ngày đăng</th>
-                    <th width="15%">Ngày cập nhật</th>
-                    <th width="20%">Chức năng</th>
+                    <th>Doanh Nghiệp</th>
+                    <th>Người đăng bài</th>
+                    <th>Ngày đăng</th>
+                    <th>Ngày cập nhật</th>
+                    <th>
+                        Chức năng
+                    </th>
                 </tr>
             </thead>
             <tbody>
-
-                @{int count = 1;}
-                @foreach (var item in Model)
-                {
-                    DateTime? mydate = item.PostDay;
-                    string datee = mydate.Value.ToString("dd-MM-yyyy");
-                    DateTime? modifydate = item.ModifyDay;
-                    string modifydatee = modifydate.Value.ToString("dd-MM-yyyy");
-                    <tr>
-                        <td>@count</td>
-                        <td>@item.Title</td>
-                        <td>@item.Email_ID</td>
-                        <td>@datee</td>
-                        <td>@modifydatee</td>
-                        <td class="text-center">
-                            <a href="@Url.Action("Details", "Posts",  new { id=item.ID })">
-                                <div class="btn btn--detail">
-                                    <i class="btn-icon btn-icon--detail fas fa-info-circle"></i>
-                                    <span class="btn-text">Xem Chi Tiết</span>
-                                </div>
-                            </a>
-                            <a href="@Url.Action("Edit", "Posts",  new { id=item.ID })">
-                                <div class="btn btn--update">
-                                    <i class="btn-icon btn-icon--edit fas fa-edit"></i>
-                                    <span class="btn-text">Cập Nhật</span>
-                                </div>
-                            </a>
-                            <a onclick="loadDeleteUser('@item.ID', '@item.Title')">
-                                <div class="btn btn--delete">
-                                    <i class="btn-icon btn-icon--edit fas fa-times"></i>
-                                    <span class="btn-text">Xóa</span>
-                                </div>
-                            </a>
-                        </td>
-                    </tr>
-                    count++;
-                }
-
             </tbody>
         </table>
     </div>
 </section>
-<form class="form" id="updateForm" method="post">
+@*--------------------add-----------------------*@
+<form id="addForm" method="post" action="@Url.Action("Create", "Posts")" class="form" enctype="multipart/form-data">
+    <div class="form-container">
+        <h1 class="list-heading">Tạo Bài Viết</h1>
+        <div class="form-row">
+            <div class="form-column">
+                <div class="form-group">
+                    <label class="form-label">Tiêu đề</label>
+                    <input list="" name="Title" class="form-input" value=""
+                           autocomplete="off" required />
+
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Doanh Nghiệp</label>
+                    <select name="Business_ID" id="ddlBussines_ID" class="form-input">
+                        @foreach (var item in ViewBag.Business_ID)
+                        {
+                            <option value=@item.ID>@item.BusinessName</option>
+                        }
+
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label  class="form-label">Số lượng</label>
+                    <input list="" name="Quantity" class="form-input" value=""
+                           autocomplete="off"  />
+                </div>
+            </div>
+            
+            <div class="form-column">
+                <div class="form-group">
+                    <label class="form-label">Ngày hết hạn</label>
+                    <input list="" name="DueDate" id="" class="form-input" type="date"
+                           autocomplete="off" />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Hình thức</label>
+                    <select name="Form" class="form-input">
+                        <option value="Online">Online</option>
+                        <option value="Offline">Offline</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="address" class="form-label">Mô tả</label>
+            <input class="" name="Description" id="DescriptionCreate" autocomplete="off" />
+        </div>
+        <div class="form-group">
+            <a class="btn btn--cancel">
+               Hủy
+            </a>
+            <button class="btn btn--add"  type="submit" id="btn--add">
+               Lưu
+            </button>
+        </div>
+
+
+    </div>
 </form>
-<form class="form" id="addForm" method="post">
+@*--------------------update--------------------*@
+<form id="form_detail" method="post" action="" class="form" enctype="multipart/form-data">
+    <div class="form-container">
+        <h1 class="list-heading">Chi Tiết Bài Viết</h1>
+        <div class="form-row">
+            <div class="form-column">
+                <input id="ID" name="ID" hidden />
+                <input id="Email_ID" name="Email_ID" hidden />
+                <input name="Business_ID" id="Business_ID" hidden />
+                <div class="form-group">
+                    <label class="form-label">Tiêu Đề</label>
+                    <input list="" name="Title" id="Title" class="form-input" value=""
+                           autocomplete="off" />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Người Đăng Bài</label>
+                    <input list="" name="" id="Name" class="form-input" value=""
+                           autocomplete="off" disabled />
+
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Doanh Nghiệp</label>
+                    <input list="" id="BusinessName" class="form-input" value=""
+                           autocomplete="off" disabled />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Số Lượng</label>
+                    <input list="" name="Quantity" id="Quantity" class="form-input" value=""
+                           autocomplete="off"  />
+                </div>
+            </div>
+            <div class="form-column">
+                <div class="form-group">
+                    <label class="form-label">Ngày Đăng</label>
+                    <input list="" id="PostDay2" class="form-input" value=""
+                           autocomplete="off" disabled />
+                    <input list="" name="PostDay" id="PostDay" class="form-input" value=""
+                           autocomplete="off" hidden />
+
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Ngày Cập Nhật</label>
+                    <input list="" name="ModifyDay" id="ModifyDay" class="form-input" value=""
+                           autocomplete="off" disabled />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Ngày Hết Hạn</label>
+                    <input list="" name="DueDate" id="DueDate" class="form-input" value=""
+                           autocomplete="off" />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Hình Thức</label>
+                    <select id="form" name="Form" class="form-input">
+                        <option value="Online">Online</option>
+                        <option value="Offline">Offline</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="address" class="form-label">Mô tả</label>
+            <textarea class="" name="Description" id="Description" autocomplete="off"></textarea>
+        </div>
+        <div class="form-group">
+            <a class="btn btn--cancel">
+               Hủy
+            </a>
+            <button class="btn btn--add" id="btn--update">
+             Lưu
+            </button>
+        </div>
+
+
+    </div>
 </form>
+@*---------------------------Delete-----------------------------ơ*@
 <form action="@Url.Action("Delete", "Posts")" class="form" id="deleteForm" method="post">
     @{using (Html.BeginForm())
         {
             @Html.AntiForgeryToken();
             <input name="id" id="iddele" hidden />
-            <div class="form-container">
-                <i class="form-icon fas fa-times-circle"></i>
+            <div class="form-container--small">
                 <h1 class="form-heading">Xác nhận</h1>
 
                 <span>
@@ -96,21 +194,259 @@
                 </span>
 
                 <div class="form-group">
-                    <button type="submit" class="btn btn-action btn--update">Xác nhận</button>
+                    <a class="btn btn--cancel">
+                        Hủy
+                    </a>
+                    <button type="submit" class="btn btn-action btn--add">Xác nhận</button>
                 </div>
             </div>
         }
     }
 </form>
 
+
 @section Scripts {
+     <script type="text/javascript">
+
+            function loadDeleteUser(id, name) {
+                let formDelete = document.getElementById("deleteForm");
+                formDelete.classList.add('is-appear')
+                document.getElementById('iddele').value = id;
+                document.getElementById('namedele').value = name;
+            }
+        </script>
+
+<script type="text/javascript">
+    $('.btn--cancel').on('click', function () {
+        $('#form_detail').removeClass('is-appear')
+    })
+    $('.btn--cancel').on('click', function () {
+        $('#addForm').removeClass('is-appear')
+    })
+    $('.btn--cancel').on('click', function () {
+        $('#deleteForm').removeClass('is-appear')
+    })
+    $('#btn--update').on('click', function () {
+        $('#form_detail').submit()
+    })
+    $('#btn--add').on('click', function () {
+        $('#addForm').submit()
+    })
+
+    
+  
+    $(function () {
+        var url = "@Url.Action("getDataList", "Posts")"
+        "use strict";
+        (dataTable = $("#table_listData").DataTable({
+            ajax: {
+                url: url,
+                type: "GET",
+                dataType: "json",
+                dataSrc: "",
+            },
+            deferRender: !0,
+            columns: [
+                { data: null },
+                { data: "title" },
+                { data: "business" },
+                { data: "name" },
+                { data: "postday" },
+                { data: "modifyday" },
+                {
+                        data: "id",
+                        render: function (t, e, a) {
+                            return (
+                                `
+                                <a href="@Url.Action("Details", "Posts")${t}" id="business_detail" class="business_detail">
+                                <div class="btn btn--update" title="Cập Nhật">
+                                    <i class="btn-icon btn-icon--edit fas fa-edit"></i>
+                                    <span class="btn-text">Cập Nhật</span>
+                                </div>
+                                </a>
+                                <a onclick="loadDeleteUser(${t})">
+                                <div class="btn btn--delete">
+                                    <i class="btn-icon btn-icon--edit fas fa-times"></i>
+                                    <span class="btn-text">Xóa</span>
+                                </div>
+                                </a>`
+                            );
+                        },
+                    },
+            ],
+            initComplete: function () {
+                this.api()
+                    .columns(2)
+                    .every(function () {
+                        var t = this,
+                            e = $(
+                                '<select id="UserType" style="margin-right: 8px;border: 1px solid #aaa;border-radius: 3px;padding: 5px;background-color: transparent; margin-left: 3px;" class="form-select text-capitalize mb-md-0 mb-2xx"><option value=""> Chọn Công Ty Để Lọc </option></select>'
+                            )
+                                .prependTo("#table_listData_filter")
+                                .on("change", function () {
+                                    var e = $.fn.dataTable.util.escapeRegex($(this).val());
+                                    t.search(e ? "^" + e + "$" : "", !0, !1).draw();
+                                });
+                        t.data()
+                            .unique()
+                            .sort()
+                            .each(function (t, a) {
+                                t &&
+                                    e.append(
+                                        '<option value="' +
+                                        t +
+                                        '" class="text-capitalize">' +
+                                        t +
+                                        "</option>"
+                                    );
+                            });
+                    })
+            }
+
+        }))
+        dataTable.on("draw.dt", function () {
+            dataTable.column(0, { search: "applied", order: "applied" }).nodes().each(function (cell, i) {
+                cell.innerHTML = i + 1;
+            });
+        });
+        // Create Index column datatable
+        
+
+    });
+    $('#table_listData').on('click', '.business_detail', function (e) {
+            e.preventDefault()
+        const form = document.getElementById('form_detail');
+        form.classList.add('is-appear');
+            const url = $(this).attr('href');
+            $.ajax({
+                url: url,
+                type: "get",
+                dataType: 'json',
+                success: function (res) {
+                    console.log(res)
+                    const imgPath = `@Url.Content("~/Uploads/Images/")` + res[0].postImage
+                    const actionUrl = `@Url.Action("Edit","Posts")` + `${res[0].id}`
+                  
+                    $('#ID').val(res[0].id)
+                    $('#Title').val(res[0].title)
+                    $('#Email_ID').val(res[0].email)
+                    $('#Name').val(res[0].name)
+                    $('#PostDay').val(res[0].postday)
+                    $('#PostDay2').val(res[0].postday)
+                    $('#ModifyDay').val(res[0].modifyday)
+                    $('#Semester_ID').val(res[0].semeter)
+                    $('#BusinessName').val(res[0].business)
+                    $('#Business_ID').val(res[0].business_id)
+                    $('#DueDate').val(res[0].duedate)
+                    $('#Quantity').val(res[0].quatity)
+                    if (res[0].form === "Online") {
+                        $('select option[value="Online"]').attr("selected", "selected");
+                    } else {
+                        $('select option[value="Offline"]').attr("selected", "selected");
+                    }
+                    $('#output1').attr('src', `${imgPath}`)
+                    $('#output1').css('display', 'block')
+                    CKEDITOR.instances['Description'].setData(res[0].description)
+                    $('#form_detail').attr('action', `${actionUrl}`)
+                }
+
+            })
+        })
+
+</script>
+    <script type="text/javascript" src="@Url.Content("~/assets/js/ckeditor/ckeditor.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/assets/js/ckfinder/ckfinder.js")"></script>
     <script type="text/javascript">
 
-        function loadDeleteUser(id, name) {
-            let formDelete = document.getElementById("deleteForm");
-            formDelete.classList.add('is-appear')
-            document.getElementById('iddele').value = id;
-            document.getElementById('namedele').value = name;
-        }
+        $(function () {
+            $("#table_listData_filter").append($("#btn-create")).clone();
+        });
+        var editor = CKEDITOR.instances['editor1'];
+	 	    if (editor) { editor.destroy(true); }
+		    CKEDITOR.replace('Description', {
+		        enterMode: CKEDITOR.ENTER_BR,
+		    });
+        CKFinder.setupCKEditor(null, '@Url.Content("~/ckfinder")');
+
+         if (editor) { editor.destroy(true); }
+		    CKEDITOR.replace('DescriptionCreate', {
+		        enterMode: CKEDITOR.ENTER_BR,
+		    });
+		    CKFinder.setupCKEditor(null, '@Url.Content("~/ckfinder")');
+
+
+    </script>
+    <script>
+        /*------------------------add-----------------*/
+        $('#addForm').validate({
+            rules: {
+                Title: {
+                    required: true,
+                    minlength: 3,
+                    blank: true
+                },
+                DueDate: {
+                    required: true
+                }
+             
+            },
+            messages: {
+                Title: {
+                    required: "Vui lòng nhập tiêu đề bài viết.",
+                    minlength: "Tiêu đề phải ít nhất 3 kí tự."
+                },
+                DueDate: {
+                    required: "Vui lòng chọn ngày hết hạn."
+                }
+            }
+        });
+        /*------------------------update-----------------*/
+        $('#form_detail').validate({
+            rules: {
+                Title: {
+                    required: true,
+                    minlength: 3,
+                    blank: true
+                }
+            },
+            messages: {
+                Title: {
+                    required: "Vui lòng nhập tiêu đề bài viết.",
+                    minlength: "Tiêu đề phải ít nhất 3 kí tự."
+                }
+            }
+        });
+        $(document).ready(function () {
+            $.validator.addMethod("blank", function (value, element) {
+                return (!/^\s*$/.test(value));
+            }, "Vui lòng nhập tiêu đề bài viết.");
+            // Initialize the form validation
+            $("#addForm").validate();
+
+            // cái này là on blur nè
+            $("#addForm input, #addForm input").on("blur", function () {
+                $(this).valid();
+            });
+
+            // cái này là on change nè
+            $("#addForm input, #addForm input").on("change", function () {
+                $(this).removeClass("error");
+            });
+
+            /*-------------------update--------------------*/
+            $("#form_detail").validate();
+
+            // cái này là on blur nè
+            $("#form_detail input, #form_detail input").on("blur", function () {
+                $(this).valid();
+            });
+
+            // cái này là on change nè
+            $("#form_detail input, #form_detail input").on("change", function () {
+                $(this).removeClass("error");
+            });
+
+
+        });
     </script>
 }

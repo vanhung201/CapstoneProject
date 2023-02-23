@@ -21,9 +21,6 @@
     color: white !important;
 }
 
-#main-menu .item a:hover {
-    color: green !important;
-}
 
 header .user img {
     width: 30px;
@@ -287,6 +284,7 @@ footer a {
     height: 300px;
     position: relative;
     color: white;
+    z-index:1;
 }
 
 #bg-bread .overlay-bread {
@@ -515,3 +513,83 @@ footer a {
         top: 10px;
     }
 }
+
+#user .submenu {
+    display: none;
+}
+
+/* Show submenu when user hovers over the user element */
+#user:hover .submenu {
+    display: block;
+    position: absolute;
+    top: 150%;
+    right: -100px;
+    z-index: 999;
+    width: 240px;
+    background-color: #fff;
+}
+
+/* Style the submenu */
+#user .submenu li {
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+.submenu::after {
+    cursor: pointer;
+    content: "";
+    position: absolute;
+    left: 115px;
+    top: -15px;
+    border-width: 16px 20px;
+    border-style: solid;
+    border-color: transparent transparent transparent transparent;
+}
+
+    #user .submenu li a {
+        display: block;
+        padding: 10px;
+        color: #000;
+        background-color: #fff;
+        text-decoration: none;
+    }
+
+        #user .submenu li a:hover {
+            background-color: #f2f2f2;
+        }
+
+.btn-login {
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0 15px;
+    color: var(--primary-inverse) !important;
+}
+#user {
+    margin-top: 4px;
+    position:relative;
+}
+
+#header-desktop {
+    padding: 12px 0;
+}
+
+.action-wrapper{
+    width:330px;
+    justify-content:space-around;
+}
+
+.btn-update {
+    color: #fff;
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.btn.btn-update:hover,
+btn-update:focus{
+    background-color: #116bf0;
+    border-color: #116bf0;
+}
+
