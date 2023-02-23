@@ -15,7 +15,7 @@
     <link href="~/assets/css/menu2.css" rel="stylesheet" />
     <link href="~/assets/css/nav2.css" rel="stylesheet" />
     <link href="~/assets/css/button.css" rel="stylesheet" />
-    <link href="~/assets/css/formpop.css" rel="stylesheet" />
+    <link href="~/assets/css/form.css" rel="stylesheet" />
     <link href="~/assets/css/table2.css" rel="stylesheet" />
     <link href="~/assets/css/toast.css" rel="stylesheet" />
     <link href="~/assets/css/greet.css" rel="stylesheet" />
@@ -71,8 +71,6 @@
 
 @RenderSection("scripts", required: false)
 
-<script src="~/assets/js/greet.js"></script>
-<script src="~/assets/js/time.js"></script>
 <script src="~/assets/js/admin.js"></script>
 <script src="~/Scripts/jquery-3.4.1.js"></script>
 <script src="~/Scripts/jquery.validate.js"></script>
@@ -96,13 +94,13 @@
     $(".form-icon").on("click", function () {
         formUpdate.classList.remove(isAppear);
     })
-    $(function () {
+   /* $(function () {
         const toast = document.querySelector(".toast");
         setTimeout(() => {
             toast.remove();
         }, 3000);
 
-    });
+    });*/
     function remove() {
         let toast = document.querySelector(".toast");
         document.querySelector(".toast-right").addEventListener("click", () => {
@@ -110,5 +108,7 @@
         });
 
     }
-
+    $('.btn--cancel').on('click', function () {
+        $('#updateForm').removeClass('is-appear')
+    });
 </script>

@@ -41,7 +41,7 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
                         Session["BusinessID"] = query.ID;
                         Session["BusinessName"] = query.BusinessName;
 
-                        query.Last_Access = DateTime.Now;
+                        query.Last_Access = (DateTime.Now).ToString();
 
                         db.Entry(query).State = EntityState.Modified;
                         db.SaveChanges();

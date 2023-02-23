@@ -15,15 +15,36 @@ namespace BusinessConnectManagement.Controllers
         private BCMEntities db = new BCMEntities();
 
         // GET: Posts
-        public ActionResult Index()
+        public ActionResult Index(string SearchString = "")
         {
+            if (SearchString != "")
+            {
+                var bu = db.Posts.Include(x => x.BusinessUser).Where(s => s.BusinessUser.BusinessName.ToUpper().Contains(SearchString.ToUpper()));
+                var titles = db.Posts.Include(x => x.BusinessUser).Where(s => s.Title.ToUpper().Contains(SearchString.ToUpper()));
+                if (titles.Any() == false)
+                {
+                    var tif = titles.Where(s => s.Form.ToUpper().Contains(SearchString.ToUpper()));
+                    if (bu.Any() == false)
+                    {
+                        TempData["AlertMessage"] = "Không tìm thấy bài viết với từ khóa tìm kiếm " + "'" + SearchString + "'";
+                    }
+                    else
+                    {
+                        return View(bu.ToList());
+                    }
+
+                }
+                return View(titles.ToList());
+
+            }
+
             var posts = db.Posts.Include(p => p.BusinessUser).Include(p => p.Semester).Include(p => p.VanLangUser).Include(p => p.VanLangUser1);
             return View(posts.ToList());
         }
-
         // GET: Posts/Details/5
         public ActionResult Details(int? id)
         {
+            var email = User.Identity.Name;
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -33,7 +54,13 @@ namespace BusinessConnectManagement.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Post = db.Posts.Include(p => p.BusinessUser).Include(p => p.Semester).Include(p => p.VanLangUser).Include(p => p.VanLangUser1);
+            ViewBag.isRegisted = db.Registrations.Any(x => x.Email_VanLang == email && x.Post_ID == id);
+            if (db.Registrations.Any(x => x.Post_ID == id && x.Email_VanLang == email))
+            {
+                ViewBag.registedID = db.Registrations.Where(x => x.Post_ID == id && x.Email_VanLang == email).First().ID;
+                ViewBag.regStatus = db.Registrations.Where(x => x.Post_ID == id && x.Email_VanLang == email).First().StatusRegistration;
+            }
+            ViewBag.Post = db.Posts.Include(p => p.BusinessUser).Include(p => p.Semester).Include(p => p.VanLangUser).Include(p => p.VanLangUser1).OrderBy(x => Guid.NewGuid()).Take(5).ToList();
             return View(post);
         }
 

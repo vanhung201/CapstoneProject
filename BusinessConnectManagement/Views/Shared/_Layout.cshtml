@@ -20,6 +20,17 @@
     <link rel="stylesheet" href="~/assets/User/assets/css/style.css">
     <link rel="stylesheet" href="~/assets/User/assets/css/custom.css">
     <link rel="shortcut icon" href="~/assets/images/favicon.ico" type="image/x-icon">
+    <link href="~/assets/User/assets/css/form.css" rel="stylesheet" />
+    <link href="~/Content/toastr.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/toastr.min.js"></script>
+    <link href="~/assets/css/jquery2.dataTables.min.css" rel="stylesheet" />
+    <link href="~/assets/css/table2.css" rel="stylesheet" />
+    <script src="~/assets/js/datatable/dataTable.min.js"></script>
     <title>FIT - Trang chủ</title>
 </head>
 
@@ -55,10 +66,26 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="user">
-                        <a href="#">
-                            <img src="~/assets/User/assets/images/user.png" alt="user">
-                        </a>
+                    <div id="user">
+                        @if (Request.IsAuthenticated)
+                        {
+                            <a href="#" class="user">
+                                <img src="~/assets/User/assets/images/user.png" alt="user">
+                            </a>
+                            <ul class="submenu">
+                                            <li><a href="#">Thông Tin Cá Nhân</a></li>
+                                            <li><a href="@Url.Action("listReg","Registration")">Danh Sách Ứng Tuyển</a></li>
+                                            <li><a href="#">Kết Quả Ứng Tuyển</a></li>
+                                            <li><a href="@Url.Action("SignOut","AccountOfStudent")">Đăng Xuất</a></li>
+                                        </ul>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("Login","AccountOfStudent")" class="btn-login">
+                                Đăng Nhập
+                            </a>
+                        }
+
                     </div>
                 </div>
             </div>
@@ -119,7 +146,9 @@
             </div>
         </div>
     </footer>
-</body>
+<script src="~/assets/js/admin.js"></script>
+
 @RenderSection("scripts", required: false)
+</body>
 
 </html>

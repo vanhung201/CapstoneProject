@@ -41,60 +41,79 @@
 <form class="form" id="addForm" method="post">
 </form>
 
-<form action="" class="form" id="updateForm" method="post">
+<form action="@Url.Action("Edit", "Registration")" class="form" id="updateForm" method="post">
 
-    <div class="form-container">
-        <i class="form-icon fas fa-times-circle"></i>
+    <div class="form-container--small">
+       
         <h1 class="form-heading">Cập nhật Kết quả</h1>
         <div class="form-group">
-            <label class="form-label" for="Status">Trạng Thái</label>
-            <select id="status" name="Status" class="form-input">
-                <option value="Chờ phê duyệt">Chờ phê duyệt</option>
-                <option value="Phê duyệt">Phê duyệt</option>
+            <label class="form-label">Trạng Thái</label>
+            <select id="status" name="StatusRegistration" class="form-input">
+                <option value="Chờ Phê Duyệt">Chờ Phê Duyệt</option>
+                <option value="Phê Duyệt">Phê Duyệt</option>
             </select>
         </div>
+
         <div class="form-group">
-            <label for="Comment" class="form-label">Nhận xét</label>
+            <label for="comment" class="form-label">Nhận xét</label>
             <textarea name="Comment" id="comment" class="form-input" autocomplete="off"></textarea>
         </div>
-
         <div class="form-group">
-            <input list="" name="ID" id="id" class="form-input" hidden />
+            
+            <input list="" name="ID" id="id" class="form-input" hidden/>
+        
+          
+            <input list="" name="Email_VanLang" id="email" class="form-input" hidden/>
+        
            
+            <input list="" name="Post_ID" id="post_id" class="form-input" hidden/>
+        
+           
+            <input list="" name="Semester_ID" id="semester_id" class="form-input" hidden/>
+        
+            
+            <input list="" name="CV" id="cv" class="form-input" hidden/>
+       
+           
+            <input list="" name="RegistrationDate" id="registrationDate" class="form-input" hidden/>
+        
+           
+            <input list="" name="RegistrationModify" id="registrationModify" class="form-input" hidden/>
+       
+            
+            <input list="" name="InterviewResult" id="interviewResult" class="form-input" hidden/>
+        
+            
+            <input list="" name="InterviewResultComment" id="interviewComment" class="form-input" hidden/>
+        
+            
+            <input list="" name="StatusInternview" id="interviewStatus" class="form-input" hidden/>
+       
+
+       
+            
+            <input list="" name="Business_ID" id="bu_id" class="form-input" hidden/>
         </div>
 
         <div class="form-group">
-
-            <button type="submit" class="btn btn--add" id="submit_edit">Lưu</button>
-            <a  class="btn btn--cancel">Hủy</a>
-
+            <a class="btn btn--cancel">
+                Hủy
+            </a>
+            <button class="btn btn--add" id="btn--update">
+               Lưu
+            </button>
         </div>
     </div>
 </form>
 @section Scripts {
 
     <script type="text/javascript">
-       /* function loadEditStatus(id, comment, idb, email, post, semeter, cv, rd, rm, ir, irc, sr) {
-            let formUpdate = document.getElementById("updateForm");
-            formUpdate.classList.add('is-appear');
-            document.getElementById('id').value = id;
-            document.getElementById('comment').value = comment;
-            document.getElementById('idb').value = idb;
-            document.getElementById('email').value = email;
-            document.getElementById('semeter').value = semeter;
-            document.getElementById('post').value = post;
-            document.getElementById('cv').value = cv;
-            document.getElementById('rd').value = rd;
-            document.getElementById('rm').value = rm;
-            document.getElementById('ir').value = ir;
-            document.getElementById('irc').value = irc;
-            document.getElementById('sr').value = sr;
-        }
-
-        function submitEdit() {
-            $("#updateForm").save();
-        }*/
-
+        $('.btn--cancel').on('click', function () {
+            $('#updateForm').removeClass('is-appear')
+        })
+        $('#btn--update').on('click', function () {
+            $('#updateForm').submit()
+        })
         $(function () {
             var url = "@Url.Action("getDataList", "Registration")"
             "use strict";
@@ -107,7 +126,7 @@
                 },
                 deferRender: !0,
                 columns: [
-                    { data: "", defaultContent: "" },
+                    { data: null },
                     { data: "username" },
                     { data: "email" },
                     { data: "phone" },
@@ -127,12 +146,7 @@
                                     <span class="btn-text">Cập Nhật</span>
                                 </div>
                                 </a>
-                                <a onclick="loadDeleteUser(${t})">
-                                <div class="btn btn--delete">
-                                    <i class="btn-icon btn-icon--edit fas fa-times"></i>
-                                    <span class="btn-text">Xóa</span>
-                                </div>
-                                </a>`
+                                `
                             );
                         },
                     },
@@ -143,9 +157,9 @@
                         .every(function () {
                             var t = this,
                                 e = $(
-                                    '<select id="UserType" class="form-select text-capitalize mb-md-0 mb-2xx"><option value="">--Chọn trạng thái để lọc--</option></select>'
+                                    '<select id="UserType" style="margin-right: 8px;border: 1px solid #aaa;border-radius: 3px;padding: 5px;background-color: transparent; margin-left: 3px;" class="form-select text-capitalize mb-md-0 mb-2xx"><option value=""> Chọn trạng thái để lọc </option></select>'
                                 )
-                                    .appendTo(".rg_status")
+                                    .prependTo("#table_listData_filter")
                                     .on("change", function () {
                                         var e = $.fn.dataTable.util.escapeRegex($(this).val());
                                         t.search(e ? "^" + e + "$" : "", !0, !1).draw();
@@ -165,6 +179,11 @@
                 }
             })
             )
+            dataTable.on("draw.dt", function () {
+                dataTable.column(0, { search: "applied", order: "applied" }).nodes().each(function (cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            });
         });
         $('#table_listData').on('click', '.business_detail', function (e) {
             e.preventDefault()
@@ -178,10 +197,21 @@
                 success: function (res) {
                     console.log(res)
                     const actionUrl = `@Url.Action("Edit", "Registration")` + `/${res[0].id}`
-                    if (res[0].status === "Chờ phê duyệt") {
-                        $('select option[value="active"]').attr("selected", "selected");
-                    } else {
-                        $('select option[value="block"]').attr("selected", "selected");
+                    $('#id').val(res[0].id)
+                    $('#email').val(res[0].email)
+                    $('#post_id').val(res[0].post_id)
+                    $('#semester_id').val(res[0].semester_id)
+                    $('#cv').val(res[0].cv)
+                    $('#registrationDate').val(res[0].registrationDate)
+                    $('#registrationModify').val(res[0].registrationModify)
+                    $('#bu_id').val(res[0].bu_id)
+                    $('#interviewResult').val(res[0].interviewResult)
+                    $('#interviewComment').val(res[0].interviewComment)
+                    $('#interviewStatus').val(res[0].interviewStatus)
+                    if (res[0].status === "Chờ Phê Duyệt") {
+                        $('select option[value="Chờ Phê Duyệt"]').attr("selected", "selected");
+                    } else {    
+                        $('select option[value="Phê Duyệt"]').attr("selected", "selected");
                     }
                     $('#comment').val(res[0].comment)
                     $('#updateForm').attr('action', `${actionUrl}`)
@@ -190,26 +220,6 @@
         })
         $('.btn--cancel').on('click', function () {
             $('#updateForm').removeClass('is-appear')
-        })
-        $('#submit_edit').on('click', function (e) {
-            e.preventDefault()
-            const ID = $('input[name=ID]').val()
-            const Comment = $('input[name=Comment]').val()
-            const Status = $('input[name=Status]').val()
-            const url = $('#updateForm').attr('action')
-
-            $.ajax({
-                url: url,
-                type: 'post',
-                data: {
-                    ID: ID,
-                    Comment: Comment,
-                    Status: Status
-                },
-                success: function (res) {
-                   
-                }
-            })
         })
     </script>
 }

@@ -22,13 +22,14 @@
         <table id="table_listData" class="display">
             <thead>
                 <tr>
-                    <th></th>
+                    <th class="text-center">STT</th>
+                    <th class="text-center">Email</th>  
                     <th class="text-center">Tên</th>
-                    <th class="text-center">Email</th>
                     <th class="text-center">SĐT</th>
                     <th class="text-center">Chức vụ</th>
                     <th class="text-center">Trạng thái</th>
                     <th class="text-center">Chức năng</th>
+                    
                 </tr>
             </thead>
             <tbody>
@@ -39,71 +40,67 @@
 
 
 <form action="@Url.Action("Edit", "AdminHome")" method="post" class="form" id="updateForm" name="myForm" enctype="multipart/form-data">
-    <div class="form-container">
-
-        <h1 class="form-heading">Cập nhật Tài khoản</h1>
-        <input id="access" name="Last_Access" class="form-input" autocomplete="off" />
-        <input id="student" name="Student_ID" class="form-input" autocomplete="off" />
-        <div class="form-group">
-            <label for="emailVLU" class="form-label">Email &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-
-            <input id="email" name="Email" class="form-input" autocomplete="off" hidden />
-        </div>
-
-        <div class="form-group">
-            <label for="FullName" class="form-label">Họ và Tên</label>
-            <input id="username" name="FullName" class="form-input" autocomplete="off" />
-        </div>
-        <div>
-            <input  style="height:5px" hidden>
-            <input id="validateFullName" value="a"  style="height:5px" hidden>
-        </div>
-        <div class="edit">
+    <div>
+        <div class="form-container--small">
+            <h1 class="form-heading">Cập nhật Tài khoản</h1>
+            <input id="access" name="Last_Access" class="form-input" autocomplete="off" hidden />
+            <input id="student" name="Student_ID" class="form-input" autocomplete="off" hidden />
             <div class="form-group">
-                <label for="Major_ID" class="form-label">Chuyên Nghành &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                <select name="Major_ID" id="majorr" class="form-input">
-                    <option value="1">Công nghệ phần mềm</option>
-                    <option value="2">Công nghệ dữ liệu</option>
-                    <option value="3">Tin học quản trị</option>
-                    <option value="4">An ninh Mạng</option>
-                    <option value="5">Hệ thống Thông tin</option>
-                    <option value="6">Kỹ thuật phần mềm</option>
-                </select>
+                <label for="emailVLU" class="form-label">Email &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                <input id="email" name="Email" class="form-input" autocomplete="off" hidden/>
+                <input id="email2"  class="form-input" autocomplete="off" disabled/>
             </div>
-        </div>
-        <div class="form-group">
-            <label for="Mobile" class="form-label">SĐT &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-            <input id="phone" name="Mobile" class="form-input" autocomplete="off" />
-            <input id="validateMobile" value="" class="form-label" disabled>
-        </div>
-
-        <div class="edit">
             <div class="form-group">
-                <label for="Role" class="form-label">Vai trò &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                <select name="Role" id="role" class="form-input">
-                    <option value="Admin">Admin</option>
-                    <option value="Faculty">Faculty</option>
-                    <option value="Mentor">Mentor</option>
-                    <option value="Student">Student</option>
-                </select>
+                <label for="FullName" class="form-label">Họ và Tên</label>
+                <input id="username" name="FullName" class="form-input" autocomplete="off" required />
             </div>
-        </div>
-
-        <div class="editStatus">
+            <div class="edit">
+                <div class="form-group">
+                    <label for="Major_ID" class="form-label">Chuyên Nghành &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                    <select name="Major_ID" id="majorr" class="form-input">
+                        <option value="1">Công nghệ phần mềm</option>
+                        <option value="2">Công nghệ dữ liệu</option>
+                        <option value="3">Tin học quản trị</option>
+                        <option value="4">An ninh Mạng</option>
+                        <option value="5">Hệ thống Thông tin</option>
+                        <option value="6">Kỹ thuật phần mềm</option>
+                    </select>
+                </div>
+            </div>
             <div class="form-group">
-                <label for="Status_ID" class="form-label">Trạng thái</label>
-                <select name="Status_ID" id="status" class="form-input">
-                    <option value="1">Đang Hoạt Động</option>
-                    <option value="2">Khóa</option>
-                </select>
+                <label for="" class="form-label">SĐT </label>
+                <input id="phone" name="Mobile" class="form-input" autocomplete="off" required />
             </div>
-        </div>
+            <div class="edit">
+                <div class="form-group">
+                    <label for="Role" class="form-label">Vai trò </label>
+                    <select name="Role" id="role" class="form-input">
+                        <option value="Admin">Admin</option>
+                        <option value="Faculty">Faculty</option>
+                        <option value="Mentor">Mentor</option>
+                        <option value="Student">Student</option>
+                    </select>
+                </div>
+            </div>
 
-        <div class="form-group">
-            <button type="submit" id="submit_edit" class="btn btn--add">Lưu</button>
-            <a class="btn btn--cancel">Hủy</a>
+            <div class="editStatus">
+                <div class="form-group">
+                    <label for="Status_ID" class="form-label">Trạng thái</label>
+                    <select name="Status_ID" id="status" class="form-input">
+                        <option value="1">Đang Hoạt Động</option>
+                        <option value="2">Khóa</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <a class="btn btn--cancel">Hủy</a>
+                <button type="submit" id="submit_edit" class="btn btn--add">Lưu</button>
+
+            </div>
         </div>
     </div>
+    
 </form>
 @section Scripts {
     <script type="text/javascript">
@@ -138,12 +135,7 @@
                                     <span class="btn-text">Cập Nhật</span>
                                 </div>
                                 </a>
-                                <a onclick="loadDeleteUser(${t})">
-                                <div class="btn btn--delete">
-                                    <i class="btn-icon btn-icon--edit fas fa-times"></i>
-                                    <span class="btn-text">Xóa</span>
-                                </div>
-                                </a>`
+                                `
                             );
                         },
                     },
@@ -155,9 +147,9 @@
                         .every(function () {
                             var t = this,
                                 e = $(
-                                    '<select id="UserType" class="form-select text-capitalize mb-md-0 mb-2xx"><option value="">--Chọn trạng thái để lọc--</option></select>'
+                                    '<select id="UserType" style="margin-right: 8px;border: 1px solid #aaa;border-radius: 3px;padding: 5px;background-color: transparent; margin-left: 3px;" class="form-select text-capitalize mb-md-0 mb-2xx"><option value=""> Chọn trạng thái để lọc </option></select>'
                                 )
-                                    .appendTo(".rg_status")
+                                    .prependTo("#table_listData_filter")
                                     .on("change", function () {
                                         var e = $.fn.dataTable.util.escapeRegex($(this).val());
                                         t.search(e ? "^" + e + "$" : "", !0, !1).draw();
@@ -179,9 +171,9 @@
                         .every(function () {
                             var t = this,
                                 e = $(
-                                    '<select id="UserType" class="form-select text-capitalize mb-md-0 mb-2xx"><option value="">--Chọn chức vụ để lọc--</option></select>'
+                                    '<select id="UserType" style="margin-right: 8px;border: 1px solid #aaa;border-radius: 3px;padding: 5px;background-color: transparent; margin-left: 3px;" class="form-select text-capitalize mb-md-0 mb-2xx"><option value=""> Chọn chức vụ để lọc </option></select>'
                                 )
-                                    .appendTo(".rg_role")
+                                    .prependTo("#table_listData_filter")
                                     .on("change", function () {
                                         var e = $.fn.dataTable.util.escapeRegex($(this).val());
                                         t.search(e ? "^" + e + "$" : "", !0, !1).draw();
@@ -200,6 +192,11 @@
                 }
             })
             )
+            dataTable.on("draw.dt", function () {
+                dataTable.column(0, { search: "applied", order: "applied" }).nodes().each(function (cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            });
         });
         $('#table_listData').on('click', '.business_detail', function (e) {
             e.preventDefault()
@@ -212,14 +209,14 @@
                 dataType: 'json',
                 success: function (res) {
                     console.log(res)
-                   
+
                     const actionUrl = `@Url.Action("Edit", "AdminHome")` + `/${res[0].email}`
-                   
+
                     $('#email').val(res[0].email)
+                    $('#email2').val(res[0].email)
                     $('#username').val(res[0].username)
                     $('#phone').val(res[0].phone)
                     $('#role').val(res[0].role)
-                    
                     $('#access').val(res[0].access)
                     $('#student').val(res[0].student)
                    if (res[0].status === "Đang hoạt động") {
@@ -251,52 +248,66 @@
         $('.btn--cancel').on('click', function () {
             $('#updateForm').removeClass('is-appear')
         })
-        
-        $('#submit_edit').on('click', function (e) {
-            e.preventDefault()
-            const Email = $('input[name=Email]').val()
-            const FullName = $('input[name=FullName]').val()
-            const Student_ID = $('input[name=Student_ID]').val()
-            const Mobile = $('input[name=Mobile]').val()
-            const Role = $('select[name=Role]').val()
-            const Last_Access = $('input[name=Last_Access]').val()
-            const Major_ID = $('select[name=Major_ID]').val()
-            const Status_ID = $('select[name=Status_ID]').val()
-            const url = $('#updateForm').attr('action')
 
-            $.ajax({
-                url: url,
-                type: 'post',
-                data: {
-                    Email: Email,
-                    FullName: FullName,
-                    Student_ID: Student_ID,
-                    Mobile: Mobile,
-                    Status_ID: Status_ID,
-                    Last_Access: Last_Access,
-                    Major_ID: Major_ID,
-                    Role: Role
-                }
-            })
-           
-            if (document.myForm.FullName.value == "") {
-                $('#validateFullName').removeAttr('hidden');
-                $("#validateFullName").val("test");
-                return false;
-            }
-            if (document.myForm.Mobile.value == "") {
-                $("#validateMobile").val("test");
-                return false;
-            }
-                $('#updateForm').removeClass('is-appear')
-                $('#updateForm').submit();
-            
-           
-           
-            
-        })
+        
        
+    </script>
+    <script>
+        $(document).ready(function () {
+            $.validator.addMethod("blank", function (value, element) {
+                return (!/^\s*$/.test(value));
+            }, "Vui lòng nhập Họ và tên");
+
+            // Initialize the form validation
+            $("#updateForm").validate();
+
+            // cái này là on blur nè
+            $("#updateForm input, #updateForm input").on("blur", function () {
+                $(this).valid();
+            });
+
+            // cái này là on change nè
+            $("#updateForm input, #updateForm input").on("change", function () {
+                $(this).removeClass("error");
+            });
+        });
+        $("#updateForm").validate({
+            rules: {
+                FullName: {
+                    required: true,
+                    minlength: 3,
+                    blank: true
+                    
+                },
+                Mobile: {
+                    required: true,
+                    digits: true,
+                    minlength: 10,
+                    maxlength: 11
+                },
+                Email: {
+                    required: true,
+                    email: true
+                }
+            },
+            messages: {
+                FullName: {
+                    required: "Vui lòng nhập Họ và tên",
+                    minlength: "Tên của bạn phải ít nhất 3 kí tự",
+                },
+                Mobile: {
+                    required: "Vui lòng nhập số điện thoại",
+                    digits: "Số điện thoại chỉ bao gồm các kí tự số",
+                    minlength: "Số điện thoại phải có ít nhất 10 số",
+                    maxlength: "Số điện thoại chỉ có thể có tối đa 11 số"
+                },
+                Email: {
+                    required: "Vui lòng nhập địa chỉ email",
+                    email: "Địa chỉ email không hợp lệ"
+                }
+            }
+        });
+        
     </script>
 }
 
-                   

@@ -10,8 +10,6 @@
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.ID)
 
-    DateTime ? mydate = Model.SignDay;
-    string datee = mydate.Value.ToString("yyyy-MM-dd");
 
     @Html.ValidationSummary(true)
 
@@ -36,7 +34,7 @@
                     <div class="col l-6">
                         <div class="form-group">
                             <label for="daysigning" class="form-label">Ngày Ký &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                            <input list="" name="SignDay" id="daysigning" class="form-input" type="date" value="@datee"
+                            <input list="" name="SignDay" id="daysigning" class="form-input" type="date" value=""
                                    autocomplete="off" disabled />
                         </div>
                     </div>

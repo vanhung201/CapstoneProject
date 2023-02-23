@@ -18,28 +18,67 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         private BCMEntities db = new BCMEntities();
 
         // GET: Faculty/Posts
+        [HttpGet]
         public ActionResult Index()
         {
             var posts = db.Posts.Include(p => p.Semester);
-
+            ViewBag.Business_ID = db.BusinessUsers.ToList();
             return View(posts.ToList());
         }
 
-        // GET: Faculty/Posts/Details/5
-        public ActionResult Details(int? id)
+        public JsonResult getDataList()
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Post post = db.Posts.Find(id);
-            if (post == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.Business_ID = db.BusinessUsers.ToList();
-            return View(post);
+            var listData = (from post in db.Posts
+                            join e in db.VanLangUsers on post.Email_ID equals e.Email into email
+                            join se in db.Semesters on post.Semester_ID equals se.ID into semeter
+                            join bu in db.BusinessUsers on post.Business_ID equals bu.ID into business
+                            select new
+                            {
+                                id= post.ID,
+                                title = post.Title,
+                                email = post.VanLangUser.Email,
+                                name = post.VanLangUser.FullName,
+                                description = post.Description,
+                                postday = post.PostDay,
+                                modifyday=post.ModifyDay,
+                                semeter = post.Semester.Semester1,
+                                business = post.BusinessUser.BusinessName
+
+                            });
+            return Json(listData, JsonRequestBehavior.AllowGet);
         }
+        // GET: Faculty/Posts/Details/5
+        public ActionResult Details(int id)
+        {
+            ViewBag.Business_ID = db.BusinessUsers.ToList();
+            Post postt = db.Posts.Find(id);
+            var listData = (from post in db.Posts
+                            join e in db.VanLangUsers on post.Email_ID equals e.Email into email
+                            join se in db.Semesters on post.Semester_ID equals se.ID into semeter
+                            join bu in db.BusinessUsers on post.Business_ID equals bu.ID into business
+                            where post.ID == id
+                            select new
+                            {
+                                id = post.ID,
+                                title = post.Title,
+                                email = post.VanLangUser.Email,
+                                name = post.VanLangUser.FullName,
+                                description = post.Description,
+                                postday = post.PostDay,
+                                modifyday = post.ModifyDay,
+                                semeter = post.Semester.Semester1,
+                                business = post.BusinessUser.BusinessName,
+                                business_id=post.Business_ID,
+                                form = post.Form,
+                                duedate = post.DueDate,
+                                quatity = post.Quantity
+
+                            });
+            return Json(listData, JsonRequestBehavior.AllowGet);
+          
+           
+        }
+
 
         // GET: Faculty/Posts/Create
         public ActionResult Create()
@@ -54,17 +93,14 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost, ValidateInput(false)]
 
-        public ActionResult Create(Post post, HttpPostedFileBase logo)
+        public ActionResult Create(Post post)
         {
             if (ModelState.IsValid)
             {
                 using (var scope = new TransactionScope())
                 {
-                    post.PostImage = DateTime.Now.ToString("yymmssfff") + logo.FileName;
-                    var path = Server.MapPath("~/Uploads/Images/");
-                    logo.SaveAs(path + post.PostImage);
-                    post.PostDay = DateTime.Now;
-                    post.ModifyDay = DateTime.Now;
+                    post.PostDay = (DateTime.Now).ToString();
+                    post.ModifyDay = (DateTime.Now).ToString();
                     var query = db.VanLangUsers.Where(x => x.Email == User.Identity.Name).FirstOrDefault();
                     post.Email_ID = query.Email;
 
@@ -104,24 +140,16 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost, ValidateInput(false)]
 
-        public ActionResult Edit(Post post, HttpPostedFileBase logo)
+        public ActionResult Edit(Post post)
         {
             if (ModelState.IsValid)
             {
-                if (logo != null)
-                {
-                    post.PostImage = DateTime.Now.ToString("yymmssfff") + logo.FileName;
-
-                    var path = Server.MapPath("~/Uploads/Images/");
-                    logo.SaveAs(path + post.PostImage);
-                    /*businessUser.Status = businessUser.Status_ID();*/
-                }
-                post.ModifyDay = DateTime.Now;
+                post.ModifyDay = (DateTime.Now).ToString(); 
 
                 db.Entry(post).State = EntityState.Modified;
                 db.SaveChanges();
                 TempData["AlertMessage"] = "<div class=\"toast toast--success\">\r\n     <div class=\"toast-left toast-left--success\">\r\n       <i class=\"fas fa-check-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n       <p class=\"toast-text\">Cập nhật thành công</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n      <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>";
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Posts");
             }
             ViewBag.Semester_ID = new SelectList(db.Semesters, "ID", "Semester1", post.Semester_ID);
             return View(post);

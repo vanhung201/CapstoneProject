@@ -42,6 +42,62 @@ namespace BusinessConnectManagement
             );
 
             routes.MapRoute(
+                name: "Student Login Page",
+                url: "trang-dang-nhap",
+                defaults: new { controller = "AccountOfStudent", action = "Login", id = UrlParameter.Optional },
+                namespaces: new[] { "BusinessConnectManagement.Controllers" }
+            );
+
+            routes.MapRoute(
+                name: "Action Student Login",
+                url: "dang-nhap",
+                defaults: new { controller = "AccountOfStudent", action = "SignIn", id = UrlParameter.Optional },
+                namespaces: new[] { "BusinessConnectManagement.Controllers" }
+            );
+
+            routes.MapRoute(
+                name: "Student SignOut",
+                url: "dang-xuat",
+                defaults: new { controller = "AccountOfStudent", action = "SignOut", id = UrlParameter.Optional },
+                namespaces: new[] { "BusinessConnectManagement.Controllers" }
+            );
+
+            routes.MapRoute(
+                name: "Student Information",
+                url: "cap-nhat-thong-tin-tai-khoan",
+                defaults: new { controller = "AccountOfStudent", action = "StudentInformation", id = UrlParameter.Optional },
+                namespaces: new[] { "BusinessConnectManagement.Controllers" }
+            );
+
+            routes.MapRoute(
+                name: "User Post List",
+                url: "tin-tuyen-dung",
+                defaults: new { controller = "Posts", action = "Index", id = UrlParameter.Optional },
+                namespaces: new[] { "BusinessConnectManagement.Controllers" }
+            );
+
+            routes.MapRoute(
+                name: "User Post Details",
+                url: "chi-tiet-tin-tuyen-dung-{id}",
+                defaults: new { controller = "Posts", action = "Details", id = UrlParameter.Optional },
+                namespaces: new[] { "BusinessConnectManagement.Controllers" }
+            );
+
+            routes.MapRoute(
+                name: "Business Sign MOU",
+                url: "doanh-nghiep-lien-ket",
+                defaults: new { controller = "MOUs", action = "Index", id = UrlParameter.Optional },
+                namespaces: new[] { "BusinessConnectManagement.Controllers" }
+            );
+
+            routes.MapRoute(
+                name: "Contact",
+                url: "lien-he",
+                defaults: new { controller = "Home", action = "Contact", id = UrlParameter.Optional },
+                namespaces: new[] { "BusinessConnectManagement.Controllers" }
+            );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },

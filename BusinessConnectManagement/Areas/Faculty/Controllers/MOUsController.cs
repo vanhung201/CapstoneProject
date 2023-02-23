@@ -81,10 +81,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         // GET: Faculty/MOUs/Edit/5
         public ActionResult Edit(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+           
 
             MOU mOU = db.MOUs.Find(id);
 

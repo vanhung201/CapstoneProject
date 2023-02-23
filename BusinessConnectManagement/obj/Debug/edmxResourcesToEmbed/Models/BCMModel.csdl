@@ -121,7 +121,7 @@
     <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Username" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
     <Property Name="Password" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-    <Property Name="Last_Access" Type="DateTime" Precision="3" />
+    <Property Name="Last_Access" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Status_ID" Type="Int32" />
     <Property Name="BusinessName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="Address" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
@@ -182,7 +182,7 @@
     </Key>
     <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Business_ID" Type="Int32" />
-    <Property Name="SignDay" Type="DateTime" Precision="0" />
+    <Property Name="SignDay" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Signer" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="ContactName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="ContactPhone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
@@ -198,11 +198,13 @@
     <Property Name="Title" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="Email_ID" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
     <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="PostDay" Type="DateTime" Precision="3" />
-    <Property Name="ModifyDay" Type="DateTime" Precision="3" />
+    <Property Name="PostDay" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ModifyDay" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Semester_ID" Type="Int32" />
-    <Property Name="PostImage" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="Business_ID" Type="Int32" />
+    <Property Name="Quantity" Type="Int32" />
+    <Property Name="DueDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Form" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="BusinessUser" Relationship="BCMModel.FK_Post_BusinessUser" FromRole="Post" ToRole="BusinessUser" />
     <NavigationProperty Name="Semester" Relationship="BCMModel.FK_Post_Semester" FromRole="Post" ToRole="Semester" />
     <NavigationProperty Name="VanLangUser" Relationship="BCMModel.FK_Post_VanLangUser" FromRole="Post" ToRole="VanLangUser" />
@@ -218,14 +220,15 @@
     <Property Name="Post_ID" Type="Int32" />
     <Property Name="Semester_ID" Type="Int32" />
     <Property Name="CV" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-    <Property Name="RegistrationDate" Type="DateTime" Precision="3" />
-    <Property Name="RegistrationModify" Type="DateTime" Precision="3" />
+    <Property Name="RegistrationDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="RegistrationModify" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Business_ID" Type="Int32" Nullable="false" />
     <Property Name="InterviewResult" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="InterviewResultComment" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="StatusInternview" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
     <Property Name="StatusRegistration" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
     <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Position" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="BusinessUser" Relationship="BCMModel.FK_Registration_BusinessUser" FromRole="Registration" ToRole="BusinessUser" />
     <NavigationProperty Name="Post" Relationship="BCMModel.FK_Registration_Post" FromRole="Registration" ToRole="Post" />
     <NavigationProperty Name="Semester" Relationship="BCMModel.FK_Registration_Semester" FromRole="Registration" ToRole="Semester" />
@@ -284,7 +287,7 @@
     <Property Name="Student_ID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
     <Property Name="Mobile" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
     <Property Name="Role" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-    <Property Name="Last_Access" Type="DateTime" Precision="3" />
+    <Property Name="Last_Access" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Major_ID" Type="Int32" />
     <Property Name="Status_ID" Type="Int32" />
     <NavigationProperty Name="InternshipResults" Relationship="BCMModel.FK_InternshipResult_VanLangUser" FromRole="VanLangUser" ToRole="InternshipResult" />

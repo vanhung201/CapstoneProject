@@ -4,6 +4,12 @@
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@if (TempData["message"] != null)
+{
+    <script>
+        toastr.@(TempData["messageType"])('@TempData["message"]','Thông Báo');
+    </script>
+}
 
 <main>
     <div id="bg-bread">
@@ -11,16 +17,35 @@
         <div class="container">
             <div class="left">
                 <div class="d-flex align-middle mb10">
-                    <img class="avt" src="@Url.Content("~/Uploads/Images/" + Model.PostImage)" alt="image-job">
+                    <img class="avt" src="@Url.Content("~/Uploads/Images/" + Model.BusinessUser.BusinessLogo)" alt="image-job">
                     <h3 class="text-h2">@Model.Title</h3>
                 </div>
-               
+
             </div>
-            <div class="right">
-                <div class="text-center mt10">
-                    <div class="btn btn-error">
-                        Ứng Tuyển
-                    </div>
+            <div class="right" id="btn_apply">
+                <div class="text-center mt10 d-inline-flex action-wrapper">
+                    @if (ViewBag.isRegisted == true)
+                    {
+                        if (ViewBag.regStatus == "Phê Duyệt")
+                        {
+                        }
+                        else
+                        {
+                            <form action="@Url.Action("Remove","Registration", new {id = ViewBag.registedID})">
+                                <button type="submit" class="btn btn-error">Hủy Ứng Tuyển</button>
+                            </form>
+                            <button class="btn btn-update" id="btn-update" data-href="@Url.Action("getRegistrationData", "Registration", new {id = ViewBag.registedID})">Cập Nhật Thông Tin</button>
+
+                        }
+
+                    }
+                    else
+                    {
+                        <div class="btn btn-error" id="btn-error">
+                            Ứng Tuyển
+                        </div>
+                    }
+
                 </div>
             </div>
         </div>
@@ -31,54 +56,7 @@
             <div class="columns">
                 <div id="detail-job" class="column col-8 col-sm-12 col-md-12 col-xl-9 mb10">
                     <h3 class="text-h3 mb15">Chi tiết công việc</h3>
-                    <div class="summary-job columns">
-                        <div class="column col-6 col-sm-12 col-md-6 col-xl-6">
-                            <div class="item d-flex align-middle">
-                                <img src="~/assets/User/assets/images/money.png" alt="money">
-                                <div>
-                                    <h5 class="bold-6">Mức lương</h5>
-                                    <p>Thỏa thuận</p>
-                                </div>
-                            </div>
-                            <div class="item d-flex align-middle">
-                                <img src="~/assets/User/assets/images/vali.png" alt="vali">
-                                <div>
-                                    <h5 class="bold-6">Hình thức làm việc</h5>
-                                    <p>Toàn thời gian</p>
-                                </div>
-                            </div>
-                            <div class="item d-flex align-middle">
-                                <img src="~/assets/User/assets/images/sex.png" alt="sex">
-                                <div>
-                                    <h5 class="bold-6">Giới tính</h5>
-                                    <p>Không yêu cầu</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="column col-6 col-sm-12 col-md-6 col-xl-6">
-                            <div class="item d-flex align-middle">
-                                <img src="~/assets/User/assets/images/people.png" alt="people">
-                                <div>
-                                    <h5 class="bold-6">Số lượng tuyển</h5>
-                                    <p>10 người</p>
-                                </div>
-                            </div>
-                            <div class="item d-flex align-middle">
-                                <img src="~/assets/User/assets/images/medal.png" alt="medal">
-                                <div>
-                                    <h5 class="bold-6">Cấp bậc</h5>
-                                    <p>Nhân viên</p>
-                                </div>
-                            </div>
-                            <div class="item d-flex align-middle">
-                                <img src="~/assets/User/assets/images/exp.png" alt="exp">
-                                <div>
-                                    <h5 class="bold-6">Kinh nghiệm</h5>
-                                    <p>Dưới 1 năm</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
                     <div class="summary-job">
                         <p class="bold-7 mb10"><u>Địa điểm làm việc</u> </p>
                         <p>Thành phố Hồ Chí Minh</p>
@@ -89,8 +67,7 @@
                             <p class="mb-0 text-h4 bold-7"> Mô tả công việc</p>
                         </div>
                         <div class="p15 bg-gray mb15">
-                            @Html.TextAreaFor(model => model.Description, new { @id = "Explanation", disabled = "true" })
-
+                            @Html.Raw(Model.Description)
                         </div>
                     </div>
 
@@ -135,7 +112,6 @@
                 {
                     <a href="@Url.Action("Details", "Posts",  new { id=item.ID })">
                         <div class="item d-flex align-middle">
-                            <img src="@Url.Content("~/Uploads/Images/" + item.PostImage)" alt="image-job">
                             <div class="content">
                                 <div class="d-flex align-middle justify-between mb-2">
                                     <h3 class="text-h4 bold-6 mb-0 ellipsis">@item.Title</h3>
@@ -145,18 +121,6 @@
                                 </div>
                                 <p class="bold-6 text-italic mb-2">@item.BusinessUser.BusinessName</p>
                                 <div class="desc d-flex align-middle mb-2">
-                                    @*<span class="mb-0 mr10 text-error">
-                        <i class="fa-solid fa-briefcase"></i> Xây
-                        dựng
-                    </span>
-                    <span class="mb-0 mr10 text-success">
-                        <i class="fa-solid fa-tag"></i>
-                        Fresher
-                    </span>
-                    <span class="mb-0 mr10 text-warning">
-                        <i class="fa-solid fa-tag"></i>
-                        Fulltime
-                    </span>*@
                                     <span class="mb-0 mr10 text-muted">
                                         <i class="fa-solid fa-location-dot"></i> TP.Hồ
                                         Chí
@@ -174,108 +138,192 @@
         </div>
     </section>
 
-    <section id="news">
-        <div class="container">
-            <div class="title-line d-flex justify-center">
-                <h3>Tin tức & Sự kiện</h3>
+</main>
+<form class="form" action="@Url.Action("Apply", "Registration")" id="apply_form" enctype="multipart/form-data" method="post">
+    <div class="form-container--small">
+        <h1 class="form-heading">Ứng Tuyển @Model.BusinessUser.BusinessName</h1>
+        <input type="hidden" name="Post_ID" value="@Model.ID" />
+        <input type="hidden" name="Business_ID" value="@Model.Business_ID" />
+        <div class="form-group">
+            <label class="form-label" for="cv">Chọn CV Của Bạn</label>
+            <input id="CV" name="CV" class="custom-file-input" onchange="validateFileInput(this)" type="file" accept=".pdf">
+            <span class="text-danger" id="cv_validation"></span>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="position">Nhập Vị Trí Ứng Tuyển</label>
+            <input id="position" name="Position" class="form-input" type="text">
+            <span class="text-danger" id="position_validation"></span>
+        </div>
+
+        <div class="form-group float-right">
+            <div class="btn btn--small btn-error" id="btn_cancel_cv">
+                <i class="btn-icon btn-icon--cancel fas fa-times"></i>
+                <span class="btn-text btn-text--small">Hủy</span>
             </div>
-            <div class="columns py20">
-                <div class="column col-4 col-sm-12 col-md-12 col-xl-4 mb10">
-                    <div class="item">
-                        <div class="zoom-small">
-                            <img src="~/assets/User/assets/images/mou1.jpg" alt="mou1">
-                        </div>
-                        <div class="name ellipsis">Tập đoàn Nashtech Global Việt Nam</div>
-                        <p class="summary ellipsis-3 mb-0">
-                            NashTech is part of Harvey Nash Group, the leading global
-                            provider of talent and technology solutions. We are experts in technology, delivering
-                            smart solutions that solve business challenges and create value. Our award-winning teams
-                            apply deep expertise and passion to deliver complex IT projects globally.
-                        </p>
-                        <div class="text-center mt10">
-                            <div class="btn btn-error">
-                                Xem Thêm
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="column col-4 col-sm-12 col-md-12 col-xl-4 mb10">
-                    <div class="item">
-                        <div class="zoom-small">
-                            <img src="~/assets/User/assets/images/mou1.jpg" alt="mou1">
-                        </div>
-                        <div class="name ellipsis">Tập đoàn Nashtech Global Việt Nam</div>
-                        <p class="summary ellipsis-3 mb-0">
-                            NashTech is part of Harvey Nash Group, the leading global
-                            provider of talent and technology solutions. We are experts in technology, delivering
-                            smart solutions that solve business challenges and create value. Our award-winning teams
-                            apply deep expertise and passion to deliver complex IT projects globally.
-                        </p>
-                        <div class="text-center mt10">
-                            <div class="btn btn-error">
-                                Xem Thêm
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="column col-4 col-sm-12 col-md-12 col-xl-4 mb10">
-                    <div class="item">
-                        <div class="zoom-small">
-                            <img src="~/assets/User/assets/images/mou1.jpg" alt="mou1">
-                        </div>
-                        <div class="name ellipsis">Tập đoàn Nashtech Global Việt Nam</div>
-                        <p class="summary ellipsis-3 mb-0">
-                            NashTech is part of Harvey Nash Group, the leading global
-                            provider of talent and technology solutions. We are experts in technology, delivering
-                            smart solutions that solve business challenges and create value. Our award-winning teams
-                            apply deep expertise and passion to deliver complex IT projects globally.
-                        </p>
-                        <div class="text-center mt10">
-                            <div class="btn btn-error">
-                                Xem Thêm
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="btn btn--small btn-success" id="btn_apply_CV">
+                <i class="btn-icon btn-icon--add fas fa-check"></i>
+                <span class="btn-text btn-text--small">Xác nhận</span>
             </div>
         </div>
-    </section>
+    </div>
+</form>
+
+<div class="form" id="confirm_apply">
+    <div class="form-container--small">
+        <h1 class="form-heading">Ứng Tuyển</h1>
+
+        <span>Bạn Có Muốn Nộp CV Cho Vị Trí <span class="text-danger" id="confirm_position"></span> ?</span>
+
+        <div class="form-group float-right">
+            <div class="btn btn--small btn-error" id="btn_cancel_apply">
+                <i class="btn-icon btn-icon--cancel fas fa-times"></i>
+                <span class="btn-text btn-text--small">Hủy</span>
+            </div>
+            <div class="btn btn--small btn-success" id="btn_confirm_apply">
+                <i class="btn-icon btn-icon--add fas fa-check"></i>
+                <span class="btn-text btn-text--small">Xác nhận</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form class="form" action="@Url.Action("Update", "Registration", new {id = ViewBag.registedID})" id="update_form" enctype="multipart/form-data" method="post">
+    <div class="form-container--small">
+        <h1 class="form-heading">Ứng Tuyển @Model.BusinessUser.BusinessName</h1>
+        <input type="hidden" name="ID" id="reg_id" />
+        <div class="form-group">
+            <label class="form-label" for="cv">Chọn CV Của Bạn</label>
+            <input id="CV1" name="CV" class="custom-file-input" onchange="validateFileInput(this)" type="file" accept=".pdf">
+            <span class="text-danger" id="cv_validation1"></span>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="position">Nhập Vị Trí Ứng Tuyển</label>
+            <input id="position1" class="form-input" type="text" disabled>
+            <span class="text-danger" id="position_validation1"></span>
+        </div>
+
+        <div class="form-group float-right">
+            <div class="btn btn--small btn-error" id="btn_close">
+                <i class="btn-icon btn-icon--cancel fas fa-times"></i>
+                <span class="btn-text btn-text--small">Hủy</span>
+            </div>
+            <div class="btn btn--small btn-success" id="btn_update_CV">
+                <i class="btn-icon btn-icon--add fas fa-check"></i>
+                <span class="btn-text btn-text--small">Xác nhận</span>
+            </div>
+        </div>    
+    </div>
+
+</form>
+
+<div class="form" id="confirm_update">
+    <div class="form-container--small">
+        <h1 class="form-heading">Ứng Tuyển</h1>
+
+        <span>Bạn Có Muốn Cập Nhật CV Không ?</span>
+
+        <div class="form-group float-right">
+            <div class="btn btn--small btn-error" id="btn_cancel_update">
+                <i class="btn-icon btn-icon--cancel fas fa-times"></i>
+                <span class="btn-text btn-text--small">Hủy</span>
+            </div>
+            <div class="btn btn--small btn-success" id="btn_confirm_update">
+                <i class="btn-icon btn-icon--add fas fa-check"></i>
+                <span class="btn-text btn-text--small">Xác nhận</span>
+            </div>
+        </div>
+    </div>
+</div>
 
 
-</main>
+
 @section Scripts {
-    <script type="text/javascript" src="@Url.Content("~/assets/js/ckeditor/ckeditor.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/assets/js/ckfinder/ckfinder.js")"></script>
-    <script type="text/javascript">
+    <script>
+        $("#btn-error").on("click", function () {
+            $('#apply_form').addClass('is-appear');
+        })
 
-        var editor = CKEDITOR.instances['editor1'];
-	 	    if (editor) { editor.destroy(true); }
-        CKEDITOR.replace('Explanation', {
-            toolbar: [
-               
-                { name: 'clipboard', groups: ['clipboard', 'undo'], items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo'] },
-                { name: 'editing', groups: ['find', 'selection', 'spellchecker'], items: ['Find', 'Replace', '-', 'SelectAll', '-', 'Scayt'] },
-                { name: 'forms', items: ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField'] },
-                '/',
-                { name: 'basicstyles', groups: ['basicstyles', 'cleanup'], items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat'] },
-                { name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi'], items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language'] },
-                { name: 'links', items: ['Link', 'Unlink', 'Anchor'] },
-                { name: 'insert', items: ['Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe'] },
-                '/',
-                { name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize'] },
-                { name: 'colors', items: ['TextColor', 'BGColor'] },
-                { name: 'tools', items: ['Maximize', 'ShowBlocks'] },
-                { name: 'others', items: ['-'] },
-                
-            ],
-            toolbarCanCollapse: true, //Button to toggle toolbar (show/hide) 
-            toolbarStartupExpanded: false, //This will hide toolbar by default.
-		        enterMode: CKEDITOR.ENTER_BR,
-		    });
-		    CKFinder.setupCKEditor(null, '@Url.Content("~/ckfinder")');
+        $("#btn_apply_CV").on("click", function (e) {
+            e.preventDefault()
+            $("#confirm_apply").addClass('is-appear');
+            const position = $("#position").val()
+            console.log(position)
+            $("#confirm_position").text(position)
+        })
+        $("#btn_confirm_apply").on("click", function () {
+            $("#apply_form").submit();
+        })
+        $("#btn_cancel_apply").on("click", function () {
+            $("#confirm_apply").removeClass('is-appear');
+
+        })
+        $("#btn_cancel_cv").on("click", function () {
+            $("#apply_form").removeClass('is-appear');
+        })
+
+        $("#btn-update").on("click", function (e) {
+            e.preventDefault();
+            $("#update_form").addClass('is-appear');
+            var url = $(this).data('href')
+            $.ajax({
+                url: url,
+                type: "get",
+                dataType: 'json',
+                success: function (res) {
+                    $("#position1").val(res[0].Position);
+                    $("#reg_id").val(res[0].ID);
+                }
+            })
+        })
+
+        $("#btn_close").on("click", function (e) {
+            $("#update_form").removeClass('is-appear');
+
+        })
+
+        $("#btn_update_CV").on("click", function () {
+            $("#confirm_update").addClass('is-appear');
+        })
+
+        $("#btn_cancel_update").on("click", function () {
+            $("#confirm_update").addClass('is-appear');
+        })
+
+        $("#btn_confirm_update").on("click", function () {
+            $("#update_form").submit();
+        })
 
 
+
+        function validateFileInput(input) {
+            if (input.files && input.files[0]) {
+                var file = input.files[0];
+                var fileType = file.type.toLowerCase();
+                if (fileType != "application/pdf") {
+                    input.value = "";
+                    $('#cv_validation').text('Vui Lòng Chọn File PDF');
+                    $('#cv_validation1').text('Vui Lòng Chọn File PDF');
+                }
+            } else {
+                input.value = "";
+                $('#cv_validation').text('Vui Lòng Chọn File PDF');
+                $('#cv_validation1').text('Vui Lòng Chọn File PDF');
+            }
+        }
+        const pdfFileInput = document.getElementById('CV');
+        const nameInput = document.getElementById('position');
+        nameInput.addEventListener('blur', () => {
+            if (nameInput.value === '') {
+                $('#position_validation').text('Vui Lòng Nhập Vị Trí Ứng Tuyển');
+                $('#position_validation1').text('Vui Lòng Nhập Vị Trí Ứng Tuyển');
+            }
+        });
+        nameInput.addEventListener('change', () => {
+            $('#position_validation').text('');
+            $('#position_validation1').text('');
+        })
     </script>
-
 }
 

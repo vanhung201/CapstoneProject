@@ -548,7 +548,7 @@ table.dataTable td {
 }
 
 .dataTables_wrapper .dataTables_filter {
-  float: left;
+  float: right;
   text-align: right;
 }
 
@@ -704,13 +704,13 @@ table.dataTable td {
 
 @media screen and (max-width: 640px) {
 
-  .dataTables_wrapper .dataTables_length,
-  .dataTables_wrapper .dataTables_filter {
+  .dataTables_wrapper .dataTables_length
+   {
     float: none;
     text-align: center
   }
-
-  .dataTables_wrapper .dataTables_filter {
-    margin-top: .5em
-  }
+    .dataTables_wrapper .dataTables_filter {
+        margin-top: .5em;
+        float:right;
+    }
 }
