@@ -24,7 +24,6 @@
                     <th>SĐT</th>
                     <th>CV</th>
                     <th>Trạng thái</th>
-                    <th>Nhận xét</th>
                     <th>Chức năng</th>
                 </tr>
             </thead>
@@ -50,8 +49,12 @@
                         <td>@item.VanLangUser.Mobile</td>
                         <td><a href="@Url.Action("DownloadFile", "InternViews", new { filePath = item.CV })">@item.CV</a></td>
                         <td class="@classCSS">@item.StatusInternview</td>
-                        <td>@item.InterviewResultComment</td>
-                        <td class="text-center"><a class="btn btn-action btn--update" onclick="loadEditUser('@item.ID', '@item.BusinessUser.ID', '@item.Email_VanLang', '@item.Post_ID', '@item.Semester_ID', '@item.CV', '@item.RegistrationDate', '@item.RegistrationModify', '@item.InterviewResult', '@item.InterviewResultComment', '@item.StatusRegistration', '@item.StatusInternview', '@item.InterviewResultComment', '@item.Comment')">Cập nhật</a></td>
+                        <td><a onclick="loadEditUser('@item.ID', '@item.BusinessUser.ID', '@item.Email_VanLang', '@item.Post_ID', '@item.Semester_ID', '@item.CV', '@item.RegistrationDate', '@item.RegistrationModify', '@item.InterviewResult', '@item.InterviewResultComment', '@item.StatusRegistration', '@item.StatusInternview', '@item.InterviewResultComment', '@item.Comment')">
+                                <div class="btn btn--update">
+                                    <i class="btn-icon btn-icon--edit fal fa-edit"></i>
+                                </div>
+                            </a>
+                        </td>
                     </tr>
                     count++;
                 }

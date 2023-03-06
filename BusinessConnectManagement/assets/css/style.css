@@ -1,147 +1,153 @@
-body {
-    background: linear-gradient(to bottom, rgba(55, 64, 144, 0.7), rgba(0, 0, 0, 0.7)), url("../images/bg-vanlang.jpg") no-repeat center / cover;
+﻿/* TABLE */
+#table_id {
+  position: relative;
+  border-radius: 0.5rem;
+  border-bottom: 0;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
 }
 
-.option {
-    padding: 5rem;
+.dataTables_filter {
+    float: left !important;
+    text-align: left !important;
 }
 
-.option-heading {
+
+/* LIST */
+.list-heading {
     text-align: center;
-    font-size: 2.5rem;
     font-weight: bold;
-    text-transform: uppercase;
-    color: #fff;
-    margin-top: 3rem;
-}
-
-.option-wrap {
-    width: 28rem;
-    background-color: rgba(0, 0, 0, 0.5);
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 5rem auto 0;
-    border-radius: 0.5rem;
-    animation: fadeIn 0.3s linear 0s 1 alternate forwards;
-}
-
-.option-image {
-    width: 8rem;
-    height: 8rem;
-    object-fit: contain;
-}
-
-.option-desc {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #fff;
-    margin-top: 2rem;
-}
-
-.option-link {
-    background-color: var(--primary-color);
-    color: #fff;
-    padding: 0.8rem 2rem;
-    border-radius: 0.5rem;
-    text-align: center;
-    margin-top: 2rem;
-    font-weight: bold;
-    transition: opacity 0.1s linear;
-    will-change: opacity;
-    text-transform: uppercase;
-    line-height: 1.4;
-    cursor: pointer;
-}
-
-    .option-link:hover {
-        opacity: 0.9;
-    }
-
-.option-more {
-    color: #fff;
-    text-align: center;
-    margin-top: 3rem;
-    font-size: 1.5rem;
-}
-
-/* Login form */
-.login {
-    width: 45rem;
-    display: flex;
-    background-color: #fff;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: 1rem;
-    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
-    animation: fadeIn 0.3s linear 0s 1 alternate forwards;
-}
-
-.login-image {
-    width: 30%;
-    margin-right: auto;
-    object-fit: contain;
-    background-color: #f7f7f7;
-    border-radius: 1rem 0 0 1rem;
-    padding: 1rem;
-}
-
-.login-form {
-    width: 70%;
-    padding: 2rem;
-}
-
-.login-heading {
-    font-weight: bold;
-    text-transform: capitalize;
-    text-align: center;
-    user-select: none;
     color: var(--primary-color);
-    font-size: 1.5rem;
-}
-
-.login-group {
-    margin-top: 1.5rem;
-    display: flex;
-    flex-direction: column;
-}
-
-.login-label {
-    font-size: 1.1rem;
-    margin-bottom: 0.5rem;
-    display: inline-block;
     user-select: none;
-    font-weight: bold;
+    margin: 0;
+    text-transform: uppercase;
+    font-size: 2rem !important;
+    margin-bottom: 1rem;
 }
 
-.login-input {
-    padding: 0.5rem;
-    border: 1px solid #333;
-    border-radius: 0.2rem;
-    font-size: 1.3rem;
+/* Lọc FILTER */
+#nameLabel {
+    position: absolute;
+    top: 14%;
+    left: 43%;
 }
 
-.login-message {
-    color: #ce1b28;
-    margin-top: 0.5rem;
-    line-height: 1.4;
+#nameLabel1 {
+    position: absolute;
+    top: 14%;
+    left: 49%;
 }
 
-.login-submit {
-    display: flex;
-    margin-top: 1rem;
-    align-items: center;
+#UserType{
+    
+    position: absolute;
+    left: 52%;
+    top: 0;
+    transform: translateX(-50%);
+    background-color: #fff !important;
+    z-index: 10;
+}
+#UserType1 {
+    position: absolute;
+    left: 42%;
+    top: 0;
+    transform: translateX(-50%);
+    background-color: #fff !important;
+    z-index: 10;
 }
 
-.login-button {
-    padding: 1rem 2rem;
-    background-color: var(--primary-color);
-    color: #fff;
-    border-radius: 0.2rem;
-    margin: 0 auto;
-    cursor: pointer;
-    font-weight: bold;
+
+
+#UserType2 {
+    position: absolute;
+    left: 55%;
+    top: 0;
+    transform: translateX(-50%);
+    background-color: #fff !important;
+    z-index: 10;
+}
+
+#table_listData {
+    width: 100% !important;
+}
+
+
+#table_test {
+    width: 100% !important;
+}
+
+.is-active {
+    display: block;
+}
+
+.is-appear {
+  display: block;
+}
+
+/* Checkbox */
+.list-column .form-group:last-child {
+  float: left;
+}
+
+.checkbox-wrapper {
+  width: 22rem;
+  display: flex;
+}
+
+.container {
+  width: 100%;
+  min-width: 15rem;
+  display: block;
+  position: relative;
+  cursor: pointer;
+  font-size: 1.3rem;
+  user-select: none;
+  padding-left: 40px;
+  margin-block: 2rem;
+}
+
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 25px;
+  height: 25px;
+  background: #eee;
+  border-radius: 3px;
+  transform: translateY(-50%);
+}
+
+.container:hover .checkmark {
+  background: #ccc;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.container .checkmark:after {
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.container input:checked~.checkmark {
+  background: #2196f3;
+}
+
+.container input:checked~.checkmark:after {
+  display: block;
 }

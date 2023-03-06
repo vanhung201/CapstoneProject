@@ -110,7 +110,7 @@ namespace BusinessConnectManagement.Controllers
                         {
                            ID= reg.ID,
                            CV = reg.CV,
-                           Position = reg.Position
+                           Position = reg.Position_ID
                         });
 
             return Json(data,JsonRequestBehavior.AllowGet);
@@ -170,12 +170,13 @@ namespace BusinessConnectManagement.Controllers
             var email = User.Identity.Name;
 
             var data = (from reg in db.Registrations
+                        join bus in db.BusinessUsers on reg.ID equals bus.ID
                         where reg.Email_VanLang == email
                         select new
                         {
                             ID = reg.ID,
-                            BusinessName = reg.BusinessUser.BusinessName,
-                            Position = reg.Position,
+                            BusinessName = bus.BusinessName,
+                            Position = reg.Position_ID,
                             Comment = reg.Comment,
                             Status = reg.StatusRegistration,
                             Post_ID = reg.Post_ID

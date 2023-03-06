@@ -17,7 +17,6 @@
         <div id="filterEvent">
             <a>
                 <div class="btn btn--create">
-                    <i class="btn-icon btn-icon--create fas fa-plus"></i>
                     <span class="btn-text">Thêm</span>
                 </div>
             </a>
@@ -26,9 +25,9 @@
 
             <thead>
                 <tr>
-                    <th class="text-center" width="4%">STT</th>
-                    <th class="text-center">Danh Mục</th>
-                    <th class="text-center" width="20%">Chức năng</th>
+                    <th width="4%">STT</th>
+                    <th>Danh Mục</th>
+                    <th width="20%">Chức năng</th>
                 </tr>
             </thead>
             <tbody>
@@ -41,14 +40,12 @@
                         <td class="text-center">
                             <a onclick="loadEditUser('@item.ID', '@item.CooperationCategoriesName')">
                                 <div class="btn btn--update">
-                                    <i class="btn-icon btn-icon--edit fas fa-edit"></i>
-                                    <span class="btn-text">Cập Nhật</span>
+                                    <i class="btn-icon btn-icon--edit fal fa-edit"></i>
                                 </div>
                             </a>
                             <a onclick="loadDeleteUser('@item.ID', '@item.CooperationCategoriesName')">
                                 <div class="btn btn--delete">
-                                    <i class="btn-icon btn-icon--edit fas fa-times"></i>
-                                    <span class="btn-text">Xóa</span>
+                                    <i class="btn-icon btn-icon--edit fal fa-times"></i>
                                 </div>
                             </a>
                         </td>
@@ -70,7 +67,7 @@
         </div>
         <div class="form-group">
             <a class="btn btn--cancel">Hủy</a>
-            <button type="submit" id="submit_edit" class="btn btn--add" onclick="Submit()">Lưu</button>
+            <button type="submit" id="submit_edit" class="btn btn--confirm" onclick="Submit()">Xác Nhận</button>
 
         </div>
     </div>
@@ -88,7 +85,7 @@
         </div>
         <div class="form-group">
             <a class="btn btn--cancel">Hủy</a>
-            <button type="submit" id="submit_edit" class="btn btn--add" onclick="submitEdit()">Lưu</button>
+            <button type="submit" id="submit_edit" class="btn btn--confirm" onclick="submitEdit()">Xác Nhận</button>
 
 
         </div>
@@ -110,7 +107,7 @@
 
                 <div class="form-group">
                     <a class="btn btn--cancel">Hủy</a>
-                    <button type="submit" class="btn btn-action btn--add">Lưu</button>
+                    <button type="submit" class="btn btn-action btn--confirm">Xác Nhận</button>
 
                 </div>
             </div>

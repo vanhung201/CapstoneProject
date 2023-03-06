@@ -19,9 +19,8 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
         // GET: Business/InternshipResults
         public ActionResult Index()
         {
-            var internshipResults = db.InternshipResults.Include(i => i.BusinessUser).Include(i => i.Semester).Include(i => i.VanLangUser).Include(i => i.VanLangUser1);
             
-            return View(internshipResults.ToList());
+            return View(db.InternshipResults.ToList());
         }
 
         // GET: Business/InternshipResults/Details/5

@@ -13,8 +13,12 @@
 }
 
 .form-heading {
-    font-size: 1.4rem !important;
+    font-size: 1.6rem !important;
     margin-top: 1rem;
+    text-transform: capitalize !important;
+    font-weight: 600;
+    color: var(--primary-color);
+    text-align: center;
 }
 
 .form-container {
@@ -49,8 +53,15 @@
 
 .form-row {
     display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.form-column {
+    display: flex;
     justify-content: center;
     margin-bottom: 2rem;
+    flex-direction: column;
 }
 
 .output {
@@ -102,20 +113,21 @@ label.error {
     margin-right: 0.5rem;
     line-height: 1.4;
 }
-
+/*
 .form-column:last-child .form-label {
     margin-left: 5rem;
-}
+}*/
 
 .form-input {
-    padding: 0.4rem;
+    padding: 0.6rem;
     font-size: 1.3rem;
-    border: 1px solid #000;
-    border-radius: 0.2rem;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
     user-select: none;
     -webkit-user-select: none;
     resize: none;
     flex: 1;
+
 }
 
     .form-input:focus {
@@ -217,6 +229,7 @@ label.error {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    flex-direction: column;
 }
 
 .container {
@@ -225,8 +238,6 @@ label.error {
     cursor: pointer;
     font-size: 1.3rem;
     user-select: none;
-    padding-left: 40px;
-    padding-bottom: 2rem;
     min-width: 100px;
 }
 
@@ -275,3 +286,4 @@ label.error {
     .container input:checked ~ .checkmark:after {
         display: block;
     }
+

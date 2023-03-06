@@ -19,7 +19,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         public ActionResult Index()
         {
             var mOUs = db.MOUs.Include(m => m.BusinessUser);
-            var mOU = db.MOUs.Include(m => m.BusinessUser.Registrations);
+          
 
             ViewBag.Business_ID = db.BusinessUsers.ToList();
             return View(mOUs.ToList());

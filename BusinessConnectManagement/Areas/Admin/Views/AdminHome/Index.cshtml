@@ -1,6 +1,6 @@
 ﻿@using BusinessConnectManagement.Models;
 
-@{ 
+@{
     BCMEntities db = new BCMEntities();
 
     int studentNumber = db.VanLangUsers.Count(x => x.Role == "Student");
@@ -16,80 +16,59 @@
 }
 
 <section class="dashboard">
-    <h1 class="dashboard-heading">Thống kê số liệu tài khoản</h1>
-    <div class="dashboard-list">
-        <div class="dashboard-item">
-            <div class="dashboard-chart" id="typeChart"></div>
-            <div class="dashboard-content">
-                <h2 class="dashboard-desc">PHÂN LOẠI TÀI KHOẢN</h2>
-                <p id="student"></p>
-                <p id="mentor"></p>
-                <p id="faculty"></p>
-            </div>
-        </div>
-        <div class="dashboard-item">
-            <div class="dashboard-chart" id="peopleChart"></div>
-            <div class="dashboard-content">
-                <h2 class="dashboard-desc">SỐ LƯỢNG TÀI KHOẢN</h2>
-                <p id="block"></p>
-                <p id="active"></p>
-            </div>
-        </div>
+    <div class="dashboard-item">
+        <h3>Thống kê quyền người dùng</h3>
+        <canvas id="pie-chart1"></canvas>
+    </div>
 
+    <div class="dashboard-item">
+        <h3>Thống kê trạng thái người dùng</h3>
+        <canvas id="pie-chart2"></canvas>
     </div>
 </section>
 
-<script>
-    let typeNumber = document.getElementById("typeChart");
-    let peopleNumber = document.getElementById("peopleChart");
+@section Scripts {
+    <script>
+    new Chart(document.getElementById("pie-chart1"), {
+        type: "bar",
+        data: {
+            labels: ["BCN Khoa", "Giảng viên hướng dẫn", "Sinh viên"],
+            datasets: [
+                {
+                    label: `Số lượng`,
+                    backgroundColor: ["#ffbe0b", "#374090", "#FC5C7D"],
+                    data: [@facultyNumber, @mentorNumber, @studentNumber],
+                },
+            ],
+        },
+        options: {
+            title: {
+                display: true,
+                text: "Pie Chart for role panel",
+            },
+            reponsive: true,
+        },
+    });
 
-    let numBlock = @userBlockedNumber;
-    let numActive = @userActiveNumber;
-    let total = numBlock + numActive;
-
-    let numStudent = @studentNumber;
-    let numMentor = @mentorNumber;
-    let numFaculty = @facultyNumber;
-    let block = (numBlock * 100) / total;
-    let active = (numActive * 100) / total;
-    let student = (numStudent * 100) / total;
-    let mentor = (numMentor * 100) / total;
-    let faculty = (numFaculty * 100) / total;
-
-    if (peopleNumber != undefined && typeNumber != undefined) {
-        peopleNumber.style.setProperty(
-            "background-image",
-            `repeating-conic-gradient(from 0deg,
-          #f64f59 0deg ${block * 3.6 + "deg"},
-          #00b09b ${block * 3.6 + "deg"} 360deg)`
-        );
-
-        typeNumber.style.setProperty(
-            "background-image",
-            `repeating-conic-gradient(from 0deg,
-          #2980B9 0deg ${student * 3.6 + "deg"},
-          #4e54c8 ${student * 3.6 + "deg"} calc(${student * 3.6 + "deg"} + ${mentor * 3.6 + "deg"
-            }) ,
-          #CAC531 calc(${student * 3.6 + "deg"} + ${mentor * 3.6 + "deg"
-            }) 360deg`
-        );
-
-        const blockCount = document.getElementById("block");
-
-        const activeCount = document.getElementById("active");
-
-        const studentCount = document.getElementById("student");
-
-        const facultyCount = document.getElementById("faculty");
-        const mentorCount = document.getElementById("mentor");
-
-        blockCount.innerHTML = `${numBlock} tài khoản bị khóa (${block.toFixed()}%)`;
-
-        activeCount.innerHTML = `${numActive} tài khoản đang hoạt động (${active.toFixed()}%)`;
-
-        studentCount.innerHTML = `${numStudent} tài khoản là Sinh Viên (${student.toFixed()}%)`;
-
-        facultyCount.innerHTML = `${numFaculty} tài khoản là BCN Khoa (${faculty.toFixed()}%)`;
-        mentorCount.innerHTML = `${numMentor} tài khoản là Giảng viên hướng dẫn (${mentor.toFixed()}%)`;
+    new Chart(document.getElementById("pie-chart2"), {
+        type: "bar",
+        data: {
+            labels: ["Đang hoạt động", "Bị khóa"],
+            datasets: [
+                {
+                    label: `Số lượng`,
+                    backgroundColor: ["#38663c", "#e21c34"],
+                    data: [@userActiveNumber, @userBlockedNumber],
+                },
+            ],
+        },
+        options: {
+            title: {
+                display: true,
+                text: "Pie Chart for status panel",
+            },
+            reponsive: true,
+        },
+    });
+    </script>
     }
-</script>

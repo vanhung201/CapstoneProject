@@ -17,6 +17,7 @@ namespace BusinessConnectManagement.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Post()
         {
+            this.PostPositions = new HashSet<PostPosition>();
             this.Registrations = new HashSet<Registration>();
         }
     
@@ -36,6 +37,8 @@ namespace BusinessConnectManagement.Models
         public virtual Semester Semester { get; set; }
         public virtual VanLangUser VanLangUser { get; set; }
         public virtual VanLangUser VanLangUser1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PostPosition> PostPositions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Registration> Registrations { get; set; }
     }
