@@ -12,30 +12,28 @@
         @Html.Raw(@TempData["AlertMessage"])
     }
 
-    <div class="list-table">
+<div class="list-table">
 
-        <div class="rg_status"></div>
+    <div class="rg_status"></div>
+    <div class="rg_role" style="left"></div>
+    <label id="nameLabel">Lọc:</label>
+    <table id="table_listData" class="display">
+        <thead>
+            <tr>
+                <th >STT</th>
+                <th>Email</th>
+                <th>Tên</th>
+                <th>SĐT</th>
+                <th>Chức vụ</th>
+                <th>Trạng thái</th>
+                <th>Chức năng</th>
 
-
-        <div class="rg_role" style="left"></div>
-
-        <table id="table_listData" class="display">
-            <thead>
-                <tr>
-                    <th class="text-center">STT</th>
-                    <th class="text-center">Email</th>  
-                    <th class="text-center">Tên</th>
-                    <th class="text-center">SĐT</th>
-                    <th class="text-center">Chức vụ</th>
-                    <th class="text-center">Trạng thái</th>
-                    <th class="text-center">Chức năng</th>
-                    
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-    </div>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
 </section>
 
 
@@ -46,7 +44,7 @@
             <input id="access" name="Last_Access" class="form-input" autocomplete="off" hidden />
             <input id="student" name="Student_ID" class="form-input" autocomplete="off" hidden />
             <div class="form-group">
-                <label for="emailVLU" class="form-label">Email &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                <label for="emailVLU" class="form-label">Email</label>
                 <input id="email" name="Email" class="form-input" autocomplete="off" hidden/>
                 <input id="email2"  class="form-input" autocomplete="off" disabled/>
             </div>
@@ -54,9 +52,9 @@
                 <label for="FullName" class="form-label">Họ và Tên</label>
                 <input id="username" name="FullName" class="form-input" autocomplete="off" required />
             </div>
-            <div class="edit">
+           
                 <div class="form-group">
-                    <label for="Major_ID" class="form-label">Chuyên Nghành &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                    <label for="Major_ID" class="form-label">Chuyên Nghành</label>
                     <select name="Major_ID" id="majorr" class="form-input">
                         <option value="1">Công nghệ phần mềm</option>
                         <option value="2">Công nghệ dữ liệu</option>
@@ -66,12 +64,12 @@
                         <option value="6">Kỹ thuật phần mềm</option>
                     </select>
                 </div>
-            </div>
+           
             <div class="form-group">
                 <label for="" class="form-label">SĐT </label>
                 <input id="phone" name="Mobile" class="form-input" autocomplete="off" required />
             </div>
-            <div class="edit">
+          
                 <div class="form-group">
                     <label for="Role" class="form-label">Vai trò </label>
                     <select name="Role" id="role" class="form-input">
@@ -81,9 +79,9 @@
                         <option value="Student">Student</option>
                     </select>
                 </div>
-            </div>
+            
 
-            <div class="editStatus">
+          
                 <div class="form-group">
                     <label for="Status_ID" class="form-label">Trạng thái</label>
                     <select name="Status_ID" id="status" class="form-input">
@@ -91,11 +89,10 @@
                         <option value="2">Khóa</option>
                     </select>
                 </div>
-            </div>
-
+            
             <div class="form-group">
                 <a class="btn btn--cancel">Hủy</a>
-                <button type="submit" id="submit_edit" class="btn btn--add">Lưu</button>
+                <button type="submit" id="submit_edit" class="btn btn--confirm">Xác Nhận</button>
 
             </div>
         </div>
@@ -123,16 +120,25 @@
                     { data: "username" },
                     { data: "phone" },
                     { data: "role" },
-                    { data: "status" },
+                    {
+                        data: "status",
+                        render: function (data) {
+                            if (data == "Đang hoạt động") {
+                                return '<span class="text--done">' + data + '</span>'
+                            } else {
+                                return '<span class="text--cancel">' + data + '</span>'
+                            }
+
+                        }
+},
                     {
                         data: "email",
                         render: function (t) {
                             return (
                                 `
                                 <a href="@Url.Action("Details", "AdminHome")?email=${t}" id="business_detail" class="business_detail">
-                                <div class="btn btn--update">
-                                    <i class="btn-icon btn-icon--edit fas fa-edit"></i>
-                                    <span class="btn-text">Cập Nhật</span>
+                                <div class="btn btn--update" style="transform: translateX(100%);">
+                                    <i class="btn-icon btn-icon--edit fal fa-edit"></i>
                                 </div>
                                 </a>
                                 `
@@ -147,7 +153,7 @@
                         .every(function () {
                             var t = this,
                                 e = $(
-                                    '<select id="UserType" style="margin-right: 8px;border: 1px solid #aaa;border-radius: 3px;padding: 5px;background-color: transparent; margin-left: 3px;" class="form-select text-capitalize mb-md-0 mb-2xx"><option value=""> Chọn trạng thái để lọc </option></select>'
+                                    '<select id="UserType1" style="margin-right: 8px;border: 1px solid #aaa;border-radius: 3px;padding: 5px;background-color: transparent; margin-left: 3px;" class="form-select text-capitalize mb-md-0 mb-2xx"><option value=""> Chọn trạng thái để lọc </option></select>'
                                 )
                                     .prependTo("#table_listData_filter")
                                     .on("change", function () {
@@ -171,7 +177,7 @@
                         .every(function () {
                             var t = this,
                                 e = $(
-                                    '<select id="UserType" style="margin-right: 8px;border: 1px solid #aaa;border-radius: 3px;padding: 5px;background-color: transparent; margin-left: 3px;" class="form-select text-capitalize mb-md-0 mb-2xx"><option value=""> Chọn chức vụ để lọc </option></select>'
+                                    '<select id="UserType2" style="margin-right: 8px;border: 1px solid #aaa;border-radius: 3px;padding: 5px;background-color: transparent; margin-left: 3px;" class="form-select text-capitalize mb-md-0 mb-2xx"><option value=""> Chọn chức vụ để lọc </option></select>'
                                 )
                                     .prependTo("#table_listData_filter")
                                     .on("change", function () {

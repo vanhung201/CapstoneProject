@@ -29,6 +29,7 @@ namespace BusinessConnectManagement.Models
         public virtual DbSet<BusinessUser> BusinessUsers { get; set; }
         public virtual DbSet<CooperationCategory> CooperationCategories { get; set; }
         public virtual DbSet<InternshipResult> InternshipResults { get; set; }
+        public virtual DbSet<InternshipTopic> InternshipTopics { get; set; }
         public virtual DbSet<Major> Majors { get; set; }
         public virtual DbSet<MOU> MOUs { get; set; }
         public virtual DbSet<Post> Posts { get; set; }
@@ -39,5 +40,7 @@ namespace BusinessConnectManagement.Models
         public virtual DbSet<Trainee> Trainees { get; set; }
         public virtual DbSet<VanLangUser> VanLangUsers { get; set; }
         public virtual DbSet<YearStudy> YearStudies { get; set; }
+        public virtual DbSet<Position> Positions { get; set; }
+        public virtual DbSet<PostPosition> PostPositions { get; set; }
     }
 }

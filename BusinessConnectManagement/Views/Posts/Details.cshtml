@@ -19,6 +19,7 @@
                 <div class="d-flex align-middle mb10">
                     <img class="avt" src="@Url.Content("~/Uploads/Images/" + Model.BusinessUser.BusinessLogo)" alt="image-job">
                     <h3 class="text-h2">@Model.Title</h3>
+                    
                 </div>
 
             </div>
@@ -58,7 +59,15 @@
                     <h3 class="text-h3 mb15">Chi tiết công việc</h3>
 
                     <div class="summary-job">
-                        <p class="bold-7 mb10"><u>Địa điểm làm việc</u> </p>
+                        @foreach (var item in ViewBag.Position)
+                        {
+                            if (item.status == true)
+                            {
+                                <p class="bold-7 mb10"><u>@item.Name</u> </p>
+                            }
+
+                        }
+
                         <p>Thành phố Hồ Chí Minh</p>
                     </div>
                     <div class="main-job">
@@ -152,7 +161,20 @@
 
         <div class="form-group">
             <label class="form-label" for="position">Nhập Vị Trí Ứng Tuyển</label>
-            <input id="position" name="Position" class="form-input" type="text">
+            <select id="position" name="Position_ID" class="form-select">
+                @foreach (var item in ViewBag.Position)
+                {
+                    if (item.status == true)
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                }
+                </select>
+                  
+                
+
+           
+
             <span class="text-danger" id="position_validation"></span>
         </div>
 

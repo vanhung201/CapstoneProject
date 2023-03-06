@@ -14,6 +14,15 @@ namespace BusinessConnectManagement.Controllers
     {
         private BCMEntities db = new BCMEntities();
 
+        public class PostPositionDetail
+        {
+            public string Name { get; set; }
+            public int Id { get; set; }
+
+            public bool status { get; set; }
+        
+        }
+
         // GET: Posts
         public ActionResult Index(string SearchString = "")
         {
@@ -45,6 +54,7 @@ namespace BusinessConnectManagement.Controllers
         public ActionResult Details(int? id)
         {
             var email = User.Identity.Name;
+          
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -61,6 +71,18 @@ namespace BusinessConnectManagement.Controllers
                 ViewBag.regStatus = db.Registrations.Where(x => x.Post_ID == id && x.Email_VanLang == email).First().StatusRegistration;
             }
             ViewBag.Post = db.Posts.Include(p => p.BusinessUser).Include(p => p.Semester).Include(p => p.VanLangUser).Include(p => p.VanLangUser1).OrderBy(x => Guid.NewGuid()).Take(5).ToList();
+           var postPosition = db.PostPositions.Where(p => p.Post_ID == id).ToList();
+            var position = db.Positions.ToList();
+
+            List<PostPositionDetail> postPositionDetails= new List<PostPositionDetail>();
+            foreach (var item in position)
+            {
+                bool isExist = postPosition.Where(x => x.Position_ID == item.Id).Any();
+                postPositionDetails.Add(new PostPositionDetail { Name = item.Name, Id = item.Id, status = isExist });
+
+            }
+            ViewBag.Position = postPositionDetails;
+
             return View(post);
         }
 

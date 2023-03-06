@@ -17,7 +17,6 @@
         <div id="filterEvent">
             <a>
                 <div class="btn btn--create">
-                    <i class="btn-icon btn-icon--create fas fa-plus"></i>
                     <span class="btn-text">Thêm</span>
                 </div>
             </a>
@@ -25,18 +24,19 @@
         </div>
         <div class="filter">
             <div class="bu_status"></div>
+            <label id="nameLabel1">Lọc:</label>
         </div>
         <table id="table_test" class="display">
             <thead>
                 <tr>
-                    <th class="text-center">STT</th>
-                    <th class="text-center">Tên Đăng Nhập</th>
-                    <th class="text-center">Tên Doanh Nghiệp</th>
-                    <th class="text-center">Email</th>
-                    <th class="text-center">Người Liên Hệ</th>
-                    <th class="text-center">Số Điện Thoại</th>
-                    <th class="text-center">Trạng Thái</th>
-                    <th class="text-center" width="15%">Chức năng</th>
+                    <th>STT</th>
+                    <th>Tên Đăng Nhập</th>
+                    <th>Tên Doanh Nghiệp</th>
+                    <th>Email</th>
+                    <th>Người Liên Hệ</th>
+                    <th>Số Điện Thoại</th>
+                    <th>Trạng Thái</th>
+                    <th width="10%">Chức năng</th>
                 </tr>
             </thead>
         </table>
@@ -75,6 +75,9 @@
                 <div class="form-group">
                     <label for="EmailContact" class="form-label">Email Liên Hệ</label>
                     <input type="text" name="EmailContact" class="form-input" autocomplete="off">
+                </div>
+                <div class="form-group">
+
                 </div>
             </div>
             <div class="form-column">
@@ -153,9 +156,8 @@
             <a class="btn btn--cancel">
               Hủy
             </a>
-            <button class="btn btn--add" id="submitadd">
-               
-               Lưu
+            <button class="btn btn--confirm" id="submitadd">
+                Xác Nhận
             </button>
         </div>
     </div>
@@ -277,12 +279,13 @@
 
         <div class="form-group">
             <a class="btn btn--cancel">Hủy</a>
-            <button class="btn btn--add" id="btn--update">
-               Lưu
+            <button class="btn btn--confirm" id="btn--update">
+               Xác Nhận
             </button>
         </div>
     </div>
 </form>
+@*--------------------------delete--------------------------------*@
 <form action="@Url.Action("Delete", "BusinessUsers")" class="form" id="deleteForm" method="post">
     @{using (Html.BeginForm())
         {
@@ -297,7 +300,7 @@
 
                 <div class="form-group">
                     <a class="btn btn--cancel">Hủy</a>
-                    <button type="submit" class="btn btn--add">Xác nhận</button>
+                    <button type="submit" class="btn btn--confirm">Xác nhận</button>
                 </div>
             </div>
         }
@@ -311,7 +314,6 @@
             formDelete.classList.add('is-appear')
             document.getElementById('iddele').value = id;
         }
-
     </script>
     <script>
         $(function () {
@@ -332,7 +334,17 @@
                     { data: "emailContact" },
                     { data: "contactName" },
                     { data: "contactPhone1" },
-                    { data: "status" },
+                    {
+                        data: "status",
+                        render: function (data) {
+                            if (data == "Đang hoạt động") {
+                                return '<span class="text--done">' + data + '</span>'
+                            } else {
+                                return '<span class="text--cancel">' + data + '</span>'
+                            }
+                           
+                             }
+                    },
                     {
                         data: "id",
                         render: function (t, e, a) {
@@ -340,14 +352,12 @@
                                 `
                                 <a href="@Url.Action("Details", "BusinessUsers")${t}" id="business_detail" class="business_detail">
                                 <div class="btn btn--update">
-                                    <i class="btn-icon btn-icon--edit fas fa-edit"></i>
-                                    <span class="btn-text">Cập Nhật</span>
+                                    <i class="btn-icon btn-icon--edit fal fa-edit"></i>
                                 </div>
                                 </a>
                                 <a onclick="loadDeleteUser(${t})">
                                 <div class="btn btn--delete">
-                                    <i class="btn-icon btn-icon--edit fas fa-times"></i>
-                                    <span class="btn-text">Xóa</span>
+                                    <i class="btn-icon btn-icon--edit fal fa-times"></i>
                                 </div>
                                 </a>`
                             );
@@ -360,7 +370,7 @@
                         .every(function () {
                             var t = this,
                                 e = $(
-                                    '<select id="UserType" style="margin-right: 8px;border: 1px solid #aaa;border-radius: 3px;padding: 5px;background-color: transparent; margin-left: 3px;" class="form-select text-capitalize mb-md-0 mb-2xx"><option value=""> Chọn Trạng Thái Để Lọc </option></select>'
+                                    '<select id="UserType" style="margin-right: 8px;border: 1px solid #aaa;border-radius: 3px;padding: 5px;background-color: transparent; margin-left: 3px;" class="form-select text-capitalize mb-md-0 mb-2xx"><option value="">---- Chọn Trạng Thái Để Lọc ----</option></select>'
                                 )
                                     .prependTo("#table_test_filter")
                                     .on("change", function () {
@@ -654,9 +664,10 @@
                 
             }
         });
-        function validateSize(input) {
-            
-        }
+        
+    </script>
+    <script>
+
     </script>
 
 }

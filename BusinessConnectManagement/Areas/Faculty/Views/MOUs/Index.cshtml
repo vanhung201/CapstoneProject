@@ -17,7 +17,6 @@
         <div id="filterEvent">
             <a>
                 <div class="btn btn--create">
-                    <i class="btn-icon btn-icon--create fas fa-plus"></i>
                     <span class="btn-text">Thêm</span>
                 </div>
             </a>
@@ -30,7 +29,7 @@
                     <th>Ngày Ký</th>
                     <th>Người Ký</th>
                     <th>Người Phụ Trách</th>
-                    <th class="text-center" width="20%">Chức năng</th>
+                    <th width="20%">Chức năng</th>
                 </tr>
             </thead>
             <tbody>
@@ -56,14 +55,12 @@
 
                             <a onclick="loadEditUser('@item.ID', '@item.BusinessUser.BusinessName', '@item.Signer', '@item.ContactPhone', '@item.ResponsibleName', '@item.SignDay', '@item.ContactName', '@item.EmailContact', '@item.BusinessUser.ID')">
                                 <div class="btn btn--update">
-                                    <i class="btn-icon btn-icon--edit fas fa-edit"></i>
-                                    <span class="btn-text">Cập Nhật</span>
+                                    <i class="btn-icon btn-icon--edit fal fa-edit"></i>
                                 </div>
                             </a>
                             <a onclick="loadDeleteUser('@item.ID', '@item.BusinessUser.BusinessName')">
                                 <div class="btn btn--delete">
-                                    <i class="btn-icon btn-icon--edit fas fa-times"></i>
-                                    <span class="btn-text">Xóa</span>
+                                    <i class="btn-icon btn-icon--edit fal fa-times"></i>
                                 </div>
                             </a>
 
@@ -127,8 +124,8 @@
             <a class="btn btn--cancel">
                Hủy
             </a>
-            <button class="btn btn--add" onclick="Submit()">
-                   Lưu
+            <button class="btn btn--confirm" onclick="Submit()">
+                  Xác Nhận
             </button>
 
         </div>
@@ -241,10 +238,8 @@
                     <a class="btn  btn--cancel">
                        Hủy
                     </a>
-                    <button class="btn btn--add" type="submit">
-                       
-                         Lưu
-                       
+                    <button class="btn btn--confirm" type="submit">
+                       Xác Nhận
                     </button>
 
                 </div>
@@ -269,7 +264,7 @@
 
                 <div class="form-group">
                     <a class="btn btn--cancel">Hủy</a>
-                    <button type="submit" class="btn btn-action btn--add">Xác nhận</button>
+                    <button type="submit" class="btn btn-action btn--confirm">Xác nhận</button>
                 </div>
             </div>
         }

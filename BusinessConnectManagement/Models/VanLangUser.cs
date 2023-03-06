@@ -18,7 +18,6 @@ namespace BusinessConnectManagement.Models
         public VanLangUser()
         {
             this.InternshipResults = new HashSet<InternshipResult>();
-            this.InternshipResults1 = new HashSet<InternshipResult>();
             this.Posts = new HashSet<Post>();
             this.Posts1 = new HashSet<Post>();
             this.Registrations = new HashSet<Registration>();
@@ -37,8 +36,6 @@ namespace BusinessConnectManagement.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InternshipResult> InternshipResults { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<InternshipResult> InternshipResults1 { get; set; }
         public virtual Major Major { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Post> Posts { get; set; }
