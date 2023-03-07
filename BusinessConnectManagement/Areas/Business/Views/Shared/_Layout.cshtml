@@ -6,109 +6,130 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewBag.Title</title>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" />
-    <link href="~/assets/css/grid2.css" rel="stylesheet" />
-    <link href="~/assets/css/reset.css" rel="stylesheet" />
-    <link href="~/assets/css/global2.css" rel="stylesheet" />
-    <link href="~/assets/css/menu2.css" rel="stylesheet" />
-    <link href="~/assets/css/nav2.css" rel="stylesheet" />
-    <link href="~/assets/css/button.css" rel="stylesheet" />
-    <link href="~/assets/css/form.css" rel="stylesheet" />
-    <link href="~/assets/css/table2.css" rel="stylesheet" />
-    <link href="~/assets/css/toast.css" rel="stylesheet" />
-    <link href="~/assets/css/greet.css" rel="stylesheet" />
+    <link rel="stylesheet"
+          href="https://site-assets.fontawesome.com/releases/v5.15.4/css/all.css" />
+    @*<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">*@
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="~/assets/css/jquery2.dataTables.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" />
+
+    <link href="~/assets/css/grid.css" rel="stylesheet" />
+    <link href="~/assets/css/reset.css" rel="stylesheet" />
+    <link href="~/assets/css/global.css" rel="stylesheet" />
+    @*<link href="~/assets/css/menu2.css" rel="stylesheet" />
+        <link href="~/assets/css/nav2.css" rel="stylesheet" />
+        <link href="~/assets/css/button.css" rel="stylesheet" />
+        <link href="~/assets/css/form.css" rel="stylesheet" />
+        <link href="~/assets/css/table2.css" rel="stylesheet" />
+        <link href="~/assets/css/greet.css" rel="stylesheet" />
+    *@
+    <link href="~/assets/css/toast.css" rel="stylesheet" />
+    <link href="~/assets/css/layout.css" rel="stylesheet" />
+    <link href="~/assets/css/style.css" rel="stylesheet" />
+    <link href="~/assets/css/form.css" rel="stylesheet" />
+
+    <link href="~/Content/bootstrap-chosen.css" rel="stylesheet" />
     <link rel="shortcut icon" href="~/assets/images/favicon.ico" type="image/x-icon">
-</head>
-
-<body>
-
-    <section class="menu">
-        <a href="@Url.Action("Index", "BusinessHome")" class="menu-image">
-            <img src="~/assets/images/logoVL.png" alt="logoVL.png" />
-            <span class="menu-title">Business Connection Management</span>
-        </a>
-        <ul class="menu-list">
-            <li class="menu-item">
-                <div class="menu-function">
-                    <a href="@Url.Action("Index", "InternViews")" class="menu-feature">
-                        <i class="menu-icon fas fa-hand-point-right"></i>
-                        Ứng tuyển
+ </head>
+    <body>
+        <div class="wrap" id="wrap">
+            <section class="menu">
+                
+                <div class="menu-logo">
+                    <a href="@Url.Action("Index", "BusinessHome")" class="menu-link">
+                        <img src="~/assets/images/logoVL.png"
+                             alt=""
+                             class="menu-image" />
+                        <span class="menu-title">Business Connection Management</span>
                     </a>
-                    <a href="@Url.Action("Index", "InternshipResults")" class="menu-feature">
-                        <i class="menu-icon fas fa-hand-point-right"></i>
-                        Thực tập
-                    </a>
+                    <i class="fal fa-long-arrow-right" id="menu-icon"></i>
                 </div>
-            </li>
-        </ul>
-    </section>
-
-    <nav class="nav">
-        <div class="nav-list">
-            <div class="nav-item">
-                <i class="nav-icon far fa-bell"></i>
-            </div>
-            <div class="nav-item">
-                <div style="display: flex; align-items: center;">
-                    <img src="~/assets/images/avatarAdmin.png" alt="avatarAdmin.png" class="nav-image" />@Session["BusinessName"]
-                </div>
-                <ul class="nav-account-list">
-                    <a href="@Url.Action("Logout", "Auth")" class="nav-account-item">Đăng xuất</a>
+                <ul class="menu-list">
+                    <li class="menu-item">
+                        <a href="@Url.Action("Index", "InternViews")" class="menu-feature">
+                            <i class="menu-icon fal fa-id-card"></i>
+                            <span class="menu-text">Ứng tuyển</span>
+                        </a>
+                        <span class="menu-tooltip">Ứng tuyển</span>
+                    </li>
+                    <li class="menu-item">
+                        <a href="@Url.Action("Index", "InternshipResults")" class="menu-feature">
+                            <i class="menu-icon fal fa-id-card"></i>
+                            <span class="menu-text">Ứng tuyển</span>
+                        </a>
+                        <span class="menu-tooltip">Ứng tuyển</span>
+                    </li>
                 </ul>
+            </section>
+            <div class="content">
+                <nav class="nav">
+                    <div class="nav-wrap">
+                        <span class="nav-role">@Session["BusinessName"]</span>
+                        <div class="nav-avatar">
+                            <img src="~/assets/images/avatarAdmin.png"
+                                 alt=""
+                                 class="nav-image" />
+                            <div class="nav-account-list">
+                                <a href="@Url.Action("Logout", "Auth")" class="nav-account-item">Đăng xuất</a>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+
+                @RenderBody()
+
+
             </div>
         </div>
-    </nav>
+        <div id="icon">
+            <i class="fal fa-bars"></i>
+        </div>
+        <div id="moveTop">
+            <a href="#wrap" class="moveTop-link"><i class="fal fa-arrow-up"></i><a>
+        </div>
+        <section class="footer">&copy; Phần mềm BCM thuộc về khoa CNTT, Trường Đại học Văn Lang</section>
+    </body>
 
-    @RenderBody()
+    @RenderSection("scripts", required: false)
+    <script src="~/assets/js/index.js"></script>
+    <script src="~/assets/js/admin.js"></script>
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/chosen.jquery.js"></script>
+    <script src="~/assets/js/datatable/dataTable.min.js"></script>
 
-    <section class="footer">&copy; Phần mềm BCM thuộc về khoa CNTT, Trường Đại học Văn Lang</section>
+    <script>
 
-</body>
-
-@RenderSection("scripts", required: false)
-
-<script src="~/assets/js/admin.js"></script>
-<script src="~/Scripts/jquery-3.4.1.js"></script>
-<script src="~/Scripts/jquery.validate.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-<script src="~/Scripts/chosen.jquery.js"></script>
-<script src="~/assets/js/datatable/dataTable.min.js"></script>
-
-<script>
-
-    $(function () {
-        $("#table_id_filter").prepend($("#filterEvent")).clone();
-    });
-
-    let formUpdate = document.getElementById("updateForm");
-    let icon = document.querySelector(".form-icon");
-    let isHide = "is-hide";
-    let isAppear = "is-appear";
-
-    $(".form-icon").on("click", function () {
-        formUpdate.classList.remove(isAppear);
-    })
-   /* $(function () {
-        const toast = document.querySelector(".toast");
-        setTimeout(() => {
-            toast.remove();
-        }, 3000);
-
-    });*/
-    function remove() {
-        let toast = document.querySelector(".toast");
-        document.querySelector(".toast-right").addEventListener("click", () => {
-            toast.remove();
+        $(function () {
+            $("#table_id_filter").prepend($("#filterEvent")).clone();
         });
 
-    }
-    $('.btn--cancel').on('click', function () {
-        $('#updateForm').removeClass('is-appear')
-    });
-</script>
+        let formUpdate = document.getElementById("updateForm");
+        let icon = document.querySelector(".form-icon");
+        let isHide = "is-hide";
+        let isAppear = "is-appear";
+
+        $(".form-icon").on("click", function () {
+            formUpdate.classList.remove(isAppear);
+        })
+        /* $(function () {
+             const toast = document.querySelector(".toast");
+             setTimeout(() => {
+                 toast.remove();
+             }, 3000);
+
+         });*/
+        function remove() {
+            let toast = document.querySelector(".toast");
+            document.querySelector(".toast-right").addEventListener("click", () => {
+                toast.remove();
+            });
+
+        }
+        $('.btn--cancel').on('click', function () {
+            $('#updateForm').removeClass('is-appear')
+        });
+    </script>

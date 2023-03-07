@@ -1,0 +1,253 @@
+/* NAV */
+.nav {
+  top: 0;
+  right: 0;
+  z-index: 2;
+  border-bottom: 1px solid #eee;
+  background-color: #fff;
+  height: 4rem;
+  display: inline-block;
+  width: 100%;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 0.5rem;
+}
+
+.nav-wrap {
+  float: right;
+  position: relative;
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.nav-avatar {
+  height: 4rem;
+}
+
+.nav-icon {
+  cursor: pointer;
+  margin-left: 1rem;
+}
+
+.nav-image {
+  height: inherit;
+  object-fit: contain;
+  padding: 0.4rem;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.nav-account-list {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  width: 7.5rem;
+  display: flex;
+  transition: all 0.2s linear;
+  z-index: 3;
+  display: none;
+}
+
+.nav-account-item {
+  font-size: 1rem;
+  padding: 1rem;
+  width: 100%;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  background-color: var(--primary-color);
+  color: #fff;
+  z-index: 10;
+  text-align: center;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+.nav-role {
+  margin-right: 1rem;
+  color: var(--primary-color);
+  font-weight: 800;
+}
+
+.nav-avatar:hover .nav-account-list {
+  display: flex;
+}
+
+.nav-account-list::before {
+  content: '';
+  position: absolute;
+  width: 3.5rem;
+  height: 1rem;
+  top: -0.5rem;
+  right: 0;
+  z-index: 3;
+}
+
+/* MENU */
+.menu {
+  min-height: 100vh;
+  max-width: var(--sidebar-max-width);
+  background: linear-gradient(to bottom, rgba(55, 64, 144, 0.7), rgba(0, 0, 0, 0.7)), url("../images/sidebar_VanLang.jpg") no-repeat center / cover;
+  color: #fff;
+  z-index: 5;
+  display: inline-block;
+  padding: 1rem;
+}
+
+
+@keyframes growIn {
+  0% {
+    animation-timing-function: cubic-bezier(0.1006, 0.3357, -0.2396, 0.6703);
+    transform: translate(-49.75%, 0) scale(0.005, 1);
+    opacity: 0;
+  }
+
+  2% {
+    animation-timing-function: cubic-bezier(0.2668, 0.6542, 0.5372, 0.8035);
+    transform: translate(-31.2%, 0) scale(0.376, 1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(0, 0) scale(1, 1);
+    opacity: 1;
+  }
+}
+
+.menu-logo {
+  position: relative;
+}
+
+.menu-link {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+.menu-link::after {
+  content: '';
+  position: absolute;
+  width: 60%;
+  height: 0.5px;
+  background-color: #fff;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.menu-image {
+  width: 100%;
+  max-width: 2.8rem;
+  margin-left: 1rem;
+}
+
+.menu-title {
+  color: #fff;
+  margin-left: 1rem;
+  line-height: 1.4;
+  font-weight: 600;
+  font-size: 1.4rem;
+}
+
+#menu-icon {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translate(75%, -50%);
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: #1F2251;
+  color: #fff;
+  line-height: 2.5rem;
+  text-align: center;
+  border-radius: 50%;
+  cursor: pointer;
+
+}
+
+.menu-item {
+  position: relative;
+}
+
+.menu-heading {
+  font-size: 1.1rem;
+  user-select: none;
+  font-weight: 600;
+}
+
+.menu-icon {
+  margin-right: 1rem;
+}
+
+.menu-feature {
+  font-size: 1.5rem;
+  line-height: 1.5;
+  margin-top: 1rem;
+  color: #fff;
+  text-transform: capitalize;
+  display: block;
+  border-radius: 0.5rem;
+  transition: all 0.1s linear;
+  will-change: background-color, padding-left;
+  padding: 1rem;
+  cursor: pointer;
+}
+
+.menu-feature:hover {
+  background-color: #1F2251;
+  padding-left: 1.5rem;
+}
+
+.menu-tooltip {
+  position: absolute;
+  z-index: 10;
+  top: 0.5rem;
+  left: calc(100% + 1.5rem);
+  background-color: var(--primary-color);
+  color: #fff;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+  padding: 0.6rem 1.2rem;
+  border-radius: 0.4rem;
+  white-space: nowrap;
+  pointer-events: none;
+  transition: 0s;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.menu--close {
+  width: var(--sidebar-min-width);
+}
+
+.menu--close .menu-title {
+  display: none;
+}
+
+.menu--close .menu-text {
+  display: none;
+}
+
+.menu--close .menu-item {
+  text-align: center;
+}
+
+.menu--close .menu-link {
+  justify-content: center;
+}
+
+.menu--close .menu-link .menu-image {
+  width: 100%;
+  max-width: 3rem;
+  margin-left: 0;
+  padding-bottom: 0.5rem;
+}
+
+.menu--close .menu-link::after {
+  width: 100%;
+}
+
+
+.menu--close .menu-item:hover .menu-tooltip {
+  opacity: 1;
+  visibility: visible;
+}

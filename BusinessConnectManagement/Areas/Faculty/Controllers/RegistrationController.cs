@@ -6,6 +6,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 
 namespace BusinessConnectManagement.Areas.Faculty.Controllers
@@ -27,16 +28,16 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         {
             var listData = (from rg in db.Registrations
                             join bu in db.BusinessUsers on rg.Business_ID equals bu.ID into business
-                            join post in db.Posts on rg.Post_ID equals post.ID into postPost
+                            join post in db.Posts on rg.Post_ID equals post.ID 
                             join sem in db.Semesters on rg.Semester_ID equals sem.ID into semi
-                            join email in db.VanLangUsers on rg.Email_VanLang equals email.Email into emailVL
+                            join emailVL in db.VanLangUsers on rg.Email_VanLang equals emailVL.Email
                             select new
                             {
                                 id = rg.ID,
-                                username = rg.VanLangUser.FullName,
-                                email = rg.VanLangUser.Email,
-                                phone = rg.VanLangUser.Mobile,
-                                post_id = rg.Post.Title,
+                                username = emailVL.FullName,
+                                email = emailVL.Email,
+                                phone = emailVL.Mobile,
+                                post_id = post.Title,
                                 cv = rg.CV,
                                 status = rg.StatusRegistration,
                                 comment = rg.Comment
@@ -103,12 +104,12 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                             join bu in db.BusinessUsers on rg.Business_ID equals bu.ID into business
                             join post in db.Posts on rg.Post_ID equals post.ID into postPost
                             join sem in db.Semesters on rg.Semester_ID equals sem.ID into semi
-                            join email in db.VanLangUsers on rg.Email_VanLang equals email.Email into emailVL
+                            join emailVL in db.VanLangUsers on rg.Email_VanLang equals emailVL.Email 
                             where rg.ID == id
                             select new
                             {
                                 id = rg.ID,
-                                email = rg.VanLangUser.Email,
+                                email = emailVL.Email,
                                 post_id = rg.Post_ID,
                                 semester_id = rg.Semester_ID,
                                 cv = rg.CV,
@@ -120,8 +121,8 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                                 interviewStatus = rg.StatusInternview,
                                 status = rg.StatusRegistration,
                                 comment = rg.Comment,
-                                username = rg.VanLangUser.FullName,
-                                phone = rg.VanLangUser.Mobile
+                                username = emailVL.FullName,
+                                phone = emailVL.Mobile
                             });
             return Json(listData, JsonRequestBehavior.AllowGet);
         }

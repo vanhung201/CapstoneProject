@@ -23,12 +23,12 @@ namespace BusinessConnectManagement.Models
         public int Business_ID { get; set; }
         public Nullable<double> BusinessPoint { get; set; }
         public string BusinessComment { get; set; }
-        public string RegistrationPosition { get; set; }
+        public Nullable<int> Position_ID { get; set; }
         public string Status { get; set; }
     
         public virtual BusinessUser BusinessUser { get; set; }
+        public virtual Position Position { get; set; }
         public virtual Semester Semester { get; set; }
         public virtual VanLangUser VanLangUser { get; set; }
-        public virtual VanLangUser VanLangUser1 { get; set; }
     }
 }

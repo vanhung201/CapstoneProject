@@ -43,7 +43,7 @@
       <EntityTypeMapping TypeName="BCMModel.InternshipResult">
         <MappingFragment StoreEntitySet="InternshipResult">
           <ScalarProperty Name="Status" ColumnName="Status" />
-          <ScalarProperty Name="RegistrationPosition" ColumnName="RegistrationPosition" />
+          <ScalarProperty Name="Position_ID" ColumnName="Position_ID" />
           <ScalarProperty Name="BusinessComment" ColumnName="BusinessComment" />
           <ScalarProperty Name="BusinessPoint" ColumnName="BusinessPoint" />
           <ScalarProperty Name="Business_ID" ColumnName="Business_ID" />
@@ -52,6 +52,16 @@
           <ScalarProperty Name="Mentor_Email" ColumnName="Mentor_Email" />
           <ScalarProperty Name="Semester_ID" ColumnName="Semester_ID" />
           <ScalarProperty Name="Student_Email" ColumnName="Student_Email" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InternshipTopics">
+      <EntityTypeMapping TypeName="BCMModel.InternshipTopic">
+        <MappingFragment StoreEntitySet="InternshipTopic">
+          <ScalarProperty Name="InternshipTopicDescription" ColumnName="InternshipTopicDescription" />
+          <ScalarProperty Name="InternshipTopicGoals" ColumnName="InternshipTopicGoals" />
+          <ScalarProperty Name="InternshipTopicName" ColumnName="InternshipTopicName" />
           <ScalarProperty Name="ID" ColumnName="ID" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -98,7 +108,7 @@
     <EntitySetMapping Name="Registrations">
       <EntityTypeMapping TypeName="BCMModel.Registration">
         <MappingFragment StoreEntitySet="Registration">
-          <ScalarProperty Name="Position" ColumnName="Position" />
+          <ScalarProperty Name="Position_ID" ColumnName="Position_ID" />
           <ScalarProperty Name="Comment" ColumnName="Comment" />
           <ScalarProperty Name="StatusRegistration" ColumnName="StatusRegistration" />
           <ScalarProperty Name="StatusInternview" ColumnName="StatusInternview" />
@@ -172,6 +182,23 @@
         <MappingFragment StoreEntitySet="YearStudy">
           <ScalarProperty Name="YearStudy1" ColumnName="YearStudy" />
           <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Positions">
+      <EntityTypeMapping TypeName="BCMModel.Position">
+        <MappingFragment StoreEntitySet="Position">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PostPositions">
+      <EntityTypeMapping TypeName="BCMModel.PostPosition">
+        <MappingFragment StoreEntitySet="PostPosition">
+          <ScalarProperty Name="Position_ID" ColumnName="Position_ID" />
+          <ScalarProperty Name="Post_ID" ColumnName="Post_ID" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

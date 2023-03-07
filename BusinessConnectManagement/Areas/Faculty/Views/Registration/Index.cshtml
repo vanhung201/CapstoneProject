@@ -11,21 +11,22 @@
     {
         @Html.Raw(@TempData["AlertMessage"])
     }
-    <div class="row">
-        <div class="rg_status"></div>
-    </div>
+<div class="row">
+    <div class="rg_status"></div>
+    <label id="nameLabel1">Lọc:</label>
+</div>
     <div class="list-table">
         <table id="table_listData" class="display">
             <thead>
                 <tr>
                     <th></th>
-                    <th class="text-center">Họ và Tên</th>
-                    <th class="text-center">Email</th>
-                    <th class="text-center">SĐT</th>
-                    <th class="text-center">Bài viết Ứng tuyển</th>
-                    <th class="text-center">CV</th>
-                    <th class="text-center">Trạng thái</th>
-                    <th class="text-center">Chức Năng</th>
+                    <th>Họ và Tên</th>
+                    <th>Email</th>
+                    <th>SĐT</th>
+                    <th>Bài viết Ứng tuyển</th>
+                    <th>CV</th>
+                    <th>Trạng thái</th>
+                    <th>Chức Năng</th>
 
                 </tr>
             </thead>
@@ -49,8 +50,10 @@
         <div class="form-group">
             <label class="form-label">Trạng Thái</label>
             <select id="status" name="StatusRegistration" class="form-input">
-                <option value="Chờ Phê Duyệt">Chờ Phê Duyệt</option>
+                <option value="Chờ Duyệt">Chờ Duyệt</option>
                 <option value="Phê Duyệt">Phê Duyệt</option>
+                <option value="Hủy Duyệt">Hủy Duyệt</option>
+                <option value="Không Duyệt">Không Duyệt</option>
             </select>
         </div>
 
@@ -99,8 +102,8 @@
             <a class="btn btn--cancel">
                 Hủy
             </a>
-            <button class="btn btn--add" id="btn--update">
-               Lưu
+            <button class="btn btn--confirm" id="btn--update">
+               Xác Nhận
             </button>
         </div>
     </div>
@@ -132,7 +135,27 @@
                     { data: "phone" },
                     { data: "post_id" },
                     { data: "cv" },
-                    { data: "status" },
+                    {
+                        data: "status",
+                        render: function (data) {
+                            switch (data) {
+                                case "Chờ Duyệt":
+                                    return '<span class="text--wait">' + data + '</span>';
+                                    break;
+                                case "Phê Duyệt":
+                                    return '<span class="text--done">' + data + '</span>';
+                                    break;
+                                case "Hủy Duyệt":
+                                    return '<span class="text--cancel">' + data + '</span>';
+                                    break;
+                                case "Không Duyệt":
+                                    return '<span class="text--none">' + data + '</span>';
+                                    break;
+
+                            }
+
+                        }
+                    },
                    
 
                     {
@@ -142,8 +165,7 @@
                                 `
                                 <a href="@Url.Action("Details/", "Registration")${t}" id="business_detail" class="business_detail">
                                 <div class="btn btn--update">
-                                    <i class="btn-icon btn-icon--edit fas fa-edit"></i>
-                                    <span class="btn-text">Cập Nhật</span>
+                                    <i class="btn-icon btn-icon--edit fal fa-edit"></i>
                                 </div>
                                 </a>
                                 `
@@ -157,7 +179,7 @@
                         .every(function () {
                             var t = this,
                                 e = $(
-                                    '<select id="UserType" style="margin-right: 8px;border: 1px solid #aaa;border-radius: 3px;padding: 5px;background-color: transparent; margin-left: 3px;" class="form-select text-capitalize mb-md-0 mb-2xx"><option value=""> Chọn trạng thái để lọc </option></select>'
+                                    '<select id="UserType" style="margin-right: 8px;border: 1px solid #aaa;border-radius: 3px;padding: 5px;background-color: transparent; margin-left: 3px;" class="form-select text-capitalize mb-md-0 mb-2xx"><option value="">---- Chọn trạng thái để lọc ----</option></select>'
                                 )
                                     .prependTo("#table_listData_filter")
                                     .on("change", function () {

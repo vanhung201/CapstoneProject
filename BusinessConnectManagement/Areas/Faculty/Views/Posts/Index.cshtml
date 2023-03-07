@@ -14,12 +14,12 @@
 
     }
 
-    <div class="filter">
-        <div class="bu_status"></div>
-    </div>
+<div class="filter">
+    <div class="bu_status"></div>
+    <label id="nameLabel1">Lọc:</label>
+</div>
 
     <div class="btn btn--create" id="btn-create" style="float:right">
-        <i class="btn-icon btn-icon--create fas fa-plus"></i>
         <span class="btn-text">Thêm</span>
     </div>
 
@@ -33,8 +33,8 @@
                     <th>Doanh Nghiệp</th>
                     <th>Người đăng bài</th>
                     <th>Ngày đăng</th>
-                    <th>Ngày cập nhật</th>
-                    <th>
+                    <th>Ngày hết hạn</th>
+                    <th width="10%">
                         Chức năng
                     </th>
                 </tr>
@@ -76,7 +76,7 @@
             <div class="form-column">
                 <div class="form-group">
                     <label class="form-label">Ngày hết hạn</label>
-                    <input list="" name="DueDate" id="" class="form-input" type="date"
+                    <input list="" name="DueDate" id="dueDate" onchange="checkDate()" class="form-input" type="date"
                            autocomplete="off" />
                 </div>
                 <div class="form-group">
@@ -96,8 +96,8 @@
             <a class="btn btn--cancel">
                Hủy
             </a>
-            <button class="btn btn--add"  type="submit" id="btn--add">
-               Lưu
+            <button class="btn btn--confirm"  type="submit" id="btn--add">
+               Xác Nhận
             </button>
         </div>
 
@@ -151,8 +151,8 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label">Ngày Hết Hạn</label>
-                    <input list="" name="DueDate" id="DueDate" class="form-input" value=""
-                           autocomplete="off" />
+                    <input list="" name="DueDate" id="DueDate" type="date" class="form-input" onchange="checkDateUp()" value="" />
+                    <input list=""  id="DueDate2" type="date" class="form-input" value=""   hidden/>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Hình Thức</label>
@@ -171,8 +171,8 @@
             <a class="btn btn--cancel">
                Hủy
             </a>
-            <button class="btn btn--add" id="btn--update">
-             Lưu
+            <button class="btn btn--confirm" id="btn--update">
+             Xác Nhận
             </button>
         </div>
 
@@ -197,7 +197,7 @@
                     <a class="btn btn--cancel">
                         Hủy
                     </a>
-                    <button type="submit" class="btn btn-action btn--add">Xác nhận</button>
+                    <button type="submit" class="btn btn-action btn--confirm">Xác nhận</button>
                 </div>
             </div>
         }
@@ -248,11 +248,16 @@
             deferRender: !0,
             columns: [
                 { data: null },
-                { data: "title" },
-                { data: "business" },
-                { data: "name" },
+                {
+                    data: "title",
+                    render: function (data) {
+                        return '<span class="overFlow">' + data + '</span>'
+                    }  
+                },
+                { data: "business"},
+                { data: "name" , },
                 { data: "postday" },
-                { data: "modifyday" },
+                { data: "duedate" },
                 {
                         data: "id",
                         render: function (t, e, a) {
@@ -260,14 +265,12 @@
                                 `
                                 <a href="@Url.Action("Details", "Posts")${t}" id="business_detail" class="business_detail">
                                 <div class="btn btn--update" title="Cập Nhật">
-                                    <i class="btn-icon btn-icon--edit fas fa-edit"></i>
-                                    <span class="btn-text">Cập Nhật</span>
+                                    <i class="btn-icon btn-icon--edit fal fa-edit"></i>
                                 </div>
                                 </a>
                                 <a onclick="loadDeleteUser(${t})">
                                 <div class="btn btn--delete">
-                                    <i class="btn-icon btn-icon--edit fas fa-times"></i>
-                                    <span class="btn-text">Xóa</span>
+                                    <i class="btn-icon btn-icon--edit fal fa-times"></i>
                                 </div>
                                 </a>`
                             );
@@ -280,7 +283,7 @@
                     .every(function () {
                         var t = this,
                             e = $(
-                                '<select id="UserType" style="margin-right: 8px;border: 1px solid #aaa;border-radius: 3px;padding: 5px;background-color: transparent; margin-left: 3px;" class="form-select text-capitalize mb-md-0 mb-2xx"><option value=""> Chọn Công Ty Để Lọc </option></select>'
+                                '<select id="UserType" style="margin-right: 8px;border: 1px solid #aaa;border-radius: 3px;padding: 5px;background-color: transparent; margin-left: 3px;" class="form-select text-capitalize mb-md-0 mb-2xx"><option value="" style="text-align: center;">---- Chọn Công Ty Để Lọc ----</option></select>'
                             )
                                 .prependTo("#table_listData_filter")
                                 .on("change", function () {
@@ -326,7 +329,6 @@
                     console.log(res)
                     const imgPath = `@Url.Content("~/Uploads/Images/")` + res[0].postImage
                     const actionUrl = `@Url.Action("Edit","Posts")` + `${res[0].id}`
-                  
                     $('#ID').val(res[0].id)
                     $('#Title').val(res[0].title)
                     $('#Email_ID').val(res[0].email)
@@ -337,7 +339,9 @@
                     $('#Semester_ID').val(res[0].semeter)
                     $('#BusinessName').val(res[0].business)
                     $('#Business_ID').val(res[0].business_id)
+                  
                     $('#DueDate').val(res[0].duedate)
+                    $('#DueDate2').val(res[0].duedate)
                     $('#Quantity').val(res[0].quatity)
                     if (res[0].form === "Online") {
                         $('select option[value="Online"]').attr("selected", "selected");
@@ -407,12 +411,19 @@
                     required: true,
                     minlength: 3,
                     blank: true
-                }
+                },
+                 DueDate: {
+                    required: true
+                },
             },
+           
             messages: {
                 Title: {
                     required: "Vui lòng nhập tiêu đề bài viết.",
                     minlength: "Tiêu đề phải ít nhất 3 kí tự."
+                },
+                 DueDate: {
+                    required: "Vui lòng chọn ngày hết hạn."
                 }
             }
         });
@@ -448,5 +459,41 @@
 
 
         });
+
+       
+        function checkDate() {
+            var selectedText = document.getElementById('dueDate').value;
+            var selectedDate = new Date(selectedText);
+            var now = new Date();
+            if (selectedDate > now) {
+                return true
+            } else {
+                $('#dueDate').val("dd/mm/yyyy")
+                alert("Vui lòng không chọn những ngày trước.");
+                return false
+            }
+        }
+        function checkDateUp() {
+
+            var selectedPostDay = document.getElementById('PostDay').value;
+            var date = moment(selectedPostDay).format('DD/MM/YYYY');
+            
+            var selectedText = document.getElementById('DueDate').value;
+            var selectedDueDate = document.getElementById('DueDate2').value;
+
+            var selectedDate = new Date(selectedText);
+
+            var now = new Date(date);
+
+            if (selectedDate > now) {
+                return true
+            } else {
+                $('#DueDate').val(selectedDueDate)
+               /* console.log($('#DueDate').val(selectedDueDate))*/
+                alert("Vui lòng không chọn những ngày trước ngày tạo.");
+                return false
+            }
+        }
     </script>
+
 }

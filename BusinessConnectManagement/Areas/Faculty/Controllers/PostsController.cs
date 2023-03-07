@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Transactions;
@@ -42,7 +43,8 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                                 postday = post.PostDay,
                                 modifyday=post.ModifyDay,
                                 semeter = post.Semester.Semester1,
-                                business = post.BusinessUser.BusinessName
+                                business = post.BusinessUser.BusinessName,
+                                duedate = post.DueDate,
 
                             });
             return Json(listData, JsonRequestBehavior.AllowGet);
@@ -99,8 +101,13 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
             {
                 using (var scope = new TransactionScope())
                 {
-                    post.PostDay = (DateTime.Now).ToString();
-                    post.ModifyDay = (DateTime.Now).ToString();
+                    /*DateTime due = DateTime.Parse(post.DueDate);
+                    if (due < DateTime.Now)
+                    {
+                        return RedirectToAction("Index");
+                    }*/
+                    post.PostDay = string.Format("{0:dd/MM/yyyy hh:mm:ss}", DateTime.Now);
+                    post.ModifyDay = string.Format("{0:dd/MM/yyyy hh:mm:ss}", DateTime.Now);
                     var query = db.VanLangUsers.Where(x => x.Email == User.Identity.Name).FirstOrDefault();
                     post.Email_ID = query.Email;
 
