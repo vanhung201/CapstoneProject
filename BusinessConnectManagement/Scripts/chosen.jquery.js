@@ -523,7 +523,7 @@
       }
       container_props = {
         'class': container_classes.join(' '),
-        'style': "width: 200px;",
+        'style': "width: 22rem;",
         'title': this.form_field.title
       };
       if (this.form_field.id.length) {
