@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
+using System.Web.Services.Description;
 
 namespace BusinessConnectManagement.Areas.Faculty.Controllers
 {
@@ -44,6 +45,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                             });
             return Json(listData,   JsonRequestBehavior.AllowGet);
         }
+      
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -62,13 +64,37 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         }
         
         [HttpPost]
-        public ActionResult Edit([Bind(Include = "ID,Email_VanLang,Post_ID,Semester_ID,CV,RegistrationDate,RegistrationModify,Business_ID,InterviewResult,InterviewResultComment,StatusInternview_ID,StatusInternview,Comment, StatusRegistration")] Registration registration)
+        public ActionResult Edit([Bind(Include = "ID,Email_VanLang,Post_ID,Semester_ID,CV,RegistrationDate,RegistrationModify,Business_ID,InterviewResult,InterviewResultComment,StatusInternview_ID,StatusInternview,Comment, StatusRegistration, InternshipTopic_ID")] Registration registration)
         {
+            var post = db.Posts.Where(x => x.ID == registration.Post_ID).First();
+            var email = db.VanLangUsers.Where(x=>x.Email == registration.Email_VanLang).First();
             if (ModelState.IsValid)
             {
+                if (db.Registrations.Any(x => x.Email_VanLang == email.Email && x.StatusInternview == "Đậu"))
+                {
+                    TempData["AlertMessage"] = "<div class=\"toast toast--success\"> <div class=\"toast-left toast-left--success\"> <i class=\"fas fa-check-circle\"></i>\r\n  </div>\r\n            <div class=\"toast-content\">\r\n                <p class=\"toast-text\">Cập Nhật Không Thành Công Vì Sinh Viên Đã Đậu Phỏng Vấn</p>            </div>\r\n            <div class=\"toast-right\">\r\n                <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n            </div>\r\n        </div>";
+                    return RedirectToAction("Index");
+                }
                 db.Entry(registration).State = EntityState.Modified;
                 db.SaveChanges();
-               
+                string To = registration.Email_VanLang;
+                string status = "";
+                switch (registration.StatusRegistration)
+                {
+                    case "Hủy Duyệt":
+                        status = "<span style='color:red;'>" + registration.StatusRegistration + "</span>";
+                        break;
+                    case "Phê Duyệt":
+                        status = "<span style='color:green;'>" + registration.StatusRegistration + "</span>";
+                        break;
+                    case "Không Duyệt":
+                        status = "<span style='color:red;'>" + registration.StatusRegistration + "</span>";
+                        break;
+                }
+                string Subject = "Thông Báo";
+                string Body = "<h2>Đơn ứng tuyển của bạn ở bài viết " + post.Title + " đã chuyển sang trạng thái: " + status + " với nhận xét: " + registration.Comment + "</h2>";
+                Outlook mail = new Outlook(To, Subject, Body);
+                mail.SendMail();
                 TempData["AlertMessage"] = "<div class=\"toast toast--success\">\r\n     <div class=\"toast-left toast-left--success\">\r\n       <i class=\"fas fa-check-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n       <p class=\"toast-text\">Cập nhật thành công</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n      <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>";
                 return RedirectToAction("Index");
             }
@@ -122,7 +148,8 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                                 status = rg.StatusRegistration,
                                 comment = rg.Comment,
                                 username = emailVL.FullName,
-                                phone = emailVL.Mobile
+                                phone = emailVL.Mobile,
+                                position_id = rg.InternshipTopic_ID
                             });
             return Json(listData, JsonRequestBehavior.AllowGet);
         }

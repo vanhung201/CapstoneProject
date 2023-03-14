@@ -55,6 +55,7 @@
         <link href="~/assets/css/table2.css" rel="stylesheet" />
         <link href="~/assets/css/greet.css" rel="stylesheet" />
     *@
+    <link href="~/assets/css/select.css" rel="stylesheet" />
     <link href="~/assets/css/toast.css" rel="stylesheet" />
     <link href="~/assets/css/layout.css" rel="stylesheet" />
     <link href="~/assets/css/style.css" rel="stylesheet" />
@@ -203,7 +204,9 @@
     });
 
     $(function () {
-        $("#ddlBussines_ID").chosen();
+      $("#ddlBussines_ID").chosen();
+       
+        $(".chosen-select").chosen();
     });
    /* $(function () {
         const toast = document.querySelector(".toast");

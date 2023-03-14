@@ -20,7 +20,9 @@ namespace BusinessConnectManagement.Controllers
             public int Id { get; set; }
 
             public bool status { get; set; }
-        
+            public int IdI { get; set; }
+
+
         }
 
         // GET: Posts
@@ -71,14 +73,16 @@ namespace BusinessConnectManagement.Controllers
                 ViewBag.regStatus = db.Registrations.Where(x => x.Post_ID == id && x.Email_VanLang == email).First().StatusRegistration;
             }
             ViewBag.Post = db.Posts.Include(p => p.BusinessUser).Include(p => p.Semester).Include(p => p.VanLangUser).Include(p => p.VanLangUser1).OrderBy(x => Guid.NewGuid()).Take(5).ToList();
-           var postPosition = db.PostPositions.Where(p => p.Post_ID == id).ToList();
-            var position = db.Positions.ToList();
+          
+            var postPosition = db.PostInternshipTopics.Where(p => p.Post_ID == id).ToList();
+          
+            var position = db.InternshipTopics.ToList();
 
             List<PostPositionDetail> postPositionDetails= new List<PostPositionDetail>();
             foreach (var item in position)
             {
-                bool isExist = postPosition.Where(x => x.Position_ID == item.Id).Any();
-                postPositionDetails.Add(new PostPositionDetail { Name = item.Name, Id = item.Id, status = isExist });
+                bool isExist = postPosition.Where(x => x.InternshipTopic_ID == item.ID).Any();
+                postPositionDetails.Add(new PostPositionDetail { Name = item.InternshipTopicName, Id = item.ID, status = isExist });;
 
             }
             ViewBag.Position = postPositionDetails;

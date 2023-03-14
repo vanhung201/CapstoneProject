@@ -3,6 +3,8 @@
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    <link href="~/assets/User/assets/css/form.css" rel="stylesheet" />
+
 }
 @if (TempData["message"] != null)
 {
@@ -19,7 +21,7 @@
                 <div class="d-flex align-middle mb10">
                     <img class="avt" src="@Url.Content("~/Uploads/Images/" + Model.BusinessUser.BusinessLogo)" alt="image-job">
                     <h3 class="text-h2">@Model.Title</h3>
-                    
+
                 </div>
 
             </div>
@@ -161,20 +163,16 @@
 
         <div class="form-group">
             <label class="form-label" for="position">Nhập Vị Trí Ứng Tuyển</label>
-            <select id="position" name="Position_ID" class="form-select">
+            <select id="position" name="InternshipTopic_ID" class="form-select">
+                <option selected>Chọn Vị Trí</option>
                 @foreach (var item in ViewBag.Position)
                 {
                     if (item.status == true)
                     {
-                        <option value="@item.Id">@item.Name</option>
+                        <option id="positionName" value="@item.Id">@item.Name</option>
                     }
                 }
-                </select>
-                  
-                
-
-           
-
+            </select>
             <span class="text-danger" id="position_validation"></span>
         </div>
 
@@ -222,7 +220,8 @@
 
         <div class="form-group">
             <label class="form-label" for="position">Nhập Vị Trí Ứng Tuyển</label>
-            <input id="position1" class="form-input" type="text" disabled>
+            <input id="positionNameUpdate" class="form-input" type="text" disabled>
+            <input id="position1" class="form-input" type="hidden" />
             <span class="text-danger" id="position_validation1"></span>
         </div>
 
@@ -235,7 +234,7 @@
                 <i class="btn-icon btn-icon--add fas fa-check"></i>
                 <span class="btn-text btn-text--small">Xác nhận</span>
             </div>
-        </div>    
+        </div>
     </div>
 
 </form>
@@ -270,7 +269,7 @@
         $("#btn_apply_CV").on("click", function (e) {
             e.preventDefault()
             $("#confirm_apply").addClass('is-appear');
-            const position = $("#position").val()
+            const position = $("#positionName").text()
             console.log(position)
             $("#confirm_position").text(position)
         })
@@ -294,7 +293,9 @@
                 type: "get",
                 dataType: 'json',
                 success: function (res) {
+                    console.log(res)
                     $("#position1").val(res[0].Position);
+                    $("#positionNameUpdate").val(res[0].PositionName);
                     $("#reg_id").val(res[0].ID);
                 }
             })

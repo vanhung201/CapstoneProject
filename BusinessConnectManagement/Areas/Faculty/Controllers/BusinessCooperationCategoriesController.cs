@@ -50,7 +50,6 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                 count++;
             }
             var listBusinessId = db.BusinessCooperationCategories.Select(x => x.Business_ID).Distinct().ToList();
-            //var listBusinessName = db.BusinessCooperationCategories.OrderBy(a => a.Business_ID).Select(x => x.BusinessUser.BusinessName).Distinct().ToList();
             var demo = db.BusinessCooperationCategories.OrderBy(a => a.Business_ID).DistinctBy(x => x.Business_ID).ToList();
             var listBusinessName = demo.Select(x => x.BusinessUser.BusinessName).ToList();
             var listBusinessValue = new string[listBusinessId.Count()];

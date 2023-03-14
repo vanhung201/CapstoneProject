@@ -62,40 +62,40 @@
             <textarea name="Comment" id="comment" class="form-input" autocomplete="off"></textarea>
         </div>
         <div class="form-group">
-            
-            <input list="" name="ID" id="id" class="form-input" hidden/>
-        
-          
-            <input list="" name="Email_VanLang" id="email" class="form-input" hidden/>
-        
-           
-            <input list="" name="Post_ID" id="post_id" class="form-input" hidden/>
-        
-           
-            <input list="" name="Semester_ID" id="semester_id" class="form-input" hidden/>
-        
-            
-            <input list="" name="CV" id="cv" class="form-input" hidden/>
-       
-           
-            <input list="" name="RegistrationDate" id="registrationDate" class="form-input" hidden/>
-        
-           
-            <input list="" name="RegistrationModify" id="registrationModify" class="form-input" hidden/>
-       
-            
-            <input list="" name="InterviewResult" id="interviewResult" class="form-input" hidden/>
-        
-            
-            <input list="" name="InterviewResultComment" id="interviewComment" class="form-input" hidden/>
-        
-            
-            <input list="" name="StatusInternview" id="interviewStatus" class="form-input" hidden/>
-       
 
-       
+            <input list="" name="ID" id="id" class="form-input" hidden />
+
+
+            <input list="" name="Email_VanLang" id="email" class="form-input" hidden />
+
+
+            <input list="" name="Post_ID" id="post_id" class="form-input" hidden />
+
+
+            <input list="" name="Semester_ID" id="semester_id" class="form-input" hidden />
+
+
+            <input list="" name="CV" id="cv" class="form-input" hidden />
+
+
+            <input list="" name="RegistrationDate" id="registrationDate" class="form-input" hidden />
+
+
+            <input list="" name="RegistrationModify" id="registrationModify" class="form-input" hidden />
+
+
+            <input list="" name="InterviewResult" id="interviewResult" class="form-input" hidden />
+
+
+            <input list="" name="InterviewResultComment" id="interviewComment" class="form-input" hidden />
+
+
+            <input list="" name="StatusInternview" id="interviewStatus" class="form-input" hidden />
+
+            <input list="" name="InternshipTopic_ID" id="position_id" class="form-input" hidden />
             
-            <input list="" name="Business_ID" id="bu_id" class="form-input" hidden/>
+
+            <input list="" name="Business_ID" id="bu_id" class="form-input" hidden />
         </div>
 
         <div class="form-group">
@@ -119,6 +119,7 @@
         })
         $(function () {
             var url = "@Url.Action("getDataList", "Registration")"
+            var urlCV = "@Url.Action("DownloadFile", "Registration")"
             "use strict";
             (dataTable = $("#table_listData").DataTable({
                 ajax: {
@@ -134,7 +135,12 @@
                     { data: "email" },
                     { data: "phone" },
                     { data: "post_id" },
-                    { data: "cv" },
+                    {
+                        data: "cv",
+                        render: function (data) {
+                            return '<a href=' + urlCV +"?filePath="+ data+'>' + data + '<a/>'
+                        }
+                    },
                     {
                         data: "status",
                         render: function (data) {
@@ -156,7 +162,7 @@
 
                         }
                     },
-                   
+
 
                     {
                         data: "id",
@@ -230,9 +236,11 @@
                     $('#interviewResult').val(res[0].interviewResult)
                     $('#interviewComment').val(res[0].interviewComment)
                     $('#interviewStatus').val(res[0].interviewStatus)
+                    $('#position_id').val(res[0].position_id)
+
                     if (res[0].status === "Chờ Phê Duyệt") {
                         $('select option[value="Chờ Phê Duyệt"]').attr("selected", "selected");
-                    } else {    
+                    } else {
                         $('select option[value="Phê Duyệt"]').attr("selected", "selected");
                     }
                     $('#comment').val(res[0].comment)

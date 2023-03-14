@@ -27,11 +27,12 @@ namespace BusinessConnectManagement.Models
         public string StatusInternview { get; set; }
         public string StatusRegistration { get; set; }
         public string Comment { get; set; }
-        public Nullable<int> Position_ID { get; set; }
+        public Nullable<int> InternshipTopic_ID { get; set; }
+        public Nullable<int> PostInternshipTopic_ID { get; set; }
     
         public virtual BusinessUser BusinessUser { get; set; }
+        public virtual InternshipTopic InternshipTopic { get; set; }
         public virtual Post Post { get; set; }
-        public virtual Position Position { get; set; }
         public virtual Semester Semester { get; set; }
         public virtual VanLangUser VanLangUser { get; set; }
     }

@@ -1,0 +1,202 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <link href="~/assets/User/assets/css/form.css" rel="stylesheet" />
+}
+
+<main>
+    <div id="bg-bread">
+        <div class="overlay-bread"></div>
+        <div class="container">
+            <div class="left">
+                <div class="d-flex align-middle mb10">
+                    <img class="avt" src="" alt="image-job">
+                    <h3 class="text-h2">Danh Sách Thực Tập</h3>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <section>
+        <div class="container">
+            <table id="table1" class="display">
+                <thead>
+                    <tr>
+                        <th class="text-center">STT</th>
+                        <th class="text-center">Tên Doanh Nghiệp</th>
+                        <th class="text-center">Vị Trí</th>
+                        <th class="text-center">Trạng Thái</th>
+                        <th class="text-center">Thông Tin</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </section>
+
+    <form action="@Url.Action("Edit", "Registration")" class="form" id="updateForm" method="post">
+
+        <div class="form-container">
+
+            <h1 class="form-heading">Cập nhật Kết quả</h1>
+            <div class="row">
+                <div class="column">
+                    <div class="form-group">
+                        <label for="comment" class="form-label">Nhận xét</label>
+                        <label name="Comment" id="comment" class="form-label" autocomplete="off" />
+                    </div>
+                    <div class="form-group">
+                        <label for="comment" class="form-label">ID</label>
+                        <input list="" name="ID" id="id" class="form-input" />
+                    </div>
+                    <div class="form-group">
+                        <label for="comment" class="form-label">Email</label>
+                        <input list="" name="Email_VanLang" id="email" class="form-input" />
+                    </div>
+                    <div class="form-group">
+                        <label for="comment" class="form-label">Post_ID</label>
+                        <input list="" name="Post_ID" id="post_id" class="form-input" hidden />
+                    </div>
+                    <div class="form-group">
+                        <label for="comment" class="form-label">Mentor</label>
+                        <input list="" name="Semester_ID" id="semester_id" class="form-input" hidden />
+                    </div>
+                    <div class="form-group">
+                        <label for="comment" class="form-label">Business_ID</label>
+                        <input list="" name="Business_ID" id="bu_id" class="form-input" hidden />
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="form-group">
+                        <label for="comment" class="form-label">CV</label>
+                        <input list="" name="CV" id="cv" class="form-input" hidden />
+                    </div>
+                    <div class="form-group">
+                        <label for="comment" class="form-label">Ngày đăng ký</label>
+                        <input list="" name="RegistrationDate" id="registrationDate" class="form-input" hidden />
+                    </div>
+                    <div class="form-group">
+                        <label for="comment" class="form-label">Ngày cập nhật</label>
+                        <input list="" name="RegistrationModify" id="registrationModify" class="form-input" hidden />
+                    </div>
+                    <div class="form-group">
+                        <label for="comment" class="form-label">Kết quả phỏng vấn</label>
+                        <input list="" name="InterviewResult" id="interviewResult" class="form-input" hidden />
+                    </div>
+                    <div class="form-group">
+                        <label for="comment" class="form-label">Nhận xét phỏng vấn</label>
+                        <input list="" name="InterviewResultComment" id="interviewComment" class="form-input" hidden />
+                    </div>
+                    <div class="form-group">
+                        <label for="comment" class="form-label">Trạng thái phỏng vấn</label>
+                        <input list="" name="StatusInternview" id="interviewStatus" class="form-input" hidden />
+                    </div>
+                    <div class="form-group">
+                        <label for="comment" class="form-label">InternshipTopic_ID</label>
+                        <input list="" name="InternshipTopic_ID" id="position_id" class="form-input" hidden />
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <div class="form-group">
+                <a class="btn btn--cancel">
+                    Hủy
+                </a>
+                <button class="btn btn--confirm" id="btn--update">
+                    Xác Nhận
+                </button>
+            </div>
+        </div>
+    </form>
+
+</main>
+@section Scripts {
+    <script>
+        $(function () {
+            var url = "@Url.Action("getDataList", "InternshipResults")"
+            "use strict";
+            (dataTable = $("#table1").DataTable({
+                ajax: {
+                    url: url,
+                    type: "GET",
+                    dataType: "json",
+                    dataSrc: "",
+                    /*success: function (res) {
+                        console.log(res)
+                    }*/
+                },
+                deferRender: !0,
+                columns: [
+                    { data: null },
+                    { data: "BusinessName" },
+                    { data: "Position" },
+                    { data: "status" },
+                    {
+                        data: "ID",
+                        render: function (t, e, a) {
+                            return (
+                                `
+                                <a href="@Url.Action("Details", "Posts")${t}" id="business_detail" class="business_detail">
+                                <div class="btn btn-update">
+                                    <span class="btn-text">Xem Chi Tiết</span>
+                                </div>
+                                </a>
+    `
+                            );
+                        },
+                    },
+                ],
+            }))
+            // Create Index column datatable
+            dataTable.on("draw.dt", function () {
+                dataTable.column(0, { search: "applied", order: "applied" }).nodes().each(function (cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            });
+
+        });
+        $('#table1').on('click', '.business_detail', function (e) {
+            e.preventDefault()
+            const form = document.getElementById('updateForm');
+            form.classList.add('is-appear');
+            const url = $(this).attr('href');
+            $.ajax({
+                url: url,
+                type: "get",
+                dataType: 'json',
+                success: function (res) {
+                    console.log(res)
+                    const actionUrl = `@Url.Action("Edit", "Registration")` + `/${res[0].id}`
+                    $('#id').val(res[0].id)
+                    $('#email').val(res[0].email)
+                    $('#post_id').val(res[0].post_id)
+                    $('#semester_id').val(res[0].semester_id)
+                    $('#cv').val(res[0].cv)
+                    $('#registrationDate').val(res[0].registrationDate)
+                    $('#registrationModify').val(res[0].registrationModify)
+                    $('#bu_id').val(res[0].bu_id)
+                    $('#interviewResult').val(res[0].interviewResult)
+                    $('#interviewComment').val(res[0].interviewComment)
+                    $('#interviewStatus').val(res[0].interviewStatus)
+                    $('#position_id').val(res[0].position_id)
+
+                    if (res[0].status === "Chờ Phê Duyệt") {
+                        $('select option[value="Chờ Phê Duyệt"]').attr("selected", "selected");
+                    } else {
+                        $('select option[value="Phê Duyệt"]').attr("selected", "selected");
+                    }
+                    $('#comment').val(res[0].comment)
+                    $('#updateForm').attr('action', `${actionUrl}`)
+                }
+            })
+        })
+        $('.btn--cancel').on('click', function () {
+            $('#updateForm').removeClass('is-appear')
+        })
+    </script>
+}
+

@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<BusinessConnectManagement.Models.InternshipResult>
 
 @{
-    ViewBag.Title = "Internship";
+    ViewBag.Title = "Index";
     Layout = "~/Areas/Business/Views/Shared/_Layout.cshtml";
 }
 
@@ -14,86 +14,195 @@
 
 
     }
-    <div class="list-table">
-        <table id="table_id" class="display">
-            <thead>
-                <tr>
-                    <th>Họ và Tên</th>
-                    <th>Email</th>
-                    <th>Vị trí đăng ký</th>
-                    <th>Nhận xét</th>
-                    <th>Trạng thái</th>
-                    <th>Chức năng</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>@item.VanLangUser.FullName</td>
-                        <td>@item.Student_Email</td>
-                        <td>@item.RegistrationPosition</td>
-                        <td class="">@item.BusinessComment</td>
-                        <td class="text-green">@item.Status</td>
+<div class="list-table">
 
-                        <td class=""><button class="btn btn-action btn--update" onclick="loadEditUser('@item.ID', '@item.Business_ID', '@item.Student_Email', '@item.Semester_ID', '@item.Mentor_Email', '@item.MentorPoint', '@item.MentorComment', '@item.BusinessPoint', ' @item.RegistrationPosition', '@item.BusinessComment')">Cập nhật</button></td>
-                    </tr>
-                }
-
-            </tbody>
-        </table>
+    <div class="filter">
+        <div class="bu_status"></div>
+        <label id="nameLabel1">Lọc:</label>
     </div>
+    <table id="table_listData" class="display">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Tên</th>
+                <th>Email</th>
+                <th>SĐT</th>
+                <th>Vị Trí</th>
+                <th>Trạng thái</th>
+                <th>Chức năng</th>
+
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
 </section>
-<form action="@Url.Action("Edit", "InternshipResults")" class="form" id="updateForm" method="post">
-    
+
+
+<form class="form" id="updateForm" method="post">
+
     <div class="form-container--small">
-        <i class="form-icon fas fa-times-circle"></i>
-        <h1 class="form-heading">Cập nhật Kết quả</h1>
+        <h1 class="form-heading">Cập Nhật Trạng Thái</h1>
         <div class="form-group">
-            <label for="comment" class="form-label">Nhận xét</label>
-            <textarea name="BusinessComment" id="bcm" class="form-input" autocomplete="off"></textarea>
+            <label class="form-label">Nhận xét</label>
+            <textarea id="BusinessComment" name="BusinessComment" class="form-input"></textarea>
         </div>
         <div class="form-group">
+            <label class="form-label">Chấm Điểm</label>
+            <input list="" name="BusinessPoint" id="BusinessPoint" class="form-input"/>
+        </div>
+        <div class="form-group">
+            @*-------------------------------------*@
+            <input list="" name="ID" id="ID" class="form-input" hidden />
+            <input list="" name="Student_Email" id="Student_Email" class="form-input" hidden />
+            <input list="" name="Semester_ID" id="Semester_ID" class="form-input" hidden />
+            <input list="" name="Mentor_Email" id="Mentor_Email" class="form-input" hidden />
+            <input list="" name="MentorPoint" id="MentorPoint" class="form-input" hidden />
+            <input list="" name="MentorComment" id="MentorComment" class="form-input" hidden />
+            <input list="" name="Business_ID" id="Business_ID" class="form-input" hidden />
+           
+            <input list="" name="BusinessComment" id="BusinessComment" class="form-input" hidden />
+            <input list="" name="InternshipTopic_ID" id="InternshipTopic_ID" class="form-input" hidden />
+            @*-------------------------------------*@
             <label class="form-label">Trạng Thái</label>
-            <input list="" name="id" id="id" class="form-input" hidden/>
-            <input list="" name="Business_ID" id="idb" class="form-input" hidden/>
-            <input list="" name="Student_Email" id="email" class="form-input" hidden/>
-            <input list="" name="Semester_ID" id="semeter" class="form-input" hidden/>
-            <input list="" name="Mentor_Email" id="mail_mentor" class="form-input" hidden/>
-            <input list="" name="MentorPoint" id="mentorp" class="form-input" hidden/>
-            <input list="" name="MentorComment" id="mentorc" class="form-input" hidden/>
-            <input list="" name="BusinessPoint" id="businessp" class="form-input" hidden/>
-            <input list="" name="RegistrationPosition" id="rp" class="form-input" hidden/>
-
-            <select name="Status" id="Status" class="form-input">
-                <option class="text-center" value="Chưa Hoàn Thành">Chưa Hoàn Thành</option>
-                <option class="text-center" value="Hoàn Thành">Hoàn Thành</option>
-
+            <select name="Status" id="interviewStatus" class="form-input">
+                <option class="text-center" value="Chờ Xác Nhận">Chờ Xác Nhận</option>
+                <option class="text-center" value="Đang Thực Tập">Đang Thực Tập</option>
+                <option class="text-center" value="Thực Tập Xong">Thực Tập Xong</option>
             </select>
         </div>
+
+
+
         <div class="form-group">
             <a class="btn btn--cancel">Hủy</a>
-            <button  type="submit" class="btn btn--add">Lưu</button>
+            <button class="btn btn--add" type="submit">Lưu</button>
         </div>
     </div>
+
 </form>
 
-@section Scripts {
+@section Scripts{
 
     <script type="text/javascript">
+         $(function () {
+            var url = "@Url.Action("getDataList", "InternshipResults")"
+            "use strict";
+             (dataTable = $("#table_listData").DataTable({
+                ajax: {
+                    url: url,
+                    type: "GET",
+                    dataType: "json",
+                     dataSrc: "",
+                },
+                deferRender: !0,
+                 columns: [
+                    { data: null },
+                    { data: "name" },
+                    { data: "email" },
+                    { data: "phone" },
+                     { data: "position" },
+                     {
+                         data: "status",
+                         render: function (data) {
+                             if (data == "Đang Thực Tập") {
+                                 return '<span class="text-center text--none">' + data + '</span>'
+                             } else if (data == "Thực Tập Xong") {
+                                 return '<span class="text-center text--done">' + data + '</span>'
+                             } else if (data == "Chờ Xác Nhận") {
+                                 return '<span class="text-center text--wait">' + data + '</span>'
+                             }
 
-        function loadEditUser(id, idb, email, semeter, mail_mentor, mentorp, mentorc, businessp,  rp, bcm) {
-            let formUpdate = document.getElementById("updateForm");
-            formUpdate.classList.add('is-appear')
-            document.getElementById('id').value = id;
-            document.getElementById('idb').value = idb;
-            document.getElementById('email').value = email;
-            document.getElementById('semeter').value = semeter;
-            document.getElementById('mail_mentor').value = mail_mentor;
-            document.getElementById('mentorp').value = mentorp;
-            document.getElementById('mentorc').value = mentorc;
-            document.getElementById('businessp').value = businessp;
-            document.getElementById('rp').value = rp;
-            document.getElementById('bcm').value = bcm;        }
+                         }
+                     },
+                    {
+                        data: "id",
+                        render: function (t, e, a) {
+                            return (
+                                `
+                                <a href="@Url.Action("Details", "InternshipResults")/${t}" id="business_detail" class="business_detail">
+                                <div class="btn btn--update">
+                                    <i class="btn-icon btn-icon--edit fal fa-edit"></i>
+                                </div>
+                                </a>
+                               `
+                            );
+                        },
+
+                    },
+
+                ],
+                 initComplete: function () {
+                     this.api()
+                         .columns(5)
+                         .every(function () {
+                             var t = this,
+                                 e = $(
+                                     '<select id="UserType" style="margin-right: 8px;border: 1px solid #aaa;border-radius: 3px;padding: 5px;background-color: transparent; margin-left: 3px;" class="form-select text-capitalize mb-md-0 mb-2xx"><option value="">---- Chọn Trạng Thái Để Lọc ----</option></select>'
+                                 )
+                                     .prependTo("#table_listData_filter")
+                                     .on("change", function () {
+                                         var e = $.fn.dataTable.util.escapeRegex($(this).val());
+                                         t.search(e ? "^" + e + "$" : "", !0, !1).draw();
+                                     });
+                             t.data()
+                                 .unique()
+                                 .sort()
+                                 .each(function (t, a) {
+                                     t &&
+                                         e.append(
+                                             '<option value="' +
+                                             t +
+                                             '" class="text-capitalize">' +
+                                             t +
+                                             "</option>"
+                                         );
+                                 });
+                         })
+                 }
+            })
+            )
+            dataTable.on("draw.dt", function () {
+                dataTable.column(0, { search: "applied", order: "applied" }).nodes().each(function (cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            });
+         });
+         $('#table_listData').on('click', '.business_detail', function (e) {
+            e.preventDefault()
+             const form = document.getElementById('updateForm');
+        form.classList.add('is-appear');
+            const url = $(this).attr('href');
+            $.ajax({
+                url: url,
+                type: "get",
+                dataType: 'json',
+                success: function (res) {
+                    console.log(res)
+                    const actionUrl = `@Url.Action("Edit", "InternshipResults")` + `/${res[0].id}`
+                    $('#ID').val(res[0].id)
+                    $('#Student_Email').val(res[0].Student_Email)
+                    $('#Post_ID').val(res[0].post_id)
+                    $('#Semester_ID').val(res[0].Semester_ID)
+                    $('#Mentor_Email').val(res[0].Mentor_Email)
+                    $('#MentorPoint').val(res[0].MentorPoint)
+                    $('#MentorComment').val(res[0].MentorComment)
+                    $('#Business_ID').val(res[0].Business_ID)
+                    $('#BusinessPoint').val(res[0].BusinessPoint)
+                    $('#BusinessComment').val(res[0].BusinessComment)
+                    $('#InternshipTopic_ID').val(res[0].InternshipTopic_ID)
+                    if (res[0].status === "Chờ Xác Nhận") {
+                        $('select option[value="Chờ Xác Nhận"]').attr("selected", "selected");
+                    } else if (res[0].status === "Đang Thực Tập"){
+                        $('select option[value="Đang Thực Tập"]').attr("selected", "selected");
+                    }
+                    else if (res[0].status === "Thực Tập Xong") {
+                        $('select option[value="Thực Tập Xong"]').attr("selected", "selected");
+                    }
+                    $('#updateForm').attr('action', `${actionUrl}`)
+                }
+            })
+        })
     </script>
 }
