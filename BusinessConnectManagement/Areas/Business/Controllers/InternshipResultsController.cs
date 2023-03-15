@@ -119,7 +119,12 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
         {
             if (ModelState.IsValid)
             {
-               
+                var registration = db.Registrations.Where(x => x.InternshipResult_ID == internshipResult.ID).FirstOrDefault();
+                if (db.Registrations.Any(x => x.InternshipResult_ID == internshipResult.ID))
+                {
+                    registration.InterviewResult = "Chờ Xác Nhận";
+                    db.Entry(registration).State = EntityState.Modified;
+                }
                 db.Entry(internshipResult).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

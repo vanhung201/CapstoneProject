@@ -128,7 +128,7 @@
           <Property Name="StatusRegistration" Type="nvarchar" MaxLength="30" />
           <Property Name="Comment" Type="nvarchar(max)" />
           <Property Name="InternshipTopic_ID" Type="int" />
-          <Property Name="PostInternshipTopic_ID" Type="int" />
+          <Property Name="InternshipResult_ID" Type="int" />
         </EntityType>
         <EntityType Name="Semester">
           <Key>
@@ -376,6 +376,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Registration_InternshipResult">
+          <End Role="InternshipResult" Type="Self.InternshipResult" Multiplicity="0..1" />
+          <End Role="Registration" Type="Self.Registration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InternshipResult">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Registration">
+              <PropertyRef Name="InternshipResult_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Registration_InternshipTopic">
           <End Role="InternshipTopic" Type="Self.InternshipTopic" Multiplicity="0..1" />
           <End Role="Registration" Type="Self.Registration" Multiplicity="*" />
@@ -577,6 +589,10 @@
             <End Role="BusinessUser" EntitySet="BusinessUser" />
             <End Role="Registration" EntitySet="Registration" />
           </AssociationSet>
+          <AssociationSet Name="FK_Registration_InternshipResult" Association="Self.FK_Registration_InternshipResult">
+            <End Role="InternshipResult" EntitySet="InternshipResult" />
+            <End Role="Registration" EntitySet="Registration" />
+          </AssociationSet>
           <AssociationSet Name="FK_Registration_InternshipTopic" Association="Self.FK_Registration_InternshipTopic">
             <End Role="InternshipTopic" EntitySet="InternshipTopic" />
             <End Role="Registration" EntitySet="Registration" />
@@ -678,6 +694,10 @@
           <AssociationSet Name="FK_InternshipResult_VanLangUser" Association="BCMModel.FK_InternshipResult_VanLangUser">
             <End Role="VanLangUser" EntitySet="VanLangUsers" />
             <End Role="InternshipResult" EntitySet="InternshipResults" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Registration_InternshipResult" Association="BCMModel.FK_Registration_InternshipResult">
+            <End Role="InternshipResult" EntitySet="InternshipResults" />
+            <End Role="Registration" EntitySet="Registrations" />
           </AssociationSet>
           <AssociationSet Name="FK_PostInternshipTopic_InternshipTopic" Association="BCMModel.FK_PostInternshipTopic_InternshipTopic">
             <End Role="InternshipTopic" EntitySet="InternshipTopics" />
@@ -807,6 +827,7 @@
           <NavigationProperty Name="InternshipTopic" Relationship="BCMModel.FK_InternshipResult_InternshipTopic" FromRole="InternshipResult" ToRole="InternshipTopic" />
           <NavigationProperty Name="Semester" Relationship="BCMModel.FK_InternshipResult_Semester" FromRole="InternshipResult" ToRole="Semester" />
           <NavigationProperty Name="VanLangUser" Relationship="BCMModel.FK_InternshipResult_VanLangUser" FromRole="InternshipResult" ToRole="VanLangUser" />
+          <NavigationProperty Name="Registrations" Relationship="BCMModel.FK_Registration_InternshipResult" FromRole="InternshipResult" ToRole="Registration" />
         </EntityType>
         <EntityType Name="InternshipTopic">
           <Key>
@@ -895,8 +916,9 @@
           <Property Name="StatusRegistration" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="InternshipTopic_ID" Type="Int32" />
-          <Property Name="PostInternshipTopic_ID" Type="Int32" />
+          <Property Name="InternshipResult_ID" Type="Int32" />
           <NavigationProperty Name="BusinessUser" Relationship="BCMModel.FK_Registration_BusinessUser1" FromRole="Registration" ToRole="BusinessUser" />
+          <NavigationProperty Name="InternshipResult" Relationship="BCMModel.FK_Registration_InternshipResult" FromRole="Registration" ToRole="InternshipResult" />
           <NavigationProperty Name="InternshipTopic" Relationship="BCMModel.FK_Registration_InternshipTopic" FromRole="Registration" ToRole="InternshipTopic" />
           <NavigationProperty Name="Post" Relationship="BCMModel.FK_Registration_Post1" FromRole="Registration" ToRole="Post" />
           <NavigationProperty Name="Semester" Relationship="BCMModel.FK_Registration_Semester1" FromRole="Registration" ToRole="Semester" />
@@ -1092,6 +1114,18 @@
             </Principal>
             <Dependent Role="InternshipResult">
               <PropertyRef Name="Student_Email" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Registration_InternshipResult">
+          <End Type="BCMModel.InternshipResult" Role="InternshipResult" Multiplicity="0..1" />
+          <End Type="BCMModel.Registration" Role="Registration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InternshipResult">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Registration">
+              <PropertyRef Name="InternshipResult_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1410,7 +1444,7 @@
           <EntitySetMapping Name="Registrations">
             <EntityTypeMapping TypeName="BCMModel.Registration">
               <MappingFragment StoreEntitySet="Registration">
-                <ScalarProperty Name="PostInternshipTopic_ID" ColumnName="PostInternshipTopic_ID" />
+                <ScalarProperty Name="InternshipResult_ID" ColumnName="InternshipResult_ID" />
                 <ScalarProperty Name="InternshipTopic_ID" ColumnName="InternshipTopic_ID" />
                 <ScalarProperty Name="Comment" ColumnName="Comment" />
                 <ScalarProperty Name="StatusRegistration" ColumnName="StatusRegistration" />

@@ -193,6 +193,7 @@
     <Compile Include="Areas\Business\Controllers\BusinessHomeController.cs" />
     <Compile Include="Areas\Business\Controllers\InternshipResultsController.cs" />
     <Compile Include="Areas\Business\Controllers\InternViewsController.cs" />
+    <Compile Include="Areas\Faculty\Controllers\AppointmentMentorController.cs" />
     <Compile Include="Areas\Faculty\Controllers\BusinessCooperationCategoriesController.cs" />
     <Compile Include="Areas\Faculty\Controllers\BusinessUsersController.cs" />
     <Compile Include="Areas\Faculty\Controllers\CooperationCategoriesController.cs" />
@@ -201,6 +202,7 @@
     <Compile Include="Areas\Faculty\Controllers\PostsController.cs" />
     <Compile Include="Areas\Faculty\Controllers\RegistrationController.cs" />
     <Compile Include="Areas\Faculty\FacultyAreaRegistration.cs" />
+    <Compile Include="Areas\Mentor\Controllers\InternshipResultsMentorController.cs" />
     <Compile Include="Areas\Mentor\Controllers\MentorHomeController.cs" />
     <Compile Include="Areas\Mentor\MentorAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -1390,6 +1392,17 @@
     <Content Include="Areas\Business\Views\InternshipResults\Details.cshtml" />
     <Content Include="Areas\Business\Views\InternshipResults\Edit.cshtml" />
     <Content Include="Areas\Business\Views\InternshipResults\Index.cshtml" />
+    <Content Include="Areas\Mentor\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Mentor\Views\InternshipResultsMentor\Create.cshtml" />
+    <Content Include="Areas\Mentor\Views\InternshipResultsMentor\Delete.cshtml" />
+    <Content Include="Areas\Mentor\Views\InternshipResultsMentor\Details.cshtml" />
+    <Content Include="Areas\Mentor\Views\InternshipResultsMentor\Edit.cshtml" />
+    <Content Include="Areas\Mentor\Views\InternshipResultsMentor\Index.cshtml" />
+    <Content Include="Areas\Faculty\Views\AppointmentMentor\Create.cshtml" />
+    <Content Include="Areas\Faculty\Views\AppointmentMentor\Delete.cshtml" />
+    <Content Include="Areas\Faculty\Views\AppointmentMentor\Details.cshtml" />
+    <Content Include="Areas\Faculty\Views\AppointmentMentor\Edit.cshtml" />
+    <Content Include="Areas\Faculty\Views\AppointmentMentor\Index.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -1442,7 +1455,6 @@
     <Folder Include="Areas\Business\Data\" />
     <Folder Include="Areas\Faculty\Data\" />
     <Folder Include="Areas\Mentor\Data\" />
-    <Folder Include="Areas\Mentor\Views\Shared\" />
     <Folder Include="assets\js\ckfinder\userfiles\" />
   </ItemGroup>
   <ItemGroup>

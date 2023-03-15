@@ -123,7 +123,7 @@
     <Property Name="StatusRegistration" Type="nvarchar" MaxLength="30" />
     <Property Name="Comment" Type="nvarchar(max)" />
     <Property Name="InternshipTopic_ID" Type="int" />
-    <Property Name="PostInternshipTopic_ID" Type="int" />
+    <Property Name="InternshipResult_ID" Type="int" />
   </EntityType>
   <EntityType Name="Semester">
     <Key>
@@ -371,6 +371,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Registration_InternshipResult">
+    <End Role="InternshipResult" Type="Self.InternshipResult" Multiplicity="0..1" />
+    <End Role="Registration" Type="Self.Registration" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InternshipResult">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Registration">
+        <PropertyRef Name="InternshipResult_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Registration_InternshipTopic">
     <End Role="InternshipTopic" Type="Self.InternshipTopic" Multiplicity="0..1" />
     <End Role="Registration" Type="Self.Registration" Multiplicity="*" />
@@ -570,6 +582,10 @@
     </AssociationSet>
     <AssociationSet Name="FK_Registration_BusinessUser1" Association="Self.FK_Registration_BusinessUser1">
       <End Role="BusinessUser" EntitySet="BusinessUser" />
+      <End Role="Registration" EntitySet="Registration" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Registration_InternshipResult" Association="Self.FK_Registration_InternshipResult">
+      <End Role="InternshipResult" EntitySet="InternshipResult" />
       <End Role="Registration" EntitySet="Registration" />
     </AssociationSet>
     <AssociationSet Name="FK_Registration_InternshipTopic" Association="Self.FK_Registration_InternshipTopic">

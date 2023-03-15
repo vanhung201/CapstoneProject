@@ -118,7 +118,7 @@
     <EntitySetMapping Name="Registrations">
       <EntityTypeMapping TypeName="BCMModel.Registration">
         <MappingFragment StoreEntitySet="Registration">
-          <ScalarProperty Name="PostInternshipTopic_ID" ColumnName="PostInternshipTopic_ID" />
+          <ScalarProperty Name="InternshipResult_ID" ColumnName="InternshipResult_ID" />
           <ScalarProperty Name="InternshipTopic_ID" ColumnName="InternshipTopic_ID" />
           <ScalarProperty Name="Comment" ColumnName="Comment" />
           <ScalarProperty Name="StatusRegistration" ColumnName="StatusRegistration" />

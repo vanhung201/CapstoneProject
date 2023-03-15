@@ -150,6 +150,18 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
                 var email = db.VanLangUsers.Where(x => x.Email == registration.Email_VanLang).First();
                 if (registration.StatusInternview == "Đậu")
                 {
+                    var internship = db.InternshipResults.Where(x => x.ID == registration.InternshipResult_ID).FirstOrDefault();
+                    if (db.InternshipResults.Any(x => x.Student_Email == registration.Email_VanLang && x.InternshipTopic_ID == registration.InternshipTopic_ID))
+                    {
+                        TempData["AlertMessage"] = "<div class=\"toast toast--success\">            <div class=\"toast-left toast-left--success\">               <i class=\"fas fa-check-circle\"></i>\r\n            </div>\r\n            <div class=\"toast-content\">\r\n                <p class=\"toast-text\">Cập Nhật Thành Công</p>            </div>\r\n            <div class=\"toast-right\">\r\n                <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n            </div>\r\n        </div>";
+                        return RedirectToAction("Index");
+
+                    }
+                    if(db.InternshipResults.Any(x => x.Student_Email == registration.Email_VanLang && x.Status == "Đang Thực Tập"))
+                    {
+                        TempData["AlertMessage"] = "<div class=\"toast toast--success\">            <div class=\"toast-left toast-left--success\">               <i class=\"fas fa-check-circle\"></i>\r\n            </div>\r\n            <div class=\"toast-content\">\r\n                <p class=\"toast-text\">Sinh Viên Đang Thực Tập</p>            </div>\r\n            <div class=\"toast-right\">\r\n                <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n            </div>\r\n        </div>";
+                        return RedirectToAction("Index");
+                    }
                     var InternShip = new InternshipResult();
                     InternShip.Student_Email = registration.Email_VanLang;
                     InternShip.MentorPoint = null;
@@ -160,36 +172,24 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
                     InternShip.BusinessComment = null;
                     InternShip.BusinessPoint = null;
                     InternShip.InternshipTopic_ID = registration.InternshipTopic_ID;
-                    InternShip.Status = "Đang Thực Tập";
+                    InternShip.Status = "Chờ Xác Nhận";
+                    registration.InternshipResult_ID = InternShip.ID;
+                    db.Entry(registration).State = EntityState.Modified;
                     db.InternshipResults.Add(InternShip);
-                    foreach (var item in db.Registrations)
-                    {
-                        if(item.Email_VanLang == email.Email)
-                        {
-                            item.StatusRegistration = "Hủy Duyệt";
-                            db.Entry(item).State = EntityState.Modified;
-                            registration.StatusRegistration = "Phê Duyệt";
-                                db.Entry(registration).State = EntityState.Modified;
-
-                        }
-                        else
-                        {
-                            db.Entry(registration).State = EntityState.Modified;
-                        }
-                    }
-                        db.SaveChanges();
-                        TempData["AlertMessage"] = "<div class=\"toast toast--success\">            <div class=\"toast-left toast-left--success\">               <i class=\"fas fa-check-circle\"></i>\r\n            </div>\r\n            <div class=\"toast-content\">\r\n                <p class=\"toast-text\">Cập Nhật Thành Công</p>            </div>\r\n            <div class=\"toast-right\">\r\n                <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n            </div>\r\n        </div>";
-                        return RedirectToAction("Index");
+                    db.SaveChanges();
+                    TempData["AlertMessage"] = "<div class=\"toast toast--success\">            <div class=\"toast-left toast-left--success\">               <i class=\"fas fa-check-circle\"></i>\r\n            </div>\r\n            <div class=\"toast-content\">\r\n                <p class=\"toast-text\">Cập Nhật Thành Công</p>            </div>\r\n            <div class=\"toast-right\">\r\n                <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n            </div>\r\n        </div>";
+                    return RedirectToAction("Index");
                 }
                 else
                 {
-                    if(db.InternshipResults.Any(x => x.VanLangUser.Email == registration.Email_VanLang)==false)
+                    if(db.InternshipResults.Any(x => x.ID == registration.InternshipResult_ID) ==false)
                     {
                         TempData["AlertMessage"] = "<div class=\"toast toast--success\">            <div class=\"toast-left toast-left--success\">               <i class=\"fas fa-check-circle\"></i>\r\n            </div>\r\n            <div class=\"toast-content\">\r\n                <p class=\"toast-text\">Cập Nhật Thành Công</p>            </div>\r\n            <div class=\"toast-right\">\r\n                <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n            </div>\r\n        </div>";
                         return RedirectToAction("Index");
                     }
-                    var asd = db.InternshipResults.Where(x => x.VanLangUser.Email == registration.Email_VanLang).FirstOrDefault();
+                    var asd = db.InternshipResults.Where(x => x.ID == registration.InternshipResult_ID).FirstOrDefault();
                     db.InternshipResults.Remove(asd);
+                    registration.InterviewResult = "Chờ Xác Nhận";
                 }
                 db.Entry(registration).State = EntityState.Modified;
                 db.SaveChanges();

@@ -27,7 +27,12 @@ namespace BusinessConnectManagement.Areas.Admin
                 new { controller = "AdminHome", action = "AuthorizeList", id = UrlParameter.Optional },
                 namespaces: new[] { "BusinessConnectManagement.Areas.Admin.Controllers" }
             );
-
+            context.MapRoute(
+                "Student List Mentor",
+                "quan-ly/giao-vien/sinh-vien",
+                new { controller = "InternshipResultsMentor", action = "Index", id = UrlParameter.Optional },
+                namespaces: new[] { "BusinessConnectManagement.Areas.Mentor.Controllers" }
+            );
             context.MapRoute(
                 "Admin_default",
                 "Admin/{controller}/{action}/{id}",
