@@ -207,6 +207,7 @@
     <Compile Include="Controllers\AccountOfStudentController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InternshipResultsController.cs" />
     <Compile Include="Controllers\MOUsController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
     <Compile Include="Controllers\RegistrationController.cs" />
@@ -251,13 +252,11 @@
     <Compile Include="Models\MOU.cs">
       <DependentUpon>BCMModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Position.cs">
-      <DependentUpon>BCMModel.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Models\Outlook.cs" />
     <Compile Include="Models\Post.cs">
       <DependentUpon>BCMModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\PostPosition.cs">
+    <Compile Include="Models\PostInternshipTopic.cs">
       <DependentUpon>BCMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Registration.cs">
@@ -306,6 +305,7 @@
     <Content Include="assets\css\menu2.css" />
     <Content Include="assets\css\nav2.css" />
     <Content Include="assets\css\reset.css" />
+    <Content Include="assets\css\select.css" />
     <Content Include="assets\css\style.css" />
     <Content Include="assets\css\table2.css" />
     <Content Include="assets\css\toast.css" />
@@ -1245,17 +1245,19 @@
     <Content Include="assets\User\assets\css\spectre\spectre.min.css" />
     <Content Include="assets\User\assets\css\style.css" />
     <Content Include="assets\User\assets\css\style2.css" />
+    <Content Include="assets\User\assets\images\banner-bg.png" />
     <Content Include="assets\User\assets\images\banner1.jpg" />
-    <Content Include="assets\User\assets\images\bg.jpg" />
+    <Content Include="assets\User\assets\images\company.png" />
     <Content Include="assets\User\assets\images\exp.png" />
     <Content Include="assets\User\assets\images\files.png" />
-    <Content Include="assets\User\assets\images\HR.gif" />
     <Content Include="assets\User\assets\images\image-job.png" />
     <Content Include="assets\User\assets\images\logo.png" />
-    <Content Include="assets\User\assets\images\logoOld.png" />
+    <Content Include="assets\User\assets\images\logo2.png" />
     <Content Include="assets\User\assets\images\medal.png" />
     <Content Include="assets\User\assets\images\money.png" />
     <Content Include="assets\User\assets\images\mou1.jpg" />
+    <Content Include="assets\User\assets\images\panner.png" />
+    <Content Include="assets\User\assets\images\paper.png" />
     <Content Include="assets\User\assets\images\people.png" />
     <Content Include="assets\User\assets\images\profile.png" />
     <Content Include="assets\User\assets\images\sex.png" />
@@ -1361,11 +1363,6 @@
     <Content Include="assets\js\ckfinder\plugins\fileeditor\codemirror\LICENSE" />
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Admin\Views\AdminHome\Index.cshtml" />
-    <Content Include="Areas\Business\Views\InternshipResults\Create.cshtml" />
-    <Content Include="Areas\Business\Views\InternshipResults\Delete.cshtml" />
-    <Content Include="Areas\Business\Views\InternshipResults\Details.cshtml" />
-    <Content Include="Areas\Business\Views\InternshipResults\Edit.cshtml" />
-    <Content Include="Areas\Business\Views\InternshipResults\Index.cshtml" />
     <Content Include="Areas\Business\Views\InternViews\Create.cshtml" />
     <Content Include="Areas\Business\Views\InternViews\Delete.cshtml" />
     <Content Include="Areas\Business\Views\InternViews\Details.cshtml" />
@@ -1377,6 +1374,9 @@
     <Content Include="Areas\Faculty\Views\FacultyHome\Index.cshtml" />
     <Content Include="Areas\Faculty\Views\Registration\Details.cshtml" />
     <Content Include="Areas\Admin\Views\AdminHome\AuthorizeList.cshtml" />
+    <Content Include="Content\toastr.less" />
+    <Content Include="Content\toastr.scss" />
+    <Content Include="assets\User\assets\images\bg-bread.webp" />
     <Content Include="assets\User\assets\css\font\fontawesome\webfonts\fa-brands-400.ttf" />
     <Content Include="assets\User\assets\css\font\fontawesome\webfonts\fa-brands-400.woff2" />
     <Content Include="assets\User\assets\css\font\fontawesome\webfonts\fa-regular-400.ttf" />
@@ -1385,9 +1385,11 @@
     <Content Include="assets\User\assets\css\font\fontawesome\webfonts\fa-solid-900.woff2" />
     <Content Include="assets\User\assets\css\font\fontawesome\webfonts\fa-v4compatibility.ttf" />
     <Content Include="assets\User\assets\css\font\fontawesome\webfonts\fa-v4compatibility.woff2" />
-    <Content Include="assets\User\assets\images\bg-bread.webp" />
-    <Content Include="Content\toastr.less" />
-    <Content Include="Content\toastr.scss" />
+    <Content Include="Areas\Business\Views\InternshipResults\Create.cshtml" />
+    <Content Include="Areas\Business\Views\InternshipResults\Delete.cshtml" />
+    <Content Include="Areas\Business\Views\InternshipResults\Details.cshtml" />
+    <Content Include="Areas\Business\Views\InternshipResults\Edit.cshtml" />
+    <Content Include="Areas\Business\Views\InternshipResults\Index.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -1428,6 +1430,11 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Registration\listReg.cshtml" />
     <Content Include="Views\AccountOfStudent\StudentInformation.cshtml" />
+    <Content Include="Views\InternshipResults\Create.cshtml" />
+    <Content Include="Views\InternshipResults\Delete.cshtml" />
+    <Content Include="Views\InternshipResults\Details.cshtml" />
+    <Content Include="Views\InternshipResults\Edit.cshtml" />
+    <Content Include="Views\InternshipResults\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

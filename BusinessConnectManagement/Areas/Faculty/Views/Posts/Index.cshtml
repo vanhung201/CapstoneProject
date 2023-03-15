@@ -14,10 +14,10 @@
 
     }
 
-<div class="filter">
-    <div class="bu_status"></div>
-    <label id="nameLabel1">Lọc:</label>
-</div>
+    <div class="filter">
+        <div class="bu_status"></div>
+        <label id="nameLabel1">Lọc:</label>
+    </div>
 
     <div class="btn btn--create" id="btn-create" style="float:right">
         <span class="btn-text">Thêm</span>
@@ -67,12 +67,22 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label  class="form-label">Số lượng</label>
+                    <label class="form-label">Số lượng</label>
                     <input list="" name="Quantity" class="form-input" value=""
-                           autocomplete="off"  />
+                           autocomplete="off" />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Chuyên Nghành</label>
+                    <select name="Major_ID" class="form-input">
+                        @foreach (var item in ViewBag.Major)
+                        {
+                            <option value=@item.ID>@item.Major1</option>
+                        }
+
+                    </select>
                 </div>
             </div>
-            
+
             <div class="form-column">
                 <div class="form-group">
                     <label class="form-label">Ngày hết hạn</label>
@@ -86,6 +96,18 @@
                         <option value="Offline">Offline</option>
                     </select>
                 </div>
+                <div class="form-group">
+                    <label class="form-label">Vị Trí</label>
+                    <select multiple data-placeholder="Chọn vị trí" name="positions"  class="chosen-select">
+                        @foreach (var item in ViewBag.Position)
+                        {
+                            <option value="@item.ID">@item.InternshipTopicName</option>
+                        }
+                    </select>
+
+                    <!-- dribbble -->
+                    
+                </div>
             </div>
         </div>
         <div class="form-group">
@@ -94,10 +116,10 @@
         </div>
         <div class="form-group">
             <a class="btn btn--cancel">
-               Hủy
+                Hủy
             </a>
-            <button class="btn btn--confirm"  type="submit" id="btn--add">
-               Xác Nhận
+            <button class="btn btn--confirm" type="submit" id="btn--add">
+                Xác Nhận
             </button>
         </div>
 
@@ -132,7 +154,18 @@
                 <div class="form-group">
                     <label class="form-label">Số Lượng</label>
                     <input list="" name="Quantity" id="Quantity" class="form-input" value=""
-                           autocomplete="off"  />
+                           autocomplete="off" />
+                </div>
+                <div class="form-group">
+                    <label for="Major_ID" class="form-label">Chuyên Nghành</label>
+                    <select name="Major_ID" id="majorr" class="form-input">
+                        <option value="1">Công nghệ phần mềm</option>
+                        <option value="2">Công nghệ dữ liệu</option>
+                        <option value="3">Tin học quản trị</option>
+                        <option value="4">An ninh Mạng</option>
+                        <option value="5">Hệ thống Thông tin</option>
+                        <option value="6">Kỹ thuật phần mềm</option>
+                    </select>
                 </div>
             </div>
             <div class="form-column">
@@ -152,7 +185,7 @@
                 <div class="form-group">
                     <label class="form-label">Ngày Hết Hạn</label>
                     <input list="" name="DueDate" id="DueDate" type="date" class="form-input" onchange="checkDateUp()" value="" />
-                    <input list=""  id="DueDate2" type="date" class="form-input" value=""   hidden/>
+                    <input list="" id="DueDate2" type="date" class="form-input" value="" hidden />
                 </div>
                 <div class="form-group">
                     <label class="form-label">Hình Thức</label>
@@ -160,6 +193,19 @@
                         <option value="Online">Online</option>
                         <option value="Offline">Offline</option>
                     </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Vị Trí</label>
+                    <select multiple data-placeholder="Chọn vị trí" name="position" class="chosen-select PostI" >
+                        @foreach (var item in ViewBag.Position)
+                        {
+                            <option value="@item.ID">@item.InternshipTopicName</option>
+                        }
+                    </select>
+                    
+
+                    <!-- dribbble -->
+
                 </div>
             </div>
         </div>
@@ -169,10 +215,10 @@
         </div>
         <div class="form-group">
             <a class="btn btn--cancel">
-               Hủy
+                Hủy
             </a>
             <button class="btn btn--confirm" id="btn--update">
-             Xác Nhận
+                Xác Nhận
             </button>
         </div>
 
@@ -206,17 +252,17 @@
 
 
 @section Scripts {
-     <script type="text/javascript">
+    <script type="text/javascript">
 
-            function loadDeleteUser(id, name) {
-                let formDelete = document.getElementById("deleteForm");
-                formDelete.classList.add('is-appear')
-                document.getElementById('iddele').value = id;
-                document.getElementById('namedele').value = name;
-            }
-        </script>
+        function loadDeleteUser(id, name) {
+            let formDelete = document.getElementById("deleteForm");
+            formDelete.classList.add('is-appear')
+            document.getElementById('iddele').value = id;
+            document.getElementById('namedele').value = name;
+        }
+    </script>
 
-<script type="text/javascript">
+    <script type="text/javascript">
     $('.btn--cancel').on('click', function () {
         $('#form_detail').removeClass('is-appear')
     })
@@ -233,8 +279,8 @@
         $('#addForm').submit()
     })
 
-    
-  
+
+
     $(function () {
         var url = "@Url.Action("getDataList", "Posts")"
         "use strict";
@@ -252,7 +298,7 @@
                     data: "title",
                     render: function (data) {
                         return '<span class="overFlow">' + data + '</span>'
-                    }  
+                    }
                 },
                 { data: "business"},
                 { data: "name" , },
@@ -313,7 +359,7 @@
             });
         });
         // Create Index column datatable
-        
+
 
     });
     $('#table_listData').on('click', '.business_detail', function (e) {
@@ -326,38 +372,69 @@
                 type: "get",
                 dataType: 'json',
                 success: function (res) {
-                    console.log(res)
-                    const imgPath = `@Url.Content("~/Uploads/Images/")` + res[0].postImage
-                    const actionUrl = `@Url.Action("Edit","Posts")` + `${res[0].id}`
-                    $('#ID').val(res[0].id)
-                    $('#Title').val(res[0].title)
-                    $('#Email_ID').val(res[0].email)
-                    $('#Name').val(res[0].name)
-                    $('#PostDay').val(res[0].postday)
-                    $('#PostDay2').val(res[0].postday)
-                    $('#ModifyDay').val(res[0].modifyday)
-                    $('#Semester_ID').val(res[0].semeter)
-                    $('#BusinessName').val(res[0].business)
-                    $('#Business_ID').val(res[0].business_id)
+                    console.log(res);
                   
-                    $('#DueDate').val(res[0].duedate)
-                    $('#DueDate2').val(res[0].duedate)
-                    $('#Quantity').val(res[0].quatity)
-                    if (res[0].form === "Online") {
+                    const actionUrl = `@Url.Action("Edit","Posts")` + `${res.listData[0].id}`
+                    const arr = [];
+                    const list = document.querySelectorAll(".PostI option");
+                    for (let i = 0; i < list.length; i++) {
+                        if (res.postIntern[i].status == true) {
+                            if (list[i].value == res.postIntern[i].id) {
+                                arr.push(res.postIntern[i].id)
+                            }
+                        } 
+                    }
+                    console.log(arr)
+                    $('.PostI').val(arr)
+                    $('.PostI').trigger('chosen:updated')
+                    $('#ID').val(res.listData[0].id)
+                    $('#Title').val(res.listData[0].title)
+                    $('#Email_ID').val(res.listData[0].email)
+                    $('#Name').val(res.listData[0].name)
+                    $('#PostDay').val(res.listData[0].postday)
+                    $('#PostDay2').val(res.listData[0].postday)
+                    $('#ModifyDay').val(res.listData[0].modifyday)
+                    $('#Semester_ID').val(res.listData[0].semeter)
+                    $('#BusinessName').val(res.listData[0].business)
+                    $('#Business_ID').val(res.listData[0].business_id)
+                  
+                    $('#DueDate').val(res.listData[0].duedate)
+                    $('#DueDate2').val(res.listData[0].duedate)
+                    $('#Quantity').val(res.listData[0].quatity)
+                    
+                   
+                    if (res.listData[0].form === "Online") {
                         $('select option[value="Online"]').attr("selected", "selected");
                     } else {
                         $('select option[value="Offline"]').attr("selected", "selected");
                     }
-                    $('#output1').attr('src', `${imgPath}`)
-                    $('#output1').css('display', 'block')
-                    CKEDITOR.instances['Description'].setData(res[0].description)
+
+                    if (res.listData[0].majorr === "Công nghệ phần mềm") {
+                        $('select option[value="1"]').attr("selected", "selected");
+                    } else if (res.listData[0].majorr === "Công nghệ dữ liệu") {
+                        $('select option[value="2"]').attr("selected", "selected");
+                    }
+                    else if (res.listData[0].majorr === "Tin học quản trị") {
+                        $('select option[value="3"]').attr("selected", "selected");
+                    }
+                    else if (res.listData[0].majorr === "An ninh Mạng") {
+                        $('select option[value="4"]').attr("selected", "selected");
+                    }
+                    else if (res.listData[0].majorr === "Hệ thống Thông tin") {
+                        $('select option[value="5"]').attr("selected", "selected");
+                    }
+                    else if (res.listData[0].majorr === "Kỹ thuật phần mềm") {
+                        $('select option[value="6"]').attr("selected", "selected");
+                    }
+                   
+                    CKEDITOR.instances['Description'].setData(res.listData[0].description)
                     $('#form_detail').attr('action', `${actionUrl}`)
                 }
 
             })
         })
 
-</script>
+    </script>
     <script type="text/javascript" src="@Url.Content("~/assets/js/ckeditor/ckeditor.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/assets/js/ckfinder/ckfinder.js")"></script>
     <script type="text/javascript">
@@ -392,7 +469,7 @@
                 DueDate: {
                     required: true
                 }
-             
+
             },
             messages: {
                 Title: {
@@ -412,17 +489,17 @@
                     minlength: 3,
                     blank: true
                 },
-                 DueDate: {
+                DueDate: {
                     required: true
                 },
             },
-           
+
             messages: {
                 Title: {
                     required: "Vui lòng nhập tiêu đề bài viết.",
                     minlength: "Tiêu đề phải ít nhất 3 kí tự."
                 },
-                 DueDate: {
+                DueDate: {
                     required: "Vui lòng chọn ngày hết hạn."
                 }
             }
@@ -460,7 +537,7 @@
 
         });
 
-       
+
         function checkDate() {
             var selectedText = document.getElementById('dueDate').value;
             var selectedDate = new Date(selectedText);
@@ -477,7 +554,7 @@
 
             var selectedPostDay = document.getElementById('PostDay').value;
             var date = moment(selectedPostDay).format('DD/MM/YYYY');
-            
+
             var selectedText = document.getElementById('DueDate').value;
             var selectedDueDate = document.getElementById('DueDate2').value;
 
@@ -489,11 +566,112 @@
                 return true
             } else {
                 $('#DueDate').val(selectedDueDate)
-               /* console.log($('#DueDate').val(selectedDueDate))*/
+                /* console.log($('#DueDate').val(selectedDueDate))*/
                 alert("Vui lòng không chọn những ngày trước ngày tạo.");
                 return false
             }
         }
     </script>
+    <script>
+        $(document).ready(function () {
 
+            /*var select = $('select[multiple]');
+            var options = select.find('option');
+
+            var div = $('<div />').addClass('selectMultiple');
+            var active = $('<div />');
+            var list = $('<ul />');
+            var placeholder = select.data('placeholder');
+
+            var span = $('<span />').text(placeholder).appendTo(active);
+
+            options.each(function () {
+                var text = $(this).text();
+                if ($(this).is(':selected')) {
+                    active.append($('<a />').html('<em>' + text + '</em><i></i>'));
+                    span.addClass('hide');
+                } else {
+                    list.append($('<li />').html(text));
+                }
+            });
+
+            active.append($('<div />').addClass('arrow'));
+            div.append(active).append(list);
+
+            select.wrap(div);*/
+
+            $(document).on('click', '.selectMultiple ul li', function (e) {
+                var select = $(this).parent().parent();
+                var li = $(this);
+                if (!select.hasClass('clicked')) {
+                    select.addClass('clicked');
+                    li.prev().addClass('beforeRemove');
+                    li.next().addClass('afterRemove');
+                    li.addClass('remove');
+                    var a = $('<a />').addClass('notShown').html('<em>' + li.text() + '</em><i></i>').hide().appendTo(select.children('div'));
+                    a.slideDown(400, function () {
+                        setTimeout(function () {
+                            a.addClass('shown');
+                            select.children('div').children('span').addClass('hide');
+                            select.find('option:contains(' + li.text() + ')').prop('selected', true);
+                        }, 500);
+                    });
+                    setTimeout(function () {
+                        if (li.prev().is(':last-child')) {
+                            li.prev().removeClass('beforeRemove');
+                        }
+                        if (li.next().is(':first-child')) {
+                            li.next().removeClass('afterRemove');
+                        }
+                        setTimeout(function () {
+                            li.prev().removeClass('beforeRemove');
+                            li.next().removeClass('afterRemove');
+                        }, 200);
+
+                        li.slideUp(400, function () {
+                            li.remove();
+                            select.removeClass('clicked');
+                        });
+                    }, 600);
+                }
+            });
+
+            $(document).on('click', '.selectMultiple > div a', function (e) {
+                var select = $(this).parent().parent();
+                var self = $(this);
+                self.removeClass().addClass('remove');
+                select.addClass('open');
+                setTimeout(function () {
+                    self.addClass('disappear');
+                    setTimeout(function () {
+                        self.animate({
+                            width: 0,
+                            height: 0,
+                            padding: 0,
+                            margin: 0
+                        }, 300, function () {
+                            var li = $('<li />').text(self.children('em').text()).addClass('notShown').appendTo(select.find('ul'));
+                            li.slideDown(400, function () {
+                                li.addClass('show');
+                                setTimeout(function () {
+                                    select.find('option:contains(' + self.children('em').text() + ')').prop('selected', false);
+                                    if (!select.find('option:selected').length) {
+                                        select.children('div').children('span').removeClass('hide');
+                                    }
+                                    li.removeClass();
+                                }, 400);
+                            });
+                            self.remove();
+                        })
+                    }, 300);
+                }, 400);
+            });
+
+            $(document).on('click', '.selectMultiple > div .arrow, .selectMultiple > div span', function (e) {
+                $(this).parent().parent().toggleClass('open');
+            });
+
+        });
+
+    </script>
 }

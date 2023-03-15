@@ -53,7 +53,7 @@
           <Property Name="Business_ID" Type="int" Nullable="false" />
           <Property Name="BusinessPoint" Type="float" />
           <Property Name="BusinessComment" Type="nvarchar(max)" />
-          <Property Name="Position_ID" Type="int" />
+          <Property Name="InternshipTopic_ID" Type="int" />
           <Property Name="Status" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="InternshipTopic">
@@ -100,6 +100,15 @@
           <Property Name="Quantity" Type="int" />
           <Property Name="DueDate" Type="nvarchar" MaxLength="50" />
           <Property Name="Form" Type="nvarchar" MaxLength="50" />
+          <Property Name="Major_ID" Type="int" />
+        </EntityType>
+        <EntityType Name="PostInternshipTopic">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Post_ID" Type="int" />
+          <Property Name="InternshipTopic_ID" Type="int" />
         </EntityType>
         <EntityType Name="Registration">
           <Key>
@@ -118,7 +127,8 @@
           <Property Name="StatusInternview" Type="nvarchar" MaxLength="30" />
           <Property Name="StatusRegistration" Type="nvarchar" MaxLength="30" />
           <Property Name="Comment" Type="nvarchar(max)" />
-          <Property Name="Position_ID" Type="int" />
+          <Property Name="InternshipTopic_ID" Type="int" />
+          <Property Name="PostInternshipTopic_ID" Type="int" />
         </EntityType>
         <EntityType Name="Semester">
           <Key>
@@ -174,21 +184,6 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="YearStudy" Type="varchar" MaxLength="15" />
         </EntityType>
-        <EntityType Name="Position">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="50" />
-        </EntityType>
-        <EntityType Name="PostPosition">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Post_ID" Type="int" />
-          <Property Name="Position_ID" Type="int" />
-        </EntityType>
         <Association Name="FK_BusinessCooperationCategories_BusinessUser">
           <End Role="BusinessUser" Type="Self.BusinessUser" Multiplicity="1" />
           <End Role="BusinessCooperationCategories" Type="Self.BusinessCooperationCategories" Multiplicity="*" />
@@ -237,15 +232,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_InternshipResult_Position">
-          <End Role="Position" Type="Self.Position" Multiplicity="0..1" />
+        <Association Name="FK_InternshipResult_InternshipTopic">
+          <End Role="InternshipTopic" Type="Self.InternshipTopic" Multiplicity="0..1" />
           <End Role="InternshipResult" Type="Self.InternshipResult" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Position">
-              <PropertyRef Name="Id" />
+            <Principal Role="InternshipTopic">
+              <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="InternshipResult">
-              <PropertyRef Name="Position_ID" />
+              <PropertyRef Name="InternshipTopic_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -297,6 +292,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Post_Major">
+          <End Role="Major" Type="Self.Major" Multiplicity="0..1" />
+          <End Role="Post" Type="Self.Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Major">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Post">
+              <PropertyRef Name="Major_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Post_Semester">
           <End Role="Semester" Type="Self.Semester" Multiplicity="0..1" />
           <End Role="Post" Type="Self.Post" Multiplicity="*" />
@@ -333,26 +340,26 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_PostPosition_Position">
-          <End Role="Position" Type="Self.Position" Multiplicity="0..1" />
-          <End Role="PostPosition" Type="Self.PostPosition" Multiplicity="*" />
+        <Association Name="FK_PostInternshipTopic_InternshipTopic">
+          <End Role="InternshipTopic" Type="Self.InternshipTopic" Multiplicity="0..1" />
+          <End Role="PostInternshipTopic" Type="Self.PostInternshipTopic" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Position">
-              <PropertyRef Name="Id" />
+            <Principal Role="InternshipTopic">
+              <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="PostPosition">
-              <PropertyRef Name="Position_ID" />
+            <Dependent Role="PostInternshipTopic">
+              <PropertyRef Name="InternshipTopic_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PostPosition_Post">
           <End Role="Post" Type="Self.Post" Multiplicity="0..1" />
-          <End Role="PostPosition" Type="Self.PostPosition" Multiplicity="*" />
+          <End Role="PostInternshipTopic" Type="Self.PostInternshipTopic" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Post">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="PostPosition">
+            <Dependent Role="PostInternshipTopic">
               <PropertyRef Name="Post_ID" />
             </Dependent>
           </ReferentialConstraint>
@@ -369,15 +376,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Registration_Position">
-          <End Role="Position" Type="Self.Position" Multiplicity="0..1" />
+        <Association Name="FK_Registration_InternshipTopic">
+          <End Role="InternshipTopic" Type="Self.InternshipTopic" Multiplicity="0..1" />
           <End Role="Registration" Type="Self.Registration" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Position">
-              <PropertyRef Name="Id" />
+            <Principal Role="InternshipTopic">
+              <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="Registration">
-              <PropertyRef Name="Position_ID" />
+              <PropertyRef Name="InternshipTopic_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -453,7 +460,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Trainee_VanLangUser1">
+        <Association Name="FK_Trainee_VanLangUserOfStudent">
           <End Role="VanLangUser" Type="Self.VanLangUser" Multiplicity="0..1" />
           <End Role="Trainee" Type="Self.Trainee" Multiplicity="*" />
           <ReferentialConstraint>
@@ -498,6 +505,7 @@
           <EntitySet Name="Major" EntityType="Self.Major" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MOU" EntityType="Self.MOU" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Post" EntityType="Self.Post" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PostInternshipTopic" EntityType="Self.PostInternshipTopic" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Registration" EntityType="Self.Registration" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Semester" EntityType="Self.Semester" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
@@ -505,8 +513,6 @@
           <EntitySet Name="Trainee" EntityType="Self.Trainee" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VanLangUser" EntityType="Self.VanLangUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="YearStudy" EntityType="Self.YearStudy" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Position" EntityType="Self.Position" Schema="fit89398_CAP" store:Type="Tables" />
-          <EntitySet Name="PostPosition" EntityType="Self.PostPosition" Schema="fit89398_CAP" store:Type="Tables" />
           <AssociationSet Name="FK_BusinessCooperationCategories_BusinessUser" Association="Self.FK_BusinessCooperationCategories_BusinessUser">
             <End Role="BusinessUser" EntitySet="BusinessUser" />
             <End Role="BusinessCooperationCategories" EntitySet="BusinessCooperationCategories" />
@@ -523,8 +529,8 @@
             <End Role="BusinessUser" EntitySet="BusinessUser" />
             <End Role="InternshipResult" EntitySet="InternshipResult" />
           </AssociationSet>
-          <AssociationSet Name="FK_InternshipResult_Position" Association="Self.FK_InternshipResult_Position">
-            <End Role="Position" EntitySet="Position" />
+          <AssociationSet Name="FK_InternshipResult_InternshipTopic" Association="Self.FK_InternshipResult_InternshipTopic">
+            <End Role="InternshipTopic" EntitySet="InternshipTopic" />
             <End Role="InternshipResult" EntitySet="InternshipResult" />
           </AssociationSet>
           <AssociationSet Name="FK_InternshipResult_Semester" Association="Self.FK_InternshipResult_Semester">
@@ -543,6 +549,10 @@
             <End Role="BusinessUser" EntitySet="BusinessUser" />
             <End Role="Post" EntitySet="Post" />
           </AssociationSet>
+          <AssociationSet Name="FK_Post_Major" Association="Self.FK_Post_Major">
+            <End Role="Major" EntitySet="Major" />
+            <End Role="Post" EntitySet="Post" />
+          </AssociationSet>
           <AssociationSet Name="FK_Post_Semester" Association="Self.FK_Post_Semester">
             <End Role="Semester" EntitySet="Semester" />
             <End Role="Post" EntitySet="Post" />
@@ -555,20 +565,20 @@
             <End Role="VanLangUser" EntitySet="VanLangUser" />
             <End Role="Post" EntitySet="Post" />
           </AssociationSet>
-          <AssociationSet Name="FK_PostPosition_Position" Association="Self.FK_PostPosition_Position">
-            <End Role="Position" EntitySet="Position" />
-            <End Role="PostPosition" EntitySet="PostPosition" />
+          <AssociationSet Name="FK_PostInternshipTopic_InternshipTopic" Association="Self.FK_PostInternshipTopic_InternshipTopic">
+            <End Role="InternshipTopic" EntitySet="InternshipTopic" />
+            <End Role="PostInternshipTopic" EntitySet="PostInternshipTopic" />
           </AssociationSet>
           <AssociationSet Name="FK_PostPosition_Post" Association="Self.FK_PostPosition_Post">
             <End Role="Post" EntitySet="Post" />
-            <End Role="PostPosition" EntitySet="PostPosition" />
+            <End Role="PostInternshipTopic" EntitySet="PostInternshipTopic" />
           </AssociationSet>
           <AssociationSet Name="FK_Registration_BusinessUser1" Association="Self.FK_Registration_BusinessUser1">
             <End Role="BusinessUser" EntitySet="BusinessUser" />
             <End Role="Registration" EntitySet="Registration" />
           </AssociationSet>
-          <AssociationSet Name="FK_Registration_Position" Association="Self.FK_Registration_Position">
-            <End Role="Position" EntitySet="Position" />
+          <AssociationSet Name="FK_Registration_InternshipTopic" Association="Self.FK_Registration_InternshipTopic">
+            <End Role="InternshipTopic" EntitySet="InternshipTopic" />
             <End Role="Registration" EntitySet="Registration" />
           </AssociationSet>
           <AssociationSet Name="FK_Registration_Post1" Association="Self.FK_Registration_Post1">
@@ -595,7 +605,7 @@
             <End Role="VanLangUser" EntitySet="VanLangUser" />
             <End Role="Trainee" EntitySet="Trainee" />
           </AssociationSet>
-          <AssociationSet Name="FK_Trainee_VanLangUser1" Association="Self.FK_Trainee_VanLangUser1">
+          <AssociationSet Name="FK_Trainee_VanLangUserOfStudent" Association="Self.FK_Trainee_VanLangUserOfStudent">
             <End Role="VanLangUser" EntitySet="VanLangUser" />
             <End Role="Trainee" EntitySet="Trainee" />
           </AssociationSet>
@@ -621,6 +631,7 @@
           <EntitySet Name="Majors" EntityType="BCMModel.Major" />
           <EntitySet Name="MOUs" EntityType="BCMModel.MOU" />
           <EntitySet Name="Posts" EntityType="BCMModel.Post" />
+          <EntitySet Name="PostInternshipTopics" EntityType="BCMModel.PostInternshipTopic" />
           <EntitySet Name="Registrations" EntityType="BCMModel.Registration" />
           <EntitySet Name="Semesters" EntityType="BCMModel.Semester" />
           <EntitySet Name="Status" EntityType="BCMModel.Status" />
@@ -628,8 +639,6 @@
           <EntitySet Name="Trainees" EntityType="BCMModel.Trainee" />
           <EntitySet Name="VanLangUsers" EntityType="BCMModel.VanLangUser" />
           <EntitySet Name="YearStudies" EntityType="BCMModel.YearStudy" />
-          <EntitySet Name="Positions" EntityType="BCMModel.Position" />
-          <EntitySet Name="PostPositions" EntityType="BCMModel.PostPosition" />
           <AssociationSet Name="FK_BusinessCooperationCategories_BusinessUser" Association="BCMModel.FK_BusinessCooperationCategories_BusinessUser">
             <End Role="BusinessUser" EntitySet="BusinessUsers" />
             <End Role="BusinessCooperationCategory" EntitySet="BusinessCooperationCategories" />
@@ -658,8 +667,8 @@
             <End Role="BusinessUser" EntitySet="BusinessUsers" />
             <End Role="Registration" EntitySet="Registrations" />
           </AssociationSet>
-          <AssociationSet Name="FK_InternshipResult_Position" Association="BCMModel.FK_InternshipResult_Position">
-            <End Role="Position" EntitySet="Positions" />
+          <AssociationSet Name="FK_InternshipResult_InternshipTopic" Association="BCMModel.FK_InternshipResult_InternshipTopic">
+            <End Role="InternshipTopic" EntitySet="InternshipTopics" />
             <End Role="InternshipResult" EntitySet="InternshipResults" />
           </AssociationSet>
           <AssociationSet Name="FK_InternshipResult_Semester" Association="BCMModel.FK_InternshipResult_Semester">
@@ -669,6 +678,18 @@
           <AssociationSet Name="FK_InternshipResult_VanLangUser" Association="BCMModel.FK_InternshipResult_VanLangUser">
             <End Role="VanLangUser" EntitySet="VanLangUsers" />
             <End Role="InternshipResult" EntitySet="InternshipResults" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PostInternshipTopic_InternshipTopic" Association="BCMModel.FK_PostInternshipTopic_InternshipTopic">
+            <End Role="InternshipTopic" EntitySet="InternshipTopics" />
+            <End Role="PostInternshipTopic" EntitySet="PostInternshipTopics" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Registration_InternshipTopic" Association="BCMModel.FK_Registration_InternshipTopic">
+            <End Role="InternshipTopic" EntitySet="InternshipTopics" />
+            <End Role="Registration" EntitySet="Registrations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Post_Major" Association="BCMModel.FK_Post_Major">
+            <End Role="Major" EntitySet="Majors" />
+            <End Role="Post" EntitySet="Posts" />
           </AssociationSet>
           <AssociationSet Name="FK_VanLangUser_Major" Association="BCMModel.FK_VanLangUser_Major">
             <End Role="Major" EntitySet="Majors" />
@@ -688,14 +709,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_PostPosition_Post" Association="BCMModel.FK_PostPosition_Post">
             <End Role="Post" EntitySet="Posts" />
-            <End Role="PostPosition" EntitySet="PostPositions" />
+            <End Role="PostInternshipTopic" EntitySet="PostInternshipTopics" />
           </AssociationSet>
           <AssociationSet Name="FK_Registration_Post1" Association="BCMModel.FK_Registration_Post1">
             <End Role="Post" EntitySet="Posts" />
-            <End Role="Registration" EntitySet="Registrations" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Registration_Position" Association="BCMModel.FK_Registration_Position">
-            <End Role="Position" EntitySet="Positions" />
             <End Role="Registration" EntitySet="Registrations" />
           </AssociationSet>
           <AssociationSet Name="FK_Registration_Semester1" Association="BCMModel.FK_Registration_Semester1">
@@ -722,13 +739,9 @@
             <End Role="VanLangUser" EntitySet="VanLangUsers" />
             <End Role="Trainee" EntitySet="Trainees" />
           </AssociationSet>
-          <AssociationSet Name="FK_Trainee_VanLangUser1" Association="BCMModel.FK_Trainee_VanLangUser1">
+          <AssociationSet Name="FK_Trainee_VanLangUserOfStudent" Association="BCMModel.FK_Trainee_VanLangUserOfStudent">
             <End Role="VanLangUser" EntitySet="VanLangUsers" />
             <End Role="Trainee" EntitySet="Trainees" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PostPosition_Position" Association="BCMModel.FK_PostPosition_Position">
-            <End Role="Position" EntitySet="Positions" />
-            <End Role="PostPosition" EntitySet="PostPositions" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="BusinessCooperationCategory">
@@ -788,10 +801,10 @@
           <Property Name="Business_ID" Type="Int32" Nullable="false" />
           <Property Name="BusinessPoint" Type="Double" />
           <Property Name="BusinessComment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Position_ID" Type="Int32" />
+          <Property Name="InternshipTopic_ID" Type="Int32" />
           <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="BusinessUser" Relationship="BCMModel.FK_InternshipResult_BusinessUser" FromRole="InternshipResult" ToRole="BusinessUser" />
-          <NavigationProperty Name="Position" Relationship="BCMModel.FK_InternshipResult_Position" FromRole="InternshipResult" ToRole="Position" />
+          <NavigationProperty Name="InternshipTopic" Relationship="BCMModel.FK_InternshipResult_InternshipTopic" FromRole="InternshipResult" ToRole="InternshipTopic" />
           <NavigationProperty Name="Semester" Relationship="BCMModel.FK_InternshipResult_Semester" FromRole="InternshipResult" ToRole="Semester" />
           <NavigationProperty Name="VanLangUser" Relationship="BCMModel.FK_InternshipResult_VanLangUser" FromRole="InternshipResult" ToRole="VanLangUser" />
         </EntityType>
@@ -803,6 +816,9 @@
           <Property Name="InternshipTopicName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="InternshipTopicGoals" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="InternshipTopicDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="InternshipResults" Relationship="BCMModel.FK_InternshipResult_InternshipTopic" FromRole="InternshipTopic" ToRole="InternshipResult" />
+          <NavigationProperty Name="PostInternshipTopics" Relationship="BCMModel.FK_PostInternshipTopic_InternshipTopic" FromRole="InternshipTopic" ToRole="PostInternshipTopic" />
+          <NavigationProperty Name="Registrations" Relationship="BCMModel.FK_Registration_InternshipTopic" FromRole="InternshipTopic" ToRole="Registration" />
         </EntityType>
         <EntityType Name="Major">
           <Key>
@@ -810,6 +826,7 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Major1" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Posts" Relationship="BCMModel.FK_Post_Major" FromRole="Major" ToRole="Post" />
           <NavigationProperty Name="VanLangUsers" Relationship="BCMModel.FK_VanLangUser_Major" FromRole="Major" ToRole="VanLangUser" />
         </EntityType>
         <EntityType Name="MOU">
@@ -841,12 +858,24 @@
           <Property Name="Quantity" Type="Int32" />
           <Property Name="DueDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Form" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Major_ID" Type="Int32" />
           <NavigationProperty Name="BusinessUser" Relationship="BCMModel.FK_Post_BusinessUser" FromRole="Post" ToRole="BusinessUser" />
+          <NavigationProperty Name="Major" Relationship="BCMModel.FK_Post_Major" FromRole="Post" ToRole="Major" />
           <NavigationProperty Name="Semester" Relationship="BCMModel.FK_Post_Semester" FromRole="Post" ToRole="Semester" />
           <NavigationProperty Name="VanLangUser" Relationship="BCMModel.FK_Post_VanLangUser" FromRole="Post" ToRole="VanLangUser" />
           <NavigationProperty Name="VanLangUser1" Relationship="BCMModel.FK_Post_VanLangUser1" FromRole="Post" ToRole="VanLangUser" />
-          <NavigationProperty Name="PostPositions" Relationship="BCMModel.FK_PostPosition_Post" FromRole="Post" ToRole="PostPosition" />
+          <NavigationProperty Name="PostInternshipTopics" Relationship="BCMModel.FK_PostPosition_Post" FromRole="Post" ToRole="PostInternshipTopic" />
           <NavigationProperty Name="Registrations" Relationship="BCMModel.FK_Registration_Post1" FromRole="Post" ToRole="Registration" />
+        </EntityType>
+        <EntityType Name="PostInternshipTopic">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Post_ID" Type="Int32" />
+          <Property Name="InternshipTopic_ID" Type="Int32" />
+          <NavigationProperty Name="InternshipTopic" Relationship="BCMModel.FK_PostInternshipTopic_InternshipTopic" FromRole="PostInternshipTopic" ToRole="InternshipTopic" />
+          <NavigationProperty Name="Post" Relationship="BCMModel.FK_PostPosition_Post" FromRole="PostInternshipTopic" ToRole="Post" />
         </EntityType>
         <EntityType Name="Registration">
           <Key>
@@ -865,10 +894,11 @@
           <Property Name="StatusInternview" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="StatusRegistration" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Position_ID" Type="Int32" />
+          <Property Name="InternshipTopic_ID" Type="Int32" />
+          <Property Name="PostInternshipTopic_ID" Type="Int32" />
           <NavigationProperty Name="BusinessUser" Relationship="BCMModel.FK_Registration_BusinessUser1" FromRole="Registration" ToRole="BusinessUser" />
+          <NavigationProperty Name="InternshipTopic" Relationship="BCMModel.FK_Registration_InternshipTopic" FromRole="Registration" ToRole="InternshipTopic" />
           <NavigationProperty Name="Post" Relationship="BCMModel.FK_Registration_Post1" FromRole="Registration" ToRole="Post" />
-          <NavigationProperty Name="Position" Relationship="BCMModel.FK_Registration_Position" FromRole="Registration" ToRole="Position" />
           <NavigationProperty Name="Semester" Relationship="BCMModel.FK_Registration_Semester1" FromRole="Registration" ToRole="Semester" />
           <NavigationProperty Name="VanLangUser" Relationship="BCMModel.FK_Registration_VanLangUser1" FromRole="Registration" ToRole="VanLangUser" />
         </EntityType>
@@ -914,7 +944,7 @@
           <Property Name="Semester_ID" Type="Int32" />
           <NavigationProperty Name="Semester" Relationship="BCMModel.FK_Trainee_Semester" FromRole="Trainee" ToRole="Semester" />
           <NavigationProperty Name="VanLangUser" Relationship="BCMModel.FK_Trainee_VanLangUser" FromRole="Trainee" ToRole="VanLangUser" />
-          <NavigationProperty Name="VanLangUser1" Relationship="BCMModel.FK_Trainee_VanLangUser1" FromRole="Trainee" ToRole="VanLangUser" />
+          <NavigationProperty Name="VanLangUser1" Relationship="BCMModel.FK_Trainee_VanLangUserOfStudent" FromRole="Trainee" ToRole="VanLangUser" />
         </EntityType>
         <EntityType Name="VanLangUser">
           <Key>
@@ -935,7 +965,7 @@
           <NavigationProperty Name="Registrations" Relationship="BCMModel.FK_Registration_VanLangUser1" FromRole="VanLangUser" ToRole="Registration" />
           <NavigationProperty Name="Status" Relationship="BCMModel.FK_VanLangUser_Status" FromRole="VanLangUser" ToRole="Status" />
           <NavigationProperty Name="Trainees" Relationship="BCMModel.FK_Trainee_VanLangUser" FromRole="VanLangUser" ToRole="Trainee" />
-          <NavigationProperty Name="Trainees1" Relationship="BCMModel.FK_Trainee_VanLangUser1" FromRole="VanLangUser" ToRole="Trainee" />
+          <NavigationProperty Name="Trainees1" Relationship="BCMModel.FK_Trainee_VanLangUserOfStudent" FromRole="VanLangUser" ToRole="Trainee" />
         </EntityType>
         <EntityType Name="YearStudy">
           <Key>
@@ -944,26 +974,6 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="YearStudy1" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Semesters" Relationship="BCMModel.FK_Semester_YearStudy" FromRole="YearStudy" ToRole="Semester" />
-        </EntityType>
-        <EntityType Name="Position">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="InternshipResults" Relationship="BCMModel.FK_InternshipResult_Position" FromRole="Position" ToRole="InternshipResult" />
-          <NavigationProperty Name="Registrations" Relationship="BCMModel.FK_Registration_Position" FromRole="Position" ToRole="Registration" />
-          <NavigationProperty Name="PostPositions" Relationship="BCMModel.FK_PostPosition_Position" FromRole="Position" ToRole="PostPosition" />
-        </EntityType>
-        <EntityType Name="PostPosition">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Post_ID" Type="Int32" />
-          <Property Name="Position_ID" Type="Int32" />
-          <NavigationProperty Name="Post" Relationship="BCMModel.FK_PostPosition_Post" FromRole="PostPosition" ToRole="Post" />
-          <NavigationProperty Name="Position" Relationship="BCMModel.FK_PostPosition_Position" FromRole="PostPosition" ToRole="Position" />
         </EntityType>
         <Association Name="FK_BusinessCooperationCategories_BusinessUser">
           <End Type="BCMModel.BusinessUser" Role="BusinessUser" Multiplicity="1" />
@@ -1049,15 +1059,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_InternshipResult_Position">
-          <End Type="BCMModel.Position" Role="Position" Multiplicity="0..1" />
+        <Association Name="FK_InternshipResult_InternshipTopic">
+          <End Type="BCMModel.InternshipTopic" Role="InternshipTopic" Multiplicity="0..1" />
           <End Type="BCMModel.InternshipResult" Role="InternshipResult" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Position">
-              <PropertyRef Name="Id" />
+            <Principal Role="InternshipTopic">
+              <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="InternshipResult">
-              <PropertyRef Name="Position_ID" />
+              <PropertyRef Name="InternshipTopic_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1082,6 +1092,42 @@
             </Principal>
             <Dependent Role="InternshipResult">
               <PropertyRef Name="Student_Email" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PostInternshipTopic_InternshipTopic">
+          <End Type="BCMModel.InternshipTopic" Role="InternshipTopic" Multiplicity="0..1" />
+          <End Type="BCMModel.PostInternshipTopic" Role="PostInternshipTopic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InternshipTopic">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PostInternshipTopic">
+              <PropertyRef Name="InternshipTopic_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Registration_InternshipTopic">
+          <End Type="BCMModel.InternshipTopic" Role="InternshipTopic" Multiplicity="0..1" />
+          <End Type="BCMModel.Registration" Role="Registration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InternshipTopic">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Registration">
+              <PropertyRef Name="InternshipTopic_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Post_Major">
+          <End Type="BCMModel.Major" Role="Major" Multiplicity="0..1" />
+          <End Type="BCMModel.Post" Role="Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Major">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Post">
+              <PropertyRef Name="Major_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1135,12 +1181,12 @@
         </Association>
         <Association Name="FK_PostPosition_Post">
           <End Type="BCMModel.Post" Role="Post" Multiplicity="0..1" />
-          <End Type="BCMModel.PostPosition" Role="PostPosition" Multiplicity="*" />
+          <End Type="BCMModel.PostInternshipTopic" Role="PostInternshipTopic" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Post">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="PostPosition">
+            <Dependent Role="PostInternshipTopic">
               <PropertyRef Name="Post_ID" />
             </Dependent>
           </ReferentialConstraint>
@@ -1154,18 +1200,6 @@
             </Principal>
             <Dependent Role="Registration">
               <PropertyRef Name="Post_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Registration_Position">
-          <End Type="BCMModel.Position" Role="Position" Multiplicity="0..1" />
-          <End Type="BCMModel.Registration" Role="Registration" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Position">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Registration">
-              <PropertyRef Name="Position_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1241,7 +1275,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Trainee_VanLangUser1">
+        <Association Name="FK_Trainee_VanLangUserOfStudent">
           <End Type="BCMModel.VanLangUser" Role="VanLangUser" Multiplicity="0..1" />
           <End Type="BCMModel.Trainee" Role="Trainee" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1250,18 +1284,6 @@
             </Principal>
             <Dependent Role="Trainee">
               <PropertyRef Name="Student_Email" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PostPosition_Position">
-          <End Type="BCMModel.Position" Role="Position" Multiplicity="0..1" />
-          <End Type="BCMModel.PostPosition" Role="PostPosition" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Position">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="PostPosition">
-              <PropertyRef Name="Position_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1313,7 +1335,7 @@
             <EntityTypeMapping TypeName="BCMModel.InternshipResult">
               <MappingFragment StoreEntitySet="InternshipResult">
                 <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Position_ID" ColumnName="Position_ID" />
+                <ScalarProperty Name="InternshipTopic_ID" ColumnName="InternshipTopic_ID" />
                 <ScalarProperty Name="BusinessComment" ColumnName="BusinessComment" />
                 <ScalarProperty Name="BusinessPoint" ColumnName="BusinessPoint" />
                 <ScalarProperty Name="Business_ID" ColumnName="Business_ID" />
@@ -1361,6 +1383,7 @@
           <EntitySetMapping Name="Posts">
             <EntityTypeMapping TypeName="BCMModel.Post">
               <MappingFragment StoreEntitySet="Post">
+                <ScalarProperty Name="Major_ID" ColumnName="Major_ID" />
                 <ScalarProperty Name="Form" ColumnName="Form" />
                 <ScalarProperty Name="DueDate" ColumnName="DueDate" />
                 <ScalarProperty Name="Quantity" ColumnName="Quantity" />
@@ -1375,10 +1398,20 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="PostInternshipTopics">
+            <EntityTypeMapping TypeName="BCMModel.PostInternshipTopic">
+              <MappingFragment StoreEntitySet="PostInternshipTopic">
+                <ScalarProperty Name="InternshipTopic_ID" ColumnName="InternshipTopic_ID" />
+                <ScalarProperty Name="Post_ID" ColumnName="Post_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Registrations">
             <EntityTypeMapping TypeName="BCMModel.Registration">
               <MappingFragment StoreEntitySet="Registration">
-                <ScalarProperty Name="Position_ID" ColumnName="Position_ID" />
+                <ScalarProperty Name="PostInternshipTopic_ID" ColumnName="PostInternshipTopic_ID" />
+                <ScalarProperty Name="InternshipTopic_ID" ColumnName="InternshipTopic_ID" />
                 <ScalarProperty Name="Comment" ColumnName="Comment" />
                 <ScalarProperty Name="StatusRegistration" ColumnName="StatusRegistration" />
                 <ScalarProperty Name="StatusInternview" ColumnName="StatusInternview" />
@@ -1452,23 +1485,6 @@
               <MappingFragment StoreEntitySet="YearStudy">
                 <ScalarProperty Name="YearStudy1" ColumnName="YearStudy" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Positions">
-            <EntityTypeMapping TypeName="BCMModel.Position">
-              <MappingFragment StoreEntitySet="Position">
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PostPositions">
-            <EntityTypeMapping TypeName="BCMModel.PostPosition">
-              <MappingFragment StoreEntitySet="PostPosition">
-                <ScalarProperty Name="Position_ID" ColumnName="Position_ID" />
-                <ScalarProperty Name="Post_ID" ColumnName="Post_ID" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -19,6 +19,7 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
         private BCMEntities db = new BCMEntities();
 
         // GET: Business/InternViews
+        [HttpGet]
         public ActionResult Index()
         {
             int BusinessID = Convert.ToInt16(Session["BusinessID"]);
@@ -28,22 +29,57 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
             return View(registrations.ToList());
         }
 
-        // GET: Business/InternViews/Details/5
-        public ActionResult Details(int? id)
+        public JsonResult getDataList()
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+            int BusinessID = Convert.ToInt16(Session["BusinessID"]);
+            var dataRegis = from re in db.Registrations
+                            join post in db.Posts on re.Post_ID equals post.ID into posts
+                            join sem in db.Semesters on re.Semester_ID equals sem.ID into sems
+                            join bu in db.BusinessUsers on re.Business_ID equals bu.ID into bus
+                            join emailVL in db.VanLangUsers on re.Email_VanLang equals emailVL.Email into emails
+                            join intern in db.InternshipTopics on re.InternshipTopic_ID equals intern.ID into interns
+                            where re.Business_ID == BusinessID && re.StatusRegistration == "Phê duyệt"
+                            select new
+                           
+                           {
+                               id = re.ID,
+                               fullname = re.VanLangUser.FullName,
+                               email = re.Email_VanLang,
+                               phone = re.VanLangUser.Mobile,
+                               cv = re.CV,
+                               status = re.StatusInternview
+                           };
+                           return Json(dataRegis, JsonRequestBehavior.AllowGet);
+        }
 
-            Registration registration = db.Registrations.Find(id);
-
-            if (registration == null)
-            {
-                return HttpNotFound();
-            }
-
-            return View(registration);
+        // GET: Business/InternViews/Details/5
+        public ActionResult Details(int id)
+        {
+            var detailRegis = from re in db.Registrations
+                              join post in db.Posts on re.Post_ID equals post.ID into posts
+                              join sem in db.Semesters on re.Semester_ID equals sem.ID into sems
+                              join bu in db.BusinessUsers on re.Business_ID equals bu.ID into bus
+                              join emailVL in db.VanLangUsers on re.Email_VanLang equals emailVL.Email into emails
+                              join intern in db.InternshipTopics on re.InternshipTopic_ID equals intern.ID into interns
+                              where re.ID == id
+                              select new
+                              {
+                                  id = re.ID,
+                                  email = re.Email_VanLang,
+                                  post_id = re.Post_ID,
+                                  semester_id = re.Semester_ID,
+                                  cv = re.CV,
+                                  registrationdate = re.RegistrationDate,
+                                  registrationModify = re.RegistrationModify,
+                                  business_id = re.Business_ID,
+                                  internviewresult = re.InterviewResult,
+                                  internviewcomment = re.InterviewResultComment,
+                                  statusinternview = re.StatusInternview,
+                                  statusregistration = re.StatusRegistration,
+                                  comment = re.Comment,
+                                  interntopic_id = re.InternshipTopic_ID
+                              };
+            return Json(detailRegis, JsonRequestBehavior.AllowGet);
         }
 
         // GET: Business/InternViews/Create
@@ -107,14 +143,59 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Edit([Bind(Include = "ID,Email_VanLang,Post_ID,Semester_ID,CV,RegistrationDate,RegistrationModify,Business_ID,InterviewResult,InterviewResultComment,StatusInternview,StatusRegistration")] Registration registration)
+        public ActionResult Edit([Bind(Include = "ID,Email_VanLang,Post_ID,Semester_ID,CV,RegistrationDate,RegistrationModify,Business_ID,InterviewResult,InterviewResultComment,StatusInternview,StatusRegistration, InternshipTopic_ID, Comment")] Registration registration)
         {
             if (ModelState.IsValid)
             {
+                var email = db.VanLangUsers.Where(x => x.Email == registration.Email_VanLang).First();
+                if (registration.StatusInternview == "Đậu")
+                {
+                    var InternShip = new InternshipResult();
+                    InternShip.Student_Email = registration.Email_VanLang;
+                    InternShip.MentorPoint = null;
+                    InternShip.Mentor_Email = null;
+                    InternShip.Semester_ID = null;
+                    InternShip.MentorComment = null;
+                    InternShip.Business_ID = registration.Business_ID;
+                    InternShip.BusinessComment = null;
+                    InternShip.BusinessPoint = null;
+                    InternShip.InternshipTopic_ID = registration.InternshipTopic_ID;
+                    InternShip.Status = "Đang Thực Tập";
+                    db.InternshipResults.Add(InternShip);
+                    foreach (var item in db.Registrations)
+                    {
+                        if(item.Email_VanLang == email.Email)
+                        {
+                            item.StatusRegistration = "Hủy Duyệt";
+                            db.Entry(item).State = EntityState.Modified;
+                            registration.StatusRegistration = "Phê Duyệt";
+                                db.Entry(registration).State = EntityState.Modified;
+
+                        }
+                        else
+                        {
+                            db.Entry(registration).State = EntityState.Modified;
+                        }
+                    }
+                        db.SaveChanges();
+                        TempData["AlertMessage"] = "<div class=\"toast toast--success\">            <div class=\"toast-left toast-left--success\">               <i class=\"fas fa-check-circle\"></i>\r\n            </div>\r\n            <div class=\"toast-content\">\r\n                <p class=\"toast-text\">Cập Nhật Thành Công</p>            </div>\r\n            <div class=\"toast-right\">\r\n                <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n            </div>\r\n        </div>";
+                        return RedirectToAction("Index");
+                }
+                else
+                {
+                    if(db.InternshipResults.Any(x => x.VanLangUser.Email == registration.Email_VanLang)==false)
+                    {
+                        TempData["AlertMessage"] = "<div class=\"toast toast--success\">            <div class=\"toast-left toast-left--success\">               <i class=\"fas fa-check-circle\"></i>\r\n            </div>\r\n            <div class=\"toast-content\">\r\n                <p class=\"toast-text\">Cập Nhật Thành Công</p>            </div>\r\n            <div class=\"toast-right\">\r\n                <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n            </div>\r\n        </div>";
+                        return RedirectToAction("Index");
+                    }
+                    var asd = db.InternshipResults.Where(x => x.VanLangUser.Email == registration.Email_VanLang).FirstOrDefault();
+                    db.InternshipResults.Remove(asd);
+                }
                 db.Entry(registration).State = EntityState.Modified;
                 db.SaveChanges();
                 TempData["AlertMessage"] = "<div class=\"toast toast--success\">            <div class=\"toast-left toast-left--success\">               <i class=\"fas fa-check-circle\"></i>\r\n            </div>\r\n            <div class=\"toast-content\">\r\n                <p class=\"toast-text\">Cập Nhật Thành Công</p>            </div>\r\n            <div class=\"toast-right\">\r\n                <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n            </div>\r\n        </div>";
                 return RedirectToAction("Index");
+
             }
 
             ViewBag.Business_ID = new SelectList(db.BusinessUsers, "ID", "Username", registration.Business_ID);

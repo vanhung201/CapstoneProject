@@ -17,12 +17,15 @@ namespace BusinessConnectManagement.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Major()
         {
+            this.Posts = new HashSet<Post>();
             this.VanLangUsers = new HashSet<VanLangUser>();
         }
     
         public int ID { get; set; }
         public string Major1 { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Post> Posts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<VanLangUser> VanLangUsers { get; set; }
     }
