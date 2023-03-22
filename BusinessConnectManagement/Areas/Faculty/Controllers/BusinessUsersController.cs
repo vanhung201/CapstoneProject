@@ -79,7 +79,8 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                               contactName = bu.ContactName,
                               contactPhone1 = bu.ContactPhone_1,
                               contactPhone2 = bu.ContactPhone_2,
-                              emailContact = bu.EmailContact
+                              emailContact = bu.EmailContact,
+                              sem_id = bu.Semester_ID
                           });
 
 
@@ -136,11 +137,13 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                     // add image
                     using (var scope = new TransactionScope())
                     {
+                        var checkSem = db.Semesters.Where(x => x.Status == true).FirstOrDefault();
                         businessUser.BusinessLogo = DateTime.Now.ToString("yymmssfff") + logo.FileName;
                         BusinessCooperationCategory BCC = new BusinessCooperationCategory();
                         var path = Server.MapPath("~/Uploads/Images/");
                         logo.SaveAs(path + businessUser.BusinessLogo);
                         businessUser.Status_ID = 1;
+                        businessUser.Semester_ID = checkSem.ID;
                         db.BusinessUsers.Add(businessUser);
                         db.SaveChanges();
                         scope.Complete();

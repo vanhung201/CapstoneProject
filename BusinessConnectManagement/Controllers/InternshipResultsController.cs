@@ -125,7 +125,6 @@ namespace BusinessConnectManagement.Controllers
                 }
                 internshipResult.Status = "Đang Thực Tập";
 
-
                 if (registration.InterviewResult == "Đang Thực Tập")
                 {
                     var email = db.VanLangUsers.Where(x => x.Email == internshipResult.Student_Email).First();
@@ -133,42 +132,66 @@ namespace BusinessConnectManagement.Controllers
                     {
                         if (item.Student_Email == email.Email)
                         {
-                            foreach(var item2 in db.Registrations)
+                            if(internshipResult.ID != db.InternshipResults.First().ID)
                             {
-                                if (item2.Email_VanLang == email.Email)
+                                foreach (var item2 in db.Registrations)
                                 {
+                                    if (item2.Email_VanLang == email.Email)
+                                    {
                                         item2.InterviewResult = "Hủy Đơn";
-                                        item2.StatusInternview = "Rớt";
+                                        item2.StatusInternview = "Rớt Phỏng Vấn";
                                         db.Entry(item2).State = EntityState.Modified;
-                                        registration.StatusInternview = "Đậu";
+                                        registration.StatusInternview = "Đậu Phỏng Vấn";
                                         registration.InterviewResult = "Đang Thực Tập";
                                         db.Entry(registration).State = EntityState.Modified;
-
+                                    }
+                                    else
+                                    {
+                                        db.Entry(internshipResult).State = EntityState.Modified;
+                                    }
                                 }
-                                else
+
+                                item.Status = "Hủy Đơn";
+                                db.Entry(item).State = EntityState.Modified;
+                                internshipResult.Status = "Đang Thực Tập";
+                                db.Entry(internshipResult).State = EntityState.Modified;
+                                if (item.Status == "Hủy Đơn")
                                 {
-
-
-                                    db.Entry(internshipResult).State = EntityState.Modified;
+                                    db.InternshipResults.Remove(item);
                                 }
-                                }
-                           
-                            item.Status = "Hủy Đơn";
-                            db.Entry(item).State = EntityState.Modified;
-                            internshipResult.Status = "Đang Thực Tập";
-                            db.Entry(internshipResult).State = EntityState.Modified;
-                            if (item.Status == "Hủy Đơn")
-                            {
-                                db.InternshipResults.Remove(item);
                             }
-                          
-                          
+                            else
+                            {
+                                foreach (var item2 in db.Registrations)
+                                {
+                                    if (item2.Email_VanLang == email.Email)
+                                    {
+                                        item2.InterviewResult = "Hủy Đơn";
+                                        item2.StatusInternview = "Rớt Phỏng Vấn";
+                                        db.Entry(item2).State = EntityState.Modified;
+                                        registration.StatusInternview = "Đậu Phỏng Vấn";
+                                        registration.InterviewResult = "Đang Thực Tập";
+                                        db.Entry(registration).State = EntityState.Modified;
+                                    }
+                                    else
+                                    {
+                                        db.Entry(internshipResult).State = EntityState.Modified;
+                                    }
+                                }
+                                item.Status = "Hủy Đơn";
+                                db.Entry(item).State = EntityState.Modified;
+                                var internR = db.InternshipResults.First();
+                                internR.Status = "Đang Thực Tập";
+                                db.Entry(internR).State = EntityState.Modified;
+                                if (item.Status == "Hủy Đơn")
+                                {
+                                    db.InternshipResults.Remove(item);
+                                }
+                            }
                            
                         }
                         else
                         {
-                          
-
                             db.Entry(internshipResult).State = EntityState.Modified;
                         }
                     }
@@ -181,9 +204,7 @@ namespace BusinessConnectManagement.Controllers
                         return RedirectToAction("Index");
                     }
                 }
-
-
-                db.Entry(internshipResult).State = EntityState.Modified;
+              
                 db.SaveChanges();
                 TempData["AlertMessage"] = "<div class=\"toast toast--success\">            <div class=\"toast-left toast-left--success\">               <i class=\"fas fa-check-circle\"></i>\r\n            </div>\r\n            <div class=\"toast-content\">\r\n                <p class=\"toast-text\">Cập Nhật Thành Công</p>            </div>\r\n            <div class=\"toast-right\">\r\n                <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n            </div>\r\n        </div>";
                 return RedirectToAction("Index");

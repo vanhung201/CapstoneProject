@@ -201,7 +201,7 @@
     $(function () {
         $("#table_id_filter").append($("#filterEvent")).clone();
     });
-
+    let formAddCr = document.getElementById("addFormCr");
     let formAdd = document.getElementById("addForm");
     let formUpdate = document.getElementById("updateForm");
     let formDelete = document.getElementById("deleteForm"); 
@@ -211,6 +211,10 @@
 
     $(".btn--create").on("click", function () {
         formAdd.classList.add(isAppear);
+    });
+
+    $("#btn--create").on("click", function () {
+        formAddCr.classList.add(isAppear);
     });
 
     $(".form-icon").on("click", function () {

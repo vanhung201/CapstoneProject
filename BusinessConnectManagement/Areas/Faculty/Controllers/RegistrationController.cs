@@ -75,6 +75,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                     TempData["AlertMessage"] = "<div class=\"toast toast--success\"> <div class=\"toast-left toast-left--success\"> <i class=\"fas fa-check-circle\"></i>\r\n  </div>\r\n            <div class=\"toast-content\">\r\n                <p class=\"toast-text\">Cập Nhật Không Thành Công Vì Sinh Viên Đã Đậu Phỏng Vấn</p>            </div>\r\n            <div class=\"toast-right\">\r\n                <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n            </div>\r\n        </div>";
                     return RedirectToAction("Index");
                 }*/
+                registration.StatusInternview = "Chờ Phỏng Vấn";
                 db.Entry(registration).State = EntityState.Modified;
                 db.SaveChanges();
                 string To = registration.Email_VanLang;

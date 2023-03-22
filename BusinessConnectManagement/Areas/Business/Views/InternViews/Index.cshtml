@@ -47,23 +47,23 @@
         </div>
         <div class="form-group">
             <label class="form-label">Trạng Thái</label>
-            <input list="" name="ID" id="ID" class="form-input" hidden />
-            <input list="" name="Business_ID" id="Business_ID" class="form-input" hidden />
-            <input list="" name="Email_VanLang" id="Email" class="form-input" hidden />
-            <input list="" name="Post_ID" id="Post_ID" class="form-input" hidden />
-            <input list="" name="Semester_ID" id="Semester_ID" class="form-input" hidden />
-            <input list="" name="CV" id="CV" class="form-input" hidden />
-            <input list="" name="RegistrationDate" id="RegistrationDate" class="form-input" hidden />
-            <input list="" name="RegistrationModify" id="RegistrationModify" class="form-input" hidden />
-            <input list="" name="InterviewResult" id="InterviewResult" class="form-input" hidden />
-            <input list="" name="RegistrationPosition" id="RegistrationPosition" class="form-input" hidden />
-            <input list="" name="Comment" id="Comment" class="form-input" hidden />
+            <input list="" name="ID" id="ID" class="form-input" hidden/>
+            <input list="" name="Business_ID" id="Business_ID" class="form-input" hidden/>
+            <input list="" name="Email_VanLang" id="Email" class="form-input" hidden/>
+            <input list="" name="Post_ID" id="Post_ID" class="form-input" hidden/>
+            <input list="" name="Semester_ID" id="Semester_ID" class="form-input"hidden />
+            <input list="" name="CV" id="CV" class="form-input" hidden/>
+            <input list="" name="RegistrationDate" id="RegistrationDate" class="form-input" hidden/>
+            <input list="" name="RegistrationModify" id="RegistrationModify" class="form-input" hidden/>
+            <input list="" name="InterviewResult" id="InterviewResult" class="form-input" hidden/>
+            <input list="" name="RegistrationPosition" id="RegistrationPosition" class="form-input" hidden/>
+            <input list="" name="Comment" id="Comment" class="form-input" hidden/>
             <input list="" name="StatusRegistration" id="StatusRegistration" class="form-input" hidden />
-            <input list="" name="InternshipTopic_ID" id="InternshipTopic_ID" class="form-input" hidden />
+            <input list="" name="InternshipTopic_ID" id="InternshipTopic_ID" class="form-input" hidden/>
+            <input list="" name="InternshipResult_ID" id="InternshipResult_ID" class="form-input" hidden/>
             <select name="StatusInternview" id="interviewStatus" class="form-input">
-                <option class="text-center" value="Đang Chờ">Chờ</option>
-                <option class="text-center" value="Đậu">Đậu</option>
-                <option class="text-center" value="Rớt">Rớt</option>
+                <option class="text-center" value="Đậu Phỏng Vấn">Đậu Phỏng Vấn</option>
+                <option class="text-center" value="Rớt Phỏng Vấn">Rớt Phỏng Vấn</option>
             </select>
         </div>
 
@@ -71,7 +71,7 @@
 
         <div class="form-group">
             <a class="btn btn--cancel">Hủy</a>
-            <button class="btn btn--add" type="submit">Lưu</button>
+            <button class="btn btn--confirm" type="submit">Xác Nhận</button>
         </div>
     </div>
 
@@ -105,10 +105,12 @@
                     {
                         data: "status",
                         render: function (data) {
-                            if (data == "Đậu") {
+                            if (data == "Đậu Phỏng Vấn") {
                                 return '<span class="text-center text--done">' + data + '</span>'
-                            } else {
+                            } else if (data == "Rớt Phỏng Vấn"){
                                 return '<span class="text-center text--cancel">' + data + '</span>'
+                            } else if (data == "Chờ Phỏng Vấn"){
+                                return '<span class="text-center text--wait">' + data + '</span>'
                             }
 
                         }
@@ -191,13 +193,15 @@
                     $('#StatusRegistration').val(res[0].statusregistration)
                     $('#Comment').val(res[0].comment)
                     $('#InternshipTopic_ID').val(res[0].interntopic_id)
-                    if (res[0].statusinternview === "Đậu") {
-                        $('select option[value="Đậu"]').attr("selected", "selected");
-                    } else if (res[0].statusinternview === "Rớt"){
-                        $('select option[value="Rớt"]').attr("selected", "selected");
+                    $('#InternshipResult_ID').val(res[0].internshipresult_id)
+                    
+                    if (res[0].statusinternview === "Đậu Phỏng Vấn") {
+                        $('select option[value="Đậu Phỏng Vấn"]').attr("selected", "selected");
+                    } else if (res[0].statusinternview === "Rớt Phỏng Vấn"){
+                        $('select option[value="Rớt Phỏng Vấn"]').attr("selected", "selected");
                     }
-                    else if (res[0].statusinternview === "Đang Chờ") {
-                        $('select option[value="Đang Chờ"]').attr("selected", "selected");
+                    else if (res[0].statusinternview === "Chờ Phỏng Vấn") {
+                        $('select option[value="Chờ Phỏng Vấn"]').attr("selected", "selected");
                     }
                     $('#updateForm').attr('action', `${actionUrl}`)
                 }

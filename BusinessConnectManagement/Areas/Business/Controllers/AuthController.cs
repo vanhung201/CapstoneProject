@@ -30,7 +30,8 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
             {
                 if (query.Status_ID == 2)
                 {
-                    Session["BusinessAccountBlocked"] = true;
+                    TempData["message"] = "Tài khoản của bạn đang bị khóa. Vui lòng liên hệ Khoa CNTT để được hỗ trợ.";
+                    TempData["messageType"] = "warning";
 
                     return View();
                 }

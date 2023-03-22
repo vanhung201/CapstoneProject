@@ -5,6 +5,7 @@ using System.Linq;
 using System.Data.Entity;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
 
 
 namespace BusinessConnectManagement.Controllers
@@ -13,13 +14,24 @@ namespace BusinessConnectManagement.Controllers
     {
         private BCMEntities db = new BCMEntities();
         // GET: Home
-        public ActionResult Index()
+        public ActionResult Index( int? page)
         {
-            ViewBag.Post = db.Posts.Include(p => p.BusinessUser).Include(p => p.Semester).Include(p => p.VanLangUser).Include(p => p.VanLangUser1);
+            if(page == null) page= 1;
+
+            var posts = (from post in db.Posts
+                         select post).OrderBy(x => x.ID);
+
+
+            int pageSize = 5;
+
+            int pageNumber = (page ?? 1);
+
+            ViewBag.Posts = posts;
             ViewBag.CountStudent = db.VanLangUsers.Count();
             ViewBag.CountPost = db.Posts.Count();
             ViewBag.CountBusiness = db.BusinessUsers.Count();
-            return View();
+
+            return View(posts.ToPagedList(pageNumber, pageSize));
         }
         public ActionResult Contact()
         {

@@ -26,6 +26,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -68,8 +69,15 @@
     <Reference Include="Microsoft.Owin.Security.OAuth, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Owin.Security.OAuth.3.0.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
     </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.IdentityModel" />
     <Reference Include="System.Runtime.Serialization" />
@@ -79,12 +87,9 @@
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
@@ -128,6 +133,7 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
@@ -201,6 +207,8 @@
     <Compile Include="Areas\Faculty\Controllers\MOUsController.cs" />
     <Compile Include="Areas\Faculty\Controllers\PostsController.cs" />
     <Compile Include="Areas\Faculty\Controllers\RegistrationController.cs" />
+    <Compile Include="Areas\Faculty\Controllers\SemestersController.cs" />
+    <Compile Include="Areas\Faculty\Controllers\YearStudiesController.cs" />
     <Compile Include="Areas\Faculty\FacultyAreaRegistration.cs" />
     <Compile Include="Areas\Mentor\Controllers\InternshipResultsMentorController.cs" />
     <Compile Include="Areas\Mentor\Controllers\MentorHomeController.cs" />
@@ -288,6 +296,7 @@
   <ItemGroup>
     <Content Include="assets\css\admin.css" />
     <Content Include="assets\css\admin\global.css" />
+    <Content Include="assets\css\admin\layout.css" />
     <Content Include="assets\css\admin\reset.css" />
     <Content Include="assets\css\admin\style.css" />
     <Content Include="assets\css\admin\toast.css" />
@@ -313,7 +322,6 @@
     <Content Include="assets\css\toast.css" />
     <Content Include="assets\images\adminVLU.png" />
     <Content Include="assets\images\avatarAdmin.png" />
-    <Content Include="assets\images\bg-vanlang.jpg" />
     <Content Include="assets\images\download.png" />
     <Content Include="assets\images\favicon.ico" />
     <Content Include="assets\images\homepage.jpg" />
@@ -1278,6 +1286,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\chosen-sprite%402x.png" />
     <Content Include="Content\chosen-sprite.png" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="Content\toastr.css" />
     <Content Include="Content\toastr.min.css" />
     <Content Include="favicon.ico" />
@@ -1403,6 +1412,17 @@
     <Content Include="Areas\Faculty\Views\AppointmentMentor\Details.cshtml" />
     <Content Include="Areas\Faculty\Views\AppointmentMentor\Edit.cshtml" />
     <Content Include="Areas\Faculty\Views\AppointmentMentor\Index.cshtml" />
+    <Content Include="Areas\Faculty\Views\YearStudies\Create.cshtml" />
+    <Content Include="Areas\Faculty\Views\YearStudies\Delete.cshtml" />
+    <Content Include="Areas\Faculty\Views\YearStudies\Details.cshtml" />
+    <Content Include="Areas\Faculty\Views\YearStudies\Edit.cshtml" />
+    <Content Include="Areas\Faculty\Views\YearStudies\Index.cshtml" />
+    <Content Include="Areas\Faculty\Views\Semesters\Create.cshtml" />
+    <Content Include="Areas\Faculty\Views\Semesters\Delete.cshtml" />
+    <Content Include="Areas\Faculty\Views\Semesters\Details.cshtml" />
+    <Content Include="Areas\Faculty\Views\Semesters\Edit.cshtml" />
+    <Content Include="Areas\Faculty\Views\Semesters\Index.cshtml" />
+    <Content Include="Areas\Faculty\Views\Semesters\Update.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

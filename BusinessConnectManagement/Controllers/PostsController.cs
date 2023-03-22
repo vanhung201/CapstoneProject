@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BusinessConnectManagement.Models;
+using PagedList;
 
 namespace BusinessConnectManagement.Controllers
 {
@@ -28,6 +29,7 @@ namespace BusinessConnectManagement.Controllers
         // GET: Posts
         public ActionResult Index(string SearchString = "")
         {
+           
             if (SearchString != "")
             {
                 var bu = db.Posts.Include(x => x.BusinessUser).Where(s => s.BusinessUser.BusinessName.ToUpper().Contains(SearchString.ToUpper()));
@@ -51,6 +53,77 @@ namespace BusinessConnectManagement.Controllers
 
             var posts = db.Posts.Include(p => p.BusinessUser).Include(p => p.Semester).Include(p => p.VanLangUser).Include(p => p.VanLangUser1);
             return View(posts.ToList());
+        }
+        public ActionResult Search(int? page,string SearchString = "", string Form = "", string Major = "")
+        {
+            if (page == null) page = 1;
+           
+            ViewBag.Major = db.Majors.ToList();
+            var bu = db.Posts.Include(x => x.BusinessUser).Where(s => s.BusinessUser.BusinessName.ToUpper().Contains(Form.ToUpper()));
+            var titles = db.Posts.Include(x => x.BusinessUser).Where(s => s.Title.ToUpper().Contains(SearchString.ToUpper())).OrderBy(x => x.ID);
+            var form = db.Posts.Include(x => x.BusinessUser).Where(s => s.Form.ToUpper().Contains(Form.ToUpper()));
+            var posts = db.Posts.Include(p => p.BusinessUser).Include(p => p.Semester).Include(p => p.VanLangUser).Include(p => p.VanLangUser1);
+            int pageSize = 5;
+
+            int pageNumber = (page ?? 1);
+            if (Major == "")
+            {
+                if (Form == "")
+                {
+                    if (SearchString != "")
+                    {
+                        return View(titles.ToPagedList(pageNumber, pageSize));
+                    }
+                    else
+                    {
+                        return View(posts.ToList().ToPagedList(pageNumber, pageSize));
+                    }
+                }
+                else
+                {
+                    if (SearchString == "")
+                    {
+                        return View(form.ToList().ToPagedList(pageNumber, pageSize));
+                    }
+                    else
+                    {
+                        var tif = db.Posts.Include(x => x.BusinessUser).Where(s => s.Form.ToUpper().Contains(Form.ToUpper()) && s.Title.ToUpper().Contains(SearchString.ToUpper()));
+                        return View(tif.ToList().ToPagedList(pageNumber, pageSize));
+                    }
+                }
+            }
+            else
+            {
+                if(Form != "")
+                {
+                    if(SearchString != "")
+                    {
+                        var getall = db.Posts.Include(x => x.BusinessUser).Where(s => s.Major.Major1.ToUpper().Contains(Major.ToUpper()) && s.Form.ToUpper().Contains(Form.ToUpper()) && s.Title.ToUpper().Contains(SearchString.ToUpper()));
+                        return View(getall.ToList().ToPagedList(pageNumber, pageSize));
+                    }
+                    else
+                    {
+                        var getall = db.Posts.Include(x => x.BusinessUser).Where(s => s.Major.Major1.ToUpper().Contains(Major.ToUpper()) && s.Form.ToUpper().Contains(Form.ToUpper()));
+                        return View(getall.ToList().ToPagedList(pageNumber, pageSize));
+                    }
+                }
+                else
+                {
+                    if (SearchString != "")
+                    {
+                        var getall = db.Posts.Include(x => x.BusinessUser).Where(s => s.Major.Major1.ToUpper().Contains(Major.ToUpper()) && s.Title.ToUpper().Contains(SearchString.ToUpper()));
+                        return View(getall.ToList().ToPagedList(pageNumber, pageSize));
+                    }
+                    else
+                    {
+                        var getall = db.Posts.Include(x => x.BusinessUser).Where(s => s.Major.Major1.ToUpper().Contains(Major.ToUpper()));
+                        return View(getall.ToList().ToPagedList(pageNumber, pageSize));
+                    }
+                }
+            }
+
+           
+           
         }
         // GET: Posts/Details/5
         public ActionResult Details(int? id)

@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "Business User";
-    Layout = "~/Areas/Faculty/Views/Shared/_Layout.cshtml";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
 <section class="list">
@@ -30,6 +30,7 @@
             <thead>
                 <tr>
                     <th>STT</th>
+                    <th>ID</th>
                     <th>Tên Đăng Nhập</th>
                     <th>Tên Doanh Nghiệp</th>
                     <th>Email</th>
@@ -75,6 +76,9 @@
                 <div class="form-group">
                     <label for="EmailContact" class="form-label">Email Liên Hệ</label>
                     <input type="text" name="EmailContact" class="form-input" autocomplete="off">
+                </div>
+                <div class="form-group">
+
                 </div>
                 <div class="form-group">
 
@@ -202,6 +206,19 @@
                     <input type="datetime" id="Last_Access" class="form-input" autocomplete="off" disabled>
                     <input type="datetime" name="Last_Access" id="Last_Access2" class="form-input" autocomplete="off" hidden>
                 </div>
+                
+                <div class="form-group">
+                    <label for="EmailContact" class="form-label">Học Kỳ</label>
+                    <input type="text" name="Semester_ID" id="Semester_ID" class="form-input" autocomplete="off">
+                </div>
+                <div class="form-group">
+                </div>
+                <div class="form-group">
+                </div>
+                <div class="form-group">
+                </div>
+                <div class="form-group">
+                </div>
             </div>
             <div class="form-column">
                 <div class="form-group">
@@ -327,8 +344,10 @@
                     dataSrc: "",
                 },
                 deferRender: !0,
+                "order": [[1, "desc"]],
                 columns: [
                     { data: null },
+                    { data: "id",visible: false},
                     { data: "username"},
                     { data: "buName" },
                     { data: "emailContact" },
@@ -432,7 +451,8 @@
                     $('#EmailContact').val(res[0].emailContact)
                     $('#Fanpage').val(res[0].fanpage)
                     $('#BusinessLogo').val(res[0].buLogo),
-                    $('#Password').val(res[0].password)
+                    $('#Password').val(res[0].password),
+                    $('#Semester_ID').val(res[0].sem_id)
                     $('#output1').attr('src', `${imgPath}`)
                     $('#output1').css('display','block')
                     if (res[0].status === "Đang hoạt động") {

@@ -1,0 +1,234 @@
+﻿@model BusinessConnectManagement.Models.YearStudy
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<section class="list">
+    <h1 class="list-heading">DANH SÁCH HỌC KỲ CỦA NĂM HỌC @Model.YearStudy1</h1>
+    @if (TempData != null)
+    {
+        @Html.Raw(@TempData["AlertMessage"])
+    }
+    <div class="list-table">
+        <div id="filterEvent">
+            <a>
+                <div class="btn btn--create">
+                    <span class="btn-text">Thêm</span>
+                </div>
+            </a>
+        </div>
+        <table id="table_id" class="display" width="100%">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Học Kỳ</th>
+                    <th width="25%">Chức Năng</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @{var count = 1;}
+                @foreach (var item in ViewBag.Semester)
+                {
+                    var getStatus = "false";
+                    if (item.Status == true)
+                    {
+                        getStatus = "true";
+                    }
+                    <tr>
+                        <td>@count</td>
+                        <td>@item.Semester1</td>
+                        <td>
+                            <a onclick="loadUpdate('@item.ID', '@item.Semester1', '@item.YearStudy_ID', '@getStatus')" class="business_update">
+                                <div class="btn btn--update">
+                                    <i class="btn-icon btn-icon--edit fal fa-edit"></i>
+                                </div>
+                            </a>
+                            @if (item.Status == true)
+                            {
+                                <a href="#" style="margin-left: 10px">
+                                    <div class="btn btn--confirm" style=" width: 130px; position: absolute;">
+                                        Học Kỳ Hiện Tại
+                                    </div>
+                                </a>
+
+                            }
+                            else
+                            {
+                                <a onclick="loadEdit('@item.ID', '@item.Semester1', '@item.YearStudy_ID')" style="margin-left: 10px">
+                                    <div class="btn btn--update" style=" width: 200px; position: absolute;">
+                                        Đặt Làm Học Kỳ Hiện Tại
+                                    </div>
+                                </a>
+
+                            }
+                        </td>
+
+
+                    </tr>
+                    count++;
+                }
+
+
+            </tbody>
+        </table>
+    </div>
+</section>
+@*------------add---------------------*@
+<form action="@Url.Action("Create", "Semesters")" class="form" id="addForm" method="post">
+    <div class="form-container--small">
+        <h1 class="form-heading">Thêm Học Kỳ</h1>
+        <div class="form-group">
+            <label for="cooperationName" class="form-label">Học Kỳ</label>
+            <input name="Semester1" type="text" class="form-input" required>
+            <input name="YearStudy_ID" value="@Model.ID" type="text" class="form-input" hidden />
+            <input name="Status" type="text" value="false" class="form-input" hidden />
+        </div>
+        <div class="form-group">
+            <a class="btn btn--cancel">Hủy</a>
+            <button type="submit" class="btn btn--confirm">Xác Nhận</button>
+        </div>
+    </div>
+</form>
+@*-------------update----------------*@
+<form action="@Url.Action("Update", "Semesters")" class="form" id="updateForm" method="post">
+    <div class="form-container--small">
+        <h1 class="form-heading">Cập Nhật Học Kỳ</h1>
+        <div class="form-group">
+            <label for="cooperationName" class="form-label">Học Kỳ</label>
+            <input name="ID" id="idup" hidden />
+            <input name="Semester1" class="form-input" id="nameup" required />
+            <input name="YearStudy_ID" id="idyearup" hidden />
+            <input name="Status" id="statusup" hidden />
+        </div>
+        <div class="form-group">
+            <a class="btn btn--cancel">Hủy</a>
+            <button class="btn btn--confirm" id="btn--update" type="submit">
+                Xác Nhận
+            </button>
+        </div>
+    </div>
+</form>
+@*---------------modifysemesternow--------------*@
+<form action="@Url.Action("Edit", "Semesters")" class="form" id="confirmForm" method="post">
+    <div class="form-container--small">
+        <h1 class="form-heading">Điều Chỉnh Học Kỳ Hiện Tại</h1>
+        <div class="form-group">
+            <input name="ID" id="id" hidden />
+            <input name="Semester1" class="form-input" id="name" hidden />
+            <input name="YearStudy_ID" id="idyear" hidden />
+            <input name="status" value="true" hidden />
+            <span>
+                Bạn chắc chắn muốn đặt<strong name="name" style="font-weight: bold; color: #ce1b28;"> Học Kỳ </strong><strong name="name" id="namedele" style="font-weight: bold; color: #ce1b28;"></strong>
+                là học kỳ hiện tại không?
+            </span>
+        </div>
+        <div class="form-group">
+            <a class="btn btn--cancel">Hủy</a>
+            <button class="btn btn--confirm" id="btn--update" type="submit">
+                Xác Nhận
+            </button>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+
+        function loadEdit(id, name, idyear) {
+            let formUpdate = document.getElementById("confirmForm");
+            formUpdate.classList.add('is-appear')
+            document.getElementById('name').value = name;
+            document.getElementById('id').value = id;
+            document.getElementById('idyear').value = idyear;
+            $('#namedele').text(name)
+
+        }
+        function loadUpdate(id, name, idyear, status) {
+            let formUpdate = document.getElementById("updateForm");
+            formUpdate.classList.add('is-appear')
+            document.getElementById('nameup').value = name;
+            document.getElementById('idup').value = id;
+            document.getElementById('idyearup').value = idyear;
+            document.getElementById('statusup').value = status;
+            $('#namedele').text(name)
+
+        }
+
+        $('#confirmForm .btn--cancel').on('click', function () {
+            $('#confirmForm').removeClass('is-appear')
+        })
+        $('.btn--cancel').on('click', function () {
+            $('#addForm').removeClass('is-appear')
+        })
+        $('.btn--cancel').on('click', function () {
+            $('#updateForm').removeClass('is-appear')
+        })
+
+    </script>
+    <script>
+        $(document).ready(function () {
+            $.validator.addMethod("blank", function (value, element) {
+                return (!/^\s*$/.test(value));
+            }, "Vui lòng nhập học kỳ.");
+
+            // Initialize the form validation
+            $("#addForm").validate();
+
+            // cái này là on blur nè
+            $("#addForm input, #addForm input").on("blur", function () {
+                $(this).valid();
+            });
+
+            // cái này là on change nè
+            $("#addForm input, #addForm input").on("change", function () {
+                $(this).removeClass("error");
+            });
+
+            /*--------------------------update---------------*/
+            $("#updateForm").validate();
+            // cái này là on blur nè
+            $("#updateForm input, #updateForm input").on("blur", function () {
+                $(this).valid();
+            });
+
+            // cái này là on change nè
+            $("#updateForm input, #updateForm input").on("change", function () {
+                $(this).removeClass("error");
+            });
+        });
+        $("#addForm").validate({
+            rules: {
+                Semester1: {
+                    required: true,
+                    digits: true,
+                    blank: true
+                }
+            },
+            messages: {
+                Semester1: {
+                    required: "Vui lòng nhập học kỳ.",
+                    digits: "Học kỳ chỉ bao gồm các kí tự số.",
+                }
+            }
+        });
+        $("#updateForm").validate({
+            rules: {
+                Semester1: {
+                    required: true,
+                    digits: true,
+                    blank: true
+                }
+            },
+            messages: {
+                Semester1: {
+                    required: "Vui lòng nhập học kỳ.",
+                    digits: "Học kỳ chỉ bao gồm các kí tự số.",
+                }
+            }
+        });
+
+    </script>
+}

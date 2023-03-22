@@ -32,6 +32,7 @@
           <Property Name="ContactPhone_1" Type="varchar" MaxLength="15" />
           <Property Name="ContactPhone_2" Type="varchar" MaxLength="15" />
           <Property Name="EmailContact" Type="varchar" MaxLength="150" />
+          <Property Name="Semester_ID" Type="int" />
         </EntityType>
         <EntityType Name="CooperationCategories">
           <Key>
@@ -109,6 +110,7 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Post_ID" Type="int" />
           <Property Name="InternshipTopic_ID" Type="int" />
+          <Property Name="Business_ID" Type="int" />
         </EntityType>
         <EntityType Name="Registration">
           <Key>
@@ -137,6 +139,7 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="YearStudy_ID" Type="int" />
           <Property Name="Semester" Type="varchar" MaxLength="15" />
+          <Property Name="Status" Type="bit" />
         </EntityType>
         <EntityType Name="Status">
           <Key>
@@ -205,6 +208,18 @@
             </Principal>
             <Dependent Role="BusinessCooperationCategories">
               <PropertyRef Name="CooperationCategories_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BusinessUser_Semester1">
+          <End Role="Semester" Type="Self.Semester" Multiplicity="0..1" />
+          <End Role="BusinessUser" Type="Self.BusinessUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Semester">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BusinessUser">
+              <PropertyRef Name="Semester_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -533,6 +548,10 @@
             <End Role="CooperationCategories" EntitySet="CooperationCategories" />
             <End Role="BusinessCooperationCategories" EntitySet="BusinessCooperationCategories" />
           </AssociationSet>
+          <AssociationSet Name="FK_BusinessUser_Semester1" Association="Self.FK_BusinessUser_Semester1">
+            <End Role="Semester" EntitySet="Semester" />
+            <End Role="BusinessUser" EntitySet="BusinessUser" />
+          </AssociationSet>
           <AssociationSet Name="FK_BusinessUser_Status" Association="Self.FK_BusinessUser_Status">
             <End Role="Status" EntitySet="Status" />
             <End Role="BusinessUser" EntitySet="BusinessUser" />
@@ -662,6 +681,10 @@
           <AssociationSet Name="FK_BusinessCooperationCategories_CooperationCategories" Association="BCMModel.FK_BusinessCooperationCategories_CooperationCategories">
             <End Role="CooperationCategory" EntitySet="CooperationCategories" />
             <End Role="BusinessCooperationCategory" EntitySet="BusinessCooperationCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BusinessUser_Semester1" Association="BCMModel.FK_BusinessUser_Semester1">
+            <End Role="Semester" EntitySet="Semesters" />
+            <End Role="BusinessUser" EntitySet="BusinessUsers" />
           </AssociationSet>
           <AssociationSet Name="FK_BusinessUser_Status" Association="BCMModel.FK_BusinessUser_Status">
             <End Role="Status" EntitySet="Status" />
@@ -793,7 +816,9 @@
           <Property Name="ContactPhone_1" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="ContactPhone_2" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="EmailContact" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Semester_ID" Type="Int32" />
           <NavigationProperty Name="BusinessCooperationCategories" Relationship="BCMModel.FK_BusinessCooperationCategories_BusinessUser" FromRole="BusinessUser" ToRole="BusinessCooperationCategory" />
+          <NavigationProperty Name="Semester" Relationship="BCMModel.FK_BusinessUser_Semester1" FromRole="BusinessUser" ToRole="Semester" />
           <NavigationProperty Name="Status" Relationship="BCMModel.FK_BusinessUser_Status" FromRole="BusinessUser" ToRole="Status" />
           <NavigationProperty Name="InternshipResults" Relationship="BCMModel.FK_InternshipResult_BusinessUser" FromRole="BusinessUser" ToRole="InternshipResult" />
           <NavigationProperty Name="MOUs" Relationship="BCMModel.FK_MOU_BusinessUser" FromRole="BusinessUser" ToRole="MOU" />
@@ -895,6 +920,7 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Post_ID" Type="Int32" />
           <Property Name="InternshipTopic_ID" Type="Int32" />
+          <Property Name="Business_ID" Type="Int32" />
           <NavigationProperty Name="InternshipTopic" Relationship="BCMModel.FK_PostInternshipTopic_InternshipTopic" FromRole="PostInternshipTopic" ToRole="InternshipTopic" />
           <NavigationProperty Name="Post" Relationship="BCMModel.FK_PostPosition_Post" FromRole="PostInternshipTopic" ToRole="Post" />
         </EntityType>
@@ -931,6 +957,8 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="YearStudy_ID" Type="Int32" />
           <Property Name="Semester1" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Boolean" />
+          <NavigationProperty Name="BusinessUsers" Relationship="BCMModel.FK_BusinessUser_Semester1" FromRole="Semester" ToRole="BusinessUser" />
           <NavigationProperty Name="InternshipResults" Relationship="BCMModel.FK_InternshipResult_Semester" FromRole="Semester" ToRole="InternshipResult" />
           <NavigationProperty Name="Posts" Relationship="BCMModel.FK_Post_Semester" FromRole="Semester" ToRole="Post" />
           <NavigationProperty Name="Registrations" Relationship="BCMModel.FK_Registration_Semester1" FromRole="Semester" ToRole="Registration" />
@@ -1018,6 +1046,18 @@
             </Principal>
             <Dependent Role="BusinessCooperationCategory">
               <PropertyRef Name="CooperationCategories_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BusinessUser_Semester1">
+          <End Type="BCMModel.Semester" Role="Semester" Multiplicity="0..1" />
+          <End Type="BCMModel.BusinessUser" Role="BusinessUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Semester">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BusinessUser">
+              <PropertyRef Name="Semester_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1339,6 +1379,7 @@
           <EntitySetMapping Name="BusinessUsers">
             <EntityTypeMapping TypeName="BCMModel.BusinessUser">
               <MappingFragment StoreEntitySet="BusinessUser">
+                <ScalarProperty Name="Semester_ID" ColumnName="Semester_ID" />
                 <ScalarProperty Name="EmailContact" ColumnName="EmailContact" />
                 <ScalarProperty Name="ContactPhone_2" ColumnName="ContactPhone_2" />
                 <ScalarProperty Name="ContactPhone_1" ColumnName="ContactPhone_1" />
@@ -1435,6 +1476,7 @@
           <EntitySetMapping Name="PostInternshipTopics">
             <EntityTypeMapping TypeName="BCMModel.PostInternshipTopic">
               <MappingFragment StoreEntitySet="PostInternshipTopic">
+                <ScalarProperty Name="Business_ID" ColumnName="Business_ID" />
                 <ScalarProperty Name="InternshipTopic_ID" ColumnName="InternshipTopic_ID" />
                 <ScalarProperty Name="Post_ID" ColumnName="Post_ID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
@@ -1465,6 +1507,7 @@
           <EntitySetMapping Name="Semesters">
             <EntityTypeMapping TypeName="BCMModel.Semester">
               <MappingFragment StoreEntitySet="Semester">
+                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="Semester1" ColumnName="Semester" />
                 <ScalarProperty Name="YearStudy_ID" ColumnName="YearStudy_ID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />

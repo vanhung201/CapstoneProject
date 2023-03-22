@@ -27,6 +27,7 @@
     <Property Name="ContactPhone_1" Type="varchar" MaxLength="15" />
     <Property Name="ContactPhone_2" Type="varchar" MaxLength="15" />
     <Property Name="EmailContact" Type="varchar" MaxLength="150" />
+    <Property Name="Semester_ID" Type="int" />
   </EntityType>
   <EntityType Name="CooperationCategories">
     <Key>
@@ -104,6 +105,7 @@
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Post_ID" Type="int" />
     <Property Name="InternshipTopic_ID" Type="int" />
+    <Property Name="Business_ID" Type="int" />
   </EntityType>
   <EntityType Name="Registration">
     <Key>
@@ -132,6 +134,7 @@
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="YearStudy_ID" Type="int" />
     <Property Name="Semester" Type="varchar" MaxLength="15" />
+    <Property Name="Status" Type="bit" />
   </EntityType>
   <EntityType Name="Status">
     <Key>
@@ -200,6 +203,18 @@
       </Principal>
       <Dependent Role="BusinessCooperationCategories">
         <PropertyRef Name="CooperationCategories_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BusinessUser_Semester1">
+    <End Role="Semester" Type="Self.Semester" Multiplicity="0..1" />
+    <End Role="BusinessUser" Type="Self.BusinessUser" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Semester">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="BusinessUser">
+        <PropertyRef Name="Semester_ID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -527,6 +542,10 @@
     <AssociationSet Name="FK_BusinessCooperationCategories_CooperationCategories" Association="Self.FK_BusinessCooperationCategories_CooperationCategories">
       <End Role="CooperationCategories" EntitySet="CooperationCategories" />
       <End Role="BusinessCooperationCategories" EntitySet="BusinessCooperationCategories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BusinessUser_Semester1" Association="Self.FK_BusinessUser_Semester1">
+      <End Role="Semester" EntitySet="Semester" />
+      <End Role="BusinessUser" EntitySet="BusinessUser" />
     </AssociationSet>
     <AssociationSet Name="FK_BusinessUser_Status" Association="Self.FK_BusinessUser_Status">
       <End Role="Status" EntitySet="Status" />

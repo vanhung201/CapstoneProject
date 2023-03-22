@@ -77,7 +77,8 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
                                   statusinternview = re.StatusInternview,
                                   statusregistration = re.StatusRegistration,
                                   comment = re.Comment,
-                                  interntopic_id = re.InternshipTopic_ID
+                                  interntopic_id = re.InternshipTopic_ID,
+                                  internshipresult_id = re.InternshipResult_ID
                               };
             return Json(detailRegis, JsonRequestBehavior.AllowGet);
         }
@@ -143,12 +144,12 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Edit([Bind(Include = "ID,Email_VanLang,Post_ID,Semester_ID,CV,RegistrationDate,RegistrationModify,Business_ID,InterviewResult,InterviewResultComment,StatusInternview,StatusRegistration, InternshipTopic_ID, Comment")] Registration registration)
+        public ActionResult Edit([Bind(Include = "ID,Email_VanLang,Post_ID,Semester_ID,CV,RegistrationDate,RegistrationModify,Business_ID,InterviewResult,InterviewResultComment,StatusInternview,StatusRegistration, InternshipTopic_ID, Comment, InternshipResult_ID")] Registration registration)
         {
             if (ModelState.IsValid)
             {
                 var email = db.VanLangUsers.Where(x => x.Email == registration.Email_VanLang).First();
-                if (registration.StatusInternview == "Đậu")
+                if (registration.StatusInternview == "Đậu Phỏng Vấn")
                 {
                     var internship = db.InternshipResults.Where(x => x.ID == registration.InternshipResult_ID).FirstOrDefault();
                     if (db.InternshipResults.Any(x => x.Student_Email == registration.Email_VanLang && x.InternshipTopic_ID == registration.InternshipTopic_ID))
@@ -171,6 +172,7 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
                     InternShip.Business_ID = registration.Business_ID;
                     InternShip.BusinessComment = null;
                     InternShip.BusinessPoint = null;
+                    InternShip.Semester_ID = registration.Semester_ID;
                     InternShip.InternshipTopic_ID = registration.InternshipTopic_ID;
                     InternShip.Status = "Chờ Xác Nhận";
                     registration.InternshipResult_ID = InternShip.ID;
@@ -182,7 +184,9 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
                 }
                 else
                 {
-                    if(db.InternshipResults.Any(x => x.ID == registration.InternshipResult_ID) ==false)
+                    
+                    var getIDRe = db.InternshipResults.Where(x => x.ID == registration.InternshipResult_ID).Any();
+                    if (getIDRe == false)
                     {
                         TempData["AlertMessage"] = "<div class=\"toast toast--success\">            <div class=\"toast-left toast-left--success\">               <i class=\"fas fa-check-circle\"></i>\r\n            </div>\r\n            <div class=\"toast-content\">\r\n                <p class=\"toast-text\">Cập Nhật Thành Công</p>            </div>\r\n            <div class=\"toast-right\">\r\n                <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n            </div>\r\n        </div>";
                         return RedirectToAction("Index");
@@ -190,6 +194,8 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
                     var asd = db.InternshipResults.Where(x => x.ID == registration.InternshipResult_ID).FirstOrDefault();
                     db.InternshipResults.Remove(asd);
                     registration.InterviewResult = "Chờ Xác Nhận";
+                    registration.InternshipResult_ID = null;
+                  
                 }
                 db.Entry(registration).State = EntityState.Modified;
                 db.SaveChanges();
