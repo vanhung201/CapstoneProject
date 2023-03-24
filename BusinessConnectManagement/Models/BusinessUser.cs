@@ -39,9 +39,11 @@ namespace BusinessConnectManagement.Models
         public string ContactPhone_1 { get; set; }
         public string ContactPhone_2 { get; set; }
         public string EmailContact { get; set; }
+        public Nullable<int> Semester_ID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BusinessCooperationCategory> BusinessCooperationCategories { get; set; }
+        public virtual Semester Semester { get; set; }
         public virtual Status Status { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InternshipResult> InternshipResults { get; set; }

@@ -83,7 +83,7 @@ th {
 }
 .overFlow {
     display: inline-block;
-    width: 251px;
+    width: 200px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;

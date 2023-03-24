@@ -53,7 +53,7 @@ namespace BusinessConnectManagement.Controllers
                             var path = Server.MapPath("~/Uploads/CV/");
                             CV.SaveAs(path + registration.CV);
                             registration.Email_VanLang = email;
-                            registration.Semester_ID = 1;
+                            registration.Semester_ID = post.Semester_ID;
                             registration.RegistrationDate = (DateTime.Now).ToString();
                             registration.RegistrationModify = (DateTime.Now).ToString();
                             registration.InterviewResult = null;
@@ -61,6 +61,7 @@ namespace BusinessConnectManagement.Controllers
                             registration.StatusInternview = null;
                             registration.StatusRegistration = "Chờ Duyệt";
                             registration.Comment = null;
+                            registration.Semester_ID = post.Semester_ID;
                             db.Registrations.Add(registration);
                             db.SaveChanges();
                             scope.Complete();

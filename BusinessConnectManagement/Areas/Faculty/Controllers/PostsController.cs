@@ -90,6 +90,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                                 duedate = post.DueDate,
                                 quatity = post.Quantity,
                                 majorr = post.Major.Major1,
+                                semes_id = post.Semester_ID,
                             });
             List<PostInternGet> postInternGets = new List<PostInternGet>();
             var PostPosition = db.InternshipTopics.ToList();
@@ -126,18 +127,19 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         {
             if (ModelState.IsValid)
             {
-               
-                  
+                var checkSem = db.Semesters.Where(x => x.Status == true).FirstOrDefault();
                     post.PostDay = string.Format("{0:dd/MM/yyyy hh:mm:ss}", DateTime.Now);
                     post.ModifyDay = string.Format("{0:dd/MM/yyyy hh:mm:ss}", DateTime.Now);
                     var query = db.VanLangUsers.Where(x => x.Email == User.Identity.Name).FirstOrDefault();
                     post.Email_ID = query.Email;
-                    string[] positions = form.GetValues("positions");
+                    post.Semester_ID = checkSem.ID;
                     db.Posts.Add(post);
-                    db.SaveChanges();
+                db.SaveChanges();
+                string[] positions = form.GetValues("positions");
                 for (int i = 0; i < positions.Length; i++)
                 {
                     var pp = new PostInternshipTopic();
+                    pp.Business_ID = post.Business_ID;
                     pp.Post_ID = post.ID;
                     pp.InternshipTopic_ID = Int32.Parse(positions[i]);
                     db.PostInternshipTopics.Add(pp);
@@ -194,7 +196,9 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                 {
                     for (int i = 0; i < positions.Length; i++)
                     {
+
                         var pp = new PostInternshipTopic();
+                        pp.Business_ID = post.Business_ID;
                         pp.Post_ID = post.ID;
                         pp.InternshipTopic_ID = Int32.Parse(positions[i]);
                         db.PostInternshipTopics.Add(pp);

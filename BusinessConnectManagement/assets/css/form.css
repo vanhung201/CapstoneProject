@@ -8,7 +8,7 @@
     left: 0;
      display: none; 
     animation: fadeIn 0.2s linear 0s 1 alternate forwards;
-    overflow: hidden;
+    /*overflow: hidden;*/
     z-index: 10;
 }
 
@@ -287,3 +287,10 @@ label.error {
         display: block;
     }
 
+#form_detail {
+    z-index: 10;
+}
+#addFormCr {
+    position: relative;
+    z-index: 99 !important;
+}

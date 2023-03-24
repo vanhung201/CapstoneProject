@@ -79,7 +79,8 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                               contactName = bu.ContactName,
                               contactPhone1 = bu.ContactPhone_1,
                               contactPhone2 = bu.ContactPhone_2,
-                              emailContact = bu.EmailContact
+                              emailContact = bu.EmailContact,
+                              sem_id = bu.Semester_ID
                           });
 
 
@@ -136,11 +137,13 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                     // add image
                     using (var scope = new TransactionScope())
                     {
+                        var checkSem = db.Semesters.Where(x => x.Status == true).FirstOrDefault();
                         businessUser.BusinessLogo = DateTime.Now.ToString("yymmssfff") + logo.FileName;
                         BusinessCooperationCategory BCC = new BusinessCooperationCategory();
                         var path = Server.MapPath("~/Uploads/Images/");
                         logo.SaveAs(path + businessUser.BusinessLogo);
                         businessUser.Status_ID = 1;
+                        businessUser.Semester_ID = checkSem.ID;
                         db.BusinessUsers.Add(businessUser);
                         db.SaveChanges();
                         scope.Complete();
@@ -176,12 +179,15 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                 if (logo != null)
                 {
                     businessUser.BusinessLogo = DateTime.Now.ToString("yymmssfff") + logo.FileName;
-
                     var path = Server.MapPath("~/Uploads/Images/");
                     logo.SaveAs(path + businessUser.BusinessLogo);
                     /*businessUser.Status = businessUser.Status_ID();*/
                 }
-               
+                if (db.BusinessUsers.Any(x=>x.ID != businessUser.ID && x.BusinessName == businessUser.BusinessName))
+                {
+                    TempData["AlertMessage"] = "<div class=\"toast toast--error\">\r\n     <div class=\"toast-left toast-left--error\">\r\n       <i class=\"fas fa-times-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n    <p class=\"toast-text\">Tên Doanh Nghiệp Đã Tồn Tại</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n       <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>";
+                    return RedirectToAction("Index");
+                }
                 //Lưu BusinessUser
                 db.Entry(businessUser).State = EntityState.Modified;
                 db.SaveChanges();

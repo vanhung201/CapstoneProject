@@ -4,7 +4,26 @@
     BCMEntities db = new BCMEntities();
     var query = db.VanLangUsers.Where(x => x.Email == User.Identity.Name).FirstOrDefault();
 
+    string Role = query.Role;
     string FullName = "";
+    string ControllerName = "";
+    string Area = "";
+
+    if (Role == "Admin")
+    {
+        ControllerName = "AdminHome";
+        Area = "Admin";
+    }
+    else if (Role == "Faculty")
+    {
+        ControllerName = "FacultyHome";
+        Area = "Faculty";
+    }
+    else if (Role == "Mentor")
+    {
+        ControllerName = "MentorHome";
+        Area = "Mentor";
+    }
 
     if (string.IsNullOrEmpty(query.FullName))
     {
@@ -13,7 +32,7 @@
     else
     {
         FullName = query.FullName;
-    } 
+    }
 }
 
 <!DOCTYPE html>
@@ -34,13 +53,6 @@
     <link href="~/assets/css/grid.css" rel="stylesheet" />
     <link href="~/assets/css/reset.css" rel="stylesheet" />
     <link href="~/assets/css/global.css" rel="stylesheet" />
-    @*<link href="~/assets/css/menu2.css" rel="stylesheet" />
-        <link href="~/assets/css/nav2.css" rel="stylesheet" />
-        <link href="~/assets/css/button.css" rel="stylesheet" />
-        <link href="~/assets/css/form.css" rel="stylesheet" />
-        <link href="~/assets/css/table2.css" rel="stylesheet" />
-        <link href="~/assets/css/greet.css" rel="stylesheet" />
-    *@
     <link href="~/assets/css/toast.css" rel="stylesheet" />
     <link href="~/assets/css/layout.css" rel="stylesheet" />
     <link href="~/assets/css/style.css" rel="stylesheet" />
@@ -53,132 +65,200 @@
             color: red;
         }
     </style>
+    <link href="~/assets/css/statistic.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
 
-    @*<section class="menu">
-            <a href="@Url.Action("Index", "AdminHome", new { area = "Admin" })" class="menu-image">
-                <img src="~/assets/images/logoVL.png" alt="logoVL.png" />
-                <span class="menu-title">Business Connection Management</span>
-            </a>
-            <ul class="menu-list">
-                <li class="menu-item">
-                    <div class="menu-function">
-                        <a href="@Url.Action("AuthorizeList", "AdminHome", new { area = "Admin" })" class="menu-feature">
-                            <i class="menu-icon fas fa-hand-point-right"></i>
-                            Tài khoản
-                        </a>
-                        <a href="@Url.Action("Index", "CooperationCategories", new { area = "Faculty" })" class="menu-feature">
-                            <i class="menu-icon fas fa-hand-point-right"></i>
-                            Danh mục Hợp tác
-                        </a>
-                        <a href="@Url.Action("Index", "BusinessUsers", new { area = "Faculty" })" class="menu-feature">
-                            <i class="menu-icon fas fa-hand-point-right"></i>
-                            Doanh nghiệp
-                        </a>
-                        <a href="@Url.Action("Index", "MOUs", new { area = "Faculty" })" class="menu-feature">
-                            <i class="menu-icon fas fa-hand-point-right"></i>
-                            Ký kết MOU
-                        </a>
-                        <a href="@Url.Action("Index", "BusinessCooperationCategories", new { area = "Faculty" })" class="menu-feature">
-                            <i class="menu-icon fas fa-hand-point-right"></i>
-                            Hoạt động hợp tác
-                        </a>
-                        <a href="@Url.Action("Index", "Posts", new { area = "Faculty" })" class="menu-feature">
-                            <i class="menu-icon fas fa-hand-point-right"></i>
-                            Bài tuyển dụng
-                        </a>
-                        <a href="@Url.Action("Index", "Registration", new { area = "Faculty" })" class="menu-feature">
-                            <i class="menu-icon fas fa-hand-point-right"></i>
-                            Ứng tuyển
-                        </a>
-                    </div>
-                </li>
-            </ul>
-        </section>
-
-        <nav class="nav">
-            <div class="nav-list">
-                <div class="nav-item">
-                    <i class="nav-icon far fa-bell"></i>
-                </div>
-                <div class="nav-item">
-                    <div style="display: flex; align-items: center;">
-                        <img src="~/assets/images/avatarAdmin.png" alt="avatarAdmin.png" class="nav-image" />@FullName
-                    </div>
-                    <ul class="nav-account-list">
-                        <a href="@Url.Action("SignOut", "Account", new { area = "" })" class="nav-account-item">Đăng xuất</a>
-                    </ul>
-                </div>
-            </div>
-        </nav>*@
-
-
 
     <div class="wrap">
-        <section class="menu">
-            <div class="menu-logo">
-                <a href="@Url.Action("Index", "AdminHome", new { area = "Admin" })" class="menu-link">
-                    <img src="~/assets/images/logoVL.png"
-                         alt=""
-                         class="menu-image" />
-                    <span class="menu-title">Business Connection Management</span>
-                </a>
-                <i class="fal fa-long-arrow-right" id="menu-icon"></i>
-            </div>
-            <ul class="menu-list">
-                <li class="menu-item">
-                    <a href="@Url.Action("AuthorizeList", "AdminHome", new { area = "Admin" })" class="menu-feature">
-                        <i class="menu-icon fal fa-users"></i>
-                        <span class="menu-text">Tài khoản</span>
-                    </a>
-                    <span class="menu-tooltip">Tài khoản</span>
-                </li>
-                <li class="menu-item">
-                    <a href="@Url.Action("Index", "BusinessUsers", new { area = "Faculty" })" class="menu-feature">
-                        <i class="menu-icon fal fa-building"></i>
-                        <span class="menu-text">Doanh nghiệp</span>
-                    </a>
-                    <span class="menu-tooltip">Doanh nghiệp</span>
-                </li>
-                <li class="menu-item">
-                    <a href="@Url.Action("Index", "CooperationCategories", new { area = "Faculty" })" class="menu-feature">
-                        <i class="menu-icon fal fa-globe"></i>
-                        <span class="menu-text">Hợp tác</span>
-                    </a>
-                    <span class="menu-tooltip">Hợp tác</span>
-                </li>
-                <li class="menu-item">
-                    <a href="@Url.Action("Index", "MOUs", new { area = "Faculty" })" class="menu-feature">
-                        <i class="menu-icon fal fa-file-signature"></i>
-                        <span class="menu-text">Ký kết MOU</span>
-                    </a>
-                    <span class="menu-tooltip">Ký kết MOU</span>
-                </li>
-                <li class="menu-item">
-                    <a href="@Url.Action("Index", "Posts", new { area = "Faculty" })" class="menu-feature">
-                        <i class="menu-icon fal fa-newspaper"></i>
-                        <span class="menu-text">Tin tuyển dụng</span>
-                    </a>
-                    <span class="menu-tooltip">Tin tuyển dụng</span>
-                </li>
-                <li class="menu-item">
-                    <a href="@Url.Action("Index", "BusinessCooperationCategories", new { area = "Faculty" })" class="menu-feature">
-                        <i class="menu-icon fal fa-running"></i>
-                        <span class="menu-text">Hoạt động</span>
-                    </a>
-                    <span class="menu-tooltip">Hoạt động</span>
-                </li>
-                <li class="menu-item">
-                    <a href="@Url.Action("Index", "Registration", new { area = "Faculty" })" class="menu-feature">
-                        <i class="menu-icon fal fa-id-card"></i>
-                        <span class="menu-text">Ứng tuyển</span>
-                    </a>
-                    <span class="menu-tooltip">Ứng tuyển</span>
-                </li>
-            </ul>
-        </section>
+        @{
+            <section class="menu">
+                @if (Role == "Admin")
+                {
+                    <div class="menu-logo">
+                        <a href="@Url.Action("Index", "AdminHome", new { area = "Admin" })" class="menu-link">
+                            <img src="~/assets/images/logoVL.png"
+                                 alt=""
+                                 class="menu-image" />
+                            <span class="menu-title">Business Connection Management</span>
+                        </a>
+                        <i class="fal fa-long-arrow-right" id="menu-icon"></i>
+                    </div>
+
+                    <ul class="menu-list">
+                        <li class="menu-item">
+                            <a href="@Url.Action("AuthorizeList", "AdminHome", new { area = "Admin" })" class="menu-feature">
+                                <i class="menu-icon fal fa-users"></i>
+                                <span class="menu-text">Tài khoản</span>
+                            </a>
+                            <span class="menu-tooltip">Tài khoản</span>
+                        </li>
+                        <li class="menu-item">
+                            <a href="@Url.Action("Index", "BusinessUsers", new { area = "Faculty" })" class="menu-feature">
+                                <i class="menu-icon fal fa-building"></i>
+                                <span class="menu-text">Doanh nghiệp</span>
+                            </a>
+                            <span class="menu-tooltip">Doanh nghiệp</span>
+                        </li>
+                        <li class="menu-item">
+                            <a href="@Url.Action("Index", "CooperationCategories", new { area = "Faculty" })" class="menu-feature">
+                                <i class="menu-icon fal fa-globe"></i>
+                                <span class="menu-text">Hợp tác</span>
+                            </a>
+                            <span class="menu-tooltip">Hợp tác</span>
+                        </li>
+                        <li class="menu-item">
+                            <a href="@Url.Action("Index", "YearStudies", new { area = "Faculty" })" class="menu-feature">
+                                <i class="menu-icon fal fa-globe"></i>
+                                <span class="menu-text">Năm Học</span>
+                            </a>
+                            <span class="menu-tooltip">Học Kỳ</span>
+                        </li>
+                        <li class="menu-item">
+                            <a href="@Url.Action("Index", "MOUs", new { area = "Faculty" })" class="menu-feature">
+                                <i class="menu-icon fal fa-file-signature"></i>
+                                <span class="menu-text">Ký kết MOU</span>
+                            </a>
+                            <span class="menu-tooltip">Ký kết MOU</span>
+                        </li>
+                        <li class="menu-item">
+                            <a href="@Url.Action("Index", "Posts", new { area = "Faculty" })" class="menu-feature">
+                                <i class="menu-icon fal fa-newspaper"></i>
+                                <span class="menu-text">Tin tuyển dụng</span>
+                            </a>
+                            <span class="menu-tooltip">Tin tuyển dụng</span>
+                        </li>
+                        <li class="menu-item">
+                            <a href="@Url.Action("Index", "BusinessCooperationCategories", new { area = "Faculty" })" class="menu-feature">
+                                <i class="menu-icon fal fa-running"></i>
+                                <span class="menu-text">Hoạt động</span>
+                            </a>
+                            <span class="menu-tooltip">Hoạt động</span>
+                        </li>
+                        <li class="menu-item">
+                            <a href="@Url.Action("Index", "Registration", new { area = "Faculty" })" class="menu-feature">
+                                <i class="menu-icon fal fa-id-card"></i>
+                                <span class="menu-text">Ứng tuyển</span>
+                            </a>
+                            <span class="menu-tooltip">Ứng tuyển</span>
+                        </li>
+                        <li class="menu-item">
+                            <a href="@Url.Action("Index", "AppointmentMentor", new { area = "Faculty" })" class="menu-feature">
+                                <i class="menu-icon fal fa-id-card"></i>
+                                <span class="menu-text">Thực Tập</span>
+                            </a>
+                            <span class="menu-tooltip">Thực Tập</span>
+                        </li>
+
+                        <li class="menu-item">
+                            <a href="@Url.Action("Index", "InternshipResultsMentor",new { area = "Mentor" })" class="menu-feature">
+                                <i class="menu-icon fal fa-id-card"></i>
+                                <span class="menu-text">Sinh Viên Hướng Dẫn</span>
+                            </a>
+                            <span class="menu-tooltip">Sinh Viên Hướng Dẫn</span>
+                        </li>
+                    </ul>
+                }
+                else if (Role == "Faculty")
+                {
+                    <div class="menu-logo">
+                        <a href="@Url.Action("Index", "FacultyHome", new { area = "Faculty" })" class="menu-link">
+                            <img src="~/assets/images/logoVL.png"
+                                 alt=""
+                                 class="menu-image" />
+                            <span class="menu-title">Business Connection Management</span>
+                        </a>
+                        <i class="fal fa-long-arrow-right" id="menu-icon"></i>
+                    </div>
+
+                    <ul class="menu-list">
+                        <li class="menu-item">
+                            <a href="@Url.Action("Index", "BusinessUsers", new { area = "Faculty" })" class="menu-feature">
+                                <i class="menu-icon fal fa-building"></i>
+                                <span class="menu-text">Doanh nghiệp</span>
+                            </a>
+                            <span class="menu-tooltip">Doanh nghiệp</span>
+                        </li>
+                        <li class="menu-item">
+                            <a href="@Url.Action("Index", "CooperationCategories", new { area = "Faculty" })" class="menu-feature">
+                                <i class="menu-icon fal fa-globe"></i>
+                                <span class="menu-text">Hợp tác</span>
+                            </a>
+                            <span class="menu-tooltip">Hợp tác</span>
+                        </li>
+                        <li class="menu-item">
+                            <a href="@Url.Action("Index", "MOUs", new { area = "Faculty" })" class="menu-feature">
+                                <i class="menu-icon fal fa-file-signature"></i>
+                                <span class="menu-text">Ký kết MOU</span>
+                            </a>
+                            <span class="menu-tooltip">Ký kết MOU</span>
+                        </li>
+                        <li class="menu-item">
+                            <a href="@Url.Action("Index", "Posts", new { area = "Faculty" })" class="menu-feature">
+                                <i class="menu-icon fal fa-newspaper"></i>
+                                <span class="menu-text">Tin tuyển dụng</span>
+                            </a>
+                            <span class="menu-tooltip">Tin tuyển dụng</span>
+                        </li>
+                        <li class="menu-item">
+                            <a href="@Url.Action("Index", "BusinessCooperationCategories", new { area = "Faculty" })" class="menu-feature">
+                                <i class="menu-icon fal fa-running"></i>
+                                <span class="menu-text">Hoạt động</span>
+                            </a>
+                            <span class="menu-tooltip">Hoạt động</span>
+                        </li>
+                        <li class="menu-item">
+                            <a href="@Url.Action("Index", "Registration", new { area = "Faculty" })" class="menu-feature">
+                                <i class="menu-icon fal fa-id-card"></i>
+                                <span class="menu-text">Ứng tuyển</span>
+                            </a>
+                            <span class="menu-tooltip">Ứng tuyển</span>
+                        </li>
+                        <li class="menu-item">
+                            <a href="@Url.Action("Index", "AppointmentMentor", new { area = "Faculty" })" class="menu-feature">
+                                <i class="menu-icon fal fa-id-card"></i>
+                                <span class="menu-text">Thực Tập</span>
+                            </a>
+                            <span class="menu-tooltip">Thực Tập</span>
+                        </li>
+
+                        <li class="menu-item">
+                            <a href="@Url.Action("Index", "InternshipResultsMentor",new { area = "Mentor" })" class="menu-feature">
+                                <i class="menu-icon fal fa-id-card"></i>
+                                <span class="menu-text">Sinh Viên Hướng Dẫn</span>
+                            </a>
+                            <span class="menu-tooltip">Sinh Viên Hướng Dẫn</span>
+                        </li>
+                    </ul>
+                }
+                else
+                {
+                    <div class="menu-logo">
+                        <a href="@Url.Action("Index", "MentorHome", new { area = "Mentor" })" class="menu-link">
+                            <img src="~/assets/images/logoVL.png"
+                                 alt=""
+                                 class="menu-image" />
+                            <span class="menu-title">Business Connection Management</span>
+                        </a>
+                        <i class="fal fa-long-arrow-right" id="menu-icon"></i>
+                    </div>
+                    <ul>
+                        <li class="menu-item">
+                            <a href="@Url.Action("Index", "InternshipResultsMentor",new { area = "Mentor" })" class="menu-feature">
+                                <i class="menu-icon fal fa-id-card"></i>
+                                <span class="menu-text">Sinh Viên Hướng Dẫn</span>
+                            </a>
+                            <span class="menu-tooltip">Sinh Viên Hướng Dẫn</span>
+                        </li>
+                    </ul>
+
+                }
+
+            </section>
+        }
+
         <div class="content">
             <nav class="nav">
                 <div class="nav-wrap">
@@ -208,8 +288,7 @@
 </body>
 
 <script src="~/assets/js/index.js"></script>
-
-@*<script src="~/assets/js/admin.js"></script>*@
+<script src="~/assets/js/admin.js"></script>
 <script src="~/Scripts/jquery-3.4.1.js"></script>
 <script src="~/Scripts/jquery.validate.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
@@ -218,28 +297,34 @@
 <script src="~/Scripts/chosen.jquery.js"></script>
 <script src="~/assets/js/datatable/dataTable.min.js"></script>
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
 <script>
 
     $(function () {
-        $("#table_id_filter").prepend($("#filterEvent")).clone();
+        $("#table_id_filter").append($("#filterEvent")).clone();
     });
-
+    let formAddCr = document.getElementById("addFormCr");
     let formAdd = document.getElementById("addForm");
+    let formImport = document.getElementById("importForm");
     let formUpdate = document.getElementById("updateForm");
     let formDelete = document.getElementById("deleteForm");
     let icon = document.querySelector(".form-icon");
     let isHide = "is-hide";
     let isAppear = "is-appear";
-
+    $(".btn--ìmport").on("click", function () {
+        formImport.classList.add(isAppear);
+    });
     $(".btn--create").on("click", function () {
         formAdd.classList.add(isAppear);
     });
-    $("#table_listData").on("click", ".btn--update", function () {
-        formUpdate.classList.add(isAppear);
+
+    $("#btn--create").on("click", function () {
+        formAddCr.classList.add(isAppear);
     });
+
     $(".form-icon").on("click", function () {
         formDelete.classList.remove(isAppear);
     });
@@ -254,14 +339,16 @@
 
     $(function () {
         $("#ddlBussines_ID").chosen();
-    });
-    $(function () {
-        const toast = document.querySelector(".toast");
-        setTimeout(() => {
-            toast.remove();
-        }, 3000);
 
+        $(".chosen-select").chosen();
     });
+     $(function () {
+         const toast = document.querySelector(".toast");
+         setTimeout(() => {
+             toast.remove();
+         }, 3000);
+
+     })
     function remove() {
         let toast = document.querySelector(".toast");
         document.querySelector(".toast-right").addEventListener("click", () => {

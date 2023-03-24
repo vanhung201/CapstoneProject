@@ -70,11 +70,12 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
             var email = db.VanLangUsers.Where(x=>x.Email == registration.Email_VanLang).First();
             if (ModelState.IsValid)
             {
-                if (db.Registrations.Any(x => x.Email_VanLang == email.Email && x.StatusInternview == "Đậu"))
+                /*if (db.Registrations.Any(x => x.Email_VanLang == email.Email && x.StatusInternview == "Đậu"))
                 {
                     TempData["AlertMessage"] = "<div class=\"toast toast--success\"> <div class=\"toast-left toast-left--success\"> <i class=\"fas fa-check-circle\"></i>\r\n  </div>\r\n            <div class=\"toast-content\">\r\n                <p class=\"toast-text\">Cập Nhật Không Thành Công Vì Sinh Viên Đã Đậu Phỏng Vấn</p>            </div>\r\n            <div class=\"toast-right\">\r\n                <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n            </div>\r\n        </div>";
                     return RedirectToAction("Index");
-                }
+                }*/
+                registration.StatusInternview = "Chờ Phỏng Vấn";
                 db.Entry(registration).State = EntityState.Modified;
                 db.SaveChanges();
                 string To = registration.Email_VanLang;
@@ -149,11 +150,16 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                                 comment = rg.Comment,
                                 username = emailVL.FullName,
                                 phone = emailVL.Mobile,
-                                position_id = rg.InternshipTopic_ID
+                                position_id = rg.InternshipTopic_ID,
+                                major = rg.VanLangUser.Major.Major1,
+                                buname = rg.BusinessUser.BusinessName,
+                                student_id = rg.VanLangUser.Student_ID,
+                                mobile = rg.VanLangUser.Mobile,
+                                position = rg.InternshipTopic.InternshipTopicName,
+                                bumail = rg.BusinessUser.EmailContact
                             });
             return Json(listData, JsonRequestBehavior.AllowGet);
         }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)

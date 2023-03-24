@@ -14,31 +14,76 @@
 
 
     }
-<div class="list-table">
-    <div class="filter">
-        <div class="bu_status"></div>
-        <label id="nameLabel1">Lọc:</label>
+    <div class="list-table">
+        <div class="filter">
+            <div class="bu_status"></div>
+            <label id="nameLabel1">Lọc:</label>
+        </div>
+        <table id="table_listData" class="display">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Họ và Tên</th>
+                    <th>Email</th>
+                    <th>SĐT</th>
+                    <th>CV</th>
+                    <th>Kết Quả Phỏng Vấn</th>
+                    <th>Chức năng</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
     </div>
-    <table id="table_listData" class="display">
-        <thead>
-            <tr>
-                <th >STT</th>
-                <th>Họ và Tên</th>
-                <th>Email</th>
-                <th>SĐT</th>
-                <th>CV</th>
-                <th>Kết Quả Phỏng Vấn</th>
-                <th>Chức năng</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-</div>
 </section>
+@*-----------------------detail-----------------------*@
+<form class="form" id="detailForm" method="post">
+    <div class="form-container">
+        <h1 class="form-heading">Thông Tin Sinh Viên Ứng Tuyển</h1>
+        <div class="form-row">
+            <div class="form-column">
+                <div class="form-group">
+                    <label for="Username" class="form-label">Họ và tên</label>
+                    <input class="form-input" id="usernameget" autocomplete="off" disabled />
+                </div>
+                <div class="form-group">
+                    <label for="BusinessName" class="form-label">Email</label>
+                    <input class="form-input" id="emailget" autocomplete="off" disabled />
+                </div>
+                <div class="form-group">
+                    <label for="status" class="form-label">Chuyên Nghành</label>
+                    <input class="form-input" id="majorget" autocomplete="off" disabled />
+                </div>
+            </div>
+            <div class="form-column">
+                <div class="form-group">
+                    <label for="Password" class="form-label">MSSV</label>
+                    <input type="text" id="student_idget" class="form-input" autocomplete="off" disabled />
+                </div>
+                <div class="form-group">
+                    <label for="Address" class="form-label">SĐT</label>
+                    <input type="text" id="mobileget" class="form-input" autocomplete="off" disabled />
+                </div>
 
+                <div class="form-group">
+                    <label for="BusinessPhone" class="form-label">Vị trí  thực tập</label>
+                    <input type="text" id="positionget" class="form-input" autocomplete="off" disabled />
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <a class="btn btn--confirm" id="btn--cancel">
+                Xác Nhận
+            </a>
+
+        </div>
+    </div>
+</form>
+
+@*---------------------update----------------------*@
 <form class="form" id="updateForm" method="post">
-       
+
     <div class="form-container--small">
         <h1 class="form-heading">Cập Nhật Trạng Thái</h1>
         <div class="form-group">
@@ -60,10 +105,10 @@
             <input list="" name="Comment" id="Comment" class="form-input" hidden />
             <input list="" name="StatusRegistration" id="StatusRegistration" class="form-input" hidden />
             <input list="" name="InternshipTopic_ID" id="InternshipTopic_ID" class="form-input" hidden />
+            <input list="" name="InternshipResult_ID" id="InternshipResult_ID" class="form-input" hidden />
             <select name="StatusInternview" id="interviewStatus" class="form-input">
-                <option class="text-center" value="Đang Chờ">Chờ</option>
-                <option class="text-center" value="Đậu">Đậu</option>
-                <option class="text-center" value="Rớt">Rớt</option>
+                <option class="text-center" value="Đậu Phỏng Vấn">Đậu Phỏng Vấn</option>
+                <option class="text-center" value="Rớt Phỏng Vấn">Rớt Phỏng Vấn</option>
             </select>
         </div>
 
@@ -71,7 +116,7 @@
 
         <div class="form-group">
             <a class="btn btn--cancel">Hủy</a>
-            <button class="btn btn--add" type="submit">Lưu</button>
+            <button class="btn btn--confirm" type="submit">Xác Nhận</button>
         </div>
     </div>
 
@@ -105,10 +150,12 @@
                     {
                         data: "status",
                         render: function (data) {
-                            if (data == "Đậu") {
+                            if (data == "Đậu Phỏng Vấn") {
                                 return '<span class="text-center text--done">' + data + '</span>'
-                            } else {
+                            } else if (data == "Rớt Phỏng Vấn"){
                                 return '<span class="text-center text--cancel">' + data + '</span>'
+                            } else if (data == "Chờ Phỏng Vấn"){
+                                return '<span class="text-center text--wait">' + data + '</span>'
                             }
 
                         }
@@ -118,6 +165,11 @@
                         render: function (t, e, a) {
                             return (
                                 `
+                                  <a href="@Url.Action("Details", "InternViews")/${t}" id="business_getdetail" class="business_getdetail">
+                                <div class="btn btn--detail">
+                                    <i class="btn-icon btn-icon--detail fal fa-info-circle"></i>
+                                </div>
+                                </a>
                                 <a href="@Url.Action("Details", "InternViews")/${t}" id="business_detail" class="business_detail">
                                 <div class="btn btn--update">
                                     <i class="btn-icon btn-icon--edit fal fa-edit"></i>
@@ -191,17 +243,49 @@
                     $('#StatusRegistration').val(res[0].statusregistration)
                     $('#Comment').val(res[0].comment)
                     $('#InternshipTopic_ID').val(res[0].interntopic_id)
-                    if (res[0].statusinternview === "Đậu") {
-                        $('select option[value="Đậu"]').attr("selected", "selected");
-                    } else if (res[0].statusinternview === "Rớt"){
-                        $('select option[value="Rớt"]').attr("selected", "selected");
+                    $('#InternshipResult_ID').val(res[0].internshipresult_id)
+
+                    if (res[0].statusinternview === "Đậu Phỏng Vấn") {
+                        $('select option[value="Đậu Phỏng Vấn"]').attr("selected", "selected");
+                    } else if (res[0].statusinternview === "Rớt Phỏng Vấn"){
+                        $('select option[value="Rớt Phỏng Vấn"]').attr("selected", "selected");
                     }
-                    else if (res[0].statusinternview === "Đang Chờ") {
-                        $('select option[value="Đang Chờ"]').attr("selected", "selected");
+                    else if (res[0].statusinternview === "Chờ Phỏng Vấn") {
+                        $('select option[value="Chờ Phỏng Vấn"]').attr("selected", "selected");
                     }
                     $('#updateForm').attr('action', `${actionUrl}`)
                 }
             })
+        })
+
+
+
+
+        $('#table_listData').on('click', '.business_getdetail', function (e) {
+            e.preventDefault()
+            const form = document.getElementById('detailForm');
+            form.classList.add('is-appear');
+            const url = $(this).attr('href');
+            $.ajax({
+                url: url,
+                type: "get",
+                dataType: 'json',
+                success: function (res) {
+                    console.log(res)
+                    $('#emailget').val(res[0].email)
+                    $('#usernameget').val(res[0].username)
+                    $('#majorget').val(res[0].major)
+                    $('#bunameget').val(res[0].buname)
+                    $('#student_idget').val(res[0].student_id)
+                    $('#mobileget').val(res[0].mobile)
+                    $('#positionget').val(res[0].position)
+                    $('#bumailget').val(res[0].bumail)
+
+                }
+            })
+        })
+        $('#btn--cancel').on('click', function () {
+            $('#detailForm').removeClass('is-appear')
         })
     </script>
 
@@ -232,5 +316,5 @@
 
 
     </script>
-   
+
 }

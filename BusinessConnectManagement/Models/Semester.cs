@@ -17,6 +17,7 @@ namespace BusinessConnectManagement.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Semester()
         {
+            this.BusinessUsers = new HashSet<BusinessUser>();
             this.InternshipResults = new HashSet<InternshipResult>();
             this.Posts = new HashSet<Post>();
             this.Registrations = new HashSet<Registration>();
@@ -26,7 +27,10 @@ namespace BusinessConnectManagement.Models
         public int ID { get; set; }
         public Nullable<int> YearStudy_ID { get; set; }
         public string Semester1 { get; set; }
+        public Nullable<bool> Status { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BusinessUser> BusinessUsers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InternshipResult> InternshipResults { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

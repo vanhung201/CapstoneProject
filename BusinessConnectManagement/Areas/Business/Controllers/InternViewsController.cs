@@ -77,7 +77,15 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
                                   statusinternview = re.StatusInternview,
                                   statusregistration = re.StatusRegistration,
                                   comment = re.Comment,
-                                  interntopic_id = re.InternshipTopic_ID
+                                  interntopic_id = re.InternshipTopic_ID,
+                                  internshipresult_id = re.InternshipResult_ID,
+                                  major = re.VanLangUser.Major.Major1,
+                                  buname = re.BusinessUser.BusinessName,
+                                  student_id = re.VanLangUser.Student_ID,
+                                  mobile = re.VanLangUser.Mobile,
+                                  position = re.InternshipTopic.InternshipTopicName,
+                                  bumail = re.BusinessUser.EmailContact,
+                                  username = re.VanLangUser.FullName,
                               };
             return Json(detailRegis, JsonRequestBehavior.AllowGet);
         }
@@ -143,13 +151,26 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Edit([Bind(Include = "ID,Email_VanLang,Post_ID,Semester_ID,CV,RegistrationDate,RegistrationModify,Business_ID,InterviewResult,InterviewResultComment,StatusInternview,StatusRegistration, InternshipTopic_ID, Comment")] Registration registration)
+        public ActionResult Edit([Bind(Include = "ID,Email_VanLang,Post_ID,Semester_ID,CV,RegistrationDate,RegistrationModify,Business_ID,InterviewResult,InterviewResultComment,StatusInternview,StatusRegistration, InternshipTopic_ID, Comment, InternshipResult_ID")] Registration registration)
         {
             if (ModelState.IsValid)
             {
                 var email = db.VanLangUsers.Where(x => x.Email == registration.Email_VanLang).First();
-                if (registration.StatusInternview == "Đậu")
+                if (registration.StatusInternview == "Đậu Phỏng Vấn")
                 {
+                    var internship = db.InternshipResults.Where(x => x.ID == registration.InternshipResult_ID).FirstOrDefault();
+                    if (db.InternshipResults.Any(x => x.Student_Email == registration.Email_VanLang && x.InternshipTopic_ID == registration.InternshipTopic_ID))
+                    {
+                        TempData["AlertMessage"] = "<div class=\"toast toast--success\">            <div class=\"toast-left toast-left--success\">               <i class=\"fas fa-check-circle\"></i>\r\n            </div>\r\n            <div class=\"toast-content\">\r\n                <p class=\"toast-text\">Cập Nhật Thành Công</p>            </div>\r\n            <div class=\"toast-right\">\r\n                <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n            </div>\r\n        </div>";
+                        return RedirectToAction("Index");
+
+                    }
+                    if(db.InternshipResults.Any(x => x.Student_Email == registration.Email_VanLang && x.Status == "Đang Thực Tập"))
+                    {
+                    TempData["AlertMessage"] = "<div class=\"toast toast--error\">\r\n     <div class=\"toast-left toast-left--error\">\r\n       <i class=\"fas fa-times-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n    <p class=\"toast-text\">Sinh Viên Đang Thực Tập.</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n       <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>";
+
+                        return RedirectToAction("Index");
+                    }
                     var InternShip = new InternshipResult();
                     InternShip.Student_Email = registration.Email_VanLang;
                     InternShip.MentorPoint = null;
@@ -159,41 +180,40 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
                     InternShip.Business_ID = registration.Business_ID;
                     InternShip.BusinessComment = null;
                     InternShip.BusinessPoint = null;
+                    InternShip.Semester_ID = registration.Semester_ID;
                     InternShip.InternshipTopic_ID = registration.InternshipTopic_ID;
-                    InternShip.Status = "Đang Thực Tập";
+                    InternShip.Status = "Chờ Xác Nhận";
+                    registration.InternshipResult_ID = InternShip.ID;
+                    registration.InterviewResult = "Chờ Xác Nhận";
+                    db.Entry(registration).State = EntityState.Modified;
                     db.InternshipResults.Add(InternShip);
-                    foreach (var item in db.Registrations)
-                    {
-                        if(item.Email_VanLang == email.Email)
-                        {
-                            item.StatusRegistration = "Hủy Duyệt";
-                            db.Entry(item).State = EntityState.Modified;
-                            registration.StatusRegistration = "Phê Duyệt";
-                                db.Entry(registration).State = EntityState.Modified;
-
-                        }
-                        else
-                        {
-                            db.Entry(registration).State = EntityState.Modified;
-                        }
-                    }
-                        db.SaveChanges();
-                        TempData["AlertMessage"] = "<div class=\"toast toast--success\">            <div class=\"toast-left toast-left--success\">               <i class=\"fas fa-check-circle\"></i>\r\n            </div>\r\n            <div class=\"toast-content\">\r\n                <p class=\"toast-text\">Cập Nhật Thành Công</p>            </div>\r\n            <div class=\"toast-right\">\r\n                <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n            </div>\r\n        </div>";
-                        return RedirectToAction("Index");
+                    db.SaveChanges();
+                    TempData["AlertMessage"] = "<div class=\"toast toast--success\">            <div class=\"toast-left toast-left--success\">               <i class=\"fas fa-check-circle\"></i>\r\n            </div>\r\n            <div class=\"toast-content\">\r\n                <p class=\"toast-text\">Cập Nhật Thành Công.</p>            </div>\r\n            <div class=\"toast-right\">\r\n                <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n            </div>\r\n        </div>";
+                    return RedirectToAction("Index");
                 }
                 else
                 {
-                    if(db.InternshipResults.Any(x => x.VanLangUser.Email == registration.Email_VanLang)==false)
+                    
+                    var getIDRe = db.InternshipResults.Where(x => x.ID == registration.InternshipResult_ID).Any();
+                    if (getIDRe == false)
                     {
-                        TempData["AlertMessage"] = "<div class=\"toast toast--success\">            <div class=\"toast-left toast-left--success\">               <i class=\"fas fa-check-circle\"></i>\r\n            </div>\r\n            <div class=\"toast-content\">\r\n                <p class=\"toast-text\">Cập Nhật Thành Công</p>            </div>\r\n            <div class=\"toast-right\">\r\n                <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n            </div>\r\n        </div>";
+                        TempData["AlertMessage"] = "<div class=\"toast toast--success\">            <div class=\"toast-left toast-left--success\">               <i class=\"fas fa-check-circle\"></i>\r\n            </div>\r\n            <div class=\"toast-content\">\r\n                <p class=\"toast-text\">Cập Nhật Thành Công.</p>            </div>\r\n            <div class=\"toast-right\">\r\n                <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n            </div>\r\n        </div>";
                         return RedirectToAction("Index");
                     }
-                    var asd = db.InternshipResults.Where(x => x.VanLangUser.Email == registration.Email_VanLang).FirstOrDefault();
+                    if(db.InternshipResults.Any(x => x.ID == registration.InternshipResult_ID && x.Status == "Thực Tập Xong"))
+                    {
+                        TempData["AlertMessage"] = "<div class=\"toast toast--error\">\r\n     <div class=\"toast-left toast-left--error\">\r\n       <i class=\"fas fa-times-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n    <p class=\"toast-text\">Sinh Viên Đã Thực Tập Xong.</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n       <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>";
+                        return RedirectToAction("Index");
+                    }
+                    var asd = db.InternshipResults.Where(x => x.ID == registration.InternshipResult_ID).FirstOrDefault();
                     db.InternshipResults.Remove(asd);
+                    registration.InterviewResult = "Chờ Xác Nhận";
+                    registration.InternshipResult_ID = null;
+                  
                 }
                 db.Entry(registration).State = EntityState.Modified;
                 db.SaveChanges();
-                TempData["AlertMessage"] = "<div class=\"toast toast--success\">            <div class=\"toast-left toast-left--success\">               <i class=\"fas fa-check-circle\"></i>\r\n            </div>\r\n            <div class=\"toast-content\">\r\n                <p class=\"toast-text\">Cập Nhật Thành Công</p>            </div>\r\n            <div class=\"toast-right\">\r\n                <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n            </div>\r\n        </div>";
+                TempData["AlertMessage"] = "<div class=\"toast toast--success\">            <div class=\"toast-left toast-left--success\">               <i class=\"fas fa-check-circle\"></i>\r\n            </div>\r\n            <div class=\"toast-content\">\r\n                <p class=\"toast-text\">Cập Nhật Thành Công.</p>            </div>\r\n            <div class=\"toast-right\">\r\n                <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n            </div>\r\n        </div>";
                 return RedirectToAction("Index");
 
             }

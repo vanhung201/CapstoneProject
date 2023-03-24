@@ -160,7 +160,6 @@ namespace BusinessConnectManagement.Areas.Faculty
                 new { controller = "Registration", action = "Details", id = UrlParameter.Optional },
                 namespaces: new[] { "BusinessConnectManagement.Areas.Faculty.Controllers" }
             );
-
             context.MapRoute(
                 "Faculty_default",
                 "Faculty/{controller}/{action}/{id}",

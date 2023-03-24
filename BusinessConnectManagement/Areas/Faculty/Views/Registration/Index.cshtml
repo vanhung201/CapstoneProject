@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "Registration List";
-    Layout = "~/Areas/Faculty/Views/Shared/_Layout.cshtml";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
 <section class="list">
@@ -35,13 +35,59 @@
         </table>
     </div>
 </section>
+@*--------------------detail-----------------*@
+<form class="form" id="detailForm" method="post">
+    <div class="form-container">
+        <h1 class="form-heading">Thông Tin Sinh Viên Ứng Tuyển</h1>
+        <div class="form-row">
+            <div class="form-column">
+                <div class="form-group">
+                    <label for="Username" class="form-label">Họ và tên</label>
+                    <input class="form-input" id="usernameget" autocomplete="off" disabled />
+                </div>
+                <div class="form-group">
+                    <label for="BusinessName" class="form-label">Email</label>
+                    <input class="form-input" id="emailget" autocomplete="off" disabled />
+                </div>
+                <div class="form-group">
+                    <label for="status" class="form-label">Chuyên Nghành</label>
+                    <input class="form-input" id="majorget" autocomplete="off" disabled />
+                </div>
+                <div class="form-group">
+                    <label for="Website" class="form-label">Tên Doanh Nghiệp</label>
+                    <input type="text" id="bunameget" class="form-input" autocomplete="off" / disabled>
+                </div>
+            </div>
+            <div class="form-column">
+                <div class="form-group">
+                    <label for="Password" class="form-label">MSSV</label>
+                    <input type="text" id="student_idget" class="form-input" autocomplete="off" disabled />
+                </div>
+                <div class="form-group">
+                    <label for="Address" class="form-label">SĐT</label>
+                    <input type="text" id="mobileget" class="form-input" autocomplete="off" disabled />
+                </div>
 
-<form class="form" id="deleteForm" method="post">
+                <div class="form-group">
+                    <label for="BusinessPhone" class="form-label">Vị trí  thực tập</label>
+                    <input type="text" id="positionget" class="form-input" autocomplete="off" disabled />
+                </div>
+                <div class="form-group">
+                    <label for="Address" class="form-label">Email Doanh Nghiệp</label>
+                    <input type="text" id="bumailget" class="form-input" autocomplete="off" disabled />
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <a class="btn btn--confirm" id="btn--cancel">
+                Xác Nhận
+            </a>
+
+        </div>
+    </div>
 </form>
-
-<form class="form" id="addForm" method="post">
-</form>
-
+@*-----------------------update----------------------*@
 <form action="@Url.Action("Edit", "Registration")" class="form" id="updateForm" method="post">
 
     <div class="form-container--small">
@@ -169,6 +215,11 @@
                         render: function (t, e, a) {
                             return (
                                 `
+                                 <a href="@Url.Action("Details/", "Registration")${t}" id="business_getdetail" class="business_getdetail">
+                                <div class="btn btn--detail">
+                                    <i class="btn-icon btn-icon--detail fal fa-info-circle"></i>
+                                </div>
+                                </a>
                                 <a href="@Url.Action("Details/", "Registration")${t}" id="business_detail" class="business_detail">
                                 <div class="btn btn--update">
                                     <i class="btn-icon btn-icon--edit fal fa-edit"></i>
@@ -213,6 +264,7 @@
                 });
             });
         });
+/*--------------------------update----------------------------*/
         $('#table_listData').on('click', '.business_detail', function (e) {
             e.preventDefault()
             const form = document.getElementById('updateForm');
@@ -248,8 +300,36 @@
                 }
             })
         })
+
+        /*-----------------------detail-------------------------------*/
+          $('#table_listData').on('click', '.business_getdetail', function (e) {
+            e.preventDefault()
+              const form = document.getElementById('detailForm');
+            form.classList.add('is-appear');
+            const url = $(this).attr('href');
+            $.ajax({
+                url: url,
+                type: "get",
+                dataType: 'json',
+                success: function (res) {
+                    console.log(res)
+                    $('#emailget').val(res[0].email)
+                    $('#usernameget').val(res[0].username)
+                    $('#majorget').val(res[0].major)
+                    $('#bunameget').val(res[0].buname)
+                    $('#student_idget').val(res[0].student_id)
+                    $('#mobileget').val(res[0].mobile)
+                    $('#positionget').val(res[0].position)
+                    $('#bumailget').val(res[0].bumail)
+
+                }
+            })
+        })
         $('.btn--cancel').on('click', function () {
             $('#updateForm').removeClass('is-appear')
+        })
+        $('#btn--cancel').on('click', function () {
+            $('#detailForm').removeClass('is-appear')
         })
     </script>
 }

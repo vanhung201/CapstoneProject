@@ -9,6 +9,7 @@ using Microsoft.Owin.Security;
 using BusinessConnectManagement.Models;
 using System.Data.Entity;
 using BusinessConnectManagement.Middleware;
+using System.Threading.Tasks;
 
 namespace BusinessConnectManagement.Controllers
 {
@@ -17,28 +18,27 @@ namespace BusinessConnectManagement.Controllers
         private BCMEntities db = new BCMEntities();
         private RoleRedirect redirect = new RoleRedirect();
 
-        public ActionResult Login()
+        public async Task<ActionResult> Login()
         {
-            var query = db.VanLangUsers.Where(x => x.Email == User.Identity.Name).FirstOrDefault();
-
             if (Request.IsAuthenticated)
             {
-                if (query.Status_ID == 2)
+                var user = await db.VanLangUsers.FirstOrDefaultAsync(x => x.Email == User.Identity.Name);
+
+                if (user.Status_ID == 2)
                 {
                     HttpContext.GetOwinContext().Authentication.SignOut(
-                    OpenIdConnectAuthenticationDefaults.AuthenticationType,
-                    CookieAuthenticationDefaults.AuthenticationType);
+                        OpenIdConnectAuthenticationDefaults.AuthenticationType,
+                        CookieAuthenticationDefaults.AuthenticationType);
 
-                    Response.Redirect("~/quan-ly");
+                    return Redirect("~/quan-ly");
                 }
                 else
                 {
-                    query.Last_Access = (DateTime.Now).ToString();
+                    user.Last_Access = DateTime.Now.ToString();
+                    db.Entry(user).State = EntityState.Modified;
+                    await db.SaveChangesAsync();
 
-                    db.Entry(query).State = EntityState.Modified;
-                    db.SaveChanges();
-
-                    return redirect.AutoRedirect(query.Role);
+                    return redirect.AutoRedirect(user.Role);
                 }
             }
 
@@ -56,22 +56,23 @@ namespace BusinessConnectManagement.Controllers
             }
         }
 
-        public ActionResult SignInCallback()
+        public async Task<ActionResult> SignInCallback()
         {
             string email = User.Identity.Name;
 
             Session["EmailVLU"] = email;
 
-            var query = db.VanLangUsers.Where(x => x.Email == email);
+            var user = await db.VanLangUsers.FirstOrDefaultAsync(x => x.Email == email);
 
-            if (query == null)
+            if (user == null)
             {
-                VanLangUser newVanLangUser = new VanLangUser();
-
-                newVanLangUser.Email = email;
-                newVanLangUser.Role = "Student";
-                newVanLangUser.Last_Access = (DateTime.Now).ToString();
-                newVanLangUser.Status_ID = 1;
+                var newVanLangUser = new VanLangUser
+                {
+                    Email = email,
+                    Role = "Student",
+                    Last_Access = DateTime.Now.ToString(),
+                    Status_ID = 1
+                };
 
                 if (email.Split('@').Last() == "vanlanguni.vn")
                 {
@@ -79,7 +80,7 @@ namespace BusinessConnectManagement.Controllers
                 }
 
                 db.VanLangUsers.Add(newVanLangUser);
-                db.SaveChanges();
+                await db.SaveChangesAsync();
 
                 Session["Role"] = "Student";
 
@@ -87,18 +88,15 @@ namespace BusinessConnectManagement.Controllers
             }
             else
             {
-                var currentVanLangUser = db.VanLangUsers.Where(x => x.Email == email).FirstOrDefault();
-
-                if (currentVanLangUser.Status_ID == 1)
+                if (user.Status_ID == 1)
                 {
-                    currentVanLangUser.Last_Access = (DateTime.Now).ToString();
+                    user.Last_Access = DateTime.Now.ToString();
+                    db.Entry(user).State = EntityState.Modified;
+                    await db.SaveChangesAsync();
 
-                    db.Entry(currentVanLangUser).State = EntityState.Modified;
-                    db.SaveChanges();
+                    Session["Role"] = user.Role;
 
-                    Session["Role"] = currentVanLangUser.Role;
-
-                    return redirect.AutoRedirect(currentVanLangUser.Role);
+                    return redirect.AutoRedirect(user.Role);
                 }
                 else
                 {

@@ -19,6 +19,11 @@
         ControllerName = "FacultyHome";
         Area = "Faculty";
     }
+    else if (Role == "Mentor")
+    {
+        ControllerName = "MentorHome";
+        Area = "Mentor";
+    }
 
     if (string.IsNullOrEmpty(query.FullName))
     {
@@ -60,7 +65,9 @@
     <link href="~/assets/css/layout.css" rel="stylesheet" />
     <link href="~/assets/css/style.css" rel="stylesheet" />
     <link href="~/assets/css/form.css" rel="stylesheet" />
-
+     <link href="~/assets/css/statistic.css" rel="stylesheet" />
+   
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="~/Content/bootstrap-chosen.css" rel="stylesheet" />
     <link rel="shortcut icon" href="~/assets/images/favicon.ico" type="image/x-icon">
     <style>
@@ -91,6 +98,7 @@
                     </a>
                     <span class="menu-tooltip">Tài khoản</span>
                 </li>
+
                 <li class="menu-item">
                     <a href="@Url.Action("Index", "BusinessUsers", new { area = "Faculty" })" class="menu-feature">
                         <i class="menu-icon fal fa-building"></i>
@@ -133,8 +141,24 @@
                     </a>
                     <span class="menu-tooltip">Ứng tuyển</span>
                 </li>
+                <li class="menu-item">
+                    <a href="@Url.Action("Index", "AppointmentMentor", new { area = "Faculty" })" class="menu-feature">
+                        <i class="menu-icon fal fa-id-card"></i>
+                        <span class="menu-text">Thực Tập</span>
+                    </a>
+                    <span class="menu-tooltip">Thực Tập</span>
+                </li>
+                <li class="menu-item">
+                    <a href="@Url.Action("Index", "InternshipResultsMentor", new { area = "Mentor" })" class="menu-feature">
+                        <i class="menu-icon fal fa-id-card"></i>
+                        <span class="menu-text">Sinh Viên Hướng Dẫn</span>
+                    </a>
+                    <span class="menu-tooltip">Sinh Viên Hướng Dẫn</span>
+                </li>
+
             </ul>
-        </section>
+                
+           </section>
         <div class="content">
             <nav class="nav">
                 <div class="nav-wrap">
@@ -179,7 +203,7 @@
     $(function () {
         $("#table_id_filter").append($("#filterEvent")).clone();
     });
-
+    let formAddCr = document.getElementById("addFormCr");
     let formAdd = document.getElementById("addForm");
     let formUpdate = document.getElementById("updateForm");
     let formDelete = document.getElementById("deleteForm"); 
@@ -189,6 +213,10 @@
 
     $(".btn--create").on("click", function () {
         formAdd.classList.add(isAppear);
+    });
+
+    $("#btn--create").on("click", function () {
+        formAddCr.classList.add(isAppear);
     });
 
     $(".form-icon").on("click", function () {
@@ -208,13 +236,13 @@
        
         $(".chosen-select").chosen();
     });
-   /* $(function () {
+    $(function () {
         const toast = document.querySelector(".toast");
         setTimeout(() => {
             toast.remove();
         }, 3000);
 
-    })*/
+    })
     function remove() {
         let toast = document.querySelector(".toast");
         document.querySelector(".toast-right").addEventListener("click", () => {

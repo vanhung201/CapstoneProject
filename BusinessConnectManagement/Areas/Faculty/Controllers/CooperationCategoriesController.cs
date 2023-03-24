@@ -18,7 +18,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         // GET: Faculty/CooperationCategories
         public ActionResult Index()
         {
-            return View(db.CooperationCategories.ToList());
+            return View(db.CooperationCategories.OrderByDescending(c => c.ID).ToList());
         }
 
         // GET: Faculty/CooperationCategories/Details/5

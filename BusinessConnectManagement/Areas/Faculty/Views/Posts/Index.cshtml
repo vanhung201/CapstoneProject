@@ -2,11 +2,11 @@
 
 @{
     ViewBag.Title = "Post";
-    Layout = "~/Areas/Faculty/Views/Shared/_Layout.cshtml";
+    Layout = "~/Areas/Faculty/Views/Shared/_Layout.cshtml"; 
 }
 
 <section class="list">
-    <h1 class="list-heading">Danh sách bài viết tuyển dụng</h1>
+    <h1 class="list-heading">Danh sách tin tuyển dụng</h1>
     @if (TempData != null)
     {
 
@@ -16,7 +16,7 @@
 
     <div class="filter">
         <div class="bu_status"></div>
-        <label id="nameLabel1">Lọc:</label>
+        <label id="nameLabel1" style="left: 48%;">Lọc:</label>
     </div>
 
     <div class="btn btn--create" id="btn-create" style="float:right">
@@ -29,6 +29,7 @@
             <thead>
                 <tr>
                     <th>STT</th>
+                    <th>ID</th>
                     <th>Tiêu đề</th>
                     <th>Doanh Nghiệp</th>
                     <th>Người đăng bài</th>
@@ -47,7 +48,7 @@
 @*--------------------add-----------------------*@
 <form id="addForm" method="post" action="@Url.Action("Create", "Posts")" class="form" enctype="multipart/form-data">
     <div class="form-container">
-        <h1 class="list-heading">Tạo Bài Viết</h1>
+        <h1 class="list-heading">Thêm Tin Tuyển Dụng</h1>
         <div class="form-row">
             <div class="form-column">
                 <div class="form-group">
@@ -66,11 +67,7 @@
 
                     </select>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Số lượng</label>
-                    <input list="" name="Quantity" class="form-input" value=""
-                           autocomplete="off" />
-                </div>
+               
                 <div class="form-group">
                     <label class="form-label">Chuyên Nghành</label>
                     <select name="Major_ID" class="form-input">
@@ -112,7 +109,7 @@
         </div>
         <div class="form-group">
             <label for="address" class="form-label">Mô tả</label>
-            <input class="" name="Description" id="DescriptionCreate" autocomplete="off" />
+            <textarea class="" name="Description" id="DescriptionCreate" autocomplete="off"></textarea>
         </div>
         <div class="form-group">
             <a class="btn btn--cancel">
@@ -129,7 +126,7 @@
 @*--------------------update--------------------*@
 <form id="form_detail" method="post" action="" class="form" enctype="multipart/form-data">
     <div class="form-container">
-        <h1 class="list-heading">Chi Tiết Bài Viết</h1>
+        <h1 class="list-heading">Cập Nhật Tin Tuyển Dụng</h1>
         <div class="form-row">
             <div class="form-column">
                 <input id="ID" name="ID" hidden />
@@ -152,11 +149,6 @@
                            autocomplete="off" disabled />
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Số Lượng</label>
-                    <input list="" name="Quantity" id="Quantity" class="form-input" value=""
-                           autocomplete="off" />
-                </div>
-                <div class="form-group">
                     <label for="Major_ID" class="form-label">Chuyên Nghành</label>
                     <select name="Major_ID" id="majorr" class="form-input">
                         <option value="1">Công nghệ phần mềm</option>
@@ -165,6 +157,13 @@
                         <option value="4">An ninh Mạng</option>
                         <option value="5">Hệ thống Thông tin</option>
                         <option value="6">Kỹ thuật phần mềm</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Hình Thức</label>
+                    <select id="form" name="Form" class="form-input">
+                        <option value="Online">Online</option>
+                        <option value="Offline">Offline</option>
                     </select>
                 </div>
             </div>
@@ -186,23 +185,18 @@
                     <label class="form-label">Ngày Hết Hạn</label>
                     <input list="" name="DueDate" id="DueDate" type="date" class="form-input" onchange="checkDateUp()" value="" />
                     <input list="" id="DueDate2" type="date" class="form-input" value="" hidden />
+                    <input list="" id="Semester_ID" name="Semester_ID" class="form-input"  hidden/>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Hình Thức</label>
-                    <select id="form" name="Form" class="form-input">
-                        <option value="Online">Online</option>
-                        <option value="Offline">Offline</option>
-                    </select>
-                </div>
+               
                 <div class="form-group">
                     <label class="form-label">Vị Trí</label>
-                    <select multiple data-placeholder="Chọn vị trí" name="position" class="chosen-select PostI" >
+                    <select multiple data-placeholder="Chọn vị trí" name="position" class="chosen-select PostI">
                         @foreach (var item in ViewBag.Position)
                         {
                             <option value="@item.ID">@item.InternshipTopicName</option>
                         }
                     </select>
-                    
+
 
                     <!-- dribbble -->
 
@@ -213,6 +207,7 @@
             <label for="address" class="form-label">Mô tả</label>
             <textarea class="" name="Description" id="Description" autocomplete="off"></textarea>
         </div>
+       
         <div class="form-group">
             <a class="btn btn--cancel">
                 Hủy
@@ -235,7 +230,7 @@
                 <h1 class="form-heading">Xác nhận</h1>
 
                 <span>
-                    Bạn chắc chắn muốn <strong name="name" id="namedele" style="font-weight: bold; color: #ce1b28;">xóa bài viết </strong>
+                    Bạn chắc chắn muốn <strong name="name" id="namedele" style="font-weight: bold; color: #ce1b28;">xóa tin tuyển dụng </strong>
                     này không?
                 </span>
 
@@ -292,8 +287,13 @@
                 dataSrc: "",
             },
             deferRender: !0,
+            "order": [[1, "desc"]],
+            "columnDefs": [
+                {"width": "10%", "target": 2}
+                ],
             columns: [
                 { data: null },
+                { data: "id", visible: false },
                 {
                     data: "title",
                     render: function (data) {
@@ -325,7 +325,7 @@
             ],
             initComplete: function () {
                 this.api()
-                    .columns(2)
+                    .columns(3)
                     .every(function () {
                         var t = this,
                             e = $(
@@ -394,10 +394,9 @@
                     $('#PostDay').val(res.listData[0].postday)
                     $('#PostDay2').val(res.listData[0].postday)
                     $('#ModifyDay').val(res.listData[0].modifyday)
-                    $('#Semester_ID').val(res.listData[0].semeter)
+                    $('#Semester_ID').val(res.listData[0].semes_id)
                     $('#BusinessName').val(res.listData[0].business)
                     $('#Business_ID').val(res.listData[0].business_id)
-                  
                     $('#DueDate').val(res.listData[0].duedate)
                     $('#DueDate2').val(res.listData[0].duedate)
                     $('#Quantity').val(res.listData[0].quatity)

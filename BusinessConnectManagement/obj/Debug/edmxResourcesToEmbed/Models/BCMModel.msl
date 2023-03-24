@@ -13,6 +13,7 @@
     <EntitySetMapping Name="BusinessUsers">
       <EntityTypeMapping TypeName="BCMModel.BusinessUser">
         <MappingFragment StoreEntitySet="BusinessUser">
+          <ScalarProperty Name="Semester_ID" ColumnName="Semester_ID" />
           <ScalarProperty Name="EmailContact" ColumnName="EmailContact" />
           <ScalarProperty Name="ContactPhone_2" ColumnName="ContactPhone_2" />
           <ScalarProperty Name="ContactPhone_1" ColumnName="ContactPhone_1" />
@@ -109,6 +110,7 @@
     <EntitySetMapping Name="PostInternshipTopics">
       <EntityTypeMapping TypeName="BCMModel.PostInternshipTopic">
         <MappingFragment StoreEntitySet="PostInternshipTopic">
+          <ScalarProperty Name="Business_ID" ColumnName="Business_ID" />
           <ScalarProperty Name="InternshipTopic_ID" ColumnName="InternshipTopic_ID" />
           <ScalarProperty Name="Post_ID" ColumnName="Post_ID" />
           <ScalarProperty Name="ID" ColumnName="ID" />
@@ -118,7 +120,7 @@
     <EntitySetMapping Name="Registrations">
       <EntityTypeMapping TypeName="BCMModel.Registration">
         <MappingFragment StoreEntitySet="Registration">
-          <ScalarProperty Name="PostInternshipTopic_ID" ColumnName="PostInternshipTopic_ID" />
+          <ScalarProperty Name="InternshipResult_ID" ColumnName="InternshipResult_ID" />
           <ScalarProperty Name="InternshipTopic_ID" ColumnName="InternshipTopic_ID" />
           <ScalarProperty Name="Comment" ColumnName="Comment" />
           <ScalarProperty Name="StatusRegistration" ColumnName="StatusRegistration" />
@@ -139,6 +141,7 @@
     <EntitySetMapping Name="Semesters">
       <EntityTypeMapping TypeName="BCMModel.Semester">
         <MappingFragment StoreEntitySet="Semester">
+          <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="Semester1" ColumnName="Semester" />
           <ScalarProperty Name="YearStudy_ID" ColumnName="YearStudy_ID" />
           <ScalarProperty Name="ID" ColumnName="ID" />
