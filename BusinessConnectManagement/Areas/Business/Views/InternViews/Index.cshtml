@@ -14,31 +14,76 @@
 
 
     }
-<div class="list-table">
-    <div class="filter">
-        <div class="bu_status"></div>
-        <label id="nameLabel1">Lọc:</label>
+    <div class="list-table">
+        <div class="filter">
+            <div class="bu_status"></div>
+            <label id="nameLabel1">Lọc:</label>
+        </div>
+        <table id="table_listData" class="display">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Họ và Tên</th>
+                    <th>Email</th>
+                    <th>SĐT</th>
+                    <th>CV</th>
+                    <th>Kết Quả Phỏng Vấn</th>
+                    <th>Chức năng</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
     </div>
-    <table id="table_listData" class="display">
-        <thead>
-            <tr>
-                <th >STT</th>
-                <th>Họ và Tên</th>
-                <th>Email</th>
-                <th>SĐT</th>
-                <th>CV</th>
-                <th>Kết Quả Phỏng Vấn</th>
-                <th>Chức năng</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-</div>
 </section>
+@*-----------------------detail-----------------------*@
+<form class="form" id="detailForm" method="post">
+    <div class="form-container">
+        <h1 class="form-heading">Thông Tin Sinh Viên Ứng Tuyển</h1>
+        <div class="form-row">
+            <div class="form-column">
+                <div class="form-group">
+                    <label for="Username" class="form-label">Họ và tên</label>
+                    <input class="form-input" id="usernameget" autocomplete="off" disabled />
+                </div>
+                <div class="form-group">
+                    <label for="BusinessName" class="form-label">Email</label>
+                    <input class="form-input" id="emailget" autocomplete="off" disabled />
+                </div>
+                <div class="form-group">
+                    <label for="status" class="form-label">Chuyên Nghành</label>
+                    <input class="form-input" id="majorget" autocomplete="off" disabled />
+                </div>
+            </div>
+            <div class="form-column">
+                <div class="form-group">
+                    <label for="Password" class="form-label">MSSV</label>
+                    <input type="text" id="student_idget" class="form-input" autocomplete="off" disabled />
+                </div>
+                <div class="form-group">
+                    <label for="Address" class="form-label">SĐT</label>
+                    <input type="text" id="mobileget" class="form-input" autocomplete="off" disabled />
+                </div>
 
+                <div class="form-group">
+                    <label for="BusinessPhone" class="form-label">Vị trí  thực tập</label>
+                    <input type="text" id="positionget" class="form-input" autocomplete="off" disabled />
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <a class="btn btn--confirm" id="btn--cancel">
+                Xác Nhận
+            </a>
+
+        </div>
+    </div>
+</form>
+
+@*---------------------update----------------------*@
 <form class="form" id="updateForm" method="post">
-       
+
     <div class="form-container--small">
         <h1 class="form-heading">Cập Nhật Trạng Thái</h1>
         <div class="form-group">
@@ -47,20 +92,20 @@
         </div>
         <div class="form-group">
             <label class="form-label">Trạng Thái</label>
-            <input list="" name="ID" id="ID" class="form-input" hidden/>
-            <input list="" name="Business_ID" id="Business_ID" class="form-input" hidden/>
-            <input list="" name="Email_VanLang" id="Email" class="form-input" hidden/>
-            <input list="" name="Post_ID" id="Post_ID" class="form-input" hidden/>
-            <input list="" name="Semester_ID" id="Semester_ID" class="form-input"hidden />
-            <input list="" name="CV" id="CV" class="form-input" hidden/>
-            <input list="" name="RegistrationDate" id="RegistrationDate" class="form-input" hidden/>
-            <input list="" name="RegistrationModify" id="RegistrationModify" class="form-input" hidden/>
-            <input list="" name="InterviewResult" id="InterviewResult" class="form-input" hidden/>
-            <input list="" name="RegistrationPosition" id="RegistrationPosition" class="form-input" hidden/>
-            <input list="" name="Comment" id="Comment" class="form-input" hidden/>
+            <input list="" name="ID" id="ID" class="form-input" hidden />
+            <input list="" name="Business_ID" id="Business_ID" class="form-input" hidden />
+            <input list="" name="Email_VanLang" id="Email" class="form-input" hidden />
+            <input list="" name="Post_ID" id="Post_ID" class="form-input" hidden />
+            <input list="" name="Semester_ID" id="Semester_ID" class="form-input" hidden />
+            <input list="" name="CV" id="CV" class="form-input" hidden />
+            <input list="" name="RegistrationDate" id="RegistrationDate" class="form-input" hidden />
+            <input list="" name="RegistrationModify" id="RegistrationModify" class="form-input" hidden />
+            <input list="" name="InterviewResult" id="InterviewResult" class="form-input" hidden />
+            <input list="" name="RegistrationPosition" id="RegistrationPosition" class="form-input" hidden />
+            <input list="" name="Comment" id="Comment" class="form-input" hidden />
             <input list="" name="StatusRegistration" id="StatusRegistration" class="form-input" hidden />
-            <input list="" name="InternshipTopic_ID" id="InternshipTopic_ID" class="form-input" hidden/>
-            <input list="" name="InternshipResult_ID" id="InternshipResult_ID" class="form-input" hidden/>
+            <input list="" name="InternshipTopic_ID" id="InternshipTopic_ID" class="form-input" hidden />
+            <input list="" name="InternshipResult_ID" id="InternshipResult_ID" class="form-input" hidden />
             <select name="StatusInternview" id="interviewStatus" class="form-input">
                 <option class="text-center" value="Đậu Phỏng Vấn">Đậu Phỏng Vấn</option>
                 <option class="text-center" value="Rớt Phỏng Vấn">Rớt Phỏng Vấn</option>
@@ -120,6 +165,11 @@
                         render: function (t, e, a) {
                             return (
                                 `
+                                  <a href="@Url.Action("Details", "InternViews")/${t}" id="business_getdetail" class="business_getdetail">
+                                <div class="btn btn--detail">
+                                    <i class="btn-icon btn-icon--detail fal fa-info-circle"></i>
+                                </div>
+                                </a>
                                 <a href="@Url.Action("Details", "InternViews")/${t}" id="business_detail" class="business_detail">
                                 <div class="btn btn--update">
                                     <i class="btn-icon btn-icon--edit fal fa-edit"></i>
@@ -194,7 +244,7 @@
                     $('#Comment').val(res[0].comment)
                     $('#InternshipTopic_ID').val(res[0].interntopic_id)
                     $('#InternshipResult_ID').val(res[0].internshipresult_id)
-                    
+
                     if (res[0].statusinternview === "Đậu Phỏng Vấn") {
                         $('select option[value="Đậu Phỏng Vấn"]').attr("selected", "selected");
                     } else if (res[0].statusinternview === "Rớt Phỏng Vấn"){
@@ -206,6 +256,36 @@
                     $('#updateForm').attr('action', `${actionUrl}`)
                 }
             })
+        })
+
+
+
+
+        $('#table_listData').on('click', '.business_getdetail', function (e) {
+            e.preventDefault()
+            const form = document.getElementById('detailForm');
+            form.classList.add('is-appear');
+            const url = $(this).attr('href');
+            $.ajax({
+                url: url,
+                type: "get",
+                dataType: 'json',
+                success: function (res) {
+                    console.log(res)
+                    $('#emailget').val(res[0].email)
+                    $('#usernameget').val(res[0].username)
+                    $('#majorget').val(res[0].major)
+                    $('#bunameget').val(res[0].buname)
+                    $('#student_idget').val(res[0].student_id)
+                    $('#mobileget').val(res[0].mobile)
+                    $('#positionget').val(res[0].position)
+                    $('#bumailget').val(res[0].bumail)
+
+                }
+            })
+        })
+        $('#btn--cancel').on('click', function () {
+            $('#detailForm').removeClass('is-appear')
         })
     </script>
 
@@ -236,5 +316,5 @@
 
 
     </script>
-   
+
 }

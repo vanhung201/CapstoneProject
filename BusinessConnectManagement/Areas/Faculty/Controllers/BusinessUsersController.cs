@@ -179,12 +179,15 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                 if (logo != null)
                 {
                     businessUser.BusinessLogo = DateTime.Now.ToString("yymmssfff") + logo.FileName;
-
                     var path = Server.MapPath("~/Uploads/Images/");
                     logo.SaveAs(path + businessUser.BusinessLogo);
                     /*businessUser.Status = businessUser.Status_ID();*/
                 }
-               
+                if (db.BusinessUsers.Any(x=>x.ID != businessUser.ID && x.BusinessName == businessUser.BusinessName))
+                {
+                    TempData["AlertMessage"] = "<div class=\"toast toast--error\">\r\n     <div class=\"toast-left toast-left--error\">\r\n       <i class=\"fas fa-times-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n    <p class=\"toast-text\">Tên Doanh Nghiệp Đã Tồn Tại</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n       <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>";
+                    return RedirectToAction("Index");
+                }
                 //Lưu BusinessUser
                 db.Entry(businessUser).State = EntityState.Modified;
                 db.SaveChanges();

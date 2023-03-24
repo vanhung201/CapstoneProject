@@ -65,6 +65,8 @@
             color: red;
         }
     </style>
+    <link href="~/assets/css/statistic.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -306,12 +308,15 @@
     });
     let formAddCr = document.getElementById("addFormCr");
     let formAdd = document.getElementById("addForm");
+    let formImport = document.getElementById("importForm");
     let formUpdate = document.getElementById("updateForm");
     let formDelete = document.getElementById("deleteForm");
     let icon = document.querySelector(".form-icon");
     let isHide = "is-hide";
     let isAppear = "is-appear";
-
+    $(".btn--ìmport").on("click", function () {
+        formImport.classList.add(isAppear);
+    });
     $(".btn--create").on("click", function () {
         formAdd.classList.add(isAppear);
     });
@@ -337,13 +342,13 @@
 
         $(".chosen-select").chosen();
     });
-    /* $(function () {
+     $(function () {
          const toast = document.querySelector(".toast");
          setTimeout(() => {
              toast.remove();
          }, 3000);
 
-     })*/
+     })
     function remove() {
         let toast = document.querySelector(".toast");
         document.querySelector(".toast-right").addEventListener("click", () => {

@@ -56,11 +56,11 @@ namespace BusinessConnectManagement.Controllers
         }
         public ActionResult Search(int? page,string SearchString = "", string Form = "", string Major = "")
         {
-            if (page == null) page = 1;
+            
            
             ViewBag.Major = db.Majors.ToList();
             var bu = db.Posts.Include(x => x.BusinessUser).Where(s => s.BusinessUser.BusinessName.ToUpper().Contains(Form.ToUpper()));
-            var titles = db.Posts.Include(x => x.BusinessUser).Where(s => s.Title.ToUpper().Contains(SearchString.ToUpper())).OrderBy(x => x.ID);
+            var titles = db.Posts.Include(x => x.BusinessUser).Where(s => s.Title.ToUpper().Contains(SearchString.ToUpper()));
             var form = db.Posts.Include(x => x.BusinessUser).Where(s => s.Form.ToUpper().Contains(Form.ToUpper()));
             var posts = db.Posts.Include(p => p.BusinessUser).Include(p => p.Semester).Include(p => p.VanLangUser).Include(p => p.VanLangUser1);
             int pageSize = 5;
@@ -68,11 +68,14 @@ namespace BusinessConnectManagement.Controllers
             int pageNumber = (page ?? 1);
             if (Major == "")
             {
+              
                 if (Form == "")
                 {
+                  
                     if (SearchString != "")
                     {
-                        return View(titles.ToPagedList(pageNumber, pageSize));
+                       
+                        return View(titles.ToList().ToPagedList(pageNumber, pageSize));
                     }
                     else
                     {

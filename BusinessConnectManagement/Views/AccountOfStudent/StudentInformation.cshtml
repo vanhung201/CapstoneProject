@@ -18,18 +18,36 @@
     <link href="~/assets/User/assets/css/reset.css" rel="stylesheet" />
     <link href="~/assets/User/assets/css/style2.css" rel="stylesheet" />
     <link rel="shortcut icon" href="~/assets/images/favicon.ico" type="image/x-icon">
+    <link href="~/Content/toastr.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <script src="~/Scripts/toastr.min.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <style>
+        .error{
+            color: red;
+        }
+    </style>
 </head>
 
 <body>
+    @if (TempData["message"] != null)
+    {
+        <script>
+        toastr.@(TempData["messageType"])('@TempData["message"]','Thông Báo');
+        </script>
+    }
+
     <div class="wrap">
         <div class="info">
             <h2 class="info-heading">Thông tin tài khoản</h2>
-            <form action="@Url.Action("UpdateStudentInformation", "AccountOfStudent", new { area = "" })" method="post" class="info-form">
+            <form action="@Url.Action("UpdateStudentInformation", "AccountOfStudent", new { area = "" })" method="post" id="infoForm" class="info-form">
                 @Html.HiddenFor(model => model.Email)
 
                 <div class="info-group">
                     <label class="info-label">Mã số sinh viên</label>
-                    @*<input type="text" name="" id="studentCode" class="info-input" required>*@
                     @Html.EditorFor(model => model.Student_ID, new { htmlAttributes = new { @class = "info-input" } })
                     @Html.ValidationMessageFor(model => model.Student_ID, "", new { @class = "text-danger" })
                 </div>
@@ -52,7 +70,7 @@
                 </div>
                 <div class="info-group">
                     <label class="info-label" for="major">Chuyên ngành</label>
-                    
+
                     <select name="Major_ID" id="major" class="info-input" required>
                         <option value="" selected>--- Chọn chuyên ngành ---</option>
                         @foreach (var item in ViewBag.MajorList)
@@ -71,6 +89,75 @@
         </div>
     </div>
 
+
 </body>
 
 </html>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.validator.addMethod("blank", function (value, element) {
+            return (!/^\s*$/.test(value));
+        }, "Vui lòng nhập dữ liệu.");
+
+        // Initialize the form validation
+        $("#infoForm").validate();
+
+        // cái này là on blur nè
+        $("#infoForm input, #infoForm input").on("blur", function () {
+            $(this).valid();
+        });
+
+        // cái này là on change nè
+        $("#infoForm input, #infoForm input").on("change", function () {
+            $(this).removeClass("error");
+        });
+    });
+    /*--------------------------update---------------*/
+    $("#infoForm").validate({
+        rules: {
+            Student_ID: {
+                required: true,
+                minlength: 3,
+                blank: true
+            },
+            FullName: {
+                required: true,
+                minlength: 3,
+                blank: true
+            },
+            Mobile: {
+                required: true,
+                digits: true,
+                minlength: 10,
+                maxlength: 11
+            },
+            Major_ID: {
+                required: true
+                }
+        },
+        messages: {
+            Student_ID: {
+                required: "Vui lòng nhập mã số sinh viên.",
+                minlength: "Mã số sinh viên của bạn phải ít nhất 3 kí tự.",
+            },
+            FullName: {
+                required: "Vui lòng nhập họ và tên.",
+                minlength: "Tên của bạn phải ít nhất 3 kí tự.",
+            },
+            Mobile: {
+                required: "Vui lòng nhập số điện thoại.",
+                digits: "Số điện thoại chỉ bao gồm các kí tự số.",
+                minlength: "Số điện thoại phải có ít nhất 10 số.",
+                maxlength: "Số điện thoại chỉ có thể có tối đa 11 số."
+            },
+            Major_ID: {
+                required: "Vui lòng chọn chuyên nghành."
+            }
+        },
+    });
+                    /*---------------------------update-----------------------*/
+
+
+</script>

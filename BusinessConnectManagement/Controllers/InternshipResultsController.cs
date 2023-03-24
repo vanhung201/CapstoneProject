@@ -138,8 +138,17 @@ namespace BusinessConnectManagement.Controllers
                                 {
                                     if (item2.Email_VanLang == email.Email)
                                     {
-                                        item2.InterviewResult = "Hủy Đơn";
-                                        item2.StatusInternview = "Rớt Phỏng Vấn";
+                                        if(item2.InterviewResult == "Thực Tập Xong")
+                                        {
+                                            item2.InterviewResult = "Thực Tập Xong";
+                                            item2.StatusInternview = "Đậu Phỏng Vấn";
+                                        }
+                                        else
+                                        {
+                                            item2.InterviewResult = "Hủy Đơn";
+                                            item2.StatusInternview = "Rớt Phỏng Vấn";
+                                        }
+                                       
                                         db.Entry(item2).State = EntityState.Modified;
                                         registration.StatusInternview = "Đậu Phỏng Vấn";
                                         registration.InterviewResult = "Đang Thực Tập";
@@ -150,8 +159,15 @@ namespace BusinessConnectManagement.Controllers
                                         db.Entry(internshipResult).State = EntityState.Modified;
                                     }
                                 }
-
-                                item.Status = "Hủy Đơn";
+                                if(item.Status =="Thực Tập Xong")
+                                {
+                                    item.Status = "Thực Tập Xong";
+                                }
+                                else
+                                {
+                                    item.Status = "Hủy Đơn";
+                                }
+                               
                                 db.Entry(item).State = EntityState.Modified;
                                 internshipResult.Status = "Đang Thực Tập";
                                 db.Entry(internshipResult).State = EntityState.Modified;
@@ -166,8 +182,16 @@ namespace BusinessConnectManagement.Controllers
                                 {
                                     if (item2.Email_VanLang == email.Email)
                                     {
-                                        item2.InterviewResult = "Hủy Đơn";
-                                        item2.StatusInternview = "Rớt Phỏng Vấn";
+                                        if (item2.InterviewResult == "Thực Tập Xong")
+                                        {
+                                            item2.InterviewResult = "Thực Tập Xong";
+                                            item2.StatusInternview = "Đậu Phỏng Vấn";
+                                        }
+                                        else
+                                        {
+                                            item2.InterviewResult = "Hủy Đơn";
+                                            item2.StatusInternview = "Rớt Phỏng Vấn";
+                                        }
                                         db.Entry(item2).State = EntityState.Modified;
                                         registration.StatusInternview = "Đậu Phỏng Vấn";
                                         registration.InterviewResult = "Đang Thực Tập";
@@ -178,7 +202,14 @@ namespace BusinessConnectManagement.Controllers
                                         db.Entry(internshipResult).State = EntityState.Modified;
                                     }
                                 }
-                                item.Status = "Hủy Đơn";
+                                if (item.Status == "Thực Tập Xong")
+                                {
+                                    item.Status = "Thực Tập Xong";
+                                }
+                                else
+                                {
+                                    item.Status = "Hủy Đơn";
+                                }
                                 db.Entry(item).State = EntityState.Modified;
                                 var internR = db.InternshipResults.First();
                                 internR.Status = "Đang Thực Tập";

@@ -14,29 +14,35 @@
 
 
     }
-    <div class="list-table">
-
-        <div class="filter">
-            <div class="bu_status"></div>
-            <label id="nameLabel1">Lọc:</label>
-        </div>
-        <table id="table_listData" class="display">
-            <thead>
-                <tr>
-                    <th>STT</th>
-                    <th>Tên</th>
-                    <th>Email</th>
-                    <th>SĐT</th>
-                    <th>Vị Trí</th>
-                    <th>Trạng thái</th>
-                    <th>Chức năng</th>
-
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
+<div class="list-table">
+    <div id="filterEvent">
+        <a href="@Url.Action("ExportToExcel", "InternshipResults")">
+            <div class="btn btn--create" style=" z-index: 1; width: 110px; margin-right: 10px;">
+                <span class="btn-text">Export Excel</span>
+            </div>
+        </a>
     </div>
+    <div class="filter">
+        <div class="bu_status"></div>
+        <label id="nameLabel1">Lọc:</label>
+    </div>
+    <table id="table_listData" class="display">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Tên</th>
+                <th>Email</th>
+                <th>SĐT</th>
+                <th width="333px">Vị Trí</th>
+                <th>Trạng thái</th>
+                <th>Chức năng</th>
+
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
 </section>
 
 
@@ -62,7 +68,6 @@
             <input list="" name="MentorPoint" id="MentorPoint" class="form-input" hidden />
             <input list="" name="MentorComment" id="MentorComment" class="form-input" hidden />
             <input list="" name="Business_ID" id="Business_ID" class="form-input" hidden />
-
             <input list="" name="BusinessComment" id="BusinessComment" class="form-input" hidden />
             <input list="" name="InternshipTopic_ID" id="InternshipTopic_ID" class="form-input" hidden />
             @*-------------------------------------*@

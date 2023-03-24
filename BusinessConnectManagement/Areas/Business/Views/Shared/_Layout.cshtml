@@ -16,19 +16,14 @@
     <link href="~/assets/css/grid.css" rel="stylesheet" />
     <link href="~/assets/css/reset.css" rel="stylesheet" />
     <link href="~/assets/css/global.css" rel="stylesheet" />
-    @*<link href="~/assets/css/menu2.css" rel="stylesheet" />
-        <link href="~/assets/css/nav2.css" rel="stylesheet" />
-        <link href="~/assets/css/button.css" rel="stylesheet" />
-        <link href="~/assets/css/form.css" rel="stylesheet" />
-        <link href="~/assets/css/table2.css" rel="stylesheet" />
-        <link href="~/assets/css/greet.css" rel="stylesheet" />
-    *@
     <link href="~/assets/css/toast.css" rel="stylesheet" />
     <link href="~/assets/css/layout.css" rel="stylesheet" />
     <link href="~/assets/css/style.css" rel="stylesheet" />
     <link href="~/assets/css/form.css" rel="stylesheet" />
-
+    <link href="~/assets/css/statistic.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="~/Content/bootstrap-chosen.css" rel="stylesheet" />
+    <link href="~/assets/css/toast.css" rel="stylesheet" />
     <link rel="shortcut icon" href="~/assets/images/favicon.ico" type="image/x-icon">
 </head>
 <body>
@@ -115,13 +110,13 @@
     $(".form-icon").on("click", function () {
         formUpdate.classList.remove(isAppear);
     })
-    /* $(function () {
+     $(function () {
          const toast = document.querySelector(".toast");
          setTimeout(() => {
              toast.remove();
          }, 3000);
 
-     });*/
+     });
     function remove() {
         let toast = document.querySelector(".toast");
         document.querySelector(".toast-right").addEventListener("click", () => {

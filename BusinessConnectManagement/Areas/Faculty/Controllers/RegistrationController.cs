@@ -150,11 +150,16 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                                 comment = rg.Comment,
                                 username = emailVL.FullName,
                                 phone = emailVL.Mobile,
-                                position_id = rg.InternshipTopic_ID
+                                position_id = rg.InternshipTopic_ID,
+                                major = rg.VanLangUser.Major.Major1,
+                                buname = rg.BusinessUser.BusinessName,
+                                student_id = rg.VanLangUser.Student_ID,
+                                mobile = rg.VanLangUser.Mobile,
+                                position = rg.InternshipTopic.InternshipTopicName,
+                                bumail = rg.BusinessUser.EmailContact
                             });
             return Json(listData, JsonRequestBehavior.AllowGet);
         }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)

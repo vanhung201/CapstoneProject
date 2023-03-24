@@ -1,4 +1,5 @@
 ﻿using BusinessConnectManagement.Models;
+using BusinessConnectManagement.Middleware;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OpenIdConnect;
 using Microsoft.Owin.Security;
@@ -9,6 +10,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Helpers;
+using System.Security.Claims;
 
 namespace BusinessConnectManagement.Controllers
 {
@@ -70,7 +72,11 @@ namespace BusinessConnectManagement.Controllers
 
                 if (email.Split('@').Last() == "vanlanguni.vn")
                 {
-                    newVanLangUser.Student_ID = email.Substring(email.IndexOf(".") + 1, email.LastIndexOf("@") - (email.IndexOf(".") + 1)).ToUpper();
+                    //newVanLangUser.Student_ID = email.Substring(email.IndexOf(".") + 1, email.LastIndexOf("@") - (email.IndexOf(".") + 1)).ToUpper();
+                    var obj = (ClaimsIdentity)User.Identity;
+                    string[] data = obj.Claims.Where(x => x.Type == "name").First().Value.Split('-');
+                    newVanLangUser.FullName = data[1].Trim();
+                    newVanLangUser.Student_ID = data[0].Trim();
                 }
 
                 db.VanLangUsers.Add(newVanLangUser);
@@ -120,7 +126,7 @@ namespace BusinessConnectManagement.Controllers
 
             Response.Redirect("~/trang-dang-nhap");
         }
-        
+
         public ActionResult StudentInformation()
         {
             var currentVanLangUser = db.VanLangUsers.Where(x => x.Email == User.Identity.Name).FirstOrDefault();
@@ -147,7 +153,16 @@ namespace BusinessConnectManagement.Controllers
                 query.Student_ID = user.Student_ID;
                 query.FullName = user.FullName;
                 query.Mobile = user.Mobile;
-                query.Major_ID = user.Major_ID;
+                if (user.Major_ID != null)
+                {
+                    query.Major_ID = user.Major_ID;
+
+                }
+                else
+                {
+                    TempData["message"] = "Vui Lòng Chọn Chuyên Ngành";
+                    TempData["messageType"] = "warning";
+                }
 
                 db.Entry(query).State = EntityState.Modified;
                 db.SaveChanges();
@@ -157,5 +172,35 @@ namespace BusinessConnectManagement.Controllers
 
             return RedirectToAction("Index", "Home", new { area = "" });
         }
+        [LoginVerification]
+        [HttpGet]
+        public ActionResult InformationStudent()
+        {
+            var email = User.Identity.Name;
+            var curUser = db.VanLangUsers.Where(x => x.Email == email).FirstOrDefault();
+            ViewBag.major = db.Majors.ToList();
+            return View(curUser);
+        }
+        [LoginVerification]
+        [HttpPost]
+        public ActionResult UpdateInfo(VanLangUser vlu)
+        {
+            var user = db.VanLangUsers.Where(x => x.Email == vlu.Email).FirstOrDefault();
+
+            if (user != null)
+            {
+                user.Student_ID = vlu.Student_ID;
+                user.FullName = vlu.FullName;
+                user.Major_ID = vlu.Major_ID;
+                user.Mobile = vlu.Mobile;
+            }
+            TempData["message"] = "Cập Nhật Thành Công";
+            TempData["messageType"] = "success";
+            db.Entry(user).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("InformationStudent", "AccountOfStudent");
+        }
+
+
     }
 }

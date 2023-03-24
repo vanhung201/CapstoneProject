@@ -474,3 +474,9 @@ D:\Captone Project 2022-2023\CaptoneSprint5\DonDuongMerge\CapstoneProject\Busine
 D:\Captone Project 2022-2023\CaptoneSprint5\DonDuongMerge\CapstoneProject\BusinessConnectManagement\bin\PagedList.Mvc.dll
 D:\Captone Project 2022-2023\CaptoneSprint5\DonDuongMerge\CapstoneProject\BusinessConnectManagement\bin\PagedList.xml
 D:\Captone Project 2022-2023\CaptoneSprint5\DonDuongMerge\CapstoneProject\BusinessConnectManagement\bin\PagedList.Mvc.xml
+D:\Captone Project 2022-2023\CaptoneSprint5\DonDuongMerge\CapstoneProject\BusinessConnectManagement\bin\EPPlus.dll
+D:\Captone Project 2022-2023\CaptoneSprint5\DonDuongMerge\CapstoneProject\BusinessConnectManagement\bin\EPPlus.Interfaces.dll
+D:\Captone Project 2022-2023\CaptoneSprint5\DonDuongMerge\CapstoneProject\BusinessConnectManagement\bin\EPPlus.System.Drawing.dll
+D:\Captone Project 2022-2023\CaptoneSprint5\DonDuongMerge\CapstoneProject\BusinessConnectManagement\bin\Microsoft.IO.RecyclableMemoryStream.dll
+D:\Captone Project 2022-2023\CaptoneSprint5\DonDuongMerge\CapstoneProject\BusinessConnectManagement\bin\EPPlus.xml
+D:\Captone Project 2022-2023\CaptoneSprint5\DonDuongMerge\CapstoneProject\BusinessConnectManagement\bin\Microsoft.IO.RecyclableMemoryStream.xml
