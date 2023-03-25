@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "Cooperation Categories";
-    Layout = "~/Areas/Faculty/Views/Shared/_Layout.cshtml";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
 <section class="list">
@@ -17,7 +17,6 @@
         <div id="filterEvent">
             <a>
                 <div class="btn btn--create">
-                    <i class="btn-icon btn-icon--create fas fa-plus"></i>
                     <span class="btn-text">Thêm</span>
                 </div>
             </a>
@@ -26,9 +25,9 @@
 
             <thead>
                 <tr>
-                    <th class="text-center" width="4%">STT</th>
-                    <th class="text-center">Danh Mục</th>
-                    <th class="text-center" width="20%">Chức năng</th>
+                    <th width="4%">STT</th>
+                    <th>Danh Mục</th>
+                    <th width="20%">Chức năng</th>
                 </tr>
             </thead>
             <tbody>
@@ -41,14 +40,12 @@
                         <td class="text-center">
                             <a onclick="loadEditUser('@item.ID', '@item.CooperationCategoriesName')">
                                 <div class="btn btn--update">
-                                    <i class="btn-icon btn-icon--edit fas fa-edit"></i>
-                                    <span class="btn-text">Cập Nhật</span>
+                                    <i class="btn-icon btn-icon--edit fal fa-edit"></i>
                                 </div>
                             </a>
                             <a onclick="loadDeleteUser('@item.ID', '@item.CooperationCategoriesName')">
                                 <div class="btn btn--delete">
-                                    <i class="btn-icon btn-icon--edit fas fa-times"></i>
-                                    <span class="btn-text">Xóa</span>
+                                    <i class="btn-icon btn-icon--edit fal fa-times"></i>
                                 </div>
                             </a>
                         </td>
@@ -62,15 +59,16 @@
 </section>
 
 <form action="@Url.Action("Create", "CooperationCategories")" class="form" id="addForm" method="post">
-    <div class="form-container">
-        <i class="form-icon fas fa-times-circle"></i>
+    <div class="form-container--small">
         <h1 class="form-heading">Thêm Danh Mục</h1>
         <div class="form-group">
             <label for="cooperationName" class="form-label">Danh Mục</label>
             <input name="CooperationCategoriesName" type="text" class="form-input" id="checkspace2" required>
         </div>
         <div class="form-group">
-            <button class="btn btn-action btn--update" type="submit" onclick="Submit()">Xác Nhận</button>
+            <a class="btn btn--cancel">Hủy</a>
+            <button type="submit" id="submit_edit" class="btn btn--confirm" onclick="Submit()">Xác Nhận</button>
+
         </div>
     </div>
 </form>
@@ -78,8 +76,7 @@
 
 <form action="@Url.Action("Edit", "CooperationCategories")" class="form" id="updateForm" method="post">
 
-    <div class="form-container">
-        <i class="form-icon fas fa-times-circle"></i>
+    <div class="form-container--small">
         <h1 class="form-heading">Cập Nhật Danh Mục</h1>
         <div class="form-group">
             <label for="cooperationName" class="form-label">Danh Mục</label>
@@ -87,7 +84,10 @@
             <input type="text" name="CooperationCategoriesName" class="form-input" id="name" required>
         </div>
         <div class="form-group">
-            <button class="btn btn-action btn--update" type="submit" onclick="submitEdit()">Xác Nhận</button>
+            <a class="btn btn--cancel">Hủy</a>
+            <button type="submit" id="submit_edit" class="btn btn--confirm" onclick="submitEdit()">Xác Nhận</button>
+
+
         </div>
     </div>
 </form>
@@ -97,8 +97,7 @@
         {
             @Html.AntiForgeryToken();
             <input name="id" id="iddele" hidden />
-            <div class="form-container">
-                <i class="form-icon fas fa-times-circle"></i>
+            <div class="form-container--small">
                 <h1 class="form-heading">Thông báo</h1>
 
                 <span>
@@ -107,7 +106,9 @@
                 </span>
 
                 <div class="form-group">
-                    <button type="submit" class="btn btn-action btn--update">Xác nhận</button>
+                    <a class="btn btn--cancel">Hủy</a>
+                    <button type="submit" class="btn btn-action btn--confirm">Xác Nhận</button>
+
                 </div>
             </div>
         }
@@ -116,22 +117,6 @@
 
 @section Scripts {
     <script type="text/javascript">
-        function Submit() {
-            var check = document.getElementById('checkspace2').value;
-            if (check.trim() == "") {
-                alert("Vui lòng không nhập khoảng trắng!")
-                $("#name").prop('required', true);
-                check = null;
-                document.getElementById('checkspace2').value = check;
-
-                check.focus();
-                return false;
-            } else {
-                return true;
-                $("#addForm");
-            }
-
-        }
         function loadEditUser(id, name) {
             let formUpdate = document.getElementById("updateForm");
             formUpdate.classList.add('is-appear')
@@ -144,21 +129,80 @@
             document.getElementById('iddele').value = id;
 
         }
-        function submitEdit() {
-            var check = document.getElementById('name').value;
-            if (check.trim() == "") {
-                alert("Vui lòng không nhập khoảng trắng!")
+        $('.btn--cancel').on('click', function () {
+            $('#addForm').removeClass('is-appear')
+        })
+        $('.btn--cancel').on('click', function () {
+            $('#updateForm').removeClass('is-appear')
+        })
+        $('.btn--cancel').on('click', function () {
+            $('#deleteForm').removeClass('is-appear')
+        })
 
-                check = null;
-                document.getElementById('name').value = check;
-                check.focus();
-                return false;
-            } else {
-                return true;
-                $("#updateForm");
+
+    </script>
+    <script>
+        $(document).ready(function () {
+            $.validator.addMethod("blank", function (value, element) {
+                return (!/^\s*$/.test(value));
+            }, "Vui lòng nhập tên danh mục.");
+
+            // Initialize the form validation
+            $("#addForm").validate();
+
+            // cái này là on blur nè
+            $("#addForm input, #addForm input").on("blur", function () {
+                $(this).valid();
+            });
+
+            // cái này là on change nè
+            $("#addForm input, #addForm input").on("change", function () {
+                $(this).removeClass("error");
+            });
+            /*-------------------------------update----------------------------*/
+            $("#updateForm").validate();
+
+            // cái này là on blur nè
+            $("#addForm input, #updateForm input").on("blur", function () {
+                $(this).valid();
+            });
+
+            // cái này là on change nè
+            $("#updateForm input, #updateForm input").on("change", function () {
+                $(this).removeClass("error");
+            });
+        });
+/*-----------------------add--------------------------*/
+        $("#addForm").validate({
+            rules: {
+                CooperationCategoriesName: {
+                    required: true,
+                    blank: true
+
+                }
+            },
+            messages: {
+                CooperationCategoriesName: {
+                    required: "Vui lòng nhập tên danh mục.",
+                   
+                }
             }
+        });
+/*----------------------update-----------------------------*/
+        $("#updateForm").validate({
+            rules: {
+                CooperationCategoriesName: {
+                    required: true,
+                    blank: true
 
-        }
-
+                }
+            },
+            messages: {
+                CooperationCategoriesName: {
+                    required: "Vui lòng nhập tên danh mục.",
+                   
+                }
+            }
+        });
     </script>
 }

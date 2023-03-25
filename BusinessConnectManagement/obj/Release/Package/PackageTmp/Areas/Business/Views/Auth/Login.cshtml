@@ -9,68 +9,159 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đăng Nhập - Doanh Nghiệp</title>
+    <title>Trang Đăng Nhập Doanh Nghiệp</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;500;600;700&display=swap"
           rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="~/assets/css/reset.css">
-    <link rel="stylesheet" href="~/assets/css/global2.css">
+    <link href="~/assets/css/reset.css" rel="stylesheet" />
+    <link href="~/assets/css/global2.css" rel="stylesheet" />
+    <link href="~/assets/css/index.css" rel="stylesheet" />
+    <link href="~/assets/css/admin/toast.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/assets/css/style.css">
-    <link rel="stylesheet" href="~/assets/css/admin/toast.css">
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <link href="~/Content/toastr.min.css" rel="stylesheet" />
+    <script src="~/Scripts/toastr.min.js"></script>
     <link rel="shortcut icon" href="~/assets/images/favicon.ico" type="image/x-icon">
 </head>
 
+@*<body>
+        <section class="login">
+            <img src="~/assets/images/logoDoanhNghiep.png" alt="logoDoanhNghiep.png" class="login-image">
+            <form action="@Url.Action("Login")" method="post" class="login-form">
+                <h1 class="login-heading">Chào mừng quý doanh nghiệp</h1>
+                <div class="login-group">
+                    <label for="login-username" class="login-label">Tên đăng nhập</label>
+                    <input type="text" name="username" id="login-username" class="login-input" placeholder="Tên đăng nhập" required
+                           autocomplete="off">
+                    @if (Convert.ToBoolean(Session["username-incorrect"]) == true)
+                    {
+                        <span class="login-message login-message--username">Tài khoản không tồn tại !!!</span>
+                    }
+                </div>
+                <div class="login-group">
+                    <label for="login-password" class="login-label">Mật khẩu</label>
+                    <input type="password" name="password" id="login-password" class="login-input" placeholder="Mật khẩu" required>
+                    @if (Convert.ToBoolean(Session["password-incorrect"]) == true)
+                    {
+                        <span class="login-message login-message--password">Mật khẩu không đúng !!!</span>
+                    }
+                </div>
+                <div class="login-submit">
+                    <button type="submit" class="login-button">Đăng nhập</button>
+                </div>
+            </form>
+        </section>
+
+        @if (Convert.ToBoolean(Session["BusinessAccountBlocked"]) == true)
+        {
+            <div class="toast">
+                <div class="toast-wrap">
+                    <div class="toast-header">
+                        <div class="toast-left">
+                            <i class="toast-left-icon fas fa-exclamation-circle"></i>
+                            <span class="toast-left-heading">Thông báo</span>
+                        </div>
+                        <div class="toast-right">
+                            <i class="toast-right-icon fas fa-times"></i>
+                        </div>
+                    </div>
+                    <div class="toast-content">
+                        <p class="toast-content-text">Tài khoản của bạn đang bị khóa. Vui lòng liên hệ Khoa CNTT để được hỗ trợ.</p>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <script src="~/assets/js/index.js"></script>
+
+    </body>*@
+
 <body>
+    @if (TempData["message"] != null)
+    {
+        <script>
+        toastr.@(TempData["messageType"])('@TempData["message"]','Thông Báo');
+        </script>
+    }
     <section class="login">
-        <img src="~/assets/images/logoDoanhNghiep.png" alt="logoDoanhNghiep.png" class="login-image">
-        <form action="@Url.Action("Login")" method="post" class="login-form">
-            <h1 class="login-heading">Chào mừng quý doanh nghiệp</h1>
-            <div class="login-group">
-                <label for="login-username" class="login-label">Tên đăng nhập</label>
-                <input type="text" name="username" id="login-username" class="login-input" placeholder="Tên đăng nhập" required
-                       autocomplete="off">
-                @if (Convert.ToBoolean(Session["username-incorrect"]) == true)
-                {
-                    <span class="login-message login-message--username">Tài khoản không tồn tại !!!</span>
-                }
-            </div>
-            <div class="login-group">
-                <label for="login-password" class="login-label">Mật khẩu</label>
-                <input type="password" name="password" id="login-password" class="login-input" placeholder="Mật khẩu" required>
-                @if (Convert.ToBoolean(Session["password-incorrect"]) == true)
-                {
-                    <span class="login-message login-message--password">Mật khẩu không đúng !!!</span>
-                }
-            </div>
-            <div class="login-submit">
-                <button type="submit" class="login-button">Đăng nhập</button>
-            </div>
-        </form>
+
+        <div class="login-trademark">
+            <img src="~/assets/images/logoVL.png" alt="" class="login-image">
+            <span>Một sản phẩm của khoa CNTT</span>
+        </div>
+        <p class="login-info">
+            Phần mềm<br><span>Quản lý kết nối doanh nghiệp</span>
+        </p>
+        <h2 class="login-heading">Trang dành cho Doanh nghiệp</h2>
+        <div class="login-wrap login-wrap--row">
+
+            <img src="~/assets/images/logoDoanhNghiep.png" alt="" class="login-image">
+            <form action="@Url.Action("Login")" method="post" class="login-form">
+                <h1 class="login-heading">Chào mừng quý doanh nghiệp</h1>
+                <div class="login-group">
+                    <label for="login-username" class="login-label">Tên đăng nhập</label>
+                    <input type="text" name="username" id="login-username" class="login-input" placeholder="Tên đăng nhập" required
+                           autocomplete="off">
+                    @if (Convert.ToBoolean(Session["username-incorrect"]) == true)
+                    {
+                        <span class="login-message login-message--username">Tài khoản không tồn tại !!!</span>
+                    }
+                </div>
+                <div class="login-group">
+                    <label for="login-password" class="login-label">Mật khẩu</label>
+                    <input type="password" name="password" id="login-password" class="login-input" placeholder="Mật khẩu" required>
+                    @if (Convert.ToBoolean(Session["password-incorrect"]) == true)
+                    {
+                        <span class="login-message login-message--password">Mật khẩu không đúng !!!</span>
+                    }
+                </div>
+
+                <div class="login-group">
+                    <span class="login-forgot">Quên mật khẩu?</span>
+                    <p class="login-desc" style="display: none;">Xin liên hệ với cô Lý Thị Huyền Châu qua mail: <a href="mailto: chau.lth@vlu.edu.vn">chau.lth@vlu.edu.vn</a></p>
+                </div>
+
+                <div class="login-submit">
+                    <button type="submit" class="login-button">Đăng nhập</button>
+                </div>
+
+            </form>
+        </div>
+        <p class="login-more">&#169; 2022 - Bản Quyền Thuộc Khoa CNTT - Trường Đại học Văn Lang</p>
     </section>
 
-    @if (Convert.ToBoolean(Session["BusinessAccountBlocked"]) == true)
-    {
-        <div class="toast">
-            <div class="toast-wrap">
-                <div class="toast-header">
-                    <div class="toast-left">
-                        <i class="toast-left-icon fas fa-exclamation-circle"></i>
-                        <span class="toast-left-heading">Thông báo</span>
+    @* @if (Convert.ToBoolean(Session["BusinessAccountBlocked"]) == true)
+        {
+            <div class="toast">
+                <div class="toast-wrap">
+                    <div class="toast-header">
+                        <div class="toast-left">
+                            <i class="toast-left-icon fas fa-exclamation-circle"></i>
+                            <span class="toast-left-heading">Thông báo</span>
+                        </div>
+                        <div class="toast-right">
+                            <i class="toast-right-icon fal fa-times">&times;</i>
+                        </div>
                     </div>
-                    <div class="toast-right">
-                        <i class="toast-right-icon fas fa-times"></i>
+                    <div class="toast-content">
+                        <p class="toast-content-text">Tài khoản của bạn đang bị khóa. Vui lòng liên hệ Khoa CNTT để được hỗ trợ.</p>
                     </div>
-                </div>
-                <div class="toast-content">
-                    <p class="toast-content-text">Tài khoản của bạn đang bị khóa. Vui lòng liên hệ Khoa CNTT để được hỗ trợ.</p>
                 </div>
             </div>
-        </div>
-    }
+        }*@
 
     <script src="~/assets/js/index.js"></script>
-
+    <script type="text/javascript">
+        const forgot = document.querySelector('.login-forgot');
+        const message = document.querySelector('.login-desc');
+        forgot.addEventListener('click', () => {
+            if (message.style.display === 'none') {
+                message.style.display = 'inline-block';
+            } else {
+                message.style.display = 'none';
+            }
+        })
+    </script>
 </body>
 
 </html>

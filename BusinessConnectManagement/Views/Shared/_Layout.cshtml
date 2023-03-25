@@ -5,14 +5,18 @@
 @{
     BCMEntities db = new BCMEntities();
 
+        var isStudent = db.VanLangUsers.Where(x => x.Email == User.Identity.Name && x.Role == "Student").Any();
+        var curUser = db.VanLangUsers.Where(x => x.Email == User.Identity.Name).FirstOrDefault();
+        var link = "";
     if (Request.IsAuthenticated)
     {
         var email = User.Identity.Name;
-        var user = db.VanLangUsers.FirstOrDefault(x => x.Email == email);
-
-        if (user.Mobile == null || user.Major_ID == null)
+        if(isStudent)
         {
-            Response.Redirect("~/cap-nhat-thong-tin-tai-khoan");
+            if (curUser.Mobile == null || curUser.Major_ID == null)
+            {
+                Response.Redirect("~/cap-nhat-thong-tin-tai-khoan");
+            }
         }
     }
 }
@@ -43,7 +47,9 @@
     <script src="~/Scripts/toastr.min.js"></script>
     <link href="~/assets/css/jquery2.dataTables.min.css" rel="stylesheet" />
     <link href="~/assets/css/table2.css" rel="stylesheet" />
+    <link href="~/assets/User/assets/css/topic.css" rel="stylesheet" />
     <script src="~/assets/js/datatable/dataTable.min.js"></script>
+    <link href="~/Content/PagedList.css" rel="stylesheet" />
     <title>FIT - Trang chủ</title>
 </head>
 
@@ -72,7 +78,7 @@
                                 <a href="@Url.Action("Index", "MOUs")">Doanh Nghiệp</a>
                             </li>
                             <li class="item">
-                                <a href="#">Tin tức</a>
+                                <a href="@Url.Action("Position","Home")">Vị Trí</a>
                             </li>
                             <li class="item">
                                 <a href="@Url.Action("Contact", "Home")">Liên hệ</a>
@@ -87,8 +93,30 @@
                             </a>
                             <ul class="submenu">
                                 <li><a href="@Url.Action("InformationStudent", "AccountOfStudent")">Thông Tin Cá Nhân</a></li>
-                                <li><a href="@Url.Action("listReg","Registration")">Danh Sách Ứng Tuyển</a></li>
-                                <li><a href="@Url.Action("Index","InternshipResults")">Kết Quả Thực Tập</a></li>
+                                @if (isStudent)
+                                {
+                                    <li><a href="@Url.Action("listReg","Registration")">Danh Sách Ứng Tuyển</a></li>
+                                    <li><a href="@Url.Action("Index","InternshipResults")">Kết Quả Thực Tập</a></li>
+                                }
+                                @if (!isStudent)
+                                {
+                                    switch (curUser.Role)
+                                    {
+                                        case "Admin":
+                                            link = Url.Action(curUser.Role + "Home", curUser.Role);
+                                            break;
+                                        case "Mentor":
+                                            link = Url.Action(curUser.Role + "Home", curUser.Role);
+                                            break;
+                                        case "Faculty":
+                                            link = Url.Action(curUser.Role + "Home", curUser.Role);
+                                            break;
+                                        case "Business":
+                                            link = Url.Action(curUser.Role + "Home", curUser.Role);
+                                            break;
+                                    }
+                                    <li><a href="@link">Trở Về Trang Quản Lý</a></li>
+                                }
                                 <li><a href="@Url.Action("SignOut","AccountOfStudent")">Đăng Xuất</a></li>
                             </ul>
                         }

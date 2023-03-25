@@ -13,6 +13,7 @@
     <EntitySetMapping Name="BusinessUsers">
       <EntityTypeMapping TypeName="BCMModel.BusinessUser">
         <MappingFragment StoreEntitySet="BusinessUser">
+          <ScalarProperty Name="Semester_ID" ColumnName="Semester_ID" />
           <ScalarProperty Name="EmailContact" ColumnName="EmailContact" />
           <ScalarProperty Name="ContactPhone_2" ColumnName="ContactPhone_2" />
           <ScalarProperty Name="ContactPhone_1" ColumnName="ContactPhone_1" />
@@ -43,7 +44,7 @@
       <EntityTypeMapping TypeName="BCMModel.InternshipResult">
         <MappingFragment StoreEntitySet="InternshipResult">
           <ScalarProperty Name="Status" ColumnName="Status" />
-          <ScalarProperty Name="RegistrationPosition" ColumnName="RegistrationPosition" />
+          <ScalarProperty Name="InternshipTopic_ID" ColumnName="InternshipTopic_ID" />
           <ScalarProperty Name="BusinessComment" ColumnName="BusinessComment" />
           <ScalarProperty Name="BusinessPoint" ColumnName="BusinessPoint" />
           <ScalarProperty Name="Business_ID" ColumnName="Business_ID" />
@@ -52,6 +53,16 @@
           <ScalarProperty Name="Mentor_Email" ColumnName="Mentor_Email" />
           <ScalarProperty Name="Semester_ID" ColumnName="Semester_ID" />
           <ScalarProperty Name="Student_Email" ColumnName="Student_Email" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InternshipTopics">
+      <EntityTypeMapping TypeName="BCMModel.InternshipTopic">
+        <MappingFragment StoreEntitySet="InternshipTopic">
+          <ScalarProperty Name="InternshipTopicDescription" ColumnName="InternshipTopicDescription" />
+          <ScalarProperty Name="InternshipTopicGoals" ColumnName="InternshipTopicGoals" />
+          <ScalarProperty Name="InternshipTopicName" ColumnName="InternshipTopicName" />
           <ScalarProperty Name="ID" ColumnName="ID" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -81,8 +92,11 @@
     <EntitySetMapping Name="Posts">
       <EntityTypeMapping TypeName="BCMModel.Post">
         <MappingFragment StoreEntitySet="Post">
+          <ScalarProperty Name="Major_ID" ColumnName="Major_ID" />
+          <ScalarProperty Name="Form" ColumnName="Form" />
+          <ScalarProperty Name="DueDate" ColumnName="DueDate" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
           <ScalarProperty Name="Business_ID" ColumnName="Business_ID" />
-          <ScalarProperty Name="PostImage" ColumnName="PostImage" />
           <ScalarProperty Name="Semester_ID" ColumnName="Semester_ID" />
           <ScalarProperty Name="ModifyDay" ColumnName="ModifyDay" />
           <ScalarProperty Name="PostDay" ColumnName="PostDay" />
@@ -93,9 +107,21 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="PostInternshipTopics">
+      <EntityTypeMapping TypeName="BCMModel.PostInternshipTopic">
+        <MappingFragment StoreEntitySet="PostInternshipTopic">
+          <ScalarProperty Name="Business_ID" ColumnName="Business_ID" />
+          <ScalarProperty Name="InternshipTopic_ID" ColumnName="InternshipTopic_ID" />
+          <ScalarProperty Name="Post_ID" ColumnName="Post_ID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Registrations">
       <EntityTypeMapping TypeName="BCMModel.Registration">
         <MappingFragment StoreEntitySet="Registration">
+          <ScalarProperty Name="InternshipResult_ID" ColumnName="InternshipResult_ID" />
+          <ScalarProperty Name="InternshipTopic_ID" ColumnName="InternshipTopic_ID" />
           <ScalarProperty Name="Comment" ColumnName="Comment" />
           <ScalarProperty Name="StatusRegistration" ColumnName="StatusRegistration" />
           <ScalarProperty Name="StatusInternview" ColumnName="StatusInternview" />
@@ -115,6 +141,7 @@
     <EntitySetMapping Name="Semesters">
       <EntityTypeMapping TypeName="BCMModel.Semester">
         <MappingFragment StoreEntitySet="Semester">
+          <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="Semester1" ColumnName="Semester" />
           <ScalarProperty Name="YearStudy_ID" ColumnName="YearStudy_ID" />
           <ScalarProperty Name="ID" ColumnName="ID" />

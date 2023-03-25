@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "Cooperation Activity";
-    Layout = "~/Areas/Faculty/Views/Shared/_Layout.cshtml";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
 <section class="list">
@@ -14,21 +14,19 @@
         }
         <div class="list-table">
             <div id="filterEvent">
-                <a href=@Url.Action("Create","BusinessCooperationCategories")>
+                <a>
                     <div class="btn btn--create">
-                        <i class="btn-icon btn-icon--create fas fa-plus"></i>
                         <span class="btn-text">Thêm</span>
                     </div>
                 </a>
-
             </div>
             <table id="table_id" class="display" width="100%">
                 <thead>
                     <tr>
-                        <th class="text-center">STT</th>
-                        <th class="text-center">Tên Doanh nghiệp</th>
-                        <th class="text-center">Hoạt động hợp tác</th>
-                        <th class="text-center" width="20%">Chức năng</th>
+                        <th>STT</th>
+                        <th>Tên Doanh nghiệp</th>
+                        <th>Hoạt động hợp tác</th>
+                        <th width="20%">Chức năng</th>
                     </tr>
                 </thead>
                 <tbody id="example">
@@ -48,23 +46,21 @@
 
                             </td>
                             <td class="text-center">
-                                <a href="@Url.Action("Details", "BusinessCooperationCategories", new {id = item.id})">
+                               @* <a href="@Url.Action("Details", "BusinessCooperationCategories", new {id = item.id})">
                                     <div class="btn btn--detail">
                                         <i class="btn-icon btn-icon--detail fas fa-info-circle"></i>
                                         <span class="btn-text">Xem Chi Tiết</span>
                                     </div>
                                 </a>
-
-                                <a href="@Url.Action("Edit", "BusinessCooperationCategories", new {id = item.id})">
-                                    <div class="btn btn--update">
-                                        <i class="btn-icon btn-icon--edit fas fa-edit"></i>
-                                        <span class="btn-text">Cập Nhật</span>
+*@
+                                <a id="update" href="" data-id="@item.id" onclick="getBusinessName('@item.name')">
+                                    <div class="btn btn--update" >
+                                        <i class="btn-icon btn-icon--edit fal fa-edit"></i>
                                     </div>
                                 </a>
                                 <a onclick="loadDeleteUser( '@item.id')">
                                     <div class="btn btn--delete">
-                                        <i class="btn-icon btn-icon--edit fas fa-times"></i>
-                                        <span class="btn-text">Xóa</span>
+                                        <i class="btn-icon btn-icon--edit fal fa-times"></i>
                                     </div>
                                 </a>
                             </td>
@@ -76,13 +72,114 @@
         </div>
     </form>
 </section>
+
+
+<form action="@Url.Action("Create", "BusinessCooperationCategories")" class="form" id="addForm" method="post" enctype="multipart/form-data">
+    <div class="form-container">
+        <h1 class="form-heading">Doanh nghiệp</h1>
+        <div class="form-column">
+           
+                <div class="form-group">
+                    <label for="ddlBussines_ID" class="form-label">Tên Doanh Nghiệp</label>
+                    <select name="ddlBussines_ID" id="ddlBussines_ID" class="form-select">
+                        @foreach (var item in ViewBag.Business_ID)
+                        {
+                            <option value=@item.Business_ID>@item.BusinessUser.BusinessName</option>
+                        }
+                    </select>
+                </div>
+
+            
+                <div class="form-group">
+
+                    <input id="ArrCoopId" type="text" value="" name="ArrCoopId" hidden />
+                    <label for="cooperation" class="form-label">Loại Hợp Tác</label>
+                    <div class="checkbox-wrapper" id="checkBoxCoop">
+                        @foreach (var item in ViewBag.CooperationCategories)
+                        {
+                            <label class="container">
+                                @item.CooperationCategoriesName
+
+                                <input type="checkbox" value="@item.ID" required />
+                                <span class="checkmark"></span>
+                            </label>
+                        }
+                    </div>
+                </div>
+        </div>
+        <div class="form-group">
+            <a class="btn btn--cancel">
+                Hủy
+            </a>
+            
+            <button class="btn btn--confirm"  type="submit" onclick="getValueCheckBoxAndSubmitCreate()">
+                Xác Nhận
+            </button>
+           
+               @* <div class="btn btn--small btn--add" id="submit_edit">
+                    <i class="btn-icon btn-icon--add fas fa-check"></i>
+                    <span >Thêm</span>
+                </div>*@
+        </div>
+    </div>
+</form>
+<form action="" class="form" id="updateForm" method="post" enctype="multipart/form-data">
+    <div class="form-container form-container--small">
+        <h1 class="form-heading">Doanh nghiệp</h1>
+      
+            <div class="form-column">
+                <div class="form-group">
+                    <label for="ddlBussines_ID" class="form-label">Tên Doanh Nghiệp</label>
+
+                    <input id="Business_ID" type="text" value="" name="Business_ID" hidden />
+
+                    <input id="BusinessName" type="text" class="form-input" value="" name="BusinessName" disabled/>
+
+                </div>
+
+            </div>
+            <div class="form-column">
+                <div class="form-group">
+
+                    <input id="CoopId" type="text" value="" name="ArrCoopId" hidden />
+                    <label for="cooperation" class="form-label">Loại Hợp Tác</label>
+                    <div class="checkbox-wrapper" id="checkBoxCoop">
+                        @foreach (var item in ViewBag.CooperationCategories)
+                        {
+                            <label class="container">
+                                @item.CooperationCategoriesName
+                                    <input type="checkbox" value="@item.ID" required>
+                                    <span class="checkmark"></span>
+                               
+                            </label>
+                        }
+                    </div>
+                </div>
+            </div>
+       
+        <div class="form-group">
+            <button class="btn btn--cancel" onclick="reLoad()">
+                Hủy
+            </button>
+            
+            <button class="btn btn--confirm" type="submit" onclick="getValueCheckBoxAndSubmit()">
+                Xác Nhận
+            </button>
+
+            @* <div class="btn btn--small btn--add" id="submit_edit">
+                    <i class="btn-icon btn-icon--add fas fa-check"></i>
+                    <span >Thêm</span>
+                </div>*@
+
+        </div>
+    </div>
+</form>
 <form action="@Url.Action("DeleteActivity", "BusinessUsers")" class="form" id="deleteForm" method="post">
     @{using (Html.BeginForm())
         {
             @Html.AntiForgeryToken();
 
-            <div class="form-container">
-                <i class="form-icon fas fa-times-circle"></i>
+            <div class="form-container--small">
                 <h1 class="form-heading">Thông báo</h1>
                 <input name="id" id="iddele" hidden />
                 <span>
@@ -91,18 +188,96 @@
                 </span>
 
                 <div class="form-group">
-                    <button type="submit" class="btn btn-action btn--update">Xác nhận</button>
+                    <a class="btn btn--cancel">Hủy</a>
+                    <button type="submit" class="btn btn-action btn--confirm">Xác Nhận</button>
                 </div>
+
             </div>
         }
     }
 </form>
 @section Scripts {
     <script type="text/javascript">
+        function getValueCheckBoxAndSubmit() {
+            let arrayCheckbox = "";
+            var allCheckBox = document.querySelectorAll("#checkBoxCoop > .container > input[type='checkbox']:checked");
+            for (let i = 0; i < allCheckBox.length; i++) {
+                arrayCheckbox += allCheckBox[i].value + ",";
+            }
+            $("#ArrCoopId").val(arrayCheckbox);
+            $("#addForm").submit();
+        }
         function loadDeleteUser(id) {
             let formDelete = document.getElementById("deleteForm");
             formDelete.classList.add('is-appear')
             document.getElementById('iddele').value = id;
+
+        }
+        function getBusinessName(name) {
+            document.getElementById('BusinessName').value = name;
+        }
+        $('#table_id').on("click","#update", function (e) {
+            e.preventDefault()
+            const id = $(this).data('id');
+                let formUpdate = document.getElementById("updateForm");
+                formUpdate.classList.add('is-appear')
+            const url = `@Url.Action("Details", "BusinessCooperationCategories")${id}`
+            const actionURL = `@Url.Action("Edit", "BusinessCooperationCategories")${id}`
+            $('#Business_ID').val(id)
+            $('#updateForm').attr('action', `${actionURL}`)
+                $.ajax({
+                    url: url,
+                    type: "get",
+                    success: function (res) {
+                        const list = document.querySelectorAll("#updateForm input[type='checkbox']");
+
+                        for (let i = 0; i < list.length; i++) {
+                            if (res[i].status == true) {
+                                if (list[i].value == res[i].value) {
+                                    console.log('haha')
+                                    $(`#updateForm input[type='checkbox'][value='${res[i].value}']`).attr('checked', 'checked')
+                                }
+
+                            } else {
+                                $(`#updateForm input[type='checkbox'][value='${res[i].value}']`)
+                            }
+                        }
+                    }
+                })
+            })
+
+        $('.btn--cancel').on('click', function () {
+            $('#addForm').removeClass('is-appear')
+        })
+        $('.btn--cancel').on('click', "#updateForm", function () {
+            window.location.reload();
+        })
+        $('.btn--cancel').on('click', function () {
+            $('#deleteForm').removeClass('is-appear')
+        })
+
+        function reLoad() {
+            window.location.reload();
+        }
+
+
+        function getValueCheckBoxAndSubmit() {
+            let arrayCheckbox = "";
+            var allCheckBox = document.querySelectorAll("#checkBoxCoop > .container > input[type='checkbox']:checked");
+            for (let i = 0; i < allCheckBox.length; i++) {
+                arrayCheckbox += allCheckBox[i].value + ",";
+            }
+            $("#CoopId").val(arrayCheckbox);
+            $("#updateForm").submit();
+        }
+        function getValueCheckBoxAndSubmitCreate() {
+            let arrayCheckbox = "";
+            var allCheckBox = document.querySelectorAll("#checkBoxCoop > .container > input[type='checkbox']:checked");
+            for (let i = 0; i < allCheckBox.length; i++) {
+                arrayCheckbox += allCheckBox[i].value + ",";
+            }
+            $("#ArrCoopId").val(arrayCheckbox);
+            $("#addForm").submit();
         }
 
     </script>

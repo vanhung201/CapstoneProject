@@ -1,0 +1,206 @@
+﻿@{
+    Layout = null;
+}
+@using BusinessConnectManagement.Models;
+@{
+    BCMEntities db = new BCMEntities();
+
+        var isStudent = db.VanLangUsers.Where(x => x.Email == User.Identity.Name && x.Role == "Student").Any();
+        var curUser = db.VanLangUsers.Where(x => x.Email == User.Identity.Name).FirstOrDefault();
+        var link = "";
+    if (Request.IsAuthenticated)
+    {
+        var email = User.Identity.Name;
+        if(isStudent)
+        {
+            if (curUser.Mobile == null || curUser.Major_ID == null)
+            {
+                Response.Redirect("~/cap-nhat-thong-tin-tai-khoan");
+            }
+        }
+    }
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="~/assets/User/assets/css/font/fontawesome/css/all.css" rel="stylesheet" />
+    <link href="~/assets/User/assets/css/spectre/spectre.min.css" rel="stylesheet" />
+    <link href="~/assets/User/assets/css/spectre/spectre-exp.min.css" rel="stylesheet" />
+    <link href="~/assets/User/assets/css/spectre/spectre-icons.min.css" rel="stylesheet" />
+    <link href="~/assets/User/assets/css/custom.css" rel="stylesheet" />
+    <link href="~/assets/User/assets/css/animation.css" rel="stylesheet" />
+    <link href="~/assets/User/assets/css/style.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="~/assets/images/favicon.ico" type="image/x-icon">
+    <link href="~/Content/toastr.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/toastr.min.js"></script>
+    <link href="~/assets/css/jquery2.dataTables.min.css" rel="stylesheet" />
+    <link href="~/assets/css/table2.css" rel="stylesheet" />
+    <link href="~/assets/User/assets/css/topic.css" rel="stylesheet" />
+    <script src="~/assets/js/datatable/dataTable.min.js"></script>
+    <title>FIT - Trang chủ</title>
+</head>
+
+<body>
+    <header>
+        <div id="header-desktop" class="main-bg-color d-block d-none-sm d-none-md d-none-xl">
+            <div class="container">
+                <div class="d-flex align-middle justify-between">
+                    <div class="logo">
+                        <a href="@Url.Action("Index", "Home")">
+                            <img src="~/assets/User/assets/images/logo.png" alt="logo">
+                        </a>
+                    </div>
+                    <div id="main-menu">
+                        <ul class="d-flex align-middle justify-center">
+                            <li class="item">
+                                <a href="@Url.Action("Index", "Home")">Trang chủ</a>
+                            </li>
+                            <li class="item">
+                                <a href="https://www.vlu.edu.vn/" target="_blank">Giới thiệu</a>
+                            </li>
+                            <li class="item">
+                                <a href="@Url.Action("Index", "Posts")">Công Việc</a>
+                            </li>
+                            <li class="item">
+                                <a href="@Url.Action("Index", "MOUs")">Doanh Nghiệp</a>
+                            </li>
+                            <li class="item">
+                                <a href="@Url.Action("Position","Home")">Vị Trí</a>
+                            </li>
+                            <li class="item">
+                                <a href="@Url.Action("Contact", "Home")">Liên hệ</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div id="user">
+                        @if (Request.IsAuthenticated)
+                        {
+                            <a href="#" class="user">
+                                <img src="~/assets/User/assets/images/user.png" alt="user">
+                            </a>
+                            <ul class="submenu">
+                                <li><a href="@Url.Action("InformationStudent", "AccountOfStudent")">Thông Tin Cá Nhân</a></li>
+                                @if (isStudent)
+                                {
+                                    <li><a href="@Url.Action("listReg","Registration")">Danh Sách Ứng Tuyển</a></li>
+                                    <li><a href="@Url.Action("Index","InternshipResults")">Kết Quả Thực Tập</a></li>
+                                }
+                                @if (!isStudent)
+                                {
+                                    switch (curUser.Role)
+                                    {
+                                        case "Admin":
+                                            link = Url.Action(curUser.Role + "Home", curUser.Role);
+                                            break;
+                                        case "Mentor":
+                                            link = Url.Action(curUser.Role + "Home", curUser.Role);
+                                            break;
+                                        case "Faculty":
+                                            link = Url.Action(curUser.Role + "Home", curUser.Role);
+                                            break;
+                                        case "Business":
+                                            link = Url.Action(curUser.Role + "Home", curUser.Role);
+                                            break;
+                                    }
+                                    <li><a href="@link">Trở Về Trang Quản Lý</a></li>
+                                }
+                                <li><a href="@Url.Action("SignOut","AccountOfStudent")">Đăng Xuất</a></li>
+                            </ul>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("Login","AccountOfStudent")" class="btn-login">
+                                Đăng Nhập
+                            </a>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="header-mobile" class="main-bg-color d-none d-sm d-md d-xl">
+            <div class="container">
+                <div class="d-flex align-middle justify-between">
+                    <div class="sidebar">
+                        <i class="fa-solid fa-bars"></i>
+                    </div>
+                    <div class="logo">
+                        <a href="#">
+                            <img src="~/assets/User/assets/images/logo.png" alt="logo">
+                        </a>
+                    </div>
+                    <div class="user">
+                        <a href="#">
+                            <img src="~/assets/User/assets/images/user.png" alt="user">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </header>
+
+    @RenderBody()
+    <footer style="background-image: url(https://sukien.vanlanguni.edu.vn/images/footer.jpg);">
+        <div class="container">
+            <div class="columns py20">
+                <div class="column col-2 col-sm-12 col-md-6 col-xl-6 mb10">
+                    <div class="logo text-center">
+                        <img src="/assets/User/assets/images/logo2.png" alt="logo" />
+                    </div>
+                </div>
+                <div class="column col-4 col-sm-12 col-md-12 col-xl-12 mb10">
+                    <div class="title-ft">Địa chỉ</div>
+                    <ul class="text-white">
+                        <li><strong>Trụ sở:</strong> 45 Nguyễn Khắc Nhu, P. Cô Giang, Q.1, Tp. HCM</li>
+                        <li><strong>Cơ sở 2:</strong> 80/68 Dương Quảng Hàm, P.5, Q. Gò Vấp, Tp. HCM</li>
+                        <li><strong>Cơ sở 3:</strong> 69/68 Đặng Thùy Trâm, P. 13, Q. Bình Thạnh, Tp. HCM</li>
+                        <li><strong>Văn phòng:</strong> P. 2.02, Tòa nhà LV (Cơ sở 3)</li>
+                        <li><strong>Liên hệ :</strong> qhdn@vanlanguni.edu.vn - (028) 71099 224</li>
+                    </ul>
+
+                </div>
+                <div class="column col-3 col-sm-12 col-md-12 col-xl-12 mb10">
+                    <div class="title-ft">Liên hệ</div>
+                    <ul class="text-white">
+                        <li><i class="fa-solid fa-phone"></i> 0123456789</li>
+                        <li><i class="fa-solid fa-phone"></i> 0123456789</li>
+                        <li><i class="fa-solid fa-envelope"></i> admin@mail.com</li>
+                    </ul>
+                </div>
+                <div class="column col-3 col-sm-12 col-md-12 col-xl-12 mb10">
+                    <div class="title-ft">Theo dõi chúng tôi</div>
+                    <div class="d-flex mt15">
+                        <a href="#" class="mr-2">
+                            <i class="fa-lg fa-brands fa-facebook"></i>
+                        </a>
+                        <a href="#" class="mr-2">
+                            <i class="fa-lg fa-brands fa-youtube"></i>
+                        </a>
+                        <a href="#" class="mr-2">
+                            <i class="fa-lg fa-brands fa-tiktok"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </footer>
+    <script src="~/assets/js/admin.js"></script>
+
+    @RenderSection("scripts", required: false)
+</body>
+
+</html>

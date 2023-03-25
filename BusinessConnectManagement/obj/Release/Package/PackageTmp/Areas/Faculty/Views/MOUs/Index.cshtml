@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "Manage MOU";
-    Layout = "~/Areas/Faculty/Views/Shared/_Layout.cshtml";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
 <section class="list">
@@ -15,9 +15,8 @@
     }
     <div class="list-table">
         <div id="filterEvent">
-            <a href="@Url.Action("Create", "MOUs")">
+            <a>
                 <div class="btn btn--create">
-                    <i class="btn-icon btn-icon--create fas fa-plus"></i>
                     <span class="btn-text">Thêm</span>
                 </div>
             </a>
@@ -30,7 +29,7 @@
                     <th>Ngày Ký</th>
                     <th>Người Ký</th>
                     <th>Người Phụ Trách</th>
-                    <th class="text-center" width="20%">Chức năng</th>
+                    <th width="20%">Chức năng</th>
                 </tr>
             </thead>
             <tbody>
@@ -39,32 +38,29 @@
                 @{ int count = 1;}
                 @foreach (var item in Model)
                 {
-                    DateTime? mydate = item.SignDay;
-                    string datee = mydate.Value.ToString("dd-MM-yyyy");
+
                     <tr id="checkRespon">
                         <td>@count</td>
                         <td>@item.BusinessUser.BusinessName</td>
-                        <td>@datee</td>
+                        <td>@item.SignDay</td>
                         <td>@item.Signer</td>
                         <td class="abc">@item.ResponsibleName</td>
                         <td class="text-center">
-                            <a href="@Url.Action("Details", "MOUs",  new { id=item.ID })">
+                           @* <a onclick="loadDetail('@item.ID', '@item.BusinessUser.BusinessName', '@item.Signer', '@item.ContactPhone', '@item.ResponsibleName', '@item.SignDay', '@item.ContactName', '@item.EmailContact', '@item.BusinessUser.ID')">
                                 <div class="btn btn--detail">
                                     <i class="btn-icon btn-icon--detail fas fa-info-circle"></i>
                                     <span class="btn-text">Xem Chi Tiết</span>
                                 </div>
-                            </a>
+                            </a>*@
 
-                            <a href="@Url.Action("Edit", "MOUs",  new { id=item.ID })">
+                            <a onclick="loadEditUser('@item.ID', '@item.BusinessUser.BusinessName', '@item.Signer', '@item.ContactPhone', '@item.ResponsibleName', '@item.SignDay', '@item.ContactName', '@item.EmailContact', '@item.BusinessUser.ID')">
                                 <div class="btn btn--update">
-                                    <i class="btn-icon btn-icon--edit fas fa-edit"></i>
-                                    <span class="btn-text">Cập Nhật</span>
+                                    <i class="btn-icon btn-icon--edit fal fa-edit"></i>
                                 </div>
                             </a>
                             <a onclick="loadDeleteUser('@item.ID', '@item.BusinessUser.BusinessName')">
                                 <div class="btn btn--delete">
-                                    <i class="btn-icon btn-icon--edit fas fa-times"></i>
-                                    <span class="btn-text">Xóa</span>
+                                    <i class="btn-icon btn-icon--edit fal fa-times"></i>
                                 </div>
                             </a>
 
@@ -77,14 +73,188 @@
         </table>
     </div>
 </section>
+<form action="@Url.Action("Create", "MOUs")" class="form" id="addForm" method="post">
+    <div class="form-container">
+        <h1 class="form-heading">Ký Kết MOU</h1>
+        <div class="form-row">
+            <div class="form-column">
+                <div class="form-group">
+                    <label for="ddlBussines_ID" class="form-label">Tên Doanh Nghiệp &nbsp;&nbsp;&nbsp;&nbsp;</label>
+                    @* <input list="" name="Business_ID" id="businessID" class="form-input" autocomplete="off" required />*@
+                    <select name="Business_ID" id="ddlBussines_ID" class="form-select">
+                        @foreach (var item in ViewBag.Business_ID)
+                        {
+                            <option value=@item.ID>@item.BusinessName</option>
+                        }
 
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="signer" class="form-label">Tên Người Ký &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                    <input type="text" id="Signer" name="Signer" class="form-input" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">SĐT Người Liên Hệ &nbsp;&nbsp; </label>
+                    <input type="text" id="ContactPhone" name="ContactPhone" class="form-input" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Tên Người Phụ Trách</label>
+                    <input type="text" id="ResponsibleName" name="ResponsibleName" class="form-input" autocomplete="off"  >
+                </div>
+            </div>
+            <div class="form-column">
+                <div class="form-group">
+                    <label for="daysigning" class="form-label">Ngày Ký &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                    <input list="" name="SignDay" id="SignDay" class="form-input" type="date"
+                           autocomplete="off" required />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Tên Người Liên Hệ &nbsp;&nbsp;</label>
+                    <input type="text" id="ContactName" name="ContactName" class="form-input" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email Người Liên Hệ</label>
+                    <input type="text" id="EmailContact" name="EmailContact" class="form-input" autocomplete="off">
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <a class="btn btn--cancel">
+               Hủy
+            </a>
+            <button class="btn btn--confirm" onclick="Submit()">
+                  Xác Nhận
+            </button>
+
+        </div>
+    </div>
+</form>
+@*------------------------- detail ----------------------------------*@
+@*<form id="detailForm" class="form" method="post">
+    <div class="form-container">
+        <h1 class="form-heading">Ký Kết MOU</h1>
+        <input id="idD" name="ID" hidden />
+        <div class="form-row">
+            <input id="IDBuGD" name="Business_ID" hidden />
+            <div class="form-column">
+                <div class="form-group">
+                    <label for="ddlBussines_ID" class="form-label">Tên Doanh Nghiệp &nbsp;&nbsp;&nbsp;&nbsp;</label>
+                    <input id="BusinessUserGD" name="" class="form-input" >
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Tên Người Ký &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                    <input type="text" id="SignerGD" name="Signer" class="form-input" autocomplete="off"  />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">SĐT Người Liên Hệ &nbsp;&nbsp; </label>
+                    <input type="text" id="ContactPhoneGD" name="ContactPhone" class="form-input" autocomplete="off"  />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Tên Người Phụ Trách</label>
+                    <input type="text" id="ResponsibleNameGD" name="ResponsibleName" class="form-input" autocomplete="off"  />
+                </div>
+            </div>
+            <div class="form-column">
+                <div class="form-group">
+                    <label for="daysigning" class="form-label">Ngày Ký &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                    <input name="SignDay" id="SignDayGD" class="form-input" autocomplete="off" type="datetime"  />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Tên Người Liên Hệ &nbsp;&nbsp;</label>
+                    <input type="text" id="ContactNameGD" name="ContactName" class="form-input" autocomplete="off" >
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email Người Liên Hệ</label>
+                    <input type="text" id="EmailContactGD" name="EmailContact" class="form-input" autocomplete="off" >
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="btn btn--small btn--cancel">
+                <i class="btn-icon btn-icon--cancel fas fa-times"></i>
+                <span class="btn-text btn-text--small">Hủy</span>
+            </div>
+            <div class="btn btn--small btn--add">
+                <i class="btn-icon btn-icon--add fas fa-check"></i>
+                <span class="btn-text btn-text--small">Xác nhận</span>
+            </div>
+
+
+        </div>
+    </div>
+</form>*@
+@*------------------------------- edit ------------------------------------*@
+<form id="updateForm" class="form" method="post" enctype="multipart/form-data">
+    @{using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken();
+
+            <div class="form-container">
+                <h1 class="form-heading">Ký Kết MOU</h1>
+                <input id="id" name="ID" hidden />
+                <input id="IDBuG" name="Business_ID" hidden />
+                <div class="form-row">
+
+                    <div class="form-column">
+                        <div class="form-group">
+                            <label for="ddlBussines_ID" class="form-label">Tên Doanh Nghiệp &nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            <input id="BusinessUserG" name="" class="form-input" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Tên Người Ký &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            <input type="text" id="SignerG" name="Signer" class="form-input" autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">SĐT Người Liên Hệ &nbsp;&nbsp; </label>
+                            <input type="text" id="ContactPhoneG" name="ContactPhone" class="form-input" autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Người Phụ Trách</label>
+                            <input type="text" id="ResponsibleNameG" name="ResponsibleName" class="form-input" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-column">
+                        <div class="form-group">
+                            <label for="daysigning" class="form-label">Ngày Ký &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            <input name="SignDay" id="SignDayG" class="form-input" autocomplete="off"  />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Tên Người Liên Hệ &nbsp;&nbsp;</label>
+                            <input type="text" id="ContactNameG" name="ContactName" class="form-input" autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email Người Liên Hệ</label>
+                            <input type="text" id="EmailContactG" name="EmailContact" class="form-input" autocomplete="off">
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <a class="btn  btn--cancel">
+                       Hủy
+                    </a>
+                    <button class="btn btn--confirm" type="submit">
+                       Xác Nhận
+                    </button>
+
+                </div>
+            </div>
+        }
+    }
+</form>
+@*---------------------------delete-------------------------*@
 <form action="@Url.Action("Delete", "MOUs")" class="form" id="deleteForm" method="post">
     @{using (Html.BeginForm())
         {
             @Html.AntiForgeryToken();
             <input name="id" id="iddele" hidden />
-            <div class="form-container">
-                <i class="form-icon fas fa-times-circle"></i>
+            <div class="form-container--small">
+             
                 <h1 class="form-heading">Thông báo</h1>
                 <span>
 
@@ -93,7 +263,8 @@
                 </span>
 
                 <div class="form-group">
-                    <button type="submit" class="btn btn-action btn--update">Xác nhận</button>
+                    <a class="btn btn--cancel">Hủy</a>
+                    <button type="submit" class="btn btn-action btn--confirm">Xác nhận</button>
                 </div>
             </div>
         }
@@ -102,29 +273,59 @@
 @section Scripts {
 
     <script>
+        function loadEditUser(id, BusinessUser, Signer, ContactPhone, ResponsibleName, SignDay, ContactName, EmailContact, IDBu) {
+            let formUpdate = document.getElementById("updateForm");
+            formUpdate.classList.add('is-appear')
+            document.getElementById('id').value = id;
+            document.getElementById('BusinessUserG').value = BusinessUser;
+            document.getElementById('SignerG').value = Signer;
+            document.getElementById('ContactPhoneG').value = ContactPhone;
+            document.getElementById('ResponsibleNameG').value = ResponsibleName;
+            document.getElementById('SignDayG').value = SignDay;
+            document.getElementById('ContactNameG').value = ContactName;
+            document.getElementById('EmailContactG').value = EmailContact;
+            document.getElementById('IDBuG').value = IDBu;
 
+            const actionUrl = `@Url.Action("Edit","MOUs")` + id;
+            $('#updateForm').attr('action', `${actionUrl}`)
+
+        }
+        function loadDetail(id, BusinessUser, Signer, ContactPhone, ResponsibleName, SignDay, ContactName, EmailContact, IDBu) {
+            let formUpdate = document.getElementById("detailForm");
+            formUpdate.classList.add('is-appear')
+
+            document.getElementById('idD').value = id;
+            document.getElementById('BusinessUserGD').value = BusinessUser;
+            document.getElementById('SignerGD').value = Signer;
+            document.getElementById('ContactPhoneGD').value = ContactPhone;
+            document.getElementById('ResponsibleNameGD').value = ResponsibleName;
+            document.getElementById('SignDayGD').value = SignDay;
+            document.getElementById('ContactNameGD').value = ContactName;
+            document.getElementById('EmailContactGD').value = EmailContact;
+            document.getElementById('IDBuGD').value = IDBu;
+
+        }
         function loadDeleteUser(id, name) {
             let formDelete = document.getElementById("deleteForm");
-
             formDelete.classList.add('is-appear')
             document.getElementById('iddele').value = id;
             $('#namedele').text(name)
         }
-        function Submit() {
-            var signer = document.getElementById('signer').value;
-            var contactName = document.getElementById('contactName').value;
-            var phone = document.getElementById('phone').value;
-            var email = document.getElementById('email').value;
-            var reponsibile = document.getElementById('reponsibile').value;
+        /*function Submit() {
+            var signer = document.getElementById('Signer').value;
+            var contactName = document.getElementById('ContactName').value;
+            var phone = document.getElementById('ContactPhone').value;
+            var email = document.getElementById('EmailContact').value;
+            var reponsibile = document.getElementById('ResponsibleName').value;
 
             if (signer.trim() == "" || contactName.trim() == "" || phone.trim() == "" || email.trim() == "" || reponsibile.trim() == "") {
                 alert("Vui lòng không nhập khoảng trắng!")
                 var check = null;
-                document.getElementById('signer').value = check;
-                document.getElementById('contactName').value = check;
-                document.getElementById('phone').value = check;
-                document.getElementById('email').value = check;
-                document.getElementById('reponsibile').value = check;
+                document.getElementById('Signer').value = check;
+                document.getElementById('ContactName').value = check;
+                document.getElementById('ContactPhone').value = check;
+                document.getElementById('EmailContact').value = check;
+                document.getElementById('ResponsibleName').value = check;
 
                 return false;
             } else {
@@ -132,11 +333,179 @@
                 $("#addForm");
             }
 
-        }
-
-
+        }*/
+        $('.btn--cancel').on('click', function () {
+            $('#addForm').removeClass('is-appear')
+        })
+        $('.btn--cancel').on('click', function () {
+            $('#updateForm').removeClass('is-appear')
+        })
+        $('.btn--cancel').on('click', function () {
+            $('#detailForm').removeClass('is-appear')
+        })
+        $('.btn--cancel').on('click', function () {
+            $('#deleteForm').removeClass('is-appear')
+        })
     </script>
+    <script>
+        $(document).ready(function () {
+            // Initialize the form validation
+            $.validator.addMethod("blank", function (value, element) {
+                return (!/^\s*$/.test(value));
+            }, "Vui lòng nhập Họ và tên");
+            $("#addForm").validate();
 
+            // cái này là on blur nè
+            $("#addForm input, #addForm input").on("blur", function () {
+                $(this).valid();
+            });
+
+            // cái này là on change nè
+            $("#addForm input, #addForm input").on("change", function () {
+                $(this).removeClass("error");
+            });
+            /*-----------------------update-----------------*/
+            $("#updateForm").validate();
+
+            // cái này là on blur nè
+            $("#updateForm input, #updateForm input").on("blur", function () {
+                $(this).valid();
+            });
+
+            // cái này là on change nè
+            $("#updateForm input, #updateForm input").on("change", function () {
+                $(this).removeClass("error");
+            });
+        });
+
+        $("#addForm").validate({
+            rules: {
+                Signer: {
+                    required: true,
+                    minlength: 3,
+                    blank: true
+                },
+                ContactName: {
+                    required: true,
+                    minlength: 3,
+                    blank: true
+                },
+                ResponsibleName: {
+                    required: true,
+                    minlength: 3,
+                    blank: true
+                },
+                ContactPhone: {
+                    required: true,
+                    digits: true,
+                    minlength: 10,
+                    maxlength: 11
+                },
+                EmailContact: {
+                    required: true,
+                    email: true
+                },
+                SignDay: {
+                    required: true
+                    }
+                
+            },
+            messages: {
+                Signer: {
+                    required: "Vui lòng nhập họ và tên.",
+                    minlength: "Tên của bạn phải ít nhất 3 kí tự."
+                },
+                ContactName: {
+                    required: "Vui lòng nhập họ và tên.",
+                    minlength: "Tên của bạn phải ít nhất 3 kí tự."
+                },
+                ResponsibleName: {
+                    required: "Vui lòng nhập họ và tên.",
+                    minlength: "Tên của bạn phải ít nhất 3 kí tự."
+                },
+                ContactPhone: {
+                    required: "Vui lòng nhập số điện thoại.",
+                    digits: "Số điện thoại chỉ bao gồm các kí tự số.",
+                    minlength: "Số điện thoại phải có ít nhất 10 số.",
+                    maxlength: "Số điện thoại chỉ có thể có tối đa 11 số."
+                },
+               
+                EmailContact: {
+                    required: "Vui lòng nhập địa chỉ email.",
+                    email: "Địa chỉ email không hợp lệ."
+                },
+                SignDay: {
+                    required: "Vui lòng chọn ngày."
+                    }
+               
+            },
+        });
+
+        /*--------------------update-----------------------------*/
+        $("#updateForm").validate({
+            rules: {
+                Signer: {
+                    required: true,
+                    minlength: 3,
+                    blank: true
+                },
+                ContactName: {
+                    required: true,
+                    minlength: 3,
+                    blank: true
+                },
+                ResponsibleName: {
+                    required: true,
+                    minlength: 3,
+                    blank: true
+                },
+                ContactPhone: {
+                    required: true,
+                    digits: true,
+                    minlength: 10,
+                    maxlength: 11
+                },
+                EmailContact: {
+                    required: true,
+                    email: true
+                },
+                SignDay: {
+                    required: true
+                }
+
+            },
+            messages: {
+                Signer: {
+                    required: "Vui lòng nhập Họ và tên",
+                    minlength: "Tên của bạn phải ít nhất 3 kí tự"
+                },
+                ContactName: {
+                    required: "Vui lòng nhập Họ và tên",
+                    minlength: "Tên của bạn phải ít nhất 3 kí tự"
+                },
+                ResponsibleName: {
+                    required: "Vui lòng nhập Họ và tên",
+                    minlength: "Tên của bạn phải ít nhất 3 kí tự"
+                },
+                ContactPhone: {
+                    required: "Vui lòng nhập số điện thoại",
+                    digits: "Số điện thoại chỉ bao gồm các kí tự số",
+                    minlength: "Số điện thoại phải có ít nhất 10 số",
+                    maxlength: "Số điện thoại chỉ có thể có tối đa 11 số"
+                },
+
+                EmailContact: {
+                    required: "Vui lòng nhập địa chỉ email",
+                    email: "Địa chỉ email không hợp lệ"
+                },
+                SignDay: {
+                    required: "Vui lòng chọn ngày"
+                }
+
+            },
+        });
+       
+    </script>
 }
 
 

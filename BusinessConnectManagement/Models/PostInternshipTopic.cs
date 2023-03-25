@@ -19,6 +19,7 @@ namespace BusinessConnectManagement.Models
         public Nullable<int> InternshipTopic_ID { get; set; }
         public Nullable<int> Business_ID { get; set; }
     
+        public virtual BusinessUser BusinessUser { get; set; }
         public virtual InternshipTopic InternshipTopic { get; set; }
         public virtual Post Post { get; set; }
     }

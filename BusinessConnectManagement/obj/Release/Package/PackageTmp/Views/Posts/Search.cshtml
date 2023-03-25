@@ -1,0 +1,167 @@
+﻿@model PagedList.IPagedList<BusinessConnectManagement.Models.Post>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Search";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<main>
+    <div id="bg-form">
+        <img class="img-responsive rounded" src="~/assets/User/assets/images/slider.jpg" alt="macOS Yosemite Wallpaper">
+        <div class="form">
+            <div class="container">
+                <form action="">
+                    <div class="columns">
+                        <div class="column col-3 col-sm-12 col-md-6 col-xl-3 mb10 px-0">
+                            <div class="form-group">
+                                <input class="form-input" type="text" id="input-example-1" name="SearchString" placeholder="Tìm việc">
+                            </div>
+                        </div>
+                        <div class="column col-3 col-sm-12 col-md-6 col-xl-3 mb10 px-0">
+                            <div class="form-group">
+                                <select name="Form" class="form-select">
+                                    <option value="">Chọn Hình Thức Thực Tập</option>
+                                    <option value="Online">Online</option>
+                                    <option value="Offline">Offline</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="column col-3 col-sm-12 col-md-6 col-xl-3 mb10 px-0">
+                            <div class="form-group">
+                                <select name="Major" class="form-select">
+                                    <option value="">Chọn Chuyên Nghành</option>
+                                    @foreach (var item in ViewBag.Major)
+                                    {
+                                        <option value="@item.Major1">@item.Major1</option>
+                                    }
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="column col-3 col-sm-12 col-md-6 col-xl-3 mb10 px-0">
+                            <input class="btn btn-error w100" type="submit" value="Tim Kiem" />
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <section id="job">
+        <div class="container">
+            <div class="title-line d-flex justify-center">
+                <h3>Công Việc Tìm Kiếm</h3>
+            </div>
+            <div class="columns pt30">
+                @foreach (var item in Model)
+                {
+                    <div class="column col-6 col-sm-12 col-md-12 col-xl-6 mb10">
+                        <a href="@Url.Action("Details", "Posts",  new { id=item.ID })">
+                            <div class="item d-flex align-middle">
+                                <img src="@Url.Content("~/Uploads/Images/" + item.BusinessUser.BusinessLogo)" alt="image-job">
+                                <div class="content">
+                                    <div class="d-flex align-middle justify-between mb-2">
+                                        <h3 class="text-h4 bold-6 mb-0 ellipsis">@item.Title</h3>
+                                        <div class="chip bg-error">
+                                            <small class="bold-6">Mới Nhất</small>
+                                        </div>
+                                    </div>
+                                    <p class="bold-6 text-italic mb-2">Doanh nghiệp: @item.BusinessUser.BusinessName</p>
+                                    <div class="desc d-flex align-middle mb-2">
+                                        <span class="mb-0 mr10 text-muted">
+                                            <i class="fa-solid fa-location-dot"></i> TP.Hồ
+                                            Chí
+                                            Minh
+                                        </span>
+                                    </div>
+                                    <p class="text-primary bold-6">
+                                        <i>Hạn nộp: 01/01/2023</i>
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+                }
+            </div>
+            <div class="pagination-container" style="float: right">
+                Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+            </div>
+            <div class="center">
+                <div class="pagination-container">
+                    @Html.PagedListPager(Model, page => Url.Action("Search", new { page, SearchString = Request.QueryString["SearchString"], Form = Request.QueryString["Form"], Major = Request.QueryString["Major"] }))
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="news">
+        <div class="container">
+            <div class="title-line d-flex justify-center">
+                <h3>Tin tức & Sự kiện</h3>
+            </div>
+            <div class="columns py20">
+                <div class="column col-4 col-sm-12 col-md-12 col-xl-4 mb10">
+                    <div class="item">
+                        <div class="zoom-small">
+                            <img src="./assets/images/mou1.jpg" alt="mou1">
+                        </div>
+                        <div class="name ellipsis">Tập đoàn Nashtech Global Việt Nam</div>
+                        <p class="summary ellipsis-3 mb-0">
+                            NashTech is part of Harvey Nash Group, the leading global
+                            provider of talent and technology solutions. We are experts in technology, delivering
+                            smart solutions that solve business challenges and create value. Our award-winning teams
+                            apply deep expertise and passion to deliver complex IT projects globally.
+                        </p>
+                        <div class="text-center mt10">
+                            <div class="btn btn-error">
+                                Xem Thêm
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column col-4 col-sm-12 col-md-12 col-xl-4 mb10">
+                    <div class="item">
+                        <div class="zoom-small">
+                            <img src="./assets/images/mou1.jpg" alt="mou1">
+                        </div>
+                        <div class="name ellipsis">Tập đoàn Nashtech Global Việt Nam</div>
+                        <p class="summary ellipsis-3 mb-0">
+                            NashTech is part of Harvey Nash Group, the leading global
+                            provider of talent and technology solutions. We are experts in technology, delivering
+                            smart solutions that solve business challenges and create value. Our award-winning teams
+                            apply deep expertise and passion to deliver complex IT projects globally.
+                        </p>
+                        <div class="text-center mt10">
+                            <div class="btn btn-error">
+                                Xem Thêm
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column col-4 col-sm-12 col-md-12 col-xl-4 mb10">
+                    <div class="item">
+                        <div class="zoom-small">
+                            <img src="./assets/images/mou1.jpg" alt="mou1">
+                        </div>
+                        <div class="name ellipsis">Tập đoàn Nashtech Global Việt Nam</div>
+                        <p class="summary ellipsis-3 mb-0">
+                            NashTech is part of Harvey Nash Group, the leading global
+                            provider of talent and technology solutions. We are experts in technology, delivering
+                            smart solutions that solve business challenges and create value. Our award-winning teams
+                            apply deep expertise and passion to deliver complex IT projects globally.
+                        </p>
+                        <div class="text-center mt10">
+                            <div class="btn btn-error">
+                                Xem Thêm
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+</main>

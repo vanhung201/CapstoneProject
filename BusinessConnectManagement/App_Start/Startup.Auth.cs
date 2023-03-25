@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.Security.Claims;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OpenIdConnect;
@@ -25,22 +26,22 @@ namespace BusinessConnectManagement
             app.UseCookieAuthentication(new CookieAuthenticationOptions());
 
             app.UseOpenIdConnectAuthentication(
-                new OpenIdConnectAuthenticationOptions
-                {
-                    ClientId = clientId,
-                    Authority = authority,
-                    PostLogoutRedirectUri = postLogoutRedirectUri,
+    new OpenIdConnectAuthenticationOptions
+    {
+        ClientId = clientId,
+        Authority = authority,
+        PostLogoutRedirectUri = postLogoutRedirectUri,
+        Notifications = new OpenIdConnectAuthenticationNotifications()
+        {
+            SecurityTokenValidated = (context) =>
+            {
+                string name = context.AuthenticationTicket.Identity.FindFirst("preferred_username").Value;
+                context.AuthenticationTicket.Identity.AddClaim(new Claim(ClaimTypes.Name, name, string.Empty));
+                return System.Threading.Tasks.Task.FromResult(0);
+            }
+        },
+    });
 
-                    Notifications = new OpenIdConnectAuthenticationNotifications()
-                    {
-                        SecurityTokenValidated = (context) =>
-                        {
-                            string name = context.AuthenticationTicket.Identity.FindFirst("preferred_username").Value;
-                            context.AuthenticationTicket.Identity.AddClaim(new Claim(ClaimTypes.Name, name, string.Empty));
-                            return System.Threading.Tasks.Task.FromResult(0);
-                        }
-                    }
-                });
         }
 
         private static string EnsureTrailingSlash(string value)

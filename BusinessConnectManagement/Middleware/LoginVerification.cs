@@ -26,7 +26,7 @@ namespace BusinessConnectManagement.Middleware
         {
             if (filterContext.HttpContext.Session["EmailVLU"] == null)
             {
-                filterContext.Result = new RedirectResult("~/quan-ly");
+                filterContext.Result = new RedirectResult("~/trang-dang-nhap");
                 return;
             }
         }
@@ -38,7 +38,7 @@ namespace BusinessConnectManagement.Middleware
         {
             if (filterContext.HttpContext.Session["EmailVLU"] == null || filterContext.HttpContext.Session["Role"].ToString() != "Admin")
             {
-                filterContext.Result = new RedirectResult("~/quan-ly");
+                filterContext.Result = new RedirectResult("~/trang-dang-nhap");
                 return;
             }
         }
@@ -50,7 +50,7 @@ namespace BusinessConnectManagement.Middleware
         {
             if (filterContext.HttpContext.Session["EmailVLU"] == null || filterContext.HttpContext.Session["Role"].ToString() != "Mentor")
             {
-                filterContext.Result = new RedirectResult("~/quan-ly");
+                filterContext.Result = new RedirectResult("~/trang-dang-nhap");
                 return;
             }
         }
