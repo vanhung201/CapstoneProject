@@ -6,34 +6,49 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đăng Nhập</title>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="~/assets/css/admin/style.css">
-    <link rel="stylesheet" href="~/assets/css/admin/toast.css">
-    <link rel="stylesheet" href="~/assets/css/admin/reset.css">
-    <link rel="stylesheet" href="~/assets/css/admin/global.css">
-    <link rel="shortcut icon" href="~/assets/images/favicon.ico" type="image/x-icon">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v5.15.4/css/all.css">
+        <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;500;600;700&display=swap"
+              rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+        <link href="~/assets/css/admin/reset.css" rel="stylesheet" />
+        <link href="~/assets/css/admin/global.css" rel="stylesheet" />
+        <link href="~/assets/css/admin/layout.css" rel="stylesheet" />
+        <link href="~/assets/css/index.css" rel="stylesheet" />
+        <link href="~/assets/css/admin/style.css" rel="stylesheet" />
+        <link href="~/assets/css/admin/toast.css" rel="stylesheet" />
+        <link rel="shortcut icon" href="~/assets/images/favicon.ico" type="image/x-icon">
+        <script src="~/assets/js/index.js"></script>
+    </head>
 </head>
 
 <body>
-    <section class="option">
+    <section class="login">
+        <p class="login-info">Phần mềm<br><span>Quản lý kết nối doanh nghiệp</span></p>
+        <h2 class="login-heading">Trang dành cho Quản Trị</h2>
+        <div class="login-wrap">
+            <img src="~/assets/images/logoVL.png" alt="" class="login-image">
+            <p class="login-desc">Văn Lang</p>
+            <a href="@Url.Action("SignIn", "Account")" class="login-link">Đăng nhập</a>
+        </div>
+        <p class="login-more">&#169; 2022 - Bản Quyền Thuộc Khoa CNTT - Trường Đại học Văn Lang</p>
+    </section>
+   @* <section class="option">
         <p class="option-info">Phần mềm<br><span>Business Connection Management</span></p>
         <h2 class="option-heading">Trang Quản Trị</h2>
         <div class="option-wrap">
             <img src="~/assets/images/logoVL.png" alt="logoVL.png" class="option-image">
             <p class="option-desc">Văn Lang</p>
-            <a href="@Url.Action("SignIn", "Account")" class="option-link">Đăng nhập</a>
+            <a href="" class="option-link">Đăng nhập</a>
         </div>
 
         <p class="option-more">&#169; 2022 - Bản Quyền Thuộc Khoa CNTT - Trường Đại học Văn Lang</p>
 
-    </section>
+    </section>*@
 
     @if (Convert.ToBoolean(Session["AccountBlocked"]) == true)
     {
@@ -54,8 +69,18 @@
             </div>
         </div>
     }
-    
-    <script src="~/assets/js/index.js"></script>
 
-    </body>
+   
+    <script>
+       
+        function remove() {
+            let toast = document.querySelector(".toast");
+            document.querySelector(".toast-right").addEventListener("click", () => {
+                toast.remove();
+            });
+
+        }
+    </script>
+</body>
+
 </html>

@@ -1,646 +1,206 @@
-﻿@{
-    Layout = null;
+﻿
+@model PagedList.IPagedList<BusinessConnectManagement.Models.Post>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="~/assets/User/assets/css/font/fontawesome/css/all.css">
-    <link rel="stylesheet" href="~/assets/User/assets/css/spectre/spectre.min.css">
-    <link rel="stylesheet" href="~/assets/User/assets/css/spectre/spectre-exp.min.css">
-    <link rel="stylesheet" href="~/assets/User/assets/css/spectre/spectre-icons.min.css">
-    <link rel="stylesheet" href="~/assets/User/assets/css/animation.css">
-    <link rel="stylesheet" href="~/assets/User/assets/css/style.css">
-    <link rel="stylesheet" href="~/assets/User/assets/css/custom.css">
-    <link rel="shortcut icon" href="~/assets/images/favicon.ico" type="image/x-icon">
-    <title>FIT - Trang chủ</title>
-</head>
-
-<body>
-    <header>
-        <div id="header-desktop" class="main-bg-color d-block d-none-sm d-none-md d-none-xl">
+<main>
+    <!---------------------------------------------------
+    // Slider :
+    //----------------------------------------------->
+    <div id="slider">
+        <!-- carousel locator -->
+        <video id="video-background" autoplay muted loop>
+            <source src="https://vhub.vanlanguni.edu.vn/images/banner1.mp4" type="video/mp4">
+        </video>
+        <div class="form">
             <div class="container">
-                <div class="d-flex align-middle justify-between">
-                    <div class="logo">
-                        <a href="#">
-                            <img src="~/assets/User/assets/images/logo.png" alt="logo">
-                        </a>
+                <form id="Search" action="">
+                    <div class="columns">
+                        <div class="column col-3 col-sm-12 col-md-6 col-xl-3 mb10 px-0">
+                            <div class="form-group">
+                                <input class="form-input" type="text" id="searchString" name="SearchString" placeholder="Tìm việc">
+                            </div>
+                        </div>
+                        <div class="column col-3 col-sm-12 col-md-6 col-xl-3 mb10 px-0">
+                            <div class="form-group">
+                                <select id="Major" name="Major" class="form-select">
+                                    <option value="Công nghệ phần mềm">Công nghệ phần mềm</option>
+                                    <option value="Công nghệ dữ liệu">Công nghệ dữ liệu</option>
+                                    <option value="Tin học quản trị">Tin học quản trị</option>
+                                    <option value="An ninh Mạng">An ninh Mạng</option>
+                                    <option value="Hệ thống Thông tin"></option>
+                                    <option value=""></option>
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="column col-3 col-sm-12 col-md-6 col-xl-3 mb10 px-0">
+                            <div class="form-group">
+                                <select id="Form" name="Form" class="form-select">
+                                    <option value="">Chọn Hình Thức Thực Tập</option>
+                                    <option value="Online">Online</option>
+                                    <option value="Offline">Offline</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="column col-3 col-sm-12 col-md-6 col-xl-3 mb10 px-0">
+                            <button class="btn btn-error w100" onclick="insertParam()">Tim Kiem</button>
+                        </div>
                     </div>
-                    <div id="main-menu">
-                        <ul class="d-flex align-middle justify-center">
-                            <li class="item">
-                                <a href="#">Trang chủ</a>
-                            <li class="item">
-                                <a href="#">Giới thiệu</a>
-                            <li class="item">
-                                <a href="#">Danh mục 1</a>
-                            <li class="item">
-                                <a href="#">Danh mục 2</a>
-                            <li class="item">
-                                <a href="#">Danh mục 3</a>
-                            <li class="item">
-                                <a href="#">Tin tức</a>
-                            </li>
-                            <li class="item">
-                                <a href="#">Liên hệ</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="user">
-                        <a href="#">
-                            <img src="~/assets/User/assets/images/user.png" alt="user">
-                        </a>
-                    </div>
-                </div>
+                </form>
             </div>
         </div>
-        <div id="header-mobile" class="main-bg-color d-none d-sm d-md d-xl">
-            <div class="container">
-                <div class="d-flex align-middle justify-between">
-                    <div class="sidebar">
-                        <i class="fa-solid fa-bars"></i>
-                    </div>
-                    <div class="logo">
-                        <a href="#">
-                            <img src="~/assets/User/assets/images/logo.png" alt="logo">
-                        </a>
-                    </div>
-                    <div class="user">
-                        <a href="#">
-                            <img src="~/assets/User/assets/images/user.png" alt="user">
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
+    </div>
 
-    <main>
-        <!---------------------------------------------------
-        // Slider :
-        //----------------------------------------------->
-        <div id="slider" class="carousel">
-            <!-- carousel locator -->
-            <input class="carousel-locator" id="slide-1" type="radio" name="carousel-radio" hidden="" checked="">
-            <input class="carousel-locator" id="slide-2" type="radio" name="carousel-radio" hidden="">
-
-            <!-- carousel container -->
-            <div class="carousel-container">
-                <!-- carousel item -->
-                <figure class="carousel-item">
-                    <label class="item-prev btn btn-action btn-lg" for="slide-4">
-                        <i class="icon icon-arrow-left"></i>
-                    </label>
-                    <label class="item-next btn btn-action btn-lg" for="slide-2">
-                        <i class="icon icon-arrow-right"></i>
-                    </label>
-                    <img class="img-responsive rounded" src="~/assets/User/assets/images/slider.jpg" alt="macOS Yosemite Wallpaper">
-                </figure>
-                <figure class="carousel-item">
-                    <label class="item-prev btn btn-action btn-lg" for="slide-1">
-                        <i class="icon icon-arrow-left"></i>
-                    </label>
-                    <label class="item-next btn btn-action btn-lg" for="slide-3">
-                        <i class="icon icon-arrow-right"></i>
-                    </label>
-                    <img class="img-responsive rounded" src="~/assets/User/assets/images/slider2.jpg"
-                         alt="macOS Yosemite Wallpaper">
-                </figure>
-            </div>
-            <!-- carousel navigation -->
-            <div class="carousel-nav">
-                <label class="nav-item text-hide c-hand" for="slide-1">1</label>
-                <label class="nav-item text-hide c-hand" for="slide-2">2</label>
-            </div>
-        </div>
-
-        <!---------------------------------------------------
-        // Số liệu :
-        //----------------------------------------------->
-        <section id="intro-home" class="">
-            <div class="container">
-                <div class="columns scroll-mobile">
-                    <div class="column col-4 col-sm-12 col-md-9 col-xl-4">
-                        <div class="item d-flex align-middle justify-center">
-                            <div class="text-center bg-error s-circle mr20">
-                                <i class="fa-solid fa-user fa-2x"></i>
-                            </div>
-                            <div class="">
-                                <p class="text-h1 mb-0 text-error">+1,400</p>
-                                <p>Sinh viên</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column col-4 col-sm-12 col-md-9 col-xl-4">
-                        <div class="item d-flex align-middle justify-center">
-                            <div class="text-center bg-primary s-circle mr20">
-                                <i class="fa-regular fa-newspaper fa-2x"></i>
-                            </div>
-                            <div class="">
-                                <p class="text-h1 mb-0 text-primary">+200</p>
-                                <p>Tin tuyển dụng hiện có</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column col-4 col-sm-12 col-md-9 col-xl-4">
-                        <div class="item d-flex align-middle justify-center">
-                            <div class="text-center main-bg-color s-circle mr20">
-                                <i class="fa-solid fa-briefcase fa-2x"></i>
-                            </div>
-                            <div class="">
-                                <p class="text-h1 mb-0 main-text-color">+1000</p>
-                                <p>Công ty</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-
-        <section id="banner">
-            <div class="container">
-                <div class="zoom-small">
-                    <img src="../assets/User/assets/images/banner1.jpg" alt="banner" />
-                </div>
-            </div>
-        </section>
-
-        <section id="job">
-            <div class="container">
-                <div class="title-line d-flex justify-center">
-                    <h3>Công việc nổi bật</h3>
-                </div>
-                <div class="columns pt30">
-                    <div class="column col-6 col-sm-12 col-md-12 col-xl-6 mb10">
-                        <div class="item d-flex align-middle">
-                            <img src="../assets/User/assets/images/image-job.png" alt="image-job">
-                            <div class="content">
-                                <div class="d-flex align-middle justify-between mb-2">
-                                    <h3 class="text-h4 bold-6 mb-0 ellipsis">Kỹ sư xây dựng</h3>
-                                    <div class="chip bg-error">
-                                        <small class="bold-6">Nổi bật</small>
-                                    </div>
-                                </div>
-                                <p class="bold-6 text-italic mb-2">Công ty ABC</p>
-                                <div class="desc d-flex align-middle mb-2">
-                                    <span class="mb-0 mr10 text-error">
-                                        <i class="fa-solid fa-briefcase"></i> Xây
-                                        dựng
-                                    </span>
-                                    <span class="mb-0 mr10 text-success">
-                                        <i class="fa-solid fa-tag"></i>
-                                        Fresher
-                                    </span>
-                                    <span class="mb-0 mr10 text-warning">
-                                        <i class="fa-solid fa-tag"></i>
-                                        Fulltime
-                                    </span>
-                                    <span class="mb-0 mr10 text-muted">
-                                        <i class="fa-solid fa-location-dot"></i> TP.Hồ
-                                        Chí
-                                        Minh
-                                    </span>
-                                </div>
-                                <p class="text-primary bold-6">
-                                    <i>Hạn nộp: 01/01/2023</i>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column col-6 col-sm-12 col-md-12 col-xl-6 mb10">
-                        <div class="item d-flex align-middle">
-                            <img src="../assets/User/assets/images/image-job.png" alt="image-job">
-                            <div class="content">
-                                <div class="d-flex align-middle justify-between mb-2">
-                                    <h3 class="text-h4 bold-6 mb-0 ellipsis">Kỹ sư xây dựng</h3>
-                                    <div class="chip bg-error">
-                                        <small class="bold-6">Nổi bật</small>
-                                    </div>
-                                </div>
-                                <p class="bold-6 text-italic mb-2">Công ty ABC</p>
-                                <div class="desc d-flex align-middle mb-2">
-                                    <span class="mb-0 mr10 text-error">
-                                        <i class="fa-solid fa-briefcase"></i> Xây
-                                        dựng
-                                    </span>
-                                    <span class="mb-0 mr10 text-success">
-                                        <i class="fa-solid fa-tag"></i>
-                                        Fresher
-                                    </span>
-                                    <span class="mb-0 mr10 text-warning">
-                                        <i class="fa-solid fa-tag"></i>
-                                        Fulltime
-                                    </span>
-                                    <span class="mb-0 mr10 text-muted">
-                                        <i class="fa-solid fa-location-dot"></i> TP.Hồ
-                                        Chí
-                                        Minh
-                                    </span>
-                                </div>
-                                <p class="text-primary bold-6">
-                                    <i>Hạn nộp: 01/01/2023</i>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column col-6 col-sm-12 col-md-12 col-xl-6 mb10">
-                        <div class="item d-flex align-middle">
-                            <img src="../assets/User/assets/images/image-job.png" alt="image-job">
-                            <div class="content">
-                                <div class="d-flex align-middle justify-between mb-2">
-                                    <h3 class="text-h4 bold-6 mb-0 ellipsis">Kỹ sư xây dựng</h3>
-                                    <div class="chip bg-error">
-                                        <small class="bold-6">Nổi bật</small>
-                                    </div>
-                                </div>
-                                <p class="bold-6 text-italic mb-2">Công ty ABC</p>
-                                <div class="desc d-flex align-middle mb-2">
-                                    <span class="mb-0 mr10 text-error">
-                                        <i class="fa-solid fa-briefcase"></i> Xây
-                                        dựng
-                                    </span>
-                                    <span class="mb-0 mr10 text-success">
-                                        <i class="fa-solid fa-tag"></i>
-                                        Fresher
-                                    </span>
-                                    <span class="mb-0 mr10 text-warning">
-                                        <i class="fa-solid fa-tag"></i>
-                                        Fulltime
-                                    </span>
-                                    <span class="mb-0 mr10 text-muted">
-                                        <i class="fa-solid fa-location-dot"></i> TP.Hồ
-                                        Chí
-                                        Minh
-                                    </span>
-                                </div>
-                                <p class="text-primary bold-6">
-                                    <i>Hạn nộp: 01/01/2023</i>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column col-6 col-sm-12 col-md-12 col-xl-6 mb10">
-                        <div class="item d-flex align-middle">
-                            <img src="../assets/User/assets/images/image-job.png" alt="image-job">
-                            <div class="content">
-                                <div class="d-flex align-middle justify-between mb-2">
-                                    <h3 class="text-h4 bold-6 mb-0 ellipsis">Kỹ sư xây dựng</h3>
-                                    <div class="chip bg-error">
-                                        <small class="bold-6">Nổi bật</small>
-                                    </div>
-                                </div>
-                                <p class="bold-6 text-italic mb-2">Công ty ABC</p>
-                                <div class="desc d-flex align-middle mb-2">
-                                    <span class="mb-0 mr10 text-error">
-                                        <i class="fa-solid fa-briefcase"></i> Xây
-                                        dựng
-                                    </span>
-                                    <span class="mb-0 mr10 text-success">
-                                        <i class="fa-solid fa-tag"></i>
-                                        Fresher
-                                    </span>
-                                    <span class="mb-0 mr10 text-warning">
-                                        <i class="fa-solid fa-tag"></i>
-                                        Fulltime
-                                    </span>
-                                    <span class="mb-0 mr10 text-muted">
-                                        <i class="fa-solid fa-location-dot"></i> TP.Hồ
-                                        Chí
-                                        Minh
-                                    </span>
-                                </div>
-                                <p class="text-primary bold-6">
-                                    <i>Hạn nộp: 01/01/2023</i>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column col-6 col-sm-12 col-md-12 col-xl-6 mb10">
-                        <div class="item d-flex align-middle">
-                            <img src="../assets/User/assets/images/image-job.png" alt="image-job">
-                            <div class="content">
-                                <div class="d-flex align-middle justify-between mb-2">
-                                    <h3 class="text-h4 bold-6 mb-0 ellipsis">Kỹ sư xây dựng</h3>
-                                    <div class="chip bg-error">
-                                        <small class="bold-6">Nổi bật</small>
-                                    </div>
-                                </div>
-                                <p class="bold-6 text-italic mb-2">Công ty ABC</p>
-                                <div class="desc d-flex align-middle mb-2">
-                                    <span class="mb-0 mr10 text-error">
-                                        <i class="fa-solid fa-briefcase"></i> Xây
-                                        dựng
-                                    </span>
-                                    <span class="mb-0 mr10 text-success">
-                                        <i class="fa-solid fa-tag"></i>
-                                        Fresher
-                                    </span>
-                                    <span class="mb-0 mr10 text-warning">
-                                        <i class="fa-solid fa-tag"></i>
-                                        Fulltime
-                                    </span>
-                                    <span class="mb-0 mr10 text-muted">
-                                        <i class="fa-solid fa-location-dot"></i> TP.Hồ
-                                        Chí
-                                        Minh
-                                    </span>
-                                </div>
-                                <p class="text-primary bold-6">
-                                    <i>Hạn nộp: 01/01/2023</i>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column col-6 col-sm-12 col-md-12 col-xl-6 mb10">
-                        <div class="item d-flex align-middle">
-                            <img src="../assets/User/assets/images/image-job.png" alt="image-job">
-                            <div class="content">
-                                <div class="d-flex align-middle justify-between mb-2">
-                                    <h3 class="text-h4 bold-6 mb-0 ellipsis">Kỹ sư xây dựng</h3>
-                                    <div class="chip bg-error">
-                                        <small class="bold-6">Nổi bật</small>
-                                    </div>
-                                </div>
-                                <p class="bold-6 text-italic mb-2">Công ty ABC</p>
-                                <div class="desc d-flex align-middle mb-2">
-                                    <span class="mb-0 mr10 text-error">
-                                        <i class="fa-solid fa-briefcase"></i> Xây
-                                        dựng
-                                    </span>
-                                    <span class="mb-0 mr10 text-success">
-                                        <i class="fa-solid fa-tag"></i>
-                                        Fresher
-                                    </span>
-                                    <span class="mb-0 mr10 text-warning">
-                                        <i class="fa-solid fa-tag"></i>
-                                        Fulltime
-                                    </span>
-                                    <span class="mb-0 mr10 text-muted">
-                                        <i class="fa-solid fa-location-dot"></i> TP.Hồ
-                                        Chí
-                                        Minh
-                                    </span>
-                                </div>
-                                <p class="text-primary bold-6">
-                                    <i>Hạn nộp: 01/01/2023</i>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-
-        <section id="banners" class="p-banner bg-white">
-            <!-- <pre>{{pos_banners}}</pre> -->
+    <!---------------------------------------------------
+    // Số liệu :
+    //----------------------------------------------->
+    @*<section id="featured-icon" style="background-image: url(https://vhub.vanlanguni.edu.vn/images/stat.jpg);">
             <div class="container">
                 <div class="columns">
+                    <div class="column col-4">
+                        <div class="text-center">
+                            <img src="/assets/User/assets/images/user.png" alt="logo">
+                            <h3>@ViewBag.CountStudent</h3>
+                            <p>Sinh viên</p>
+                        </div>
+                    </div>
+                    <div class="column col-4">
+                        <div class="text-center">
+                            <img src="/assets/User/assets/images/paper.png" alt="paper"/>
+                            <h3>@ViewBag.CountPost</h3>
+                            <p>Tin tuyển dụng</p>
+                        </div>
+                    </div>
+                    <div class="column col-4">
+                        <div class="text-center">
+                            <img src="/assets/User/assets/images/company.png"  alt="company"/>
+                            <h3>@ViewBag.CountBusiness</h3>
+                            <p>Công ty</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>*@
+
+
+
+
+    <section id="job">
+        <div class="container">
+            <div class="title-home">
+                <h3>Công việc nổi bật</h3>
+                <a href="@Url.Action("Index", "Posts")">Xem thêm</a>
+            </div>
+
+            <div class="columns pt30">
+                @foreach (var item in Model)
+                {
                     <div class="column col-6 col-sm-12 col-md-12 col-xl-6 mb10">
-                        <div class="left wrapper-banner">
-                            <img class="shadow rounded w100" src="~/assets/User/assets/images/banner1.jpg" :alt="site.keywords" />
-                            <div class="line-hover"></div>
-                        </div>
+                        <a href="@Url.Action("Details", "Posts",  new { id=item.ID })">
+                            <div class="item d-flex align-middle">
+                                <img src="@Url.Content("~/Uploads/Images/" + item.BusinessUser.BusinessLogo)" alt="image-job">
+                                <div class="content">
+                                    <div class="d-flex align-middle justify-between mb-2">
+                                        <h3 class="text-h4 bold-6 mb-0 ellipsis">@item.Title</h3>
+                                        <div class="chip bg-error">
+                                            <small class="bold-6">Nổi bật</small>
+                                        </div>
+                                    </div>
+                                    <p class="bold-6 text-italic mb-2">@item.BusinessUser.BusinessName</p>
+                                    <div class="desc d-flex align-middle mb-2">
+                                        <span class="mb-0 mr10 text-muted">
+                                            <i class="fa-solid fa-location-dot"></i> TP.Hồ
+                                            Chí
+                                            Minh
+                                        </span>
+                                    </div>
+                                    <p class="text-primary bold-6">
+                                        <i>Hạn nộp: 01/01/2023</i>
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+
                     </div>
-                    <div class="column col-6 col-sm-12 col-md-12 col-xl-6 mb10">
-                        <div class="left wrapper-banner">
-                            <img class="shadow rounded w100" src="~/assets/User/assets/images/banner1.jpg" :alt="site.keywords" />
-                            <div class="line-hover"></div>
-                        </div>
+                }
+            </div>
+            <div class="pagination-container">
+                Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+
+              
+                @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+            </div>
+        </div>
+    </section>
+
+    <section id="employer" class="mb30">
+        <div class="container">
+            <div class="title-home mb30">
+                <h3>Nhà tuyển dụng hàng đầu</h3>
+            </div>
+
+            <div class="slider mt30">
+                <div class="slide-track">
+                    <div class="slide">
+                        <img src="/assets/User/assets/images/td1.jpg" alt="employer" />
+
+                    </div>
+                    <div class="slide">
+                        <img src="/assets/User/assets/images/td2.jpg" alt="employer" />
+                    </div>
+                    <div class="slide">
+                        <img src="/assets/User/assets/images/td3.jpg" alt="employer" />
+                    </div>
+                    <div class="slide">
+                        <img src="/assets/User/assets/images/td1.jpg" alt="employer" />
+                    </div>
+                    <div class="slide">
+                        <img src="/assets/User/assets/images/td2.jpg" alt="employer" />
+                    </div>
+                    <div class="slide">
+                        <img src="/assets/User/assets/images/td3.jpg" alt="employer" />
+                    </div>
+                    <div class="slide">
+                        <img src="/assets/User/assets/images/td1.jpg" alt="employer" />
+                    </div>
+                    <div class="slide">
+                        <img src="/assets/User/assets/images/td2.jpg" alt="employer" />
+                    </div>
+                    <div class="slide">
+                        <img src="/assets/User/assets/images/td3.jpg" alt="employer" />
+                    </div>
+                    <div class="slide">
+                        <img src="/assets/User/assets/images/td1.jpg" alt="employer" />
+                    </div>
+                    <div class="slide">
+                        <img src="/assets/User/assets/images/td2.jpg" alt="employer" />
+                    </div>
+                    <div class="slide">
+                        <img src="/assets/User/assets/images/td3.jpg" alt="employer" />
                     </div>
                 </div>
             </div>
-        </section>
 
-        <section id="mou">
-            <div class="container">
-                <div class="title-line d-flex justify-center">
-                    <h3>MOU</h3>
-                </div>
-                <div class="columns py20">
-                    <div class="column col-4 col-sm-12 col-md-12 col-xl-4 mb10">
-                        <div class="item">
-                            <div class="zoom-small">
-                                <img src="~/assets/User/assets/images/mou1.jpg" alt="mou1">
-                            </div>
-                            <div class="py-2 d-flex align-middle scroll-mobile">
-                                <small class="bold-6 bg-success rounded mr10 px-2 py-1">Công nghệ thông tin</small>
-                                <small class="bold-6 bg-success rounded mr10 px-2 py-1">Marketing</small>
-                                <small class="bold-6 bg-success rounded mr10 px-2 py-1">XNK</small>
-                            </div>
-                            <div class="name ellipsis">Tập đoàn Nashtech Global Việt Nam</div>
-                            <p class="summary ellipsis-3 mb-0">
-                                NashTech is part of Harvey Nash Group, the leading global
-                                provider of talent and technology solutions. We are experts in technology, delivering
-                                smart solutions that solve business challenges and create value. Our award-winning teams
-                                apply deep expertise and passion to deliver complex IT projects globally.
-                            </p>
-                            <div class="text-center mt10">
-                                <div class="btn btn-error">
-                                    Xem Thêm
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column col-4 col-sm-12 col-md-12 col-xl-4 mb10">
-                        <div class="item">
-                            <div class="zoom-small">
-                                <img src="~/assets/User/assets/images/mou1.jpg" alt="mou1">
-                            </div>
-                            <div class="py-2 d-flex align-middle scroll-mobile">
-                                <small class="bold-6 bg-success rounded mr10 px-2 py-1">Công nghệ thông tin</small>
-                                <small class="bold-6 bg-success rounded mr10 px-2 py-1">Marketing</small>
-                                <small class="bold-6 bg-success rounded mr10 px-2 py-1">XNK</small>
-                            </div>
-                            <div class="name ellipsis">Tập đoàn Nashtech Global Việt Nam</div>
-                            <p class="summary ellipsis-3 mb-0">
-                                NashTech is part of Harvey Nash Group, the leading global
-                                provider of talent and technology solutions. We are experts in technology, delivering
-                                smart solutions that solve business challenges and create value. Our award-winning teams
-                                apply deep expertise and passion to deliver complex IT projects globally.
-                            </p>
-                            <div class="text-center mt10">
-                                <div class="btn btn-error">
-                                    Xem Thêm
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column col-4 col-sm-12 col-md-12 col-xl-4 mb10">
-                        <div class="item">
-                            <div class="zoom-small">
-                                <img src="~/assets/User/assets/images/mou1.jpg" alt="mou1">
-                            </div>
-                            <div class="py-2 d-flex align-middle scroll-mobile">
-                                <small class="bold-6 bg-success rounded mr10 px-2 py-1">Công nghệ thông tin</small>
-                                <small class="bold-6 bg-success rounded mr10 px-2 py-1">Marketing</small>
-                                <small class="bold-6 bg-success rounded mr10 px-2 py-1">XNK</small>
-                            </div>
-                            <div class="name ellipsis">Tập đoàn Nashtech Global Việt Nam</div>
-                            <p class="summary ellipsis-3 mb-0">
-                                NashTech is part of Harvey Nash Group, the leading global
-                                provider of talent and technology solutions. We are experts in technology, delivering
-                                smart solutions that solve business challenges and create value. Our award-winning teams
-                                apply deep expertise and passion to deliver complex IT projects globally.
-                            </p>
-                            <div class="text-center mt10">
-                                <div class="btn btn-error">
-                                    Xem Thêm
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="employer">
-            <div class="container">
-                <div class="title-line d-flex justify-center">
-                    <h3>Nhà tuyển dụng hàng đầu</h3>
-                </div>
+</main>
 
-                <div class="columns align-middle justify-center py20">
-                    <div class="column col-3 col-sm-6 col-md-6 col-xl-4 mb10">
-                        <div class="item">
-                            <img src="~/assets/User/assets/images/td1.jpg" alt="">
-                        </div>
-                    </div>
-                    <div class="column col-3 col-sm-6 col-md-6 col-xl-4 mb10">
-                        <div class="item">
-                            <img src="~/assets/User/assets/images/td2.jpg" alt="">
-                        </div>
-                    </div>
-                    <div class="column col-3 col-sm-6 col-md-6 col-xl-4 mb10">
-                        <div class="item">
-                            <img src="~/assets/User/assets/images/td3.jpg" alt="">
-                        </div>
-                    </div>
-                    <div class="column col-3 col-sm-6 col-md-6 col-xl-4 mb10">
-                        <div class="item">
-                            <img src="~/assets/User/assets/images/td1.jpg" alt="">
-                        </div>
-                    </div>
-                </div>
-                <div class="mt10 text-center">
-                    <div class="btn btn-error">
-                        Xem Thêm
-                    </div>
-                </div>
-            </div>
-        </section>
+@section Scripts {
+    <script>
+        function insertParam() {
+            searchString = document.getElementById("searchString").value;
+            form = document.getElementById("Form").value;
+            console.log(searchString)
 
-
-        <section id="news">
-            <div class="container">
-                <div class="title-line d-flex justify-center">
-                    <h3>Tin tức & Sự kiện</h3>
-                </div>
-                <div class="columns py20">
-                    <div class="column col-4 col-sm-12 col-md-12 col-xl-4 mb10">
-                        <div class="item">
-                            <div class="zoom-small">
-                                <img src="~/assets/User/assets/images/mou1.jpg" alt="mou1">
-                            </div>
-                            <div class="name ellipsis">Tập đoàn Nashtech Global Việt Nam</div>
-                            <p class="summary ellipsis-3 mb-0">
-                                NashTech is part of Harvey Nash Group, the leading global
-                                provider of talent and technology solutions. We are experts in technology, delivering
-                                smart solutions that solve business challenges and create value. Our award-winning teams
-                                apply deep expertise and passion to deliver complex IT projects globally.
-                            </p>
-                            <div class="text-center mt10">
-                                <div class="btn btn-error">
-                                    Xem Thêm
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column col-4 col-sm-12 col-md-12 col-xl-4 mb10">
-                        <div class="item">
-                            <div class="zoom-small">
-                                <img src="~/assets/User/assets/images/mou1.jpg" alt="mou1">
-                            </div>
-                            <div class="name ellipsis">Tập đoàn Nashtech Global Việt Nam</div>
-                            <p class="summary ellipsis-3 mb-0">
-                                NashTech is part of Harvey Nash Group, the leading global
-                                provider of talent and technology solutions. We are experts in technology, delivering
-                                smart solutions that solve business challenges and create value. Our award-winning teams
-                                apply deep expertise and passion to deliver complex IT projects globally.
-                            </p>
-                            <div class="text-center mt10">
-                                <div class="btn btn-error">
-                                    Xem Thêm
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column col-4 col-sm-12 col-md-12 col-xl-4 mb10">
-                        <div class="item">
-                            <div class="zoom-small">
-                                <img src="~/assets/User/assets/images/mou1.jpg" alt="mou1">
-                            </div>
-                            <div class="name ellipsis">Tập đoàn Nashtech Global Việt Nam</div>
-                            <p class="summary ellipsis-3 mb-0">
-                                NashTech is part of Harvey Nash Group, the leading global
-                                provider of talent and technology solutions. We are experts in technology, delivering
-                                smart solutions that solve business challenges and create value. Our award-winning teams
-                                apply deep expertise and passion to deliver complex IT projects globally.
-                            </p>
-                            <div class="text-center mt10">
-                                <div class="btn btn-error">
-                                    Xem Thêm
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <footer class="bg-dark">
-            <div class="container">
-                <div class="columns py20">
-                    <div class="column col-3 col-sm-12 col-md-6 col-xl-6 mb10">
-                        <div class="logo text-center">
-                            <img src="~/assets/User/assets/images/logo.png" alt="logo">
-                        </div>
-                    </div>
-                    <div class="column col-4 col-sm-12 col-md-6 col-xl-6 mb10">
-                        <div class="title-ft">Truy cập nhanh</div>
-                        <ul>
-                            <li><a href="#">Giới thiệu</a></li>
-                            <li><a href="#">Danh mục 1</a></li>
-                            <li><a href="#">Danh mục 2</a></li>
-                            <li><a href="#">Danh mục 3</a></li>
-                            <li><a href="#">Tin tức</a></li>
-                            <li><a href="#">Liên hệ</a></li>
-                        </ul>
-                    </div>
-                    <div class="column col-5 col-sm-12 col-md-12 col-xl-12 mb10">
-                        <div class="title-ft">Trường Đại Học Văn Lang</div>
-                        <ul>
-                            <li><strong>Trụ sở:</strong> 45 Nguyễn Khắc Nhu, P. Cô Giang, Q.1, Tp. HCM</li>
-                            <li><strong>Cơ sở 2:</strong> 80/68 Dương Quảng Hàm, P.5, Q. Gò Vấp, Tp. HCM</li>
-                            <li><strong>Cơ sở 3:</strong> 69/68 Đặng Thùy Trâm, P. 13, Q. Bình Thạnh, Tp. HCM</li>
-                            <li><strong>Văn phòng:</strong> P. 2.02, Tòa nhà LV (Cơ sở 3)</li>
-                            <li><strong>Liên hệ :</strong> qhdn@vanlanguni.edu.vn - (028) 71099 224</li>
-                        </ul>
-
-                    </div>
-                </div>
-            </div>
-        </footer>
-    </main>
-
-</body>
-
-</html>
+            const actionUrl = `@Url.Action("Search", "Posts")`;
+            console.log(actionUrl)
+            $('#Search').attr('action', `${actionUrl}`)
+        }
+    </script>
+}

@@ -35,14 +35,14 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
         {
             var sv_failed = db.Registrations.Where(x => x.Semester_ID == selectedSemesterId && x.StatusInternview == "Rớt Phỏng Vấn").Count();
             var sv_passed = db.Registrations.Where(x => x.Semester_ID == selectedSemesterId && x.StatusInternview == "Đậu Phỏng Vấn").Count();
-            var sv_praticing = db.InternshipResults.Where(x => x.Semester_ID == selectedSemesterId && x.Status == "Đang Thực Tập").Count();
+            var sv_practicing = db.InternshipResults.Where(x => x.Semester_ID == selectedSemesterId && x.Status == "Đang Thực Tập").Count();
             var sv_pending = db.InternshipResults.Where(x => x.Semester_ID == selectedSemesterId && x.Status == "Chờ Xác Nhận").Count();
             var sv_completed = db.InternshipResults.Where(x => x.Semester_ID == selectedSemesterId && x.Status == "Thực Tập Xong").Count();
             return Json(new
             {
                 sv_failed = sv_failed,
                 sv_passed = sv_passed,
-                sv_praticing = sv_praticing,
+                sv_practicing = sv_practicing,
                 sv_pending = sv_pending,
                 sv_completed = sv_completed,
             }, JsonRequestBehavior.AllowGet);

@@ -22,7 +22,7 @@ namespace BusinessConnectManagement.Controllers
                          select post).OrderBy(x => x.ID);
 
 
-            int pageSize = 5;
+            int pageSize = 6;
 
             int pageNumber = (page ?? 1);
 
@@ -30,10 +30,15 @@ namespace BusinessConnectManagement.Controllers
             ViewBag.CountStudent = db.VanLangUsers.Count();
             ViewBag.CountPost = db.Posts.Count();
             ViewBag.CountBusiness = db.BusinessUsers.Count();
-
+            ViewBag.MOU = db.MOUs.ToList();
             return View(posts.ToPagedList(pageNumber, pageSize));
         }
         public ActionResult Contact()
+        {
+            return View();
+        }
+
+        public ActionResult Position()
         {
             return View();
         }

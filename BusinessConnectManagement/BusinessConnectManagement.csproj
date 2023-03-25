@@ -1277,13 +1277,16 @@
     <Content Include="assets\User\assets\css\spectre\spectre.min.css" />
     <Content Include="assets\User\assets\css\style.css" />
     <Content Include="assets\User\assets\css\style2.css" />
+    <Content Include="assets\User\assets\css\topic.css" />
     <Content Include="assets\User\assets\images\banner-bg.png" />
     <Content Include="assets\User\assets\images\banner1.jpg" />
     <Content Include="assets\User\assets\images\bg-bread.png" />
     <Content Include="assets\User\assets\images\bg-vanlang.jpg" />
+    <Content Include="assets\User\assets\images\bg.jpg" />
     <Content Include="assets\User\assets\images\company.png" />
     <Content Include="assets\User\assets\images\exp.png" />
     <Content Include="assets\User\assets\images\files.png" />
+    <Content Include="assets\User\assets\images\HR.gif" />
     <Content Include="assets\User\assets\images\image-job.png" />
     <Content Include="assets\User\assets\images\logo.png" />
     <Content Include="assets\User\assets\images\logo2.png" />
@@ -1448,6 +1451,9 @@
     <Content Include="Areas\Faculty\Views\Semesters\Index.cshtml" />
     <Content Include="Areas\Faculty\Views\Semesters\Update.cshtml" />
     <Content Include="Areas\Admin\Views\AdminHome\ImportData.cshtml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\FTPProfile1.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -1495,6 +1501,8 @@
     <Content Include="Views\InternshipResults\Index.cshtml" />
     <Content Include="Views\AccountOfStudent\InformationStudent.cshtml" />
     <Content Include="Views\Shared\_LayoutHeaderOnly.cshtml" />
+    <Content Include="Views\Account\Information.cshtml" />
+    <Content Include="Views\Home\Position.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

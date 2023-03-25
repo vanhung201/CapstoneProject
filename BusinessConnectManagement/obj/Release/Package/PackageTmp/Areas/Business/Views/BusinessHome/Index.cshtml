@@ -1,14 +1,179 @@
-﻿@{
+﻿@using BusinessConnectManagement.Models;
+@{
     ViewBag.Title = "Trang chủ - Doanh Nghiệp";
     Layout = "~/Areas/Business/Views/Shared/_Layout.cshtml";
 }
 
-<section class="greeting">
-    <h3 class="greeting-team">Internship Management of FIT</h3>
-    <h1 class="greeting-heading">Xin chào</h1>
-    <h2 class="greeting-wish"></h2>
-    <p class="greeting-timer">
-        <span class="greeting-time"></span>
-        <span class="greeting-date"></span>
-    </p>
+@{
+    BCMEntities db = new BCMEntities();
+
+    int studentNumber = db.VanLangUsers.Count(x => x.Role == "Student");
+    int facultyNumber = db.VanLangUsers.Count(x => x.Role == "Faculty");
+    int mentorNumber = db.VanLangUsers.Count(x => x.Role == "Mentor");
+    int businessNumber = db.BusinessUsers.Count();
+    int userActiveNumber = db.VanLangUsers.Count(x => x.Status_ID == 1);
+    int userBlockedNumber = db.VanLangUsers.Count(x => x.Status_ID == 2);
+
+    var bu = db.BusinessUsers.Select(x => x.BusinessName).ToArray();
+    var buID = db.BusinessUsers.Select(x => x.ID).ToArray();
+    var passedStudent = buID.Select(buId => db.Registrations.Count(x => x.Business_ID == buId && x.StatusInternview == "Đậu")).ToArray();
+    var years = db.YearStudies.ToList();
+    var curSemester = db.Semesters.Where(x => x.Status == true).Select(x => x.ID).ToList();
+    var buSignedMOU = db.MOUs.Count();
+    //for (int i = 0; i < buID.Length; i++)
+    //{
+    //    int num = db.Registrations.Count(x => x.Business_ID == buID[i] && x.StatusInternview == "Đậu");
+    //    passedStudent[i] = num;
+    //}
+}
+<section id="statistic">
+    <div class="filter">
+        <div class="filter-item">
+            <label for="year" class="filter-label">Lọc năm học</label>
+            <select name="" id="year" class="filter-select">
+                @foreach (var item in years)
+                {
+                    <option value="@item.ID">@item.YearStudy1</option>
+                }
+            </select>
+        </div>
+        <div class="filter-item">
+            <label for="semester" class="filter-label">Lọc học kỳ</label>
+            <select name="" id="semester" class="filter-select">
+            </select>
+        </div>
+    </div>
+
+    <ul class="statistic-list">
+        <li class="statistic-item statistic-success">
+            <p class="statistic-item-desc">
+                SV Đậu Phỏng Vấn: <span id="sv_passed">0</span>
+            </p>
+        </li>
+        <li class="statistic-item statistic-error">
+            <p class="statistic-item-desc">
+                SV Rớt Phỏng Vấn: <span id="sv_failed">0</span>
+            </p>
+        </li>
+        <li class="statistic-item statistic-warning">
+            <p class="statistic-item-desc">
+                SV Chờ Xác Nhận: <span id="sv_pending">0</span>
+            </p>
+        </li>
+        <li class="statistic-item statistic-info">
+            <p class="statistic-item-desc">
+                SV Đang Thực Tập: <span id="sv_practicing">0</span>
+            </p>
+        </li>
+        <li class="statistic-item statistic-done">
+            <p class="statistic-item-desc">
+                SV Thực Tập Xong: <span id="sv_completed">0</span>
+            </p>
+        </li>
+    </ul>
+    <div class="chart">
+        <div class="chart-item" style="width:100%">
+            <div class="chart-heading">
+                Biểu đồ hiển thị số lượng sinh viên
+            </div>
+            <div>
+                <span id="sv_empty"></span>
+            </div>
+            <canvas id="student-pie" width="400" height="400" style="margin:auto"></canvas>
+        </div>
+
+    </div>
 </section>
+@section Scripts {
+    <script>
+
+        var studentPie =
+            new Chart(document.getElementById("student-pie"), {
+                type: "pie",
+                data: {
+                    labels: ["SV Đậu Phỏng Vấn", "SV Rớt Phỏng Vấn", "SV Đang Thực Tập", "SV Chờ Xác Nhận", "SV Thực Tập Xong"],
+                    datasets: [
+                        {
+                            label: `Số lượng`,
+                            backgroundColor: ["#51a351", "#bd362f", "#2f96b4", "#f89406", "#5d26c1"],
+                            data: [],
+                        },
+                    ],
+                },
+                options: {
+                    title: {
+                        display: true,
+                        text: "Pie Chart for role panel",
+                    },
+                    reponsive: true,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'bottom',
+                            labels: {
+                                color: 'white' // set the font color to white
+                            }
+                        }
+                    }
+
+                },
+            });
+
+    var businessSelect = $('#select-business');
+       $(document).ready(function () {
+    var yearSelect = $('#year');
+    var semesterSelect = $('#semester');
+
+    yearSelect.on('change', function () {
+        var selectedYearId = yearSelect.val();
+        var selectedSemesterId = semesterSelect.val();
+        var url = '@Url.Action("BindingSemester", "BusinessHome")' + '?selectedYearId=' + selectedYearId + '&selectedSemesterId=' + selectedSemesterId;
+        $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'json',
+            success: function (res) {
+                semesterSelect.empty();
+                $.each(res, function (index, semester) {
+                    var selectedAttr = semester.Status ? 'selected' : '';
+                    semesterSelect.append('<option value="' + semester.ID + '" ' + selectedAttr + '>' + semester.Semester + '</option>');
+                });
+                semesterSelect.trigger('change'); // trigger the change event on semesterSelect
+            },
+        });
+    });
+
+    semesterSelect.on('change', function () {
+        var selectedSemesterId = semesterSelect.val();
+        var url = '@Url.Action("SemesterFilter", "BusinessHome")' + '?selectedSemesterId=' + selectedSemesterId;
+        $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'json',
+            success: function (res) {
+                console.log(res)
+                console.log(res.sv_practicing)
+                $('#sv_passed').text(res.sv_passed);
+                $('#sv_failed').text(res.sv_failed);
+                $('#sv_practicing').text(res.sv_practicing);
+                $('#sv_pending').text(res.sv_pending);
+                $('#sv_completed').text(res.sv_completed);
+                if (res.sv_failed == 0 && res.sv_completed == 0 && res.sv_passed == 0 && res.sv_pending == 0 && res.sv_praticing == 0) {
+                    $('#sv_empty').text('Không có dữ liệu');
+                } else {
+                    $('#sv_empty').text('');
+                }
+                studentPie.data.datasets[0].data = [`${res.sv_passed}`, `${res.sv_failed}`, `${res.sv_practicing}`, `${res.sv_pending}`, `${res.sv_completed}`];
+                studentPie.update();
+            },
+            error: function (xhr, status, error) {
+            }
+        });
+    });
+           yearSelect.trigger('change');
+
+       });
+
+
+    </script>
+}

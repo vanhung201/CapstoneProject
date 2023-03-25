@@ -1,0 +1,394 @@
+﻿@model BusinessConnectManagement.Models.Post
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <link href="~/assets/User/assets/css/form.css" rel="stylesheet" />
+
+}
+@if (TempData["message"] != null)
+{
+    <script>
+        toastr.@(TempData["messageType"])('@TempData["message"]','Thông Báo');
+    </script>
+}
+
+<main>
+    <div id="bg-bread">
+        <div class="overlay-bread"></div>
+        <div class="container">
+            <div class="left">
+                <div class="d-flex align-middle mb10">
+                    <img class="avt" src="@Url.Content("~/Uploads/Images/" + Model.BusinessUser.BusinessLogo)" alt="image-job">
+                    <h3 class="text-h2">@Model.Title</h3>
+
+                </div>
+
+            </div>
+            <div class="right" id="btn_apply">
+                <div class="text-center mt10 d-inline-flex action-wrapper">
+                    @if (ViewBag.isStudent = false)
+                    {
+                        if (ViewBag.isRegisted == true)
+                        {
+                            if (ViewBag.regStatus == "Phê Duyệt")
+                            {
+                            }
+                            else
+                            {
+                                <form action="@Url.Action("Remove","Registration", new {id = ViewBag.registedID})">
+                                    <button type="submit" class="btn btn-error">Hủy Ứng Tuyển</button>
+                                </form>
+                                <button class="btn btn-update" id="btn-update" data-href="@Url.Action("getRegistrationData", "Registration", new {id = ViewBag.registedID})">Cập Nhật Thông Tin</button>
+                            }
+                        }
+                        else
+                        {
+                            <div class="btn btn-error" id="btn-error">
+                                Ứng Tuyển
+                            </div>
+                        }
+                    } else
+                        {
+
+                        }
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section id="description">
+        <div class="container">
+            <div class="columns">
+                <div id="detail-job" class="column col-8 col-sm-12 col-md-12 col-xl-9 mb10">
+                    <h3 class="text-h3 mb15">Chi tiết công việc</h3>
+                    <div class="summary-job columns">
+                        <div class="column col-6 col-sm-12 col-md-6 col-xl-6">
+                            <div class="item d-flex align-middle">
+                                <img src="~/assets/User/assets/images/money.png" alt="money">
+                                <div>
+                                    <h5 class="bold-6">Mức lương</h5>
+                                    <p>Thỏa thuận</p>
+                                </div>
+                            </div>
+                            <div class="item d-flex align-middle">
+                                <img src="~/assets/User/assets/images/vali.png" alt="vali">
+                                <div>
+                                    <h5 class="bold-6">Hình thức làm việc</h5>
+                                    <p>@Model.Form</p>
+                                </div>
+                            </div>
+                            <div class="item d-flex align-middle">
+                                <img src="~/assets/User/assets/images/sex.png" alt="gender">
+                                <div>
+                                    <h5 class="bold-6">Giới tính</h5>
+                                    <p>Không yêu cầu</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column col-6 col-sm-12 col-md-6 col-xl-6">
+                            <div class="item d-flex align-middle">
+                                <img src="~/assets/User/assets/images/exp.png" alt="exp">
+                                <div>
+                                    <h5 class="bold-6">Kinh nghiệm</h5>
+                                    <p>Không yêu cầu</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="summary-job columns">
+                        @foreach (var item in ViewBag.Position)
+                        {
+                            if (item.status == true)
+                            {
+                                <div class="column col-6 col-sm-12 col-md-6 col-xl-6">
+                                    <div class="item d-flex align-middle">
+                                        <div>
+                                            <h5 class="bold-6">Kinh nghiệm</h5>
+                                            <p class="bold-7 mb10">@item.Name</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                    <div class="main-job">
+                        <div class="title d-flex align-middle  ">
+                            <img src="~/assets/User/assets/images/files.png" alt="file">
+                            <p class="mb-0 text-h4 bold-7"> Mô tả công việc</p>
+                        </div>
+                        <div class="p15 bg-gray mb15">
+                            @Html.Raw(Model.Description)
+                        </div>
+                    </div>
+
+                </div>
+                <div class="column col-4 col-sm-12 col-md-12 col-xl-3 mb10">
+                    <div class="table-featured">
+                        <div class="title">
+                            <div class="d-flex align-middle mb10">
+                                <img class="avt" src="@Url.Content("~/Uploads/Images/" + Model.BusinessUser.BusinessLogo)" alt="image-job">
+                                <div class=" ml15">
+                                    <p class="bold-6 mb-1">@Model.BusinessUser.BusinessName</p>
+                                    <p class="mb-0"><i class="fa-solid fa-paper-plane"></i> Địa chỉ: @Model.BusinessUser.Address</p>
+                                </div>
+                            </div>
+                        </div>
+                        <ul>
+                            <li class="d-flex align-middle">
+                                <i class="fa-solid fa-phone mr10"></i> @Model.BusinessUser.ContactPhone_1
+                            </li>
+                            <li class="d-flex align-middle">
+                                <i class="fa-solid fa-envelope mr10"></i>@Model.BusinessUser.EmailContact
+                            </li>
+                            <li class="d-flex align-middle">
+                                <i class="fa-solid fa-earth-americas mr10"></i> @Model.BusinessUser.Website
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+    <section id="job">
+        <div class="container border-top">
+            <div class="py15">
+
+                <h4 class="text-h4 mb20">Công việc khác</h4>
+                @foreach (var item in ViewBag.Post)
+                {
+                    <a href="@Url.Action("Details", "Posts",  new { id=item.ID })">
+                        <div class="item d-flex align-middle">
+                            <img src="@Url.Content("~/Uploads/Images/" + item.BusinessUser.BusinessLogo)"/>
+                            <div class="content">
+                                <div class="d-flex align-middle justify-between mb-2">
+                                    <h3 class="text-h4 bold-6 mb-0 ellipsis">@item.Title</h3>
+                                    <div class="chip bg-error">
+                                        <small class="bold-6">Nổi bật</small>
+                                    </div>
+                                </div>
+                                <p class="bold-6 text-italic mb-2">@item.BusinessUser.BusinessName</p>
+                                <div class="desc d-flex align-middle mb-2">
+                                    <span class="mb-0 mr10 text-muted">
+                                        <i class="fa-solid fa-location-dot"></i> TP.Hồ
+                                        Chí
+                                        Minh
+                                    </span>
+                                </div>
+                                <p class="text-primary bold-6">
+                                    <i>Hạn nộp: 01/01/2023</i>
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                }
+            </div>
+        </div>
+    </section>
+
+</main>
+<form class="form" action="@Url.Action("Apply", "Registration")" id="apply_form" enctype="multipart/form-data" method="post">
+    <div class="form-container--small">
+        <h1 class="form-heading">Ứng Tuyển @Model.BusinessUser.BusinessName</h1>
+        <input type="hidden" name="Post_ID" value="@Model.ID" />
+        <input type="hidden" name="Business_ID" value="@Model.Business_ID" />
+        <div class="form-group">
+            <label class="form-label" for="cv">Chọn CV Của Bạn</label>
+            <input id="CV" name="CV" class="custom-file-input" onchange="validateFileInput(this)" type="file" accept=".pdf">
+            <span class="text-danger" id="cv_validation"></span>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="position">Nhập Vị Trí Ứng Tuyển</label>
+            <select id="position" name="InternshipTopic_ID" class="form-select">
+                <option selected>Chọn Vị Trí</option>
+                @foreach (var item in ViewBag.Position)
+                {
+                    if (item.status == true)
+                    {
+                        <option id="positionName" value="@item.Id">@item.Name</option>
+                    }
+                }
+            </select>
+            <span class="text-danger" id="position_validation"></span>
+        </div>
+
+        <div class="form-group float-right">
+            <div class="btn btn--small btn-error" id="btn_cancel_cv">
+                <i class="btn-icon btn-icon--cancel fas fa-times"></i>
+                <span class="btn-text btn-text--small">Hủy</span>
+            </div>
+            <div class="btn btn--small btn-success" id="btn_apply_CV">
+                <i class="btn-icon btn-icon--add fas fa-check"></i>
+                <span class="btn-text btn-text--small">Xác nhận</span>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="form" id="confirm_apply">
+    <div class="form-container--small">
+        <h1 class="form-heading">Ứng Tuyển</h1>
+
+        <span>Bạn Có Muốn Nộp CV Cho Vị Trí <span class="text-danger" id="confirm_position"></span> ?</span>
+
+        <div class="form-group float-right">
+            <div class="btn btn--small btn-error" id="btn_cancel_apply">
+                <i class="btn-icon btn-icon--cancel fas fa-times"></i>
+                <span class="btn-text btn-text--small">Hủy</span>
+            </div>
+            <div class="btn btn--small btn-success" id="btn_confirm_apply">
+                <i class="btn-icon btn-icon--add fas fa-check"></i>
+                <span class="btn-text btn-text--small">Xác nhận</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form class="form" action="@Url.Action("Update", "Registration", new {id = ViewBag.registedID})" id="update_form" enctype="multipart/form-data" method="post">
+    <div class="form-container--small">
+        <h1 class="form-heading">Ứng Tuyển @Model.BusinessUser.BusinessName</h1>
+        <input type="hidden" name="ID" id="reg_id" />
+        <div class="form-group">
+            <label class="form-label" for="cv">Chọn CV Của Bạn</label>
+            <input id="CV1" name="CV" class="custom-file-input" onchange="validateFileInput(this)" type="file" accept=".pdf">
+            <span class="text-danger" id="cv_validation1"></span>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="position">Nhập Vị Trí Ứng Tuyển</label>
+            <input id="positionNameUpdate" class="form-input" type="text" disabled>
+            <input id="position1" class="form-input" type="hidden" />
+            <span class="text-danger" id="position_validation1"></span>
+        </div>
+
+        <div class="form-group float-right">
+            <div class="btn btn--small btn-error" id="btn_close">
+                <i class="btn-icon btn-icon--cancel fas fa-times"></i>
+                <span class="btn-text btn-text--small">Hủy</span>
+            </div>
+            <div class="btn btn--small btn-success" id="btn_update_CV">
+                <i class="btn-icon btn-icon--add fas fa-check"></i>
+                <span class="btn-text btn-text--small">Xác nhận</span>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+<div class="form" id="confirm_update">
+    <div class="form-container--small">
+        <h1 class="form-heading">Ứng Tuyển</h1>
+
+        <span>Bạn Có Muốn Cập Nhật CV Không ?</span>
+
+        <div class="form-group float-right">
+            <div class="btn btn--small btn-error" id="btn_cancel_update">
+                <i class="btn-icon btn-icon--cancel fas fa-times"></i>
+                <span class="btn-text btn-text--small">Hủy</span>
+            </div>
+            <div class="btn btn--small btn-success" id="btn_confirm_update">
+                <i class="btn-icon btn-icon--add fas fa-check"></i>
+                <span class="btn-text btn-text--small">Xác nhận</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <script>
+        $("#btn-error").on("click", function () {
+            $('#apply_form').addClass('is-appear');
+        })
+
+        $("#btn_apply_CV").on("click", function (e) {
+            e.preventDefault()
+            $("#confirm_apply").addClass('is-appear');
+            const position = $("#positionName").text()
+            console.log(position)
+            $("#confirm_position").text(position)
+        })
+        $("#btn_confirm_apply").on("click", function () {
+            $("#apply_form").submit();
+        })
+        $("#btn_cancel_apply").on("click", function () {
+            $("#confirm_apply").removeClass('is-appear');
+
+        })
+        $("#btn_cancel_cv").on("click", function () {
+            $("#apply_form").removeClass('is-appear');
+        })
+
+        $("#btn-update").on("click", function (e) {
+            e.preventDefault();
+            $("#update_form").addClass('is-appear');
+            var url = $(this).data('href')
+            $.ajax({
+                url: url,
+                type: "get",
+                dataType: 'json',
+                success: function (res) {
+                    console.log(res)
+                    $("#position1").val(res[0].Position);
+                    $("#positionNameUpdate").val(res[0].PositionName);
+                    $("#reg_id").val(res[0].ID);
+                }
+            })
+        })
+
+        $("#btn_close").on("click", function (e) {
+            $("#update_form").removeClass('is-appear');
+
+        })
+
+        $("#btn_update_CV").on("click", function () {
+            $("#confirm_update").addClass('is-appear');
+        })
+
+        $("#btn_cancel_update").on("click", function () {
+            $("#confirm_update").addClass('is-appear');
+        })
+
+        $("#btn_confirm_update").on("click", function () {
+            $("#update_form").submit();
+        })
+
+
+
+        function validateFileInput(input) {
+            if (input.files && input.files[0]) {
+                var file = input.files[0];
+                var fileType = file.type.toLowerCase();
+                if (fileType != "application/pdf") {
+                    input.value = "";
+                    $('#cv_validation').text('Vui Lòng Chọn File PDF');
+                    $('#cv_validation1').text('Vui Lòng Chọn File PDF');
+                }
+            } else {
+                input.value = "";
+                $('#cv_validation').text('Vui Lòng Chọn File PDF');
+                $('#cv_validation1').text('Vui Lòng Chọn File PDF');
+            }
+        }
+        const pdfFileInput = document.getElementById('CV');
+        const nameInput = document.getElementById('position');
+        nameInput.addEventListener('blur', () => {
+            if (nameInput.value === '') {
+                $('#position_validation').text('Vui Lòng Nhập Vị Trí Ứng Tuyển');
+                $('#position_validation1').text('Vui Lòng Nhập Vị Trí Ứng Tuyển');
+            }
+        });
+        nameInput.addEventListener('change', () => {
+            $('#position_validation').text('');
+            $('#position_validation1').text('');
+        })
+    </script>
+}
+

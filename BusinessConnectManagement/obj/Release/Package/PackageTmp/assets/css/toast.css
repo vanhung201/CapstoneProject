@@ -1,15 +1,18 @@
 
 .toast {
+    position: absolute;
+    top:5.8rem;
+    right: 0;
+    z-index: 2;
     align-items: center;
     padding: 10px 12px;
-    width: 260px;
+    width: 30rem;
     border-radius: 4px;
     box-shadow: 0 0 5px 0 rgba(0,0,0,0.2);
     margin-bottom: 20px;
     color: #fff;
     display: inline-flex;
     float: right;
-    z-index: 100000;
     margin-right: 10px;
 }
 
@@ -23,7 +26,6 @@
 }
 
 .toast--error {
-    margin-top: 15px;
     background-color: #DC281E;
 }
 

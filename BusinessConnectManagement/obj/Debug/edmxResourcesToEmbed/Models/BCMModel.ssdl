@@ -350,6 +350,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_PostInternshipTopic_BusinessUser">
+    <End Role="BusinessUser" Type="Self.BusinessUser" Multiplicity="0..1" />
+    <End Role="PostInternshipTopic" Type="Self.PostInternshipTopic" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BusinessUser">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="PostInternshipTopic">
+        <PropertyRef Name="Business_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_PostInternshipTopic_InternshipTopic">
     <End Role="InternshipTopic" Type="Self.InternshipTopic" Multiplicity="0..1" />
     <End Role="PostInternshipTopic" Type="Self.PostInternshipTopic" Multiplicity="*" />
@@ -590,6 +602,10 @@
     <AssociationSet Name="FK_Post_VanLangUser1" Association="Self.FK_Post_VanLangUser1">
       <End Role="VanLangUser" EntitySet="VanLangUser" />
       <End Role="Post" EntitySet="Post" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PostInternshipTopic_BusinessUser" Association="Self.FK_PostInternshipTopic_BusinessUser">
+      <End Role="BusinessUser" EntitySet="BusinessUser" />
+      <End Role="PostInternshipTopic" EntitySet="PostInternshipTopic" />
     </AssociationSet>
     <AssociationSet Name="FK_PostInternshipTopic_InternshipTopic" Association="Self.FK_PostInternshipTopic_InternshipTopic">
       <End Role="InternshipTopic" EntitySet="InternshipTopic" />

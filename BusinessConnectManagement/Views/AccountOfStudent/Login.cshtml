@@ -35,10 +35,12 @@
     }
     <div class="wrap">
         <div class="login">
-            <h2 class="login-heading">Business Connection Management</h2>
+            <h2 class="login-heading">Website Quản Lý Kết Nối Doanh Nghiệp</h2>
             <div class="login-image"></div>
-            <p class="login-content">Đăng nhập bằng email Văn Lang để bắt đầu</p>
-            <a href="@Url.Action("SignIn", "AccountOfStudent", new { area = "" })"><button class="login-button">Đăng nhập</button></a>
+            <div style="margin-bottom:12px">
+                <a href="@Url.Action("SignIn", "Account", new { area = "" })"><button class="login-button">Đăng nhập Bằng Email Văn Lang</button></a>
+            </div>
+            <a href="@Url.Action("Login", "Auth", new { area = "Business" })"><button class="login-button bu">Đăng nhập Bằng Tài Khoản Doanh Nghiệp</button></a>
         </div>
     </div>
 </body>
