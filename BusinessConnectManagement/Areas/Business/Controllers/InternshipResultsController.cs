@@ -23,7 +23,7 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
         
         public ActionResult Index()
         {
-          
+            ViewBag.YearStudy = db.YearStudies.ToList();
             var internshipResults = db.InternshipResults.Include(i => i.BusinessUser).Include(i => i.InternshipTopic).Include(i => i.Semester).Include(i => i.VanLangUser);
             return View(internshipResults.ToList());
         }
@@ -267,6 +267,34 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
                 Response.BinaryWrite(pck.GetAsByteArray());
                 Response.End();
             }
+        }
+
+        [HttpGet]
+        public ActionResult BindingSemester(int selectedYearId)
+        {
+            var semesters = db.Semesters
+                .Where(s => s.YearStudy_ID == selectedYearId)
+                .Select(s => new {
+                    ID = s.ID,
+                    Semester = s.Semester1,
+                    Status = s.Status
+                })
+                .ToList();
+
+            return Json(semesters, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult SemesterFilter(int selectedSemesterId)
+        {
+            var data = db.InternshipResults.Where(x => x.Semester_ID == selectedSemesterId)
+                .Select(x => new
+                {
+                    id = x.ID,
+                }).ToList();
+            return Json(new
+            {
+                data
+            }, JsonRequestBehavior.AllowGet);
         }
         protected override void Dispose(bool disposing)
         {
