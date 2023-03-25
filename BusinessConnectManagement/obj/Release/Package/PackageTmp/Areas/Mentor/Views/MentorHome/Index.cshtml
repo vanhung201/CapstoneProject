@@ -1,15 +1,17 @@
 ﻿@{
-    Layout = null;
+    ViewBag.Title = "Mentor Home";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<!DOCTYPE html>
+<section class="greeting">
+    <h3 class="greeting-team">Internship Management of FIT</h3>
+    <h1 class="greeting-heading">Xin chào</h1>
+    <h2 class="greeting-wish"></h2>
+    <p class="greeting-timer">
+        <span class="greeting-time"></span>
+        <span class="greeting-date"></span>
+    </p>
+</section>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Trang Chủ - Mentor</title>
-</head>
-<body>
-    <h2>Trang của Mentor</h2>
-</body>
-</html>
+<script src="~/assets/js/greet.js"></script>
+<script src="~/assets/js/time.js"></script>

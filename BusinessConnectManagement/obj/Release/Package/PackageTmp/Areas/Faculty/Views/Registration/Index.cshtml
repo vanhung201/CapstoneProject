@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "Registration List";
-    Layout = "~/Areas/Faculty/Views/Shared/_Layout.cshtml";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
 <section class="list">
@@ -11,120 +11,325 @@
     {
         @Html.Raw(@TempData["AlertMessage"])
     }
+<div class="row">
+    <div class="rg_status"></div>
+    <label id="nameLabel1">Lọc:</label>
+</div>
     <div class="list-table">
-        <table id="table_id" class="display">
+        <table id="table_listData" class="display">
             <thead>
                 <tr>
-                    <th class="text-center">STT</th>
-                    <th class="text-center">Họ và Tên</th>
-                    <th class="text-center">Email</th>
-                    <th class="text-center">SĐT</th>
-                    <th class="text-center">Bài viết Ứng tuyển</th>
-                    <th class="text-center">CV</th>
-                    <th class="text-center">Trạng thái</th>
-                    <th width="13%" class="text-center">Chức năng</th>
+                    <th></th>
+                    <th>Họ và Tên</th>
+                    <th>Email</th>
+                    <th>SĐT</th>
+                    <th>Bài viết Ứng tuyển</th>
+                    <th>CV</th>
+                    <th>Trạng thái</th>
+                    <th>Chức Năng</th>
+
                 </tr>
             </thead>
             <tbody>
-                @{ int count = 1;}
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td class="text-center">@count</td>
-                        <td>@Html.DisplayFor(modelItem => item.VanLangUser.FullName)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Email_VanLang)</td>
-                        <td>@Html.DisplayFor(modelItem => item.VanLangUser.Mobile)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Post.Title)</td>
-                        <td><a href="@Url.Action("DownloadFile", "Registration", new {filePath = item.CV})">@Html.DisplayFor(modelItem => item.CV)</a></td>
-                        <td>@Html.DisplayFor(modelItem => item.StatusRegistration)</td>
-                        <td>
-                            <a onclick="loadEditStatus('@item.ID', '@item.Comment', '@item.Business_ID', '@item.Email_VanLang', '@item.Post_ID', '@item.Semester_ID', '@item.CV', '@item.RegistrationDate', '@item.RegistrationModify', '@item.InterviewResult', '@item.InterviewResultComment', '@item.StatusInternview')">
-                                <div class="btn btn--update">
-                                    <i class="btn-icon btn-icon--update fas fa-edit"></i>
-                                    <span class="btn-text">Cập nhật</span>
-                                </div>
-                            </a>
-
-                            <a href="@Url.Action("Details", "Registration", new { id = item.ID })">
-                                <div class="btn btn--detail">
-                                    <i class="btn-icon btn-icon--detail fas fa-info-circle"></i>
-                                    <span class="btn-text">Chi tiết</span>
-                                </div>
-                            </a>
-                        </td>
-                    </tr>
-
-                    count++;
-                }
             </tbody>
         </table>
     </div>
 </section>
+@*--------------------detail-----------------*@
+<form class="form" id="detailForm" method="post">
+    <div class="form-container">
+        <h1 class="form-heading">Thông Tin Sinh Viên Ứng Tuyển</h1>
+        <div class="form-row">
+            <div class="form-column">
+                <div class="form-group">
+                    <label for="Username" class="form-label">Họ và tên</label>
+                    <input class="form-input" id="usernameget" autocomplete="off" disabled />
+                </div>
+                <div class="form-group">
+                    <label for="BusinessName" class="form-label">Email</label>
+                    <input class="form-input" id="emailget" autocomplete="off" disabled />
+                </div>
+                <div class="form-group">
+                    <label for="status" class="form-label">Chuyên Nghành</label>
+                    <input class="form-input" id="majorget" autocomplete="off" disabled />
+                </div>
+                <div class="form-group">
+                    <label for="Website" class="form-label">Tên Doanh Nghiệp</label>
+                    <input type="text" id="bunameget" class="form-input" autocomplete="off" / disabled>
+                </div>
+            </div>
+            <div class="form-column">
+                <div class="form-group">
+                    <label for="Password" class="form-label">MSSV</label>
+                    <input type="text" id="student_idget" class="form-input" autocomplete="off" disabled />
+                </div>
+                <div class="form-group">
+                    <label for="Address" class="form-label">SĐT</label>
+                    <input type="text" id="mobileget" class="form-input" autocomplete="off" disabled />
+                </div>
 
-<form class="form" id="deleteForm" method="post">
+                <div class="form-group">
+                    <label for="BusinessPhone" class="form-label">Vị trí  thực tập</label>
+                    <input type="text" id="positionget" class="form-input" autocomplete="off" disabled />
+                </div>
+                <div class="form-group">
+                    <label for="Address" class="form-label">Email Doanh Nghiệp</label>
+                    <input type="text" id="bumailget" class="form-input" autocomplete="off" disabled />
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <a class="btn btn--confirm" id="btn--cancel">
+                Xác Nhận
+            </a>
+
+        </div>
+    </div>
 </form>
-
-<form class="form" id="addForm" method="post">
-</form>
-
+@*-----------------------update----------------------*@
 <form action="@Url.Action("Edit", "Registration")" class="form" id="updateForm" method="post">
 
-    <div class="form-container">
-        <i class="form-icon fas fa-times-circle"></i>
+    <div class="form-container--small">
+       
         <h1 class="form-heading">Cập nhật Kết quả</h1>
-        <label class="form-label">Trạng Thái</label>
-
-        <select id="status" name="StatusRegistration" class="form-input">
-            <option value="Chờ phê duyệt">Chờ phê duyệt</option>
-            <option value="Phê duyệt">Phê duyệt</option>
-        </select>
+        <div class="form-group">
+            <label class="form-label">Trạng Thái</label>
+            <select id="status" name="StatusRegistration" class="form-input">
+                <option value="Chờ Duyệt">Chờ Duyệt</option>
+                <option value="Phê Duyệt">Phê Duyệt</option>
+                <option value="Hủy Duyệt">Hủy Duyệt</option>
+                <option value="Không Duyệt">Không Duyệt</option>
+            </select>
+        </div>
 
         <div class="form-group">
             <label for="comment" class="form-label">Nhận xét</label>
             <textarea name="Comment" id="comment" class="form-input" autocomplete="off"></textarea>
         </div>
-
         <div class="form-group">
-            <input list="" name="id" id="id" class="form-input" hidden />
-            <input list="" name="Business_ID" id="idb" class="form-input" hidden />
+
+            <input list="" name="ID" id="id" class="form-input" hidden />
+
+
             <input list="" name="Email_VanLang" id="email" class="form-input" hidden />
-            <input list="" name="Post_ID" id="post" class="form-input" hidden />
-            <input list="" name="Semester_ID" id="semeter" class="form-input" hidden />
+
+
+            <input list="" name="Post_ID" id="post_id" class="form-input" hidden />
+
+
+            <input list="" name="Semester_ID" id="semester_id" class="form-input" hidden />
+
+
             <input list="" name="CV" id="cv" class="form-input" hidden />
-            <input list="" name="RegistrationDate" id="rd" class="form-input" hidden />
-            <input list="" name="RegistrationModify" id="rm" class="form-input" hidden />
-            <input list="" name="InterviewResult" id="ir" class="form-input" hidden />
-            <input list="" name="InterviewResultComment" id="irc" class="form-input" hidden />
-            <input list="" name="StatusInternview" id="sr" class="form-input" hidden />
+
+
+            <input list="" name="RegistrationDate" id="registrationDate" class="form-input" hidden />
+
+
+            <input list="" name="RegistrationModify" id="registrationModify" class="form-input" hidden />
+
+
+            <input list="" name="InterviewResult" id="interviewResult" class="form-input" hidden />
+
+
+            <input list="" name="InterviewResultComment" id="interviewComment" class="form-input" hidden />
+
+
+            <input list="" name="StatusInternview" id="interviewStatus" class="form-input" hidden />
+
+            <input list="" name="InternshipTopic_ID" id="position_id" class="form-input" hidden />
+            
+
+            <input list="" name="Business_ID" id="bu_id" class="form-input" hidden />
         </div>
 
         <div class="form-group">
-            <button type="submit" class="btn btn--add">Lưu</button>
+            <a class="btn btn--cancel">
+                Hủy
+            </a>
+            <button class="btn btn--confirm" id="btn--update">
+               Xác Nhận
+            </button>
         </div>
     </div>
 </form>
+@section Scripts {
 
-<script type="text/javascript">
-    function loadEditStatus(id, comment, idb, email, post, semeter, cv, rd, rm, ir, irc, sr) {
-        let formUpdate = document.getElementById("updateForm");
-        formUpdate.classList.add('is-appear');
+    <script type="text/javascript">
+        $('.btn--cancel').on('click', function () {
+            $('#updateForm').removeClass('is-appear')
+        })
+        $('#btn--update').on('click', function () {
+            $('#updateForm').submit()
+        })
+        $(function () {
+            var url = "@Url.Action("getDataList", "Registration")"
+            var urlCV = "@Url.Action("DownloadFile", "Registration")"
+            "use strict";
+            (dataTable = $("#table_listData").DataTable({
+                ajax: {
+                    url: url,
+                    type: "GET",
+                    dataType: "json",
+                    dataSrc: "",
+                },
+                deferRender: !0,
+                columns: [
+                    { data: null },
+                    { data: "username" },
+                    { data: "email" },
+                    { data: "phone" },
+                    { data: "post_id" },
+                    {
+                        data: "cv",
+                        render: function (data) {
+                            return '<a href=' + urlCV +"?filePath="+ data+'>' + data + '<a/>'
+                        }
+                    },
+                    {
+                        data: "status",
+                        render: function (data) {
+                            switch (data) {
+                                case "Chờ Duyệt":
+                                    return '<span class="text--wait">' + data + '</span>';
+                                    break;
+                                case "Phê Duyệt":
+                                    return '<span class="text--done">' + data + '</span>';
+                                    break;
+                                case "Hủy Duyệt":
+                                    return '<span class="text--cancel">' + data + '</span>';
+                                    break;
+                                case "Không Duyệt":
+                                    return '<span class="text--none">' + data + '</span>';
+                                    break;
 
-        document.getElementById('id').value = id;
-        document.getElementById('comment').value = comment;
-        document.getElementById('idb').value = idb;
-        document.getElementById('email').value = email;
-        document.getElementById('semeter').value = semeter;
-        document.getElementById('post').value = post;
-        document.getElementById('cv').value = cv;
-        document.getElementById('rd').value = rd;
-        document.getElementById('rm').value = rm;
-        document.getElementById('ir').value = ir;
-        document.getElementById('irc').value = irc;
-        document.getElementById('sr').value = sr;
-    }
+                            }
 
-    function submitEdit() {
-        $("#updateForm").save();
-    }
+                        }
+                    },
 
-</script>
+
+                    {
+                        data: "id",
+                        render: function (t, e, a) {
+                            return (
+                                `
+                                 <a href="@Url.Action("Details/", "Registration")${t}" id="business_getdetail" class="business_getdetail">
+                                <div class="btn btn--detail">
+                                    <i class="btn-icon btn-icon--detail fal fa-info-circle"></i>
+                                </div>
+                                </a>
+                                <a href="@Url.Action("Details/", "Registration")${t}" id="business_detail" class="business_detail">
+                                <div class="btn btn--update">
+                                    <i class="btn-icon btn-icon--edit fal fa-edit"></i>
+                                </div>
+                                </a>
+                                `
+                            );
+                        },
+                    },
+                ],
+                initComplete: function () {
+                    this.api()
+                        .columns(6)
+                        .every(function () {
+                            var t = this,
+                                e = $(
+                                    '<select id="UserType" style="margin-right: 8px;border: 1px solid #aaa;border-radius: 3px;padding: 5px;background-color: transparent; margin-left: 3px;" class="form-select text-capitalize mb-md-0 mb-2xx"><option value="">---- Chọn trạng thái để lọc ----</option></select>'
+                                )
+                                    .prependTo("#table_listData_filter")
+                                    .on("change", function () {
+                                        var e = $.fn.dataTable.util.escapeRegex($(this).val());
+                                        t.search(e ? "^" + e + "$" : "", !0, !1).draw();
+                                    });
+                            t.data()
+                                .unique()
+                                .sort()
+                                .each(function (t) {
+                                    t &&
+                                        e.append(
+                                            '<option value="' + t + '" class="text-capitalize">' + t + '</option>'
+
+                                        );
+                                })
+
+                        });
+                }
+            })
+            )
+            dataTable.on("draw.dt", function () {
+                dataTable.column(0, { search: "applied", order: "applied" }).nodes().each(function (cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            });
+        });
+/*--------------------------update----------------------------*/
+        $('#table_listData').on('click', '.business_detail', function (e) {
+            e.preventDefault()
+            const form = document.getElementById('updateForm');
+            form.classList.add('is-appear');
+            const url = $(this).attr('href');
+            $.ajax({
+                url: url,
+                type: "get",
+                dataType: 'json',
+                success: function (res) {
+                    console.log(res)
+                    const actionUrl = `@Url.Action("Edit", "Registration")` + `/${res[0].id}`
+                    $('#id').val(res[0].id)
+                    $('#email').val(res[0].email)
+                    $('#post_id').val(res[0].post_id)
+                    $('#semester_id').val(res[0].semester_id)
+                    $('#cv').val(res[0].cv)
+                    $('#registrationDate').val(res[0].registrationDate)
+                    $('#registrationModify').val(res[0].registrationModify)
+                    $('#bu_id').val(res[0].bu_id)
+                    $('#interviewResult').val(res[0].interviewResult)
+                    $('#interviewComment').val(res[0].interviewComment)
+                    $('#interviewStatus').val(res[0].interviewStatus)
+                    $('#position_id').val(res[0].position_id)
+
+                    if (res[0].status === "Chờ Phê Duyệt") {
+                        $('select option[value="Chờ Phê Duyệt"]').attr("selected", "selected");
+                    } else {
+                        $('select option[value="Phê Duyệt"]').attr("selected", "selected");
+                    }
+                    $('#comment').val(res[0].comment)
+                    $('#updateForm').attr('action', `${actionUrl}`)
+                }
+            })
+        })
+
+        /*-----------------------detail-------------------------------*/
+          $('#table_listData').on('click', '.business_getdetail', function (e) {
+            e.preventDefault()
+              const form = document.getElementById('detailForm');
+            form.classList.add('is-appear');
+            const url = $(this).attr('href');
+            $.ajax({
+                url: url,
+                type: "get",
+                dataType: 'json',
+                success: function (res) {
+                    console.log(res)
+                    $('#emailget').val(res[0].email)
+                    $('#usernameget').val(res[0].username)
+                    $('#majorget').val(res[0].major)
+                    $('#bunameget').val(res[0].buname)
+                    $('#student_idget').val(res[0].student_id)
+                    $('#mobileget').val(res[0].mobile)
+                    $('#positionget').val(res[0].position)
+                    $('#bumailget').val(res[0].bumail)
+
+                }
+            })
+        })
+        $('.btn--cancel').on('click', function () {
+            $('#updateForm').removeClass('is-appear')
+        })
+        $('#btn--cancel').on('click', function () {
+            $('#detailForm').removeClass('is-appear')
+        })
+    </script>
+}

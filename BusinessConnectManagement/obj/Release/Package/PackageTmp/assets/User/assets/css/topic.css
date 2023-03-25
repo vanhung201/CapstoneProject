@@ -1,0 +1,137 @@
+.is-hide {
+    display: none;
+}
+
+.topic {
+  padding: 1rem;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 0.5rem;
+  margin:16.5rem 0;
+}
+
+.topic-heading {
+  font-size: 2rem;
+  color: #f12711;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.topic-list {
+  display: grid;
+  grid-template-columns: unset;
+  grid-column-gap: 3rem;
+  grid-auto-columns: 20%;
+  grid-auto-flow: column;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-snap-stop: always;
+  padding-bottom: 1rem;
+}
+
+.topic-item {
+  height: 10rem;
+  border-radius: 0.5rem;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  cursor: pointer;
+  color: #fff;
+  transition: all 0.2s linear;
+  will-change: background-color;
+}
+
+.topic-item:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.topic-text {
+  font-weight: 600;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.topic-wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 10;
+}
+
+.topic-desc {
+  width: 80%;
+  position: absolute;
+  background-color: #fff;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 0.5rem;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  background-color: #fff;
+  cursor: default;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
+}
+
+thead > tr {
+  background-color: #f12711 !important;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 0.5rem 0.5rem 0 0;
+}
+
+th {
+  padding-block: 0.8rem;
+  color: #fff !important;
+  text-transform: capitalize;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+  font-size: 1.6rem;
+  width: 45%;
+  text-align: left;
+}
+
+th:not(:last-child) {
+  padding-left: 1.5rem;
+}
+
+tbody > tr {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  padding: 1.5rem;
+}
+
+td {
+  color: #000;
+  width: 45%;
+  text-align: left;
+}
+
+.topic-list::-webkit-scrollbar {
+  width: 1px;
+  height: 0.5rem;
+}
+
+/* .topic-list::-webkit-scrollbar-thumb:window-inactive {
+  background: rgba(255, 0, 0, 0.4);
+} */
+
+.topic-list::-webkit-scrollbar-button {
+  width: 1px;
+}
+.topic-list::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  border-radius: 0.5rem;
+}
+
+.topic-list::-webkit-scrollbar-thumb {
+  background: #f12711;
+  border-radius: 0.5rem;
+}

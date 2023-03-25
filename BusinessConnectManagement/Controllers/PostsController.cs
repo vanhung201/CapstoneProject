@@ -132,7 +132,7 @@ namespace BusinessConnectManagement.Controllers
         public ActionResult Details(int? id)
         {
             var email = User.Identity.Name;
-          
+            ViewBag.isStudent = db.VanLangUsers.Where(x => x.Email == email && x.Role == "Student").Any();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

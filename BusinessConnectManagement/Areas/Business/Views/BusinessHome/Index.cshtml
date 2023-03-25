@@ -152,6 +152,7 @@
             dataType: 'json',
             success: function (res) {
                 console.log(res)
+                console.log(res.sv_practicing)
                 $('#sv_passed').text(res.sv_passed);
                 $('#sv_failed').text(res.sv_failed);
                 $('#sv_practicing').text(res.sv_practicing);

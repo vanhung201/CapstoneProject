@@ -1,0 +1,188 @@
+﻿@model BusinessConnectManagement.Models.VanLangUser
+
+@{
+    ViewBag.Title = "InformationStudent";
+    Layout = "~/Views/Shared/_LayoutHeaderOnly.cshtml";
+}
+<style>
+    .error{
+        color: red;
+    }
+</style>
+@if (TempData["message"] != null)
+{
+    <script>
+        toastr.@(TempData["messageType"])('@TempData["message"]','Thông Báo');
+    </script>
+}
+<div class="info">
+    <div class="row">
+        <div class="column" style="margin-right:10%">
+            <h4 class="info-heading">Thông tin Tài khoản</h4>
+            <form action="@Url.Action("UpdateInfo","AccountOfStudent", new { area = "" })" class="info-form" id="inforForm" method="post">
+                <input value="@Model.Email" name="Email" hidden />
+                <ul class="info-list">
+                    <li class="info-item">
+                        <div class="info-icon">
+                            <i class="fal fa-code"></i>
+                        </div>
+                        <div class="info-content">
+                            <label for="studentCode" class="info-title">Mã số sinh viên</label>
+                            <p class="info-desc">@Model.Student_ID</p>
+                            <input type="text" name="Student_ID" class="info-input" value="@Model.Student_ID" id="studentCode" />
+                        </div>
+                    </li>
+                    <li class="info-item">
+                        <div class="info-icon">
+                            <i class="fal fa-user-circle"></i>
+                        </div>
+                        <div class="info-content">
+                            <label for="fullName" class="info-title">Họ và tên</label>
+                            <p class="info-desc">@Model.FullName</p>
+                            <input type="text" name="FullName" class="info-input" value="@Model.FullName" id="fullName" />
+                        </div>
+                    </li>
+
+                    <li class="info-item">
+                        <div class="info-icon">
+                            <i class="fal fa-envelope"></i>
+                        </div>
+                        <div class="info-content">
+                            <label for="emailVLU" class="info-title">Email</label>
+                            <p class="info-desc">@Model.Email</p>
+                            <input type="email" class="info-input" value="@Model.Email" id="emailVLU" disabled />
+                        </div>
+                    </li>
+
+                    <li class="info-item">
+                        <div class="info-icon">
+                            <i class="fal fa-phone"></i>
+                        </div>
+                        <div class="info-content">
+                            <label for="phoneNumber" class="info-title">Số điện thoại</label>
+                            <p class="info-desc">@Model.Mobile</p>
+                            <input type="text" name="Mobile" class="info-input" value="@Model.Mobile" id="phoneNumber" />
+                        </div>
+                    </li>
+
+                    <li class="info-item">
+                        <div class="info-icon">
+                            <i class="fal fa-diploma"></i>
+                        </div>
+                        <div class="info-content">
+                            <label for="major" class="info-title">Chuyên ngành</label>
+                            <p class="info-desc">@Model.Major.Major1</p>
+                            <select name="Major_ID" id="major" class="info-input">
+                                @foreach (var item in ViewBag.major)
+                                {
+                                    if (Model.Major.ID == item.ID)
+                                    {
+                                        <option value="@item.ID" selected>@item.Major1</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.ID">@item.Major1</option>
+
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </li>
+                </ul>
+                <button class="info-button" type="submit">Xác nhận</button>
+            </form>
+        </div>
+        <div class="column">
+            <div class="info-avatar">
+                <img src="~/assets/images/avatarAdmin.png" alt="" />
+            </div>
+            <div class="info-main">
+                <h5 class="info-name">@Model.FullName</h5>
+                <p class="info-role">@Model.Role</p>
+            </div>
+            <div id="info-edit">
+                <i class="fal fa-edit" id="editIcon"></i>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script type="text/javascript">
+        const icon = document.getElementById("editIcon");
+        const desc = document.querySelectorAll(".info-desc");
+        const input = document.querySelectorAll(".info-input");
+        const button = document.querySelector('.info-button')
+
+        icon.addEventListener("click", () => {
+            for (let i = 0; i < desc.length; i++) {
+                desc[i].classList.toggle('is-hide')
+            }
+
+            for (let j = 0; j < input.length; j++) {
+                input[j].classList.toggle('is-active');
+                button.classList.toggle('is-active');
+            }
+
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $.validator.addMethod("blank", function (value, element) {
+                return (!/^\s*$/.test(value));
+            }, "Vui lòng nhập dữ liệu.");
+
+            // Initialize the form validation
+            $("#inforForm").validate();
+
+            // cái này là on blur nè
+            $("#inforForm input, #inforForm input").on("blur", function () {
+                $(this).valid();
+            });
+
+            // cái này là on change nè
+            $("#inforForm input, #inforForm input").on("change", function () {
+                $(this).removeClass("error");
+            });
+        });
+            /*--------------------------update---------------*/
+        $("#inforForm").validate({
+            rules: {
+                Student_ID: {
+                    required: true,
+                    minlength: 3,
+                    blank: true
+                },
+                FullName: {
+                    required: true,
+                    minlength: 3,
+                    blank: true
+                },
+                Mobile: {
+                    required: true,
+                    digits: true,
+                    minlength: 10,
+                   maxlength: 11
+                }
+            },
+            messages: {
+                Student_ID: {
+                    required: "Vui lòng nhập mã số sinh viên.",
+                    minlength: "Mã số sinh viên của bạn phải ít nhất 3 kí tự.",
+                },
+                FullName: {
+                    required: "Vui lòng nhập họ và tên.",
+                    minlength: "Tên của bạn phải ít nhất 3 kí tự.",
+                },
+                Mobile: {
+                    required: "Vui lòng nhập số điện thoại.",
+                    digits: "Số điện thoại chỉ bao gồm các kí tự số.",
+                    minlength: "Số điện thoại phải có ít nhất 10 số.",
+                    maxlength: "Số điện thoại chỉ có thể có tối đa 11 số."
+                }
+            },
+        });
+        /*---------------------------update-----------------------*/
+      
+
+    </script>
+}

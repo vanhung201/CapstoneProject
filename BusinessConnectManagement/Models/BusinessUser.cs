@@ -21,6 +21,7 @@ namespace BusinessConnectManagement.Models
             this.InternshipResults = new HashSet<InternshipResult>();
             this.MOUs = new HashSet<MOU>();
             this.Posts = new HashSet<Post>();
+            this.PostInternshipTopics = new HashSet<PostInternshipTopic>();
             this.Registrations = new HashSet<Registration>();
         }
     
@@ -51,6 +52,8 @@ namespace BusinessConnectManagement.Models
         public virtual ICollection<MOU> MOUs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Post> Posts { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PostInternshipTopic> PostInternshipTopics { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Registration> Registrations { get; set; }
     }

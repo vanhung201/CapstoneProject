@@ -1,4 +1,16 @@
 /* //////////////////////////////////////////////////////
+/  Sticky  Header    /
+////////////////////////////////////////////////////// */
+.sticky {
+    position: fixed;
+    width: 100vw;
+    height: auto;
+    left: 0;
+    top: 0;
+    background-color: var(--primary);
+    z-index: 10000;
+}
+/* //////////////////////////////////////////////////////
 /    Header    /
 ////////////////////////////////////////////////////// */
 #header-desktop .logo img {
@@ -10,7 +22,7 @@
 }
 
 #main-menu .item {
-    font-size: 1.1rem;
+   
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -22,7 +34,7 @@
 }
 
 #main-menu .item a:hover {
-    color: green !important;
+    opacity: 0.7;
 }
 
 header .user img {
@@ -33,7 +45,146 @@ header .user img {
 /* //////////////////////////////////////////////////////
 /    main    /
 ////////////////////////////////////////////////////// */
+#slider {
+    position: relative;
+}
+#slider video{
+    width: 100%;
+    position: relative;
+}
+#slider::after{
+    content: "";
+position: absolute;
+background-color: #c5848469;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+z-index: 0;
+}
+#slider .form {
+    z-index: 1;
+    width: 80%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
 
+#slider .form .form-select,
+#slider .form .form-input {
+    height: 3rem;
+    font-size: 1.1rem;
+}
+
+#gioi-thieu .wrapper {
+    padding:0 10px;
+}
+#gioi-thieu .wrapper img{
+    width: 100%;
+}
+
+#gioi-thieu .body{
+    position: relative;
+    padding: 20px 0;
+    height: 100%;
+}
+#gioi-thieu .body h2{
+    position: relative;
+    font-size: 3rem;
+    line-height: 3.3rem !important;    
+    background-color: rgb(40, 40, 157);
+    right: 0;
+    color:rgb(207, 120, 45);
+    padding: 12px 15px 12px 0;
+    height: calc(7.5rem + 12px);
+}
+#gioi-thieu .body h2::after{
+    content: "";
+    background-color: rgb(40, 40, 157);
+    width: 100px;
+    height: 100%;
+    position: absolute;
+    left: -100px;
+    top: 0; 
+}
+#gioi-thieu .body p{
+    font-size: 1.2rem;
+    position:absolute;
+    left: 0;
+    top:calc(7.5rem + 40px);
+}
+#gioi-thieu .btn-position{
+    position:absolute;
+    right: 0;
+    bottom: 0;
+}
+#gioi-thieu .btn-position button{
+    border: none;
+    outline: none;
+    position:relative;
+    background-color: red;
+    padding: 0 70px 0 18px;
+    height: 52px;
+    line-height: 52px;
+    border-radius: 26px;
+}
+#gioi-thieu .btn-position .d-flex span{
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: white;
+}
+#gioi-thieu .btn-position .d-flex i{
+    font-size: 1.1rem;
+    font-weight: 600;
+    width: 48px;
+    height: 48px;
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    text-align: center;
+    line-height: 48px;
+    background-color: white;
+    border-radius: 50%;
+}
+
+#featured-icon {
+    padding: 40px 0;
+    position: relative;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+#featured-icon::after {
+    z-index: 0;
+    position: absolute;
+    content: "";
+    background-color: rgb(0 0 0 / 53%);
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+#featured-icon .container{
+    position: relative;
+    z-index: 2;
+    color: white;
+}
+#featured-icon .text-center img{
+    width: 100px;
+    height: 100px;
+    margin-bottom: 0.8rem;
+}
+#featured-icon .text-center h3{
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+}
+#featured-icon .text-center p{
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+        
 #intro-home .item {
     padding: 20px;
     background-color: white;
@@ -50,33 +201,263 @@ header .user img {
     line-height: 50px;
 }
 
-
-.title-line {
+.title-home {
     position: relative;
+    text-align: center;
 }
-
-.title-line::before {
-    content: "";
+.title-home a{
     position: absolute;
-    width: 50%;
-    height: 2px;
-    background-color: var(--primary);
+    right: 0;
     top: 50%;
-    z-index: 0;
+    transform: translateY(-50%);
+    font-weight: 600 !important;
+}
+.title-home h3{
+    color: var(--primary);
+    font-size: 2.4rem;
+    font-weight: 700;
+    text-align: center;
+    padding: 10px;
+    text-transform: uppercase;
 }
 
-.title-line h3 {
-    font-size: 1.4rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    background-color: var(--primary);
-    color: white;
-    padding: 8px 20px;
-    border-radius: 30px;
-    margin-bottom: 0;
-    z-index: 1;
-    letter-spacing: 3px;
+#mou{
+    padding: 40px 0;
+    position: relative;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
+#mou::after {
+    z-index: 0;
+    position: absolute;
+    content: "";
+    background-color: rgb(0 0 0 / 53%);
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+#mou .container{
+    position: relative;
+    z-index: 2;
+}
+
+ /* Nhà tuyển dụng  */
+
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(calc(-250px * 7))
+    }
+}
+
+.slider {
+    background: white;
+    box-shadow: 0 10px 20px -5px rgb(0 0 0 / 13%);
+    height: 100px;
+    margin: auto;
+    overflow: hidden;
+    position: relative;
+    width: 1124px;
+}
+
+.slider::before,
+.slider::after {
+    background: linear-gradient(to right,  rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%);
+    content: "";
+    height: 100px;
+    position: absolute;
+    width: 200px;
+    z-index: 2;
+}
+
+.slider::after {
+    right: 0;
+    top: 0;
+    transform: rotateZ(180deg);
+}
+
+.slider::before {
+    left: 0;
+    top: 0;
+}
+
+.slide-track {
+    animation: scroll 20s linear infinite;
+    display: flex;
+    align-items: center;
+    width: calc(250px * 14);
+}
+
+.slide {
+    height: 100px;
+    width: 250px;
+    text-align: center;
+}
+
+.slide img {
+    width: 100%;
+    height: 100px;
+    object-fit: contain;
+}
+
+
+/* ratings carousel  */
+#rating {
+    position: relative;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+#rating::after {
+    z-index: 0;
+    position: absolute;
+    content: "";
+    background-color: rgb(0 0 0 / 53%);
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+ul,
+li {
+  list-style: none;
+  text-decoration: none;
+  margin: 0;
+  padding: 0;
+}
+
+.carousel {
+    background-color: transparent !important;
+    width: 50vw;
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transform: translateX(50%);
+    overflow: hidden;
+}
+
+.carousel_slider {
+  width: 100%;
+  height: 87%;
+  overflow: hidden;
+  position: relative;
+}
+
+.content_inner_slider {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.carousel .img {
+    min-width: 50vw;
+    height: 100%;
+    object-fit: cover;
+    background-color: rgba(255, 255, 255, 0.521);
+    border-radius: 40px;
+    padding: 40px;
+}
+.carousel .img img{
+    width: 100px;    
+    height: 100px;  
+    border-radius: 50%; 
+    margin-bottom: 1rem; 
+}
+.carousel .img .name{
+    font-size: 2rem;
+    color: rgb(182, 28, 28);
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+}
+.carousel .img .position{
+    font-size: 1.6rem;
+    color: rgb(182, 28, 28);
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+.carousel .img .summary{
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: white;
+}
+.carousel .dotss {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+}
+
+.prev_button {
+  left: 0;
+}
+
+.next_button {
+  right: 0;
+}
+
+.dots {
+  display: flex;
+  margin: 1rem 0;
+}
+
+.dot {
+  width: 1rem;
+  height: 1rem;
+  border: 1px solid #d6d5d594;
+  background-color: #d6d5d594;
+  border-radius: 50%;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.form {
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+}
+
+/* Question  */
+
+#question .item {
+    background-color: white;
+    margin-bottom: 0.6rem !important;
+  }
+
+  #question .item .question {
+    box-shadow: 0px 0px 3px 1px #d3d3d3;
+    min-height: 2rem !important;
+    border-radius: 4px;
+    margin-bottom: 0;
+    padding: 4px 12px;
+    background-color: #d3d3d3;
+  }
+
+  #question .item .question p {
+    font-size: 1.1rem;
+    line-height: 1.8rem;
+    font-weight: 600;
+  }
+
+  #question .item .answer {
+    background-color: white;
+    box-shadow: 0px 0px 3px 1px #d3d3d3;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    padding: 0 10px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #6e6e6e;
+  }
+
+
+
 
 .chip {
     padding: 0 10px;
@@ -167,6 +548,28 @@ header .user img {
     bottom: 0;
 }
 
+footer {
+    color: white;
+    position: relative;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+footer .container{
+    position: relative;
+    z-index: 1;
+}
+footer::after {
+    z-index: 0;
+    position: absolute;
+    content: "";
+    background-color: rgb(0 0 0 / 53%);
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
 footer li strong {
     width: 100px;
 }
@@ -234,7 +637,7 @@ footer a {
 
 #bg-form {
     position: relative;
-    height: 70vh;
+    height: 40vh;
 }
 
 #bg-form img {
@@ -248,7 +651,7 @@ footer a {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 100%;
+    width: 60%;
 }
 
 #bg-form .form .form-select,
@@ -281,7 +684,7 @@ footer a {
 
 
 #bg-bread {
-    background-image: url(../images/bg-bread.webp);
+    background-image: url(../images/bg-bread.png);
     background-size: cover;
     background-position: center;
     height: 300px;
@@ -420,6 +823,9 @@ footer a {
 
 @media only screen and (max-width: 480px) {
 
+    #slider .form {
+        width: 95%;
+    }
     #profile .body {
         width: 95vw;
     }
@@ -514,4 +920,83 @@ footer a {
         right: 10px;
         top: 10px;
     }
+}
+
+
+#user .submenu {
+    display: none;
+}
+
+/* Show submenu when user hovers over the user element */
+#user:hover .submenu {
+    display: block;
+    position: absolute;
+    top: 150%;
+    right: -100px;
+    z-index: 999;
+    width: 240px;
+    background-color: #fff;
+}
+/* Style the submenu */
+#user .submenu li {
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+.submenu::after {
+    cursor: pointer;
+    content: "";
+    position: absolute;
+    left: 115px;
+    top: -15px;
+    border-width: 16px 20px;
+    border-style: solid;
+    border-color: transparent transparent transparent transparent;
+}
+
+#user .submenu li a {
+    display: block;
+    padding: 10px;
+    color: #000;
+    background-color: #fff;
+    text-decoration: none;
+}
+
+    #user .submenu li a:hover {
+        background-color: #f2f2f2;
+    }
+
+.btn-login {
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0 15px;
+    color: var(--primary-inverse) !important;
+}
+
+#user {
+    margin-top: 4px;
+    position: relative;
+}
+
+#header-desktop {
+    padding: 12px 0;
+}
+
+.action-wrapper {
+    width: 330px;
+    justify-content: space-around;
+}
+
+.btn-update {
+    color: #fff;
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.btn.btn-update:hover,
+btn-update:focus {
+    background-color: #116bf0;
+    border-color: #116bf0;
 }
