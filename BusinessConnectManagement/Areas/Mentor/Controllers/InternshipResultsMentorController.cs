@@ -129,10 +129,31 @@ namespace BusinessConnectManagement.Areas.Mentor.Controllers
         [HttpPost]
         public ActionResult Edit([Bind(Include = "ID,Student_Email,Semester_ID,Mentor_Email,MentorPoint,MentorComment,Business_ID,BusinessPoint,BusinessComment,InternshipTopic_ID,Status")] InternshipResult internshipResult)
         {
+            var email = User.Identity.Name;
+            var curUser = db.VanLangUsers.Where(x => x.Email == email).FirstOrDefault();
+            var fullname = curUser.FullName;
             if (ModelState.IsValid)
             {
                 db.Entry(internshipResult).State = EntityState.Modified;
+
+                string template = Server.MapPath("~/Areas/Admin/Views/Email/EmailMentor.cshtml");
+                string emailBody = System.IO.File.ReadAllText(template);
+
+                string To = internshipResult.Student_Email;
+                var studentName = db.InternshipResults.Where(x=>x.VanLangUser.Email == internshipResult.Student_Email).Select(x=>x.VanLangUser.FullName).FirstOrDefault();
+                var buName = db.InternshipResults.Where(x => x.Business_ID == internshipResult.Business_ID).Select(x => x.BusinessUser.BusinessName).FirstOrDefault();
+                string mentorPoint = (internshipResult.MentorPoint).ToString();
+                emailBody = emailBody.Replace("{studentName}", studentName);
+                emailBody = emailBody.Replace("{buName}", buName);
+                emailBody = emailBody.Replace("{fullname}", fullname);
+                emailBody = emailBody.Replace("{mentorPoint}", mentorPoint);
+                emailBody = emailBody.Replace("{mentorComment}", internshipResult.MentorComment);
+                string Subject = "Thông Báo";
+                string Body = emailBody;
+                Outlook mail = new Outlook(To, Subject, Body);
+                mail.SendMail();
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
             ViewBag.Business_ID = new SelectList(db.BusinessUsers, "ID", "Username", internshipResult.Business_ID);

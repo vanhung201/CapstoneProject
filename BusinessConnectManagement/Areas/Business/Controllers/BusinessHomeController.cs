@@ -33,11 +33,22 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
 
         public ActionResult SemesterFilter(int selectedSemesterId)
         {
-            var sv_failed = db.Registrations.Where(x => x.Semester_ID == selectedSemesterId && x.StatusInternview == "Rớt Phỏng Vấn").Count();
-            var sv_passed = db.Registrations.Where(x => x.Semester_ID == selectedSemesterId && x.StatusInternview == "Đậu Phỏng Vấn").Count();
-            var sv_practicing = db.InternshipResults.Where(x => x.Semester_ID == selectedSemesterId && x.Status == "Đang Thực Tập").Count();
-            var sv_pending = db.InternshipResults.Where(x => x.Semester_ID == selectedSemesterId && x.Status == "Chờ Xác Nhận").Count();
-            var sv_completed = db.InternshipResults.Where(x => x.Semester_ID == selectedSemesterId && x.Status == "Thực Tập Xong").Count();
+            int BusinessID = Convert.ToInt16(Session["BusinessID"]);
+            var sv_failed = db.Registrations.Where(x => x.Semester_ID == selectedSemesterId && 
+            x.StatusInternview == "Rớt Phỏng Vấn" && 
+            x.Business_ID == BusinessID).Count();
+            var sv_passed = db.Registrations.Where(x => x.Semester_ID == selectedSemesterId &&
+            x.StatusInternview == "Đậu Phỏng Vấn" &&
+            x.Business_ID == BusinessID).Count();
+            var sv_practicing = db.InternshipResults.Where(x => x.Semester_ID == selectedSemesterId &&
+            x.Status == "Đang Thực Tập" &&
+            x.Business_ID == BusinessID).Count();
+            var sv_pending = db.InternshipResults.Where(x => x.Semester_ID == selectedSemesterId &&
+            x.Status == "Chờ Xác Nhận" &&
+            x.Business_ID == BusinessID).Count();
+            var sv_completed = db.InternshipResults.Where(x => x.Semester_ID == selectedSemesterId &&
+            x.Status == "Thực Tập Xong" &&
+            x.Business_ID == BusinessID).Count();
             return Json(new
             {
                 sv_failed = sv_failed,

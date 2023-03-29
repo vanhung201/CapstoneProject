@@ -78,22 +78,18 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                 registration.StatusInternview = "Chờ Phỏng Vấn";
                 db.Entry(registration).State = EntityState.Modified;
                 db.SaveChanges();
+                string template = Server.MapPath("~/Areas/Admin/Views/Email/EmailFacultyCV.cshtml");
+                string emailBody = System.IO.File.ReadAllText(template);
+
                 string To = registration.Email_VanLang;
-                string status = "";
-                switch (registration.StatusRegistration)
-                {
-                    case "Hủy Duyệt":
-                        status = "<span style='color:red;'>" + registration.StatusRegistration + "</span>";
-                        break;
-                    case "Phê Duyệt":
-                        status = "<span style='color:green;'>" + registration.StatusRegistration + "</span>";
-                        break;
-                    case "Không Duyệt":
-                        status = "<span style='color:red;'>" + registration.StatusRegistration + "</span>";
-                        break;
-                }
+                var studentName = db.VanLangUsers.Where(x => x.Email == registration.Email_VanLang).Select(x => x.FullName).FirstOrDefault();
+                var buName = db.BusinessUsers.Where(x => x.ID == registration.Business_ID).Select(x => x.BusinessName).FirstOrDefault();
+                emailBody = emailBody.Replace("{studentName}", studentName);
+                emailBody = emailBody.Replace("{buName}", buName);
+                emailBody = emailBody.Replace("{StatusRegistration}", registration.StatusRegistration);
+                emailBody = emailBody.Replace("{Comment}", registration.Comment);
                 string Subject = "Thông Báo";
-                string Body = "<h2>Đơn ứng tuyển của bạn ở bài viết " + post.Title + " đã chuyển sang trạng thái: " + status + " với nhận xét: " + registration.Comment + "</h2>";
+                string Body = emailBody;
                 Outlook mail = new Outlook(To, Subject, Body);
                 mail.SendMail();
                 TempData["AlertMessage"] = "<div class=\"toast toast--success\">\r\n     <div class=\"toast-left toast-left--success\">\r\n       <i class=\"fas fa-check-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n       <p class=\"toast-text\">Cập nhật thành công</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n      <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>";
