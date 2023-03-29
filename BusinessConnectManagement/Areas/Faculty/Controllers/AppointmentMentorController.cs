@@ -125,6 +125,20 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
             {
                 db.Entry(internshipResult).State = EntityState.Modified;
                 db.SaveChanges();
+                string template = Server.MapPath("~/Areas/Admin/Views/Email/EmailFacultyMentor.cshtml");
+                string emailBody = System.IO.File.ReadAllText(template);
+
+                string To = internshipResult.Student_Email;
+                var studentName = db.VanLangUsers.Where(x => x.Email == internshipResult.Student_Email).Select(x => x.FullName).FirstOrDefault();
+                var mentor = db.VanLangUsers.Where(x => x.Email == internshipResult.Mentor_Email).FirstOrDefault();
+                emailBody = emailBody.Replace("{studentName}", studentName);
+                emailBody = emailBody.Replace("{fullname}", mentor.FullName);
+                emailBody = emailBody.Replace("{Email}", internshipResult.Mentor_Email);
+                emailBody = emailBody.Replace("{Mobile}", mentor.Mobile);
+                string Subject = "Thông Báo";
+                string Body = emailBody;
+                Outlook mail = new Outlook(To, Subject, Body);
+                mail.SendMail();
                 TempData["AlertMessage"] = "<div class=\"toast toast--success\">\r\n     <div class=\"toast-left toast-left--success\">\r\n       <i class=\"fas fa-check-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n       <p class=\"toast-text\">Bổ nhiệm giảng viên hướng dẫn thành công.</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n      <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>";
 
                 return RedirectToAction("Index");

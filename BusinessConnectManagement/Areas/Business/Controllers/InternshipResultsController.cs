@@ -136,8 +136,25 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
                 {
                     registration.InterviewResult = "Thực Tập Xong";
                     db.Entry(registration).State = EntityState.Modified;
+                    string template = Server.MapPath("~/Areas/Admin/Views/Email/EmailBusinessInternship.cshtml");
+                    string emailBody = System.IO.File.ReadAllText(template);
+
+                    string To = internshipResult.Student_Email;
+                    var studentName = db.InternshipResults.Where(x => x.VanLangUser.Email == internshipResult.Student_Email).Select(x => x.VanLangUser.FullName).FirstOrDefault();
+                    var buName = db.InternshipResults.Where(x => x.Business_ID == internshipResult.Business_ID).Select(x => x.BusinessUser.BusinessName).FirstOrDefault();
+                    string buPoint = (internshipResult.BusinessPoint).ToString();
+                    emailBody = emailBody.Replace("{studentName}", studentName);
+                    emailBody = emailBody.Replace("{buName}", buName);
+                    emailBody = emailBody.Replace("{BusinessPoint}", buPoint);
+                    emailBody = emailBody.Replace("{BusinessComment}", internshipResult.BusinessComment);
+                    string Subject = "Thông Báo";
+                    string Body = emailBody;
+                    Outlook mail = new Outlook(To, Subject, Body);
+                    mail.SendMail();
                 }
                 TempData["AlertMessage"] = "<div class=\"toast toast--success\">            <div class=\"toast-left toast-left--success\">               <i class=\"fas fa-check-circle\"></i>\r\n            </div>\r\n            <div class=\"toast-content\">\r\n                <p class=\"toast-text\">Cập Nhật Thành Công.</p>            </div>\r\n            <div class=\"toast-right\">\r\n                <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n            </div>\r\n        </div>";
+                
+                db.SaveChanges();
                 db.Entry(internshipResult).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

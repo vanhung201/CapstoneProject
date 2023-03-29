@@ -160,6 +160,20 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
         {
             if (ModelState.IsValid)
             {
+                string template = Server.MapPath("~/Areas/Admin/Views/Email/EmailBusinessInterview.cshtml");
+                string emailBody = System.IO.File.ReadAllText(template);
+                var fullname = db.Registrations.Where(x => x.VanLangUser.Email == registration.Email_VanLang).Select(x => x.VanLangUser.FullName).FirstOrDefault();
+
+                string To = registration.Email_VanLang;
+                var buName = db.Registrations.Where(x => x.Business_ID == registration.Business_ID).Select(x => x.BusinessUser.BusinessName).FirstOrDefault();
+                emailBody = emailBody.Replace("{studentName}", fullname);
+                emailBody = emailBody.Replace("{buName}", buName);
+                emailBody = emailBody.Replace("{StatusInternview}", registration.StatusInternview);
+                emailBody = emailBody.Replace("{InterviewResultComment}", registration.InterviewResultComment);
+                string Subject = "Thông Báo";
+                string Body = emailBody;
+                Outlook mail = new Outlook(To, Subject, Body);
+                mail.SendMail();
                 var email = db.VanLangUsers.Where(x => x.Email == registration.Email_VanLang).First();
                 if (registration.StatusInternview == "Đậu Phỏng Vấn")
                 {
