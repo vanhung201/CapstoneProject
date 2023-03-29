@@ -7,24 +7,9 @@
 @{
     BCMEntities db = new BCMEntities();
 
-    int studentNumber = db.VanLangUsers.Count(x => x.Role == "Student");
-    int facultyNumber = db.VanLangUsers.Count(x => x.Role == "Faculty");
-    int mentorNumber = db.VanLangUsers.Count(x => x.Role == "Mentor");
-    int businessNumber = db.BusinessUsers.Count();
-    int userActiveNumber = db.VanLangUsers.Count(x => x.Status_ID == 1);
-    int userBlockedNumber = db.VanLangUsers.Count(x => x.Status_ID == 2);
-
-    var bu = db.BusinessUsers.Select(x => x.BusinessName).ToArray();
-    var buID = db.BusinessUsers.Select(x => x.ID).ToArray();
-    var passedStudent = buID.Select(buId => db.Registrations.Count(x => x.Business_ID == buId && x.StatusInternview == "Đậu")).ToArray();
     var years = db.YearStudies.ToList();
     var curSemester = db.Semesters.Where(x => x.Status == true).Select(x => x.ID).ToList();
     var buSignedMOU = db.MOUs.Count();
-    //for (int i = 0; i < buID.Length; i++)
-    //{
-    //    int num = db.Registrations.Count(x => x.Business_ID == buID[i] && x.StatusInternview == "Đậu");
-    //    passedStudent[i] = num;
-    //}
 }
 <section id="statistic">
     <div class="filter">
@@ -158,7 +143,7 @@
                 $('#sv_practicing').text(res.sv_practicing);
                 $('#sv_pending').text(res.sv_pending);
                 $('#sv_completed').text(res.sv_completed);
-                if (res.sv_failed == 0 && res.sv_completed == 0 && res.sv_passed == 0 && res.sv_pending == 0 && res.sv_praticing == 0) {
+                if (res.sv_failed == 0 && res.sv_completed == 0 && res.sv_passed == 0 && res.sv_pending == 0 && res.sv_practicing == 0) {
                     $('#sv_empty').text('Không có dữ liệu');
                 } else {
                     $('#sv_empty').text('');

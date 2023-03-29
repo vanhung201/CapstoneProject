@@ -106,6 +106,21 @@ namespace BusinessConnectManagement.Areas.Admin.Controllers
             {
                 db.Entry(vanLangUser).State = EntityState.Modified;
                 db.SaveChanges();
+                string template = Server.MapPath("~/Areas/Admin/Views/Email/EmailUpdateAccount.cshtml");
+                string emailBody = System.IO.File.ReadAllText(template);
+                string To = vanLangUser.Email;
+                var student = db.VanLangUsers.Where(x => x.Email == vanLangUser.Email).FirstOrDefault();
+                var curUser = db.VanLangUsers.Where(x => x.Email == User.Identity.Name).FirstOrDefault();
+                emailBody = emailBody.Replace("{studentName}", student.FullName);
+                emailBody = emailBody.Replace("{admin}", curUser.FullName);
+                emailBody = emailBody.Replace("{Fullname}", student.FullName);
+                emailBody = emailBody.Replace("{Role}", vanLangUser.Role);
+                emailBody = emailBody.Replace("{Email}", vanLangUser.Email);
+                emailBody = emailBody.Replace("{Mobile}", vanLangUser.Mobile);
+                string Subject = "Thông Báo";
+                string Body = emailBody;
+                Outlook mail = new Outlook(To, Subject, Body);
+                mail.SendMail();
                 TempData["AlertMessage"] = "<div class=\"toast toast--success\" style=\"position: abosolute; z-index: 20;\">\r\n     <div class=\"toast-left toast-left--success\">\r\n       <i class=\"fas fa-check-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n       <p class=\"toast-text\">Cập nhật thành công.</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n      <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>\r\n";
                 return RedirectToAction("AuthorizeList");
             }

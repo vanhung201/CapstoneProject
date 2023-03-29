@@ -51,7 +51,9 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
                     }
                     else
                     {
-                        Session["password-incorrect"] = true;
+                        TempData["message"] = "Đăng Nhập Thất Bại. Sai Tài Khoản Hoặc Mật Khẩu";
+                        TempData["messageType"] = "error";
+
 
                         return View();
                     }
@@ -59,7 +61,8 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
             }
             else
             {
-                Session["username-incorrect"] = true;
+                TempData["message"] = "Tài Khoản Không Tồn Tại";
+                TempData["messageType"] = "warning";
 
                 return View();
             }
