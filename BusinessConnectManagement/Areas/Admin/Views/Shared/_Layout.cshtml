@@ -340,13 +340,17 @@
     let formAddCr = document.getElementById("addFormCr");
     let formAdd = document.getElementById("addForm");
     let formImport = document.getElementById("importForm");
+    let formDowload = document.getElementById("dowloadForm");
     let formUpdate = document.getElementById("updateForm");
     let formDelete = document.getElementById("deleteForm");
     let icon = document.querySelector(".form-icon");
     let isHide = "is-hide";
     let isAppear = "is-appear";
-    $(".btn--ìmport").on("click", function () {
+    $(".btn--import").on("click", function () {
         formImport.classList.add(isAppear);
+    });
+    $(".btn--dowload").on("click", function () {
+        formDowload.classList.add(isAppear);
     });
     $(".btn--create").on("click", function () {
         formAdd.classList.add(isAppear);

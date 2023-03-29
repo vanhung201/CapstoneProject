@@ -27,32 +27,26 @@ namespace BusinessConnectManagement.Controllers
         }
 
         // GET: Posts
-        public ActionResult Index(string SearchString = "")
+        public ActionResult Index(int? page)
         {
-           
-            if (SearchString != "")
-            {
-                var bu = db.Posts.Include(x => x.BusinessUser).Where(s => s.BusinessUser.BusinessName.ToUpper().Contains(SearchString.ToUpper()));
-                var titles = db.Posts.Include(x => x.BusinessUser).Where(s => s.Title.ToUpper().Contains(SearchString.ToUpper()));
-                if (titles.Any() == false)
-                {
-                    var tif = titles.Where(s => s.Form.ToUpper().Contains(SearchString.ToUpper()));
-                    if (bu.Any() == false)
-                    {
-                        TempData["AlertMessage"] = "Không tìm thấy bài viết với từ khóa tìm kiếm " + "'" + SearchString + "'";
-                    }
-                    else
-                    {
-                        return View(bu.ToList());
-                    }
+            ViewBag.MOUs = db.MOUs.ToList();
+            ViewBag.Major = db.Majors.ToList();
+            if (page == null) page = 1;
 
-                }
-                return View(titles.ToList());
+            var posts = (from post in db.Posts
+                         select post).OrderByDescending(x => x.ID);
 
-            }
 
-            var posts = db.Posts.Include(p => p.BusinessUser).Include(p => p.Semester).Include(p => p.VanLangUser).Include(p => p.VanLangUser1);
-            return View(posts.ToList());
+            int pageSize = 6;
+
+            int pageNumber = (page ?? 1);
+
+            ViewBag.Posts = posts;
+            ViewBag.CountStudent = db.VanLangUsers.Count();
+            ViewBag.CountPost = db.Posts.Count();
+            ViewBag.CountBusiness = db.BusinessUsers.Count();
+            ViewBag.MOU = db.MOUs.ToList();
+            return View(posts.ToPagedList(pageNumber, pageSize));
         }
         public ActionResult Search(int? page,string SearchString = "", string Form = "", string Major = "")
         {
@@ -63,7 +57,7 @@ namespace BusinessConnectManagement.Controllers
             var titles = db.Posts.Include(x => x.BusinessUser).Where(s => s.Title.ToUpper().Contains(SearchString.ToUpper()));
             var form = db.Posts.Include(x => x.BusinessUser).Where(s => s.Form.ToUpper().Contains(Form.ToUpper()));
             var posts = db.Posts.Include(p => p.BusinessUser).Include(p => p.Semester).Include(p => p.VanLangUser).Include(p => p.VanLangUser1);
-            int pageSize = 5;
+            int pageSize = 6;
 
             int pageNumber = (page ?? 1);
             if (Major == "")

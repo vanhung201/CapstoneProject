@@ -16,14 +16,13 @@
     }
 <div class="list-table">
     <div id="filterEvent">
-            <div class="btn btn--create" id="export" style=" z-index: 1; width: 110px; margin-right: 10px;">
-                <span class="btn-text">Export Excel</span>
-            </div>
+        <div class="btn btn--create" id="export" style=" z-index: 1; width: 110px; margin-right: 10px;">
+            <span class="btn-text">Export Excel</span>
+        </div>
     </div>
-    <div class="filter">
-        <div class="bu_status"></div>
-        <label id="nameLabel1">Lọc:</label>
-    </div>
+    <div class="rg_status"></div>
+    <div class="rg_role" style="left"></div>
+    <label id="nameLabel">Lọc:</label>
     <table id="table_listData" class="display">
         <thead>
             <tr>
@@ -33,6 +32,7 @@
                 <th>SĐT</th>
                 <th width="333px">Vị Trí</th>
                 <th>Trạng thái</th>
+                <th>Học Kỳ</th>
                 <th>Chức năng</th>
 
             </tr>
@@ -87,14 +87,14 @@
 
 </form>
 
-<form action="" class="form" id="export_form" method="post">
+<form action="@Url.Action("ExportToExcel", "InternshipResults")" class="form" id="export_form" method="post">
     <div class="form-container--small">
         <h1 class="form-heading">Export Excel</h1>
         <div class="form-row">
             <div class="form-column">
                 <div class="form-group">
                     <label class="form-label">Năm Học</label>
-                    <select class="form-select" id="year">
+                    <select class="form-input" id="year">
                         @foreach (var item in ViewBag.YearStudy)
                         {
                             <option value="@item.ID">@item.YearStudy1</option>
@@ -104,7 +104,7 @@
 
                 <div class="form-group">
                     <label class="form-label">Học Kỳ</label>
-                    <select class="form-select" id="semester">
+                    <select class="form-input" name="semester_id" id="semester">
                         
                     </select>
                 </div>
@@ -155,6 +155,7 @@
 
                          }
                      },
+                     { data: "semester", visible: false },
                     {
                         data: "id",
                         render: function (t, e, a) {
@@ -174,13 +175,13 @@
                 ],
                  initComplete: function () {
                      this.api()
-                         .columns(5)
+                         .columns(6)
                          .every(function () {
                              var t = this,
                                  e = $(
-                                     '<select id="UserType" style="margin-right: 8px;border: 1px solid #aaa;border-radius: 3px;padding: 5px;background-color: transparent; margin-left: 3px;" class="form-select text-capitalize mb-md-0 mb-2xx"><option value="">---- Chọn Trạng Thái Để Lọc ----</option></select>'
+                                     '<select id="UserType1" style="margin-right: 8px;border: 1px solid #aaa;border-radius: 3px;padding: 5px;background-color: transparent; margin-left: 3px;" class="form-select text-capitalize mb-md-0 mb-2xx"><option value=""> Chọn học kỳ để lọc </option></select>'
                                  )
-                                     .appendTo("#table_listData_filter")
+                                     .prependTo("#table_listData_filter")
                                      .on("change", function () {
                                          var e = $.fn.dataTable.util.escapeRegex($(this).val());
                                          t.search(e ? "^" + e + "$" : "", !0, !1).draw();
@@ -188,18 +189,39 @@
                              t.data()
                                  .unique()
                                  .sort()
-                                 .each(function (t, a) {
+                                 .each(function (t) {
                                      t &&
                                          e.append(
-                                             '<option value="' +
-                                             t +
-                                             '" class="text-capitalize">' +
-                                             t +
-                                             "</option>"
+                                             '<option value="' + t + '" class="text-capitalize">' + t + '</option>'
+
                                          );
-                                 });
-                         })
-                 }
+                                 })
+
+                         }),
+                         this.api()
+                             .columns(5)
+                             .every(function () {
+                                 var t = this,
+                                     e = $(
+                                         '<select id="UserType2" style="margin-right: 8px;border: 1px solid #aaa;border-radius: 3px;padding: 5px;background-color: transparent; margin-left: 3px;" class="form-select text-capitalize mb-md-0 mb-2xx"><option value=""> Chọn trạng thái để lọc </option></select>'
+                                     )
+                                         .prependTo("#table_listData_filter")
+                                         .on("change", function () {
+                                             var e = $.fn.dataTable.util.escapeRegex($(this).val());
+                                             t.search(e ? "^" + e + "$" : "", !0, !1).draw();
+                                         });
+                                 t.data()
+                                     .unique()
+                                     .sort()
+                                     .each(function (t) {
+                                         t &&
+                                             e.append(
+                                                 '<option value="' + t + '" class="text-capitalize">' + t + '</option>'
+
+                                             );
+                                     })
+                             });
+                 }                
             })
             )
             dataTable.on("draw.dt", function () {
@@ -306,29 +328,7 @@
     });
   });
 
-  semesterSelect.on('change', function () {
-    var selectedSemesterId = semesterSelect.val();
-    var url = '@Url.Action("SemesterFilter", "InternshipResults")' + '?selectedSemesterId=' + selectedSemesterId;
-
-    $.ajax({
-      url: url,
-      type: 'GET',
-      dataType: 'json',
-      success: function (res) {
-          console.log(res)
-          if ((res.data).length <= 0) {
-              $('#confirm').prop('disabled', true)
-              $('#confirm').unbind('hover')
-          } else {
-              $('#confirm').prop('disabled', false)
-              $('#confirm').bind('hover')
-
-          }
-      },
-      error: function (xhr, status, error) {
-      }
-    });
-  });
+  
 });
         $('#export').on('click', function () {
             $('#year').trigger('change');
@@ -338,8 +338,10 @@
         $('#cancel_export').on('click', function () {
             $('#export_form').removeClass('is-appear')
         })
-
-
+        $('#confirm').on('click', function () {
+            $('#export_form').removeClass('is-appear')
+        })
+        
 
     </script>
 }

@@ -1511,6 +1511,7 @@
     <Folder Include="Areas\Faculty\Data\" />
     <Folder Include="Areas\Mentor\Data\" />
     <Folder Include="assets\js\ckfinder\userfiles\" />
+    <Folder Include="Uploads\ExcelTemplate\" />
     <Folder Include="Uploads\Import\" />
   </ItemGroup>
   <ItemGroup>
