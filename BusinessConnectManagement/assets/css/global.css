@@ -308,6 +308,15 @@ tbody > tr:last-child td:first-child {
 .btn--create {
   background-color: #00b09b;
 }
+.btn--createe {
+    position: absolute;
+    right: 0;
+}
+
+.btn--createe {
+    background-color: #00b09b;
+}
+
 
 .btn--add {
   color: #00b09b;

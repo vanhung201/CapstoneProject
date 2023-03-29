@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -10,6 +12,8 @@ using System.Web.Mvc;
 using System.Web.Services.Description;
 using BusinessConnectManagement.Middleware;
 using BusinessConnectManagement.Models;
+using OfficeOpenXml.Style;
+using OfficeOpenXml;
 
 namespace BusinessConnectManagement.Areas.Business.Controllers
 {
@@ -23,7 +27,7 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
         public ActionResult Index()
         {
             int BusinessID = Convert.ToInt16(Session["BusinessID"]);
-
+            ViewBag.YearStudy = db.YearStudies.ToList();
             var registrations = db.Registrations.Where(x => x.Business_ID == BusinessID && x.StatusRegistration == "Phê duyệt");
            
             return View(registrations.ToList());
@@ -47,7 +51,8 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
                                email = re.Email_VanLang,
                                phone = re.VanLangUser.Mobile,
                                cv = re.CV,
-                               status = re.StatusInternview
+                               status = re.StatusInternview,
+                               semester = re.Semester.Semester1
                            };
                            return Json(dataRegis, JsonRequestBehavior.AllowGet);
         }
@@ -185,15 +190,15 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
                     InternShip.Status = "Chờ Xác Nhận";
                     registration.InternshipResult_ID = InternShip.ID;
                     registration.InterviewResult = "Chờ Xác Nhận";
-                    db.Entry(registration).State = EntityState.Modified;
+                   
                     db.InternshipResults.Add(InternShip);
+                    db.Entry(registration).State = EntityState.Modified;
                     db.SaveChanges();
                     TempData["AlertMessage"] = "<div class=\"toast toast--success\">            <div class=\"toast-left toast-left--success\">               <i class=\"fas fa-check-circle\"></i>\r\n            </div>\r\n            <div class=\"toast-content\">\r\n                <p class=\"toast-text\">Cập Nhật Thành Công.</p>            </div>\r\n            <div class=\"toast-right\">\r\n                <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n            </div>\r\n        </div>";
                     return RedirectToAction("Index");
                 }
                 else
                 {
-                    
                     var getIDRe = db.InternshipResults.Where(x => x.ID == registration.InternshipResult_ID).Any();
                     if (getIDRe == false)
                     {
@@ -270,6 +275,111 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
             db.Registrations.Remove(registration);
             db.SaveChanges();
 
+            return RedirectToAction("Index");
+        }
+        public ActionResult ExportToExcel(int semester_id)
+        {
+            if (ModelState.IsValid)
+            {
+                int BusinessID = Convert.ToInt16(Session["BusinessID"]);
+               
+                var myTable = db.Registrations.Where(x => x.Business_ID == BusinessID && x.Semester_ID == semester_id).ToList();
+                var intern = myTable.Select(x => new InternshipResult
+                {
+                    VanLangUser = x.VanLangUser,
+                    Student_Email = x.VanLangUser.Email,
+                    InternshipTopic_ID = x.InternshipTopic_ID,
+                    InternshipTopic = x.InternshipTopic,
+                  
+
+                }).ToList();
+
+                if (db.Registrations.Where(x => x.Business_ID == BusinessID && x.Semester_ID == semester_id).Count() != 0)
+                {
+                    var getNameSemester = db.Registrations.Where(x => x.Business_ID == BusinessID && x.Semester_ID == semester_id).FirstOrDefault();
+                    ExcelPackage.LicenseContext = LicenseContext.Commercial;
+                    using (ExcelPackage pck = new ExcelPackage(new FileInfo("MyWorkbook.xlsx")))
+                    {
+                        ExcelWorksheet ws = pck.Workbook.Worksheets.Add("Report");
+                        //customize
+                        var modelTable = ws.Cells;
+                        modelTable.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                        modelTable.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                        modelTable.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                        modelTable.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                        ws.Cells.Style.Font.Name = "Times New Roman";
+                        ws.Cells.Style.Font.Size = 12;
+                        ws.Row(5).Style.Font.Size = 14;
+                        ws.Row(5).Style.Font.Bold = true;
+                       
+                        
+
+
+                        ws.Cells["A1"].Value = "Văn Lang University";
+                        ws.Cells["A1"].Style.HorizontalAlignment = ExcelHorizontalAlignment.CenterContinuous;
+                        ws.Cells["A2"].Value = "Business Connection Management";
+                        ws.Cells["A2"].Style.HorizontalAlignment = ExcelHorizontalAlignment.CenterContinuous;
+                        ws.Cells["A3"].Value = string.Format("{0:dd MMMM yyyy} at {0:H: mm tt}", DateTimeOffset.Now); ;
+                        ws.Row(1).Style.Font.Bold = true;
+                        ws.Cells["A2"].Style.Font.Bold = true;
+                        ws.Cells["A4:H4"].Merge = true;
+                        ws.Cells["A4"].Value = "Danh Sách Ứng Tuyển Học Kỳ "+ getNameSemester.Semester.Semester1;
+                        ws.Cells["A4"].Style.HorizontalAlignment = ExcelHorizontalAlignment.CenterContinuous;
+                        ws.Row(4).Style.Font.Bold = true;
+                        ws.Row(4).Style.Font.Size = 18;
+                       
+
+
+
+                        ws.Cells["A5"].Value = "Email VLU";
+                        ws.Cells["B5"].Value = "Họ Và Tên";
+                        ws.Cells["C5"].Value = "MSSV";
+                        ws.Cells["D5"].Value = "Số Điện Thoại";
+                        ws.Cells["E5"].Value = "Vị Trí Thực Tập";
+                        ws.Cells["F5"].Value = "Trạng Thái Phỏng Vấn";
+                       
+                      
+                        int rowStart = 6;
+                        foreach (var item in myTable)
+                        {
+                            if (item.StatusInternview == "Đậu Phỏng Vấn")
+                            {
+                                ws.Row(rowStart).Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                                ws.Row(rowStart).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml("#b3ffb3"));
+                                ws.Row(rowStart).Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                                ws.Row(rowStart).Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                                ws.Row(rowStart).Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                                ws.Row(rowStart).Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                            }
+                            if (item.StatusInternview == "Rớt Phỏng Vấn")
+                            {
+                                ws.Row(rowStart).Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                                ws.Row(rowStart).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml("#ffff99"));
+                                ws.Row(rowStart).Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                                ws.Row(rowStart).Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                                ws.Row(rowStart).Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                                ws.Row(rowStart).Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                            }
+                            ws.Cells[string.Format("A{0}", rowStart)].Value = item.VanLangUser.Email;
+                            ws.Cells[string.Format("B{0}", rowStart)].Value = item.VanLangUser.FullName;
+                            ws.Cells[string.Format("C{0}", rowStart)].Value = item.VanLangUser.Student_ID;
+                            ws.Cells[string.Format("D{0}", rowStart)].Value = item.VanLangUser.Mobile;
+                            ws.Cells[string.Format("E{0}", rowStart)].Value = item.InternshipTopic.InternshipTopicName;
+                            ws.Cells[string.Format("F{0}", rowStart)].Value = item.StatusInternview;
+                            rowStart++;
+                        }
+                        ws.Cells["A:AZ"].AutoFitColumns();
+                        Response.Clear();
+                        Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                        Response.AddHeader("content-disposition", "attachment; filename=ExcelReport.xlsx");
+                        Response.BinaryWrite(pck.GetAsByteArray());
+                        Response.End();
+                    }
+
+                }
+                TempData["AlertMessage"] = "<div class=\"toast toast--error\">\r\n     <div class=\"toast-left toast-left--error\">\r\n       <i class=\"fas fa-times-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n    <p class=\"toast-text\">Học kỳ không có dữ liệu để Export</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n       <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>";
+                return RedirectToAction("Index");
+            }
             return RedirectToAction("Index");
         }
 

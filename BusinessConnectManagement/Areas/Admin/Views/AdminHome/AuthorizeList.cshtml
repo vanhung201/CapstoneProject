@@ -15,6 +15,10 @@
 <div class="list-table">
     <div id="filterEvent">
         <a>
+            <div class="btn btn--create" style=" z-index: 1; width: 110px; margin-right: 130px;">
+                <span class="btn-text btn--dowload">Excel Mẫu</span>
+
+            </div>
             <div class="btn btn--create" style=" z-index: 1; width: 110px; margin-right: 10px;">
                 <span class="btn-text btn--ìmport">Import Excel</span>
 
@@ -43,7 +47,39 @@
 </div>
 </section>
 
+@*-------------------Excel Mẫu -------------------------------*@
+<form class="form" action="@Url.Action("DownloadFile", "AdminHome")" id="dowloadForm" method="post" enctype="multipart/form-data">
+    <div class="form-container--small">
+        <h1 class="form-heading">Excel Mẫu</h1>
+        <div class="row">
+            <div class="column">
+                <div class="form-group">
+                  <label class="form-label">Student</label>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Mentor</label>
+                </div>
+            </div>
+            <div class="column">
+                <div class="form-group">
+                 <a href="@Url.Action("DownloadFile", "AdminHome", new { filePath = "Student.xlsx" })">Student.xlsx</a>
+                </div>
+                <div class="form-group">
+                    <a href="@Url.Action("DownloadFile", "AdminHome", new { filePath = "Mentor.xlsx" })">Mentor.xlsx</a>
+                </div>
+            </div>
+        </div>
+       
 
+        <div class="form-group">
+          
+            <a class="btn btn--confirm">Xác Nhận</a>
+
+        </div>
+    </div>
+
+</form>
+@*--------------------------Import-------------------------------*@
 <form class="form" action="@Url.Action("ImportData", "AdminHome")" id="importForm" method="post" enctype="multipart/form-data">
     <div class="form-container--small">
         <h1 class="form-heading">Import Excel</h1>
@@ -55,12 +91,11 @@
             <div class="form-group">
                 <a class="btn btn--cancel">Hủy</a>
                 <button type="submit" id="submit_edit" class="btn btn--confirm">Xác Nhận</button>
-
             </div>
         </div>
 
 </form>
-
+@*----------------------------------Update---------------------*@
 <form action="@Url.Action("Edit", "AdminHome")" method="post" class="form" id="updateForm" name="myForm" enctype="multipart/form-data">
     <div>
         <div class="form-container--small">
@@ -280,6 +315,10 @@
         })
         $('.btn--cancel').on('click', function () {
             $('#importForm').removeClass('is-appear')
+        })
+       
+        $('.btn--confirm').on('click', function () {
+            $('#dowloadForm').removeClass('is-appear')
         })
         
 
