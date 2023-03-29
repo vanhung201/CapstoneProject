@@ -257,7 +257,7 @@ namespace BusinessConnectManagement.Areas.Admin.Controllers
                     if(CheckRoleStart.ToString()== "Mentor")
                     {
                         /*----------------------------------Mentor---------------------------*/
-                        if (CheckEmailMentor.ToString() == "Email" && CheckFullNameMentor.ToString() == "Họ và tên" && CheckMobileMentor.ToString() == "SĐT" && CheckRoleMentor.ToString() == "Vai trò" && Checkstatus_IDMentor.ToString() == "Trạng thái")
+                        if (CheckEmailMentor.ToString() == "Email" && CheckFullNameMentor.ToString() == "Họ và tên" && CheckMobileMentor.ToString() == "SĐT" && CheckRoleMentor.ToString() == "Vai trò" )
                         {
                             do
                             {
@@ -272,7 +272,7 @@ namespace BusinessConnectManagement.Areas.Admin.Controllers
                                 if (data != null && Email != null)
                                 {
                                     //importData
-                                    var isSuccess = saveClassMentor(Email.ToString(), FullName.ToString(), Mobile.ToString(), Role.ToString(), Int32.Parse(status_ID.ToString()), db);
+                                    var isSuccess = saveClassMentor(Email.ToString(), FullName.ToString(), Mobile.ToString(), Role.ToString(), db);
                                     if (isSuccess)
                                     {
                                         count++;
@@ -285,15 +285,16 @@ namespace BusinessConnectManagement.Areas.Admin.Controllers
                         }
                         else
                         {
+                            System.IO.File.Delete(path);
                             result = false;
-                            TempData["AlertMessage"] = "<div class=\"toast toast--error\">\r\n     <div class=\"toast-left toast-left--error\">\r\n       <i class=\"fas fa-times-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n    <p class=\"toast-text\">File Excel không đúng định dạng dữ liệu.</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n       <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>";
+                           
 
                         }
                     }
                     else
                     {
                         //---------------------Student------------------
-                        if (CheckEmail.ToString() == "Email" && CheckFullName.ToString() == "Họ và tên" && CheckStudent_ID.ToString() == "Mã sinh viên" && CheckMobile.ToString() == "SĐT" && CheckRole.ToString() == "Vai trò" && Checkmajor_ID.ToString() == "Chuyên nghành" && Checkstatus_ID.ToString() == "Trạng thái")
+                        if (CheckEmail.ToString() == "Email" && CheckFullName.ToString() == "Họ và tên" && CheckStudent_ID.ToString() == "Mã sinh viên" && CheckMobile.ToString() == "SĐT" && CheckRole.ToString() == "Vai trò" && Checkmajor_ID.ToString() == "Chuyên nghành")
                         {
                             do
                             {
@@ -304,44 +305,44 @@ namespace BusinessConnectManagement.Areas.Admin.Controllers
                                 object Mobile = worksheet.Cells[startRow, startColumn + 4].Value;
                                 object Role = worksheet.Cells[startRow, startColumn + 5].Value;
                                 object major_ID = worksheet.Cells[startRow, startColumn + 6].Value;
-                                object status_ID = worksheet.Cells[startRow, startColumn + 7].Value;
+
                                 //read column class name
 
                                 if (data != null && Email != null)
                                 {
                                     //importData
-                                    var isSuccess = saveClass(Email.ToString(), FullName.ToString(), Student_ID.ToString(), Mobile.ToString(), Role.ToString(), Int32.Parse(major_ID.ToString()), Int32.Parse(status_ID.ToString()), db);
+                                    var isSuccess = saveClass(Email.ToString(), FullName.ToString(), Student_ID.ToString(), Mobile.ToString(), Role.ToString(), Int32.Parse(major_ID.ToString()), db);
                                     if (isSuccess)
                                     {
                                         count++;
                                     }
+
                                 }
                                 startRow++;
 
                             }
                             while (data != null);
-                            
+                            result = true;
                         }
                         else
                         {
+                            System.IO.File.Delete(path);
                             result = false;
                         }
                     }
-                   
-                  
-                   
 
                 }
                
             }
             catch
             {
+                System.IO.File.Delete(path);
                 result = false;
             }
             return result;
         }
 
-        public bool saveClassMentor(String Email, String FullName, String Mobile, String Role, int Status_ID, BCMEntities db)
+        public bool saveClassMentor(String Email, String FullName, String Mobile, String Role, BCMEntities db)
         {
             var result = false;
             try
@@ -354,7 +355,7 @@ namespace BusinessConnectManagement.Areas.Admin.Controllers
                     item.FullName= FullName;
                     item.Mobile = Mobile;
                     item.Role = Role;
-                    item.Status_ID = Status_ID;
+                    item.Status_ID = 1;
                     db.VanLangUsers.Add(item);
                     db.SaveChanges();
                     result = true;
@@ -367,7 +368,7 @@ namespace BusinessConnectManagement.Areas.Admin.Controllers
             return result; 
         }
         //-----------------------------------Mentor-----------------------
-        public bool saveClass(String Email, String FullName, String Student_ID, String Mobile, String Role, int Major_ID, int Status_ID, BCMEntities db)
+        public bool saveClass(String Email, String FullName, String Student_ID, String Mobile, String Role, int Major_ID, BCMEntities db)
         {
             var result = false;
             try
@@ -382,10 +383,14 @@ namespace BusinessConnectManagement.Areas.Admin.Controllers
                     item.Mobile = Mobile;
                     item.Role = Role;
                     item.Major_ID = Major_ID;
-                    item.Status_ID = Status_ID;
+                    item.Status_ID = 1;
                     db.VanLangUsers.Add(item);
                     db.SaveChanges();
                     result = true;
+                }
+                else
+                {
+                    result = false;
                 }
             }
             catch
@@ -393,6 +398,24 @@ namespace BusinessConnectManagement.Areas.Admin.Controllers
 
             }
             return result;
+        }
+
+        public ActionResult DownloadFile(string filePath)
+        {
+            string fullName = Server.MapPath("~/Uploads/ExcelTemplate/" + filePath);
+
+            byte[] fileBytes = GetFile(fullName);
+            return File(
+                fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, filePath);
+        }
+        byte[] GetFile(string s)
+        {
+            System.IO.FileStream fs = System.IO.File.OpenRead(s);
+            byte[] data = new byte[fs.Length];
+            int br = fs.Read(data, 0, data.Length);
+            if (br != fs.Length)
+                throw new System.IO.IOException(s);
+            return data;
         }
         protected override void Dispose(bool disposing)
         {

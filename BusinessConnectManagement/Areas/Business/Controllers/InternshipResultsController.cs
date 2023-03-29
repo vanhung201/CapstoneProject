@@ -40,7 +40,8 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
                                email = internR.Student_Email,
                                phone = internR.VanLangUser.Mobile,
                                status = internR.Status,
-                               position = internR.InternshipTopic.InternshipTopicName
+                               position = internR.InternshipTopic.InternshipTopicName,
+                               semester = internR.Semester.Semester1,
                            };
             return Json(dataList, JsonRequestBehavior.AllowGet);
         }
@@ -177,96 +178,115 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
             return RedirectToAction("Index");
         }
 
-        public void ExportToExcel()
+        public ActionResult ExportToExcel(int semester_id)
         {
-            int BusinessID = Convert.ToInt16(Session["BusinessID"]);
-            var myTable = db.InternshipResults.Where(x=> x.Business_ID == BusinessID).ToList();
-            var intern = myTable.Select(x => new InternshipResult
+            if (ModelState.IsValid)
             {
-                VanLangUser= x.VanLangUser,
-                Student_Email= x.Student_Email,
-                Semester_ID = x.Semester_ID,
-                Mentor_Email= x.Mentor_Email,
-                MentorPoint = x.MentorPoint,
-                BusinessPoint= x.BusinessPoint,
-                BusinessComment= x.BusinessComment, 
-                InternshipTopic_ID= x.InternshipTopic_ID,
-                InternshipTopic = x.InternshipTopic,
-                Status= x.Status,
-
-            }).ToList();
-
-         
-            ExcelPackage.LicenseContext = LicenseContext.Commercial;
-            using (ExcelPackage pck = new ExcelPackage(new FileInfo("MyWorkbook.xlsx")))
-            {
-                ExcelWorksheet ws = pck.Workbook.Worksheets.Add("Report");
-                //customize
-                var modelTable = ws.Cells;
-                modelTable.Style.Border.Top.Style = ExcelBorderStyle.Thin;
-                modelTable.Style.Border.Left.Style = ExcelBorderStyle.Thin;
-                modelTable.Style.Border.Right.Style = ExcelBorderStyle.Thin;
-                modelTable.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
-                ws.Cells.Style.Font.Name = "Times New Roman";
-                ws.Cells.Style.Font.Size = 12;
-                ws.Row(5).Style.Font.Size = 14;
-                ws.Row(5).Style.Font.Bold = true;
-
-
-                ws.Cells["A1"].Value = "Report";
-                ws.Cells["B1"].Value = "Report1";
-
-                ws.Cells["A2"].Value = "Date";
-                ws.Cells["B2"].Value = string.Format("{0:dd MMMM yyyy} at {0:H: mm tt}", DateTimeOffset.Now);
-
-                ws.Cells["A5"].Value = "Email VLU";
-                ws.Cells["B5"].Value = "Họ Và Tên";
-                ws.Cells["C5"].Value = "Số Điện Thoại";
-                ws.Cells["D5"].Value = "Vị Trí Thực Tập";
-                ws.Cells["E5"].Value = "Trạng Thái";
-                ws.Cells["F5"].Value = "Điểm Thực Tập";
-                ws.Cells["G5"].Value = "Nhận Xét";
-                int rowStart = 6;
-                foreach (var item in myTable)
+                int BusinessID = Convert.ToInt16(Session["BusinessID"]);
+                var myTable = db.InternshipResults.Where(x => x.Business_ID == BusinessID && x.Semester_ID == semester_id).ToList();
+                var intern = myTable.Select(x => new InternshipResult
                 {
-                    if(item.Status == "Thực Tập Xong")
+                    VanLangUser = x.VanLangUser,
+                    Student_Email = x.Student_Email,
+                    Semester_ID = x.Semester_ID,
+                    Mentor_Email = x.Mentor_Email,
+                    MentorPoint = x.MentorPoint,
+                    BusinessPoint = x.BusinessPoint,
+                    BusinessComment = x.BusinessComment,
+                    InternshipTopic_ID = x.InternshipTopic_ID,
+                    InternshipTopic = x.InternshipTopic,
+                    Status = x.Status,
+
+                }).ToList();
+
+                if (db.InternshipResults.Where(x => x.Business_ID == BusinessID && x.Semester_ID == semester_id).Count() != 0)
+                {
+                    var getValueSemester = db.InternshipResults.Where(x => x.Business_ID == BusinessID && x.Semester_ID == semester_id).FirstOrDefault();
+                    ExcelPackage.LicenseContext = LicenseContext.Commercial;
+                    using (ExcelPackage pck = new ExcelPackage(new FileInfo("MyWorkbook.xlsx")))
                     {
-                        ws.Row(rowStart).Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-                        ws.Row(rowStart).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml("#b3ffb3"));
-                        ws.Row(rowStart).Style.Border.Top.Style = ExcelBorderStyle.Thin;
-                        ws.Row(rowStart).Style.Border.Left.Style = ExcelBorderStyle.Thin;
-                        ws.Row(rowStart).Style.Border.Right.Style = ExcelBorderStyle.Thin;
-                        ws.Row(rowStart).Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                        ExcelWorksheet ws = pck.Workbook.Worksheets.Add("Report");
+                        //customize
+                        var modelTable = ws.Cells;
+                        modelTable.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                        modelTable.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                        modelTable.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                        modelTable.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                        ws.Cells.Style.Font.Name = "Times New Roman";
+                        ws.Cells.Style.Font.Size = 12;
+                        ws.Row(5).Style.Font.Size = 14;
+                        ws.Row(5).Style.Font.Bold = true;
+
+
+                        ws.Cells["A1"].Value = "Văn Lang University";
+                        ws.Cells["A1"].Style.HorizontalAlignment = ExcelHorizontalAlignment.CenterContinuous;
+                        ws.Cells["A2"].Value = "Business Connection Management";
+                        ws.Cells["A2"].Style.HorizontalAlignment = ExcelHorizontalAlignment.CenterContinuous;
+                        ws.Cells["A3"].Value = string.Format("{0:dd MMMM yyyy} at {0:H: mm tt}", DateTimeOffset.Now); ;
+                        ws.Row(1).Style.Font.Bold = true;
+                        ws.Cells["A2"].Style.Font.Bold = true;
+                        ws.Cells["A4:J4"].Merge = true;
+                        ws.Cells["A4"].Value = "Danh Sách Sinh Viên Thực Tập Học Kỳ " + getValueSemester.Semester.Semester1;
+                        ws.Cells["A4"].Style.HorizontalAlignment = ExcelHorizontalAlignment.CenterContinuous;
+                        ws.Row(4).Style.Font.Bold = true;
+                        ws.Row(4).Style.Font.Size = 18;
+
+                        ws.Cells["A5"].Value = "Email VLU";
+                        ws.Cells["B5"].Value = "Họ Và Tên";
+                        ws.Cells["C5"].Value = "MSSV";
+                        ws.Cells["D5"].Value = "Số Điện Thoại";
+                        ws.Cells["E5"].Value = "Vị Trí Thực Tập";
+                        ws.Cells["F5"].Value = "Trạng Thái";
+                        ws.Cells["G5"].Value = "Điểm Thực Tập";
+                        ws.Cells["H5"].Value = "Nhận Xét";
+                        int rowStart = 6;
+                        foreach (var item in myTable)
+                        {
+                            if (item.Status == "Thực Tập Xong")
+                            {
+                                ws.Row(rowStart).Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                                ws.Row(rowStart).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml("#b3ffb3"));
+                                ws.Row(rowStart).Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                                ws.Row(rowStart).Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                                ws.Row(rowStart).Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                                ws.Row(rowStart).Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                            }
+                            if (item.Status == "Đang Thực Tập")
+                            {
+                                ws.Row(rowStart).Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                                ws.Row(rowStart).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml("#ffff99"));
+                                ws.Row(rowStart).Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                                ws.Row(rowStart).Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                                ws.Row(rowStart).Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                                ws.Row(rowStart).Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                            }
+                            ws.Cells[string.Format("A{0}", rowStart)].Value = item.Student_Email;
+                            ws.Cells[string.Format("B{0}", rowStart)].Value = item.VanLangUser.FullName;
+                            ws.Cells[string.Format("C{0}", rowStart)].Value = item.VanLangUser.Student_ID;
+                            ws.Cells[string.Format("D{0}", rowStart)].Value = item.VanLangUser.Mobile;
+                            ws.Cells[string.Format("E{0}", rowStart)].Value = item.InternshipTopic.InternshipTopicName;
+                            ws.Cells[string.Format("F{0}", rowStart)].Value = item.Status;
+                            ws.Cells[string.Format("G{0}", rowStart)].Value = item.BusinessPoint;
+                            ws.Cells[string.Format("H{0}", rowStart)].Value = item.BusinessComment;
+                            rowStart++;
+                        }
+
+
+
+
+                        ws.Cells["A:AZ"].AutoFitColumns();
+                        Response.Clear();
+                        Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                        Response.AddHeader("content-disposition", "attachment; filename=ExcelReport.xlsx");
+                        Response.BinaryWrite(pck.GetAsByteArray());
+                        Response.End();
                     }
-                    if (item.Status == "Đang Thực Tập")
-                    {
-                        ws.Row(rowStart).Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-                        ws.Row(rowStart).Style.Fill.BackgroundColor.SetColor(ColorTranslator.FromHtml("#ffff99"));
-                        ws.Row(rowStart).Style.Border.Top.Style = ExcelBorderStyle.Thin;
-                        ws.Row(rowStart).Style.Border.Left.Style = ExcelBorderStyle.Thin;
-                        ws.Row(rowStart).Style.Border.Right.Style = ExcelBorderStyle.Thin;
-                        ws.Row(rowStart).Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
-                    }
-                    ws.Cells[string.Format("A{0}", rowStart)].Value = item.Student_Email;
-                    ws.Cells[string.Format("B{0}", rowStart)].Value = item.VanLangUser.FullName;
-                    ws.Cells[string.Format("C{0}", rowStart)].Value = item.VanLangUser.Mobile;
-                    ws.Cells[string.Format("D{0}", rowStart)].Value = item.InternshipTopic.InternshipTopicName;
-                    ws.Cells[string.Format("E{0}", rowStart)].Value = item.Status;
-                    ws.Cells[string.Format("F{0}", rowStart)].Value = item.BusinessPoint;
-                    ws.Cells[string.Format("G{0}", rowStart)].Value = item.BusinessComment;
-                    rowStart++;
+
                 }
-               
-             
-              
-               
-                ws.Cells["A:AZ"].AutoFitColumns();
-                Response.Clear();
-                Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-                Response.AddHeader("content-disposition", "attachment; filename=ExcelReport.xlsx");
-                Response.BinaryWrite(pck.GetAsByteArray());
-                Response.End();
+                TempData["AlertMessage"] = "<div class=\"toast toast--error\">\r\n     <div class=\"toast-left toast-left--error\">\r\n       <i class=\"fas fa-times-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n    <p class=\"toast-text\">Học kỳ không có dữ liệu để Export</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n       <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>";
+                return RedirectToAction("Index");
             }
+            return RedirectToAction("Index");
         }
 
         [HttpGet]

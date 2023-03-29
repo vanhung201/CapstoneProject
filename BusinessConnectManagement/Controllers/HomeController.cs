@@ -16,10 +16,12 @@ namespace BusinessConnectManagement.Controllers
         // GET: Home
         public ActionResult Index( int? page)
         {
-            if(page == null) page= 1;
+            ViewBag.MOUs = db.MOUs.ToList();
+            ViewBag.Major = db.Majors.ToList();
+            if (page == null) page= 1;
 
             var posts = (from post in db.Posts
-                         select post).OrderBy(x => x.ID);
+                         select post).OrderByDescending(x => x.ID);
 
 
             int pageSize = 6;
