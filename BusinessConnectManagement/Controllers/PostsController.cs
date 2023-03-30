@@ -48,10 +48,10 @@ namespace BusinessConnectManagement.Controllers
             ViewBag.MOU = db.MOUs.ToList();
             return View(posts.ToPagedList(pageNumber, pageSize));
         }
-        public ActionResult Search(int? page,string SearchString = "", string Form = "", string Major = "")
+        public ActionResult Search(int? page, string SearchString = "", string Form = "", string Major = "")
         {
-            
-           
+
+
             ViewBag.Major = db.Majors.ToList();
             var bu = db.Posts.Include(x => x.BusinessUser).Where(s => s.BusinessUser.BusinessName.ToUpper().Contains(Form.ToUpper()));
             var titles = db.Posts.Include(x => x.BusinessUser).Where(s => s.Title.ToUpper().Contains(SearchString.ToUpper()));
@@ -62,13 +62,13 @@ namespace BusinessConnectManagement.Controllers
             int pageNumber = (page ?? 1);
             if (Major == "")
             {
-              
+
                 if (Form == "")
                 {
-                  
+
                     if (SearchString != "")
                     {
-                       
+
                         return View(titles.ToList().ToPagedList(pageNumber, pageSize));
                     }
                     else
@@ -91,9 +91,9 @@ namespace BusinessConnectManagement.Controllers
             }
             else
             {
-                if(Form != "")
+                if (Form != "")
                 {
-                    if(SearchString != "")
+                    if (SearchString != "")
                     {
                         var getall = db.Posts.Include(x => x.BusinessUser).Where(s => s.Major.Major1.ToUpper().Contains(Major.ToUpper()) && s.Form.ToUpper().Contains(Form.ToUpper()) && s.Title.ToUpper().Contains(SearchString.ToUpper()));
                         return View(getall.ToList().ToPagedList(pageNumber, pageSize));
@@ -119,14 +119,14 @@ namespace BusinessConnectManagement.Controllers
                 }
             }
 
-           
-           
+
+
         }
         // GET: Posts/Details/5
         public ActionResult Details(int? id)
         {
             var email = User.Identity.Name;
-            ViewBag.isStudent = db.VanLangUsers.Where(x => x.Email == email && x.Role == "Student").Any();
+            ViewBag.isStudent = db.VanLangUsers.Any(x => x.Email == email && x.Role == "Student");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -137,22 +137,23 @@ namespace BusinessConnectManagement.Controllers
                 return HttpNotFound();
             }
             ViewBag.isRegisted = db.Registrations.Any(x => x.Email_VanLang == email && x.Post_ID == id);
+            ViewBag.isExist = db.Registrations.Any(x => x.Email_VanLang == email && x.InterviewResult == "Đang Thực Tập");
             if (db.Registrations.Any(x => x.Post_ID == id && x.Email_VanLang == email))
             {
                 ViewBag.registedID = db.Registrations.Where(x => x.Post_ID == id && x.Email_VanLang == email).First().ID;
                 ViewBag.regStatus = db.Registrations.Where(x => x.Post_ID == id && x.Email_VanLang == email).First().StatusRegistration;
             }
-            ViewBag.Post = db.Posts.Include(p => p.BusinessUser).Include(p => p.Semester).Include(p => p.VanLangUser).Include(p => p.VanLangUser1).OrderBy(x => Guid.NewGuid()).Take(5).ToList();
-          
+            ViewBag.Post = db.Posts.Include(p => p.BusinessUser).Include(p => p.Semester).Include(p => p.VanLangUser).Include(p => p.VanLangUser1).OrderBy(x => Guid.NewGuid()).Take(6).ToList();
+
             var postPosition = db.PostInternshipTopics.Where(p => p.Post_ID == id).ToList();
-          
+
             var position = db.InternshipTopics.ToList();
 
-            List<PostPositionDetail> postPositionDetails= new List<PostPositionDetail>();
+            List<PostPositionDetail> postPositionDetails = new List<PostPositionDetail>();
             foreach (var item in position)
             {
                 bool isExist = postPosition.Where(x => x.InternshipTopic_ID == item.ID).Any();
-                postPositionDetails.Add(new PostPositionDetail { Name = item.InternshipTopicName, Id = item.ID, status = isExist });;
+                postPositionDetails.Add(new PostPositionDetail { Name = item.InternshipTopicName, Id = item.ID, status = isExist }); ;
 
             }
             ViewBag.Position = postPositionDetails;

@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BusinessConnectManagement.Models;
+using PagedList;
 
 namespace BusinessConnectManagement.Controllers
 {
@@ -22,18 +23,24 @@ namespace BusinessConnectManagement.Controllers
         }
 
         // GET: MOUs/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? id, int? page)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
             MOU mOU = db.MOUs.Find(id);
-            if (mOU == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.Post = db.Posts.Where(x => x.Business_ID == mOU.Business_ID).ToList();
+            ViewBag.MOUs = db.MOUs.ToList();
+            ViewBag.Major = db.Majors.ToList();
+            if (page == null) page = 1;
+
+            var posts = (from post in db.Posts
+                         where post.Business_ID == mOU.Business_ID
+                         select post).OrderByDescending(x => x.ID);
+
+
+            int pageSize = 6;
+
+            int pageNumber = (page ?? 1);
+
+            ViewBag.Posts = posts.ToPagedList(pageNumber, pageSize);
+            /* ViewBag.Post = db.Posts.Where(x => x.Business_ID == mOU.Business_ID).ToList();*/
             return View(mOU);
         }
 
