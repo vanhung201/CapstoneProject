@@ -59,6 +59,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                                 position_id = intern.InternshipTopic_ID,
                                 status = intern.Status
 
+
                             });
             return Json(listData, JsonRequestBehavior.AllowGet);
         }
@@ -110,7 +111,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                                  position = intern.InternshipTopic.InternshipTopicName,
                                  businessName = intern.BusinessUser.BusinessName,
                                  businessMail = intern.BusinessUser.EmailContact,
-
+                                mentor_email = intern.Mentor_Email,
                             });
             return Json(listData, JsonRequestBehavior.AllowGet);
         }

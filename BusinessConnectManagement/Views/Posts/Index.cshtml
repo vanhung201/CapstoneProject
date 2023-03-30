@@ -55,7 +55,7 @@
         <div class="container">
             <div class="title-home">
                 <h3>Công việc nổi bật</h3>
-                <a href="@Url.Action("Index", "Posts")">Xem thêm</a>
+
             </div>
 
             <div class="columns pt30">
@@ -76,9 +76,21 @@
                                     </div>
                                     <p class="bold-6 text-italic mb-2">@item.BusinessUser.BusinessName</p>
                                     <div class="desc d-flex align-middle mb-2">
+                                        <span class="mb-0 mr10 text-success">
+                                            @if (item.Major_ID != null)
+                                            {
+                                                <i class="fa-solid fa-tag"></i> @item.Major.Major1
+                                            }
+                                            else
+                                            {
+
+                                            }
+                                        </span>
+                                        <span class="mb-0 mr10 text-warning">
+                                            <i class="fa-solid fa-tag"></i> @item.Form
+                                        </span>
                                         <span class="mb-0 mr10 text-muted">
-                                            <i class="fa-solid fa-location-dot"></i>
-                                            @item.BusinessUser.Address
+                                            <i class="fa-solid fa-location-dot"></i> @item.BusinessUser.Address
                                         </span>
                                     </div>
                                     <p class="text-primary bold-6">
@@ -96,7 +108,7 @@
             </div>
             <div class="center">
                 <div class="pagination-container">
-                    @Html.PagedListPager(Model, page => Url.Action("Search", new { page, SearchString = Request.QueryString["SearchString"], Form = Request.QueryString["Form"], Major = Request.QueryString["Major"] }))
+                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
                 </div>
             </div>
         </div>

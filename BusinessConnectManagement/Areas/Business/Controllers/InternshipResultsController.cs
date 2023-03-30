@@ -63,7 +63,12 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
                                BusinessPoint = internR.BusinessPoint,
                                BusinessComment = internR.BusinessComment,
                                InternshipTopic_ID = internR.InternshipTopic_ID,
-                               status = internR.Status
+                               status = internR.Status,
+                               FullName = internR.VanLangUser.FullName,
+                               Student_ID = internR.VanLangUser.Student_ID,
+                               Mobile = internR.VanLangUser.Mobile,
+                               Major = internR.VanLangUser.Major.Major1,
+                               Position = internR.InternshipTopic.InternshipTopicName
                            };
             return Json(dataList, JsonRequestBehavior.AllowGet);
         }
