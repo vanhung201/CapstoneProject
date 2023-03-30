@@ -71,7 +71,6 @@
             @*-------------------------------------*@
             <label class="form-label">Trạng Thái</label>
             <select name="Status" id="interviewStatus" class="form-input">
-                <option class="text-center" value="Chờ Xác Nhận">Chờ Xác Nhận</option>
                 <option class="text-center" value="Đang Thực Tập">Đang Thực Tập</option>
                 <option class="text-center" value="Thực Tập Xong">Thực Tập Xong</option>
             </select>
@@ -118,10 +117,53 @@
     </div>
 </form>
 
+<form class="form" id="detailForm" method="post">
+    <div class="form-container">
+        <h1 class="form-heading">Thông Tin Sinh Viên Ứng Tuyển</h1>
+        <div class="form-row">
+            <div class="form-column">
+                <div class="form-group">
+                    <label for="Username" class="form-label">Họ và tên</label>
+                    <input class="form-input" id="FullName" autocomplete="off" disabled />
+                </div>
+                <div class="form-group">
+                    <label for="BusinessName" class="form-label">Email</label>
+                    <input class="form-input" id="Email" autocomplete="off" disabled />
+                </div>
+                <div class="form-group">
+                    <label for="status" class="form-label">Chuyên Nghành</label>
+                    <input class="form-input" id="Major" autocomplete="off" disabled />
+                </div>
+            </div>
+            <div class="form-column">
+                <div class="form-group">
+                    <label for="Password" class="form-label">MSSV</label>
+                    <input type="text" id="Student_ID" class="form-input" autocomplete="off" disabled />
+                </div>
+                <div class="form-group">
+                    <label for="Address" class="form-label">SĐT</label>
+                    <input type="text" id="Mobile" class="form-input" autocomplete="off" disabled />
+                </div>
+
+                <div class="form-group">
+                    <label for="BusinessPhone" class="form-label">Vị trí  thực tập</label>
+                    <input type="text" id="Position" class="form-input" autocomplete="off" disabled />
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <a class="btn btn--confirm" id="btn--cancel">
+                Xác Nhận
+            </a>
+
+        </div>
+    </div>
+</form>
 @section Scripts{
 
     <script type="text/javascript">
-        
+
         $(function () {
 
             var url = "@Url.Action("getDataList", "InternshipResults")"
@@ -159,13 +201,24 @@
                     {
                         data: "id",
                         render: function (t, e, a) {
-                            return (
+                             const getBtn = (a.status == "Đang Thực Tập") ?
                                 `
+                                </a>
                                 <a href="@Url.Action("Details", "InternshipResults")/${t}" id="business_detail" class="business_detail">
                                 <div class="btn btn--update">
                                     <i class="btn-icon btn-icon--edit fal fa-edit"></i>
                                 </div>
-                                </a>
+                                </a>`
+                                :
+                                ``
+                            return (
+
+                                `
+                                 <a href="@Url.Action("Details", "InternshipResults")/${t}" id="business_getdetail" class="business_getdetail">
+                                <div class="btn btn--detail">
+                                    <i class="btn-icon btn-icon--detail fal fa-info-circle"></i>
+                                </div>
+                                ${getBtn}
                                `
                             );
                         },
@@ -221,7 +274,7 @@
                                              );
                                      })
                              });
-                 }                
+                 }
             })
             )
             dataTable.on("draw.dt", function () {
@@ -230,7 +283,7 @@
                 });
             });
         });
-        
+
          $('#table_listData').on('click', '.business_detail', function (e) {
             e.preventDefault()
              const form = document.getElementById('updateForm');
@@ -263,6 +316,29 @@
                         $('select option[value="Thực Tập Xong"]').attr("selected", "selected");
                     }
                     $('#updateForm').attr('action', `${actionUrl}`)
+                }
+            })
+         })
+        /*---------------------------------detail---------------------------*/
+        $('#table_listData').on('click', '.business_getdetail', function (e) {
+            e.preventDefault()
+             const form = document.getElementById('detailForm');
+        form.classList.add('is-appear');
+            const url = $(this).attr('href');
+            $.ajax({
+                url: url,
+                type: "get",
+                dataType: 'json',
+                success: function (res) {
+                    console.log(res)
+                   
+                    $('#Email').val(res[0].Student_Email)
+                    $('#Position').val(res[0].Position)
+                    $('#Major').val(res[0].Major)
+                    $('#Mobile').val(res[0].Mobile)
+                    $('#Student_ID').val(res[0].Student_ID)
+                    $('#FullName').val(res[0].FullName)
+                   
                 }
             })
         })
@@ -342,6 +418,8 @@
             $('#export_form').removeClass('is-appear')
         })
         
-
+        $('#btn--cancel').on('click', function () {
+            $('#detailForm').removeClass('is-appear')
+        })
     </script>
 }

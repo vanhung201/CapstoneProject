@@ -178,12 +178,12 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
                 if (registration.StatusInternview == "Đậu Phỏng Vấn")
                 {
                     var internship = db.InternshipResults.Where(x => x.ID == registration.InternshipResult_ID).FirstOrDefault();
-                    if (db.InternshipResults.Any(x => x.Student_Email == registration.Email_VanLang && x.InternshipTopic_ID == registration.InternshipTopic_ID))
+                   /* if (db.InternshipResults.Any(x => x.Student_Email == registration.Email_VanLang && x.InternshipTopic_ID == registration.InternshipTopic_ID))
                     {
                         TempData["AlertMessage"] = "<div class=\"toast toast--success\">            <div class=\"toast-left toast-left--success\">               <i class=\"fas fa-check-circle\"></i>\r\n            </div>\r\n            <div class=\"toast-content\">\r\n                <p class=\"toast-text\">Cập Nhật Thành Công</p>            </div>\r\n            <div class=\"toast-right\">\r\n                <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n            </div>\r\n        </div>";
                         return RedirectToAction("Index");
 
-                    }
+                    }*/
                     if(db.InternshipResults.Any(x => x.Student_Email == registration.Email_VanLang && x.Status == "Đang Thực Tập"))
                     {
                     TempData["AlertMessage"] = "<div class=\"toast toast--error\">\r\n     <div class=\"toast-left toast-left--error\">\r\n       <i class=\"fas fa-times-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n    <p class=\"toast-text\">Sinh Viên Đang Thực Tập.</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n       <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>";
