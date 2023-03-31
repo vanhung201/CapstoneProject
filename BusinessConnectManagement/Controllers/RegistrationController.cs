@@ -22,7 +22,7 @@ namespace BusinessConnectManagement.Controllers
         {
             return View();
         }
-        
+
         [HttpPost]
         public ActionResult Apply(Registration registration, HttpPostedFileBase CV)
         {
@@ -38,14 +38,15 @@ namespace BusinessConnectManagement.Controllers
             }
             else
             {
-                if(CV != null)
+                if (CV != null)
                 {
-                    if(Path.GetExtension(CV.FileName).ToLower() != ".pdf")
+                    if (Path.GetExtension(CV.FileName).ToLower() != ".pdf")
                     {
                         TempData["message"] = "Vui lòng chọn file pdf";
                         TempData["messageType"] = "error";
                         return RedirectToAction("Details", "Posts", new { id = post.ID });
-                    } else
+                    }
+                    else
                     {
                         using (var scope = new TransactionScope())
                         {
@@ -70,7 +71,7 @@ namespace BusinessConnectManagement.Controllers
                             return RedirectToAction("Details", "Posts", new { id = post.ID });
                         }
                     }
-                    
+
                 }
                 else
                 {
@@ -78,28 +79,29 @@ namespace BusinessConnectManagement.Controllers
                     TempData["messageType"] = "error";
                     return RedirectToAction("Details", "Posts", new { id = post.ID });
                 }
-                
+
             }
         }
 
-        public ActionResult Remove(int id) 
+        public ActionResult Remove(int id)
         {
             Registration registration = db.Registrations.Find(id);
             var regStatus = registration.StatusRegistration;
             var post = db.Posts.Where(x => x.ID == registration.Post_ID).FirstOrDefault();
-            if(regStatus == "Phê Duyệt")
+            if (regStatus == "Phê Duyệt")
             {
                 TempData["message"] = "Hủy Thất Bại Đơn Của Bạn Đã Được Duyệt";
                 TempData["messageType"] = "error";
                 return RedirectToAction("Details", "Posts", new { id = post.ID });
 
-            } else
+            }
+            else
             {
-            db.Registrations.Remove(registration);
-            db.SaveChanges();
-            TempData["message"] = "Hủy Kết Quả Thành Công";
-            TempData["messageType"] = "success";
-            return RedirectToAction("Details", "Posts", new { id = post.ID });
+                db.Registrations.Remove(registration);
+                db.SaveChanges();
+                TempData["message"] = "Hủy Kết Quả Thành Công";
+                TempData["messageType"] = "success";
+                return RedirectToAction("Details", "Posts", new { id = post.ID });
             }
         }
 
@@ -109,13 +111,18 @@ namespace BusinessConnectManagement.Controllers
                         where reg.ID == id
                         select new
                         {
-                           ID= reg.ID,
-                           CV = reg.CV,
-                           Position = reg.InternshipTopic_ID,
-                            PositionName = reg.InternshipTopic.InternshipTopicName
+                            ID = reg.ID,
+                            CV = reg.CV,
+                            Position = reg.InternshipTopic_ID,
+                            PositionName = reg.InternshipTopic.InternshipTopicName,
+                            Email = reg.VanLangUser.Email,
+                            FullName = reg.VanLangUser.FullName,
+                            BusinessName = reg.BusinessUser.BusinessName,
+                            status = reg.StatusRegistration,
+                            Comment = reg.Comment,
                         });
 
-            return Json(data,JsonRequestBehavior.AllowGet);
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Update(int id, HttpPostedFileBase CV)
@@ -123,8 +130,8 @@ namespace BusinessConnectManagement.Controllers
             Registration registration = db.Registrations.Find(id);
             var regStatus = registration.StatusRegistration;
             var post = db.Posts.Where(x => x.ID == registration.Post_ID).FirstOrDefault();
-            
-            if(regStatus == "Phê Duyệt")
+
+            if (regStatus == "Phê Duyệt")
             {
                 TempData["message"] = "Cập Nhật Thất Bại Đơn Của Bạn Đã Được Duyệt";
                 TempData["messageType"] = "error";
@@ -164,7 +171,7 @@ namespace BusinessConnectManagement.Controllers
                     return RedirectToAction("Details", "Posts", new { id = post.ID });
                 }
             }
-            
+
         }
 
         public ActionResult getRegList()
@@ -182,9 +189,27 @@ namespace BusinessConnectManagement.Controllers
                             PositionName = reg.InternshipTopic.InternshipTopicName,
                             Comment = reg.Comment,
                             Status = reg.StatusRegistration,
-                           
+
                         });
             return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult DownloadFile(string filePath)
+        {
+            string fullName = Server.MapPath("~/Uploads/CV/" + filePath);
+
+            byte[] fileBytes = GetFile(fullName);
+            return File(
+                fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, filePath);
+        }
+        byte[] GetFile(string s)
+        {
+            System.IO.FileStream fs = System.IO.File.OpenRead(s);
+            byte[] data = new byte[fs.Length];
+            int br = fs.Read(data, 0, data.Length);
+            if (br != fs.Length)
+                throw new System.IO.IOException(s);
+            return data;
         }
         [HttpGet]
         public ActionResult listReg()

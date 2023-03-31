@@ -13,8 +13,10 @@ using BusinessConnectManagement.Models;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using WebGrease.Activities;
+using BusinessConnectManagement.Middleware;
 namespace BusinessConnectManagement.Areas.Business.Controllers
 {
+    [BusinessVerification]
     public class InternshipResultsController : Controller
     {
         private BCMEntities db = new BCMEntities();
