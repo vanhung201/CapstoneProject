@@ -14,22 +14,15 @@ namespace BusinessConnectManagement
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
-                name: "Login Page",
-                url: "quan-ly",
-                defaults: new { controller = "Account", action = "Login", id = UrlParameter.Optional },
-                namespaces: new[] { "BusinessConnectManagement.Controllers" }
-            );
-
-            routes.MapRoute(
                 name: "Login for Manager",
-                url: "quan-ly/dang-nhap",
+                url: "trang-dang-nhap/dang-nhap",
                 defaults: new { controller = "Account", action = "SignIn", id = UrlParameter.Optional },
                 namespaces: new[] { "BusinessConnectManagement.Controllers" }
             );
 
             routes.MapRoute(
                 name: "Logout for Manager",
-                url: "quan-ly/dang-xuat",
+                url: "dang-xuat",
                 defaults: new { controller = "Account", action = "SignOut", id = UrlParameter.Optional },
                 namespaces: new[] { "BusinessConnectManagement.Controllers" }
             );
@@ -42,30 +35,17 @@ namespace BusinessConnectManagement
             );
 
             routes.MapRoute(
-                name: "Student Login Page",
+                name: "Login Page",
                 url: "trang-dang-nhap",
-                defaults: new { controller = "AccountOfStudent", action = "Login", id = UrlParameter.Optional },
+                defaults: new { controller = "Account", action = "Login", id = UrlParameter.Optional },
                 namespaces: new[] { "BusinessConnectManagement.Controllers" }
             );
 
-            routes.MapRoute(
-                name: "Action Student Login",
-                url: "dang-nhap",
-                defaults: new { controller = "AccountOfStudent", action = "SignIn", id = UrlParameter.Optional },
-                namespaces: new[] { "BusinessConnectManagement.Controllers" }
-            );
 
             routes.MapRoute(
-                name: "Student SignOut",
-                url: "dang-xuat",
-                defaults: new { controller = "AccountOfStudent", action = "SignOut", id = UrlParameter.Optional },
-                namespaces: new[] { "BusinessConnectManagement.Controllers" }
-            );
-
-            routes.MapRoute(
-                name: "Student Information",
+                name: "Information",
                 url: "cap-nhat-thong-tin-tai-khoan",
-                defaults: new { controller = "AccountOfStudent", action = "StudentInformation", id = UrlParameter.Optional },
+                defaults: new { controller = "Account", action = "Information", id = UrlParameter.Optional },
                 namespaces: new[] { "BusinessConnectManagement.Controllers" }
             );
 

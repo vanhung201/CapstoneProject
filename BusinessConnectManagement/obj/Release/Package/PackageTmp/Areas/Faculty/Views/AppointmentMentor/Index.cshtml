@@ -56,6 +56,10 @@
                     <label for="Website" class="form-label">Tên Doanh Nghiệp</label>
                     <input type="text" id="businessName" class="form-input" autocomplete="off" / disabled>
                 </div>
+                <div class="form-group">
+                    <label for="Address" class="form-label">Email Mentor</label>
+                    <input type="text" id="mentor_email" class="form-input" autocomplete="off" disabled />
+                </div>
             </div>
             <div class="form-column">
                 <div class="form-group">
@@ -179,9 +183,12 @@
                                 </div>
                                 </a>`
                                 :
-                                ``
+                                `
+                                `
+                           
                             return (
                                 `
+                                
                                 <a href="@Url.Action("Edit/", "AppointmentMentor")${t}" class="getdetail">
                                  <div class="btn btn--detail">
                                    <i class="btn-icon btn-icon--detail fal fa-info-circle"></i>
@@ -247,6 +254,7 @@
                     $('#position').val(res[0].position)
                     $('#businessName').val(res[0].businessName)
                     $('#businessMail').val(res[0].businessMail)
+                    $('#mentor_email').val(res[0].mentor_email)
                 }
             })
         })
@@ -277,13 +285,13 @@
                 }
             })
         })
-        
+
         $('.btn--cancel').on('click', function () {
             $('#updateForm').removeClass('is-appear')
         })
         $('#btn--cancel').on('click', function () {
             $('#detailForm').removeClass('is-appear')
         })
-        
+
     </script>
 }

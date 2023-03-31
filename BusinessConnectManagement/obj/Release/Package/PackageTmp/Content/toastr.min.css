@@ -96,7 +96,7 @@ button.toast-close-button {
 
 #toast-container {
     position: fixed;
-    z-index: 999999;
+    z-index: 10000;
 }
 
     #toast-container * {
@@ -120,7 +120,7 @@ button.toast-close-button {
         -webkit-box-shadow: 0 0 12px #999;
         box-shadow: 0 0 12px #999;
         color: #fff;
-        opacity: 0.8;
+        /*opacity: 0.8;*/
         -ms-filter: alpha(Opacity=80);
         filter: alpha(opacity=80);
     }
