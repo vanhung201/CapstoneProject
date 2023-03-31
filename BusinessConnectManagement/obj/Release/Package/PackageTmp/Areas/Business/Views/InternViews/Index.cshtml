@@ -14,27 +14,32 @@
 
 
     }
-    <div class="list-table">
-        <div class="filter">
-            <div class="bu_status"></div>
-            <label id="nameLabel1">Lọc:</label>
+<div class="list-table">
+    <div id="filterEvent">
+        <div class="btn btn--create" id="export" style=" z-index: 1; width: 110px; margin-right: 10px;">
+            <span class="btn-text">Export Excel</span>
         </div>
-        <table id="table_listData" class="display">
-            <thead>
-                <tr>
-                    <th>STT</th>
-                    <th>Họ và Tên</th>
-                    <th>Email</th>
-                    <th>SĐT</th>
-                    <th>CV</th>
-                    <th>Kết Quả Phỏng Vấn</th>
-                    <th>Chức năng</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
     </div>
+    <div class="rg_status"></div>
+    <div class="rg_role" style="left"></div>
+    <label id="nameLabel">Lọc:</label>
+    <table id="table_listData" class="display">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Họ và Tên</th>
+                <th>Email</th>
+                <th>SĐT</th>
+                <th>CV</th>
+                <th>Kết quả phỏng vấn</th>
+                <th>Học kỳ</th>
+                <th>Chức năng</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
 </section>
 @*-----------------------detail-----------------------*@
 <form class="form" id="detailForm" method="post">
@@ -121,7 +126,36 @@
     </div>
 
 </form>
+@*-----------------Export------------------*@
+<form action="@Url.Action("ExportToExcel", "InternViews")" class="form" id="export_form" method="post">
+    <div class="form-container--small">
+        <h1 class="form-heading">Export Excel</h1>
+        <div class="form-row">
+            <div class="form-column">
+                <div class="form-group">
+                    <label class="form-label">Năm Học</label>
+                    <select class="form-input" id="year">
+                        @foreach (var item in ViewBag.YearStudy)
+                        {
+                            <option value="@item.ID">@item.YearStudy1</option>
+                        }
+                    </select>
+                </div>
 
+                <div class="form-group">
+                    <label class="form-label">Học Kỳ</label>
+                    <select class="form-input" name="semester_id" id="semester">
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <a class="btn btn--cancel" id="cancel_export">Hủy</a>
+            <button type="submit" id="confirm" class="btn btn-action btn--confirm">Xác Nhận</button>
+        </div>
+    </div>
+</form>
 @section Scripts {
     <script>
         $(function () {
@@ -160,6 +194,8 @@
 
                         }
                     },
+                    
+                    { data: "semester", visible: false },
                     {
                         data: "id",
                         render: function (t, e, a) {
@@ -183,11 +219,11 @@
                 ],
                 initComplete: function () {
                     this.api()
-                        .columns(5)
+                        .columns(6)
                         .every(function () {
                             var t = this,
                                 e = $(
-                                    '<select id="UserType" style="margin-right: 8px;border: 1px solid #aaa;border-radius: 3px;padding: 5px;background-color: transparent; margin-left: 3px;" class="form-select text-capitalize mb-md-0 mb-2xx"><option value="">---- Chọn Trạng Thái Để Lọc ----</option></select>'
+                                    '<select id="UserType1" style="margin-right: 8px;border: 1px solid #aaa;border-radius: 3px;padding: 5px;background-color: transparent; margin-left: 3px;" class="form-select text-capitalize mb-md-0 mb-2xx"><option value=""> Chọn học kỳ để lọc </option></select>'
                                 )
                                     .prependTo("#table_listData_filter")
                                     .on("change", function () {
@@ -197,18 +233,39 @@
                             t.data()
                                 .unique()
                                 .sort()
-                                .each(function (t, a) {
+                                .each(function (t) {
                                     t &&
                                         e.append(
-                                            '<option value="' +
-                                            t +
-                                            '" class="text-capitalize">' +
-                                            t +
-                                            "</option>"
+                                            '<option value="' + t + '" class="text-capitalize">' + t + '</option>'
+
                                         );
-                                });
-                        })
-                }
+                                })
+
+                        }),
+                        this.api()
+                            .columns(5)
+                            .every(function () {
+                                var t = this,
+                                    e = $(
+                                        '<select id="UserType2" style="margin-right: 8px;border: 1px solid #aaa;border-radius: 3px;padding: 5px;background-color: transparent; margin-left: 3px;" class="form-select text-capitalize mb-md-0 mb-2xx"><option value=""> Chọn trạng thái để lọc </option></select>'
+                                    )
+                                        .prependTo("#table_listData_filter")
+                                        .on("change", function () {
+                                            var e = $.fn.dataTable.util.escapeRegex($(this).val());
+                                            t.search(e ? "^" + e + "$" : "", !0, !1).draw();
+                                        });
+                                t.data()
+                                    .unique()
+                                    .sort()
+                                    .each(function (t) {
+                                        t &&
+                                            e.append(
+                                                '<option value="' + t + '" class="text-capitalize">' + t + '</option>'
+
+                                            );
+                                    })
+                            });
+                }        
             }))
             // Create Index column datatable
             dataTable.on("draw.dt", function () {
@@ -313,7 +370,44 @@
 
         }
 
+        $(document).ready(function () {
+            var yearSelect = $('#year');
+            var semesterSelect = $('#semester');
 
+            yearSelect.on('change', function () {
+        var selectedYearId = yearSelect.val();
+        var selectedSemesterId = semesterSelect.val();
+                var url = '@Url.Action("BindingSemester", "InternshipResults")' + '?selectedYearId=' + selectedYearId;
+                console.log(url)
+    $.ajax({
+      url: url,
+      type: 'GET',
+      dataType: 'json',
+        success: function (res) {
+        semesterSelect.empty();
+        console.log(res)
+        $.each(res, function (index, semester) {
+          var selectedAttr = semester.Status ? 'selected' : '';
+          semesterSelect.append('<option value="' + semester.ID + '" ' + selectedAttr + '>' + semester.Semester + '</option>');
+        });
+        semesterSelect.trigger('change'); // trigger the change event on semesterSelect
+      },
+    });
+  });
+
+
+});
+        $('#export').on('click', function () {
+            $('#year').trigger('change');
+            $('#semester').trigger('change');
+            $('#export_form').addClass('is-appear')
+        })
+        $('#cancel_export').on('click', function () {
+            $('#export_form').removeClass('is-appear')
+        })
+        $('#confirm').on('click', function () {
+            $('#export_form').removeClass('is-appear')
+        })
 
     </script>
 

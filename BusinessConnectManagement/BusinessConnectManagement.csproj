@@ -233,7 +233,6 @@
     <Compile Include="Areas\Mentor\Controllers\MentorHomeController.cs" />
     <Compile Include="Areas\Mentor\MentorAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\AccountOfStudentController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InternshipResultsController.cs" />
@@ -1286,6 +1285,7 @@
     <Content Include="assets\User\assets\images\company.png" />
     <Content Include="assets\User\assets\images\exp.png" />
     <Content Include="assets\User\assets\images\files.png" />
+    <Content Include="assets\User\assets\images\homepage.jpg" />
     <Content Include="assets\User\assets\images\HR.gif" />
     <Content Include="assets\User\assets\images\image-job.png" />
     <Content Include="assets\User\assets\images\logo.png" />
@@ -1314,6 +1314,7 @@
     <Content Include="Content\chosen-sprite%402x.png" />
     <Content Include="Content\chosen-sprite.png" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\toastbu.css" />
     <Content Include="Content\toastr.css" />
     <Content Include="Content\toastr.min.css" />
     <Content Include="favicon.ico" />
@@ -1451,6 +1452,12 @@
     <Content Include="Areas\Faculty\Views\Semesters\Index.cshtml" />
     <Content Include="Areas\Faculty\Views\Semesters\Update.cshtml" />
     <Content Include="Areas\Admin\Views\AdminHome\ImportData.cshtml" />
+    <Content Include="Areas\Admin\Views\Email\EmailBusinessInternship.cshtml" />
+    <Content Include="Areas\Admin\Views\Email\EmailBusinessInterview.cshtml" />
+    <Content Include="Areas\Admin\Views\Email\EmailFacultyCV.cshtml" />
+    <Content Include="Areas\Admin\Views\Email\EmailFacultyMentor.cshtml" />
+    <Content Include="Areas\Admin\Views\Email\EmailMentor.cshtml" />
+    <Content Include="Areas\Admin\Views\Email\EmailUpdateAccount.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FTPProfile1.pubxml" />
@@ -1490,16 +1497,13 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Posts\Search.cshtml" />
     <Content Include="Uploads\CV\TrinhNgocPhu.pdf" />
-    <Content Include="Views\AccountOfStudent\Login.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Registration\listReg.cshtml" />
-    <Content Include="Views\AccountOfStudent\StudentInformation.cshtml" />
     <Content Include="Views\InternshipResults\Create.cshtml" />
     <Content Include="Views\InternshipResults\Delete.cshtml" />
     <Content Include="Views\InternshipResults\Details.cshtml" />
     <Content Include="Views\InternshipResults\Edit.cshtml" />
     <Content Include="Views\InternshipResults\Index.cshtml" />
-    <Content Include="Views\AccountOfStudent\InformationStudent.cshtml" />
     <Content Include="Views\Shared\_LayoutHeaderOnly.cshtml" />
     <Content Include="Views\Account\Information.cshtml" />
     <Content Include="Views\Home\Position.cshtml" />

@@ -1,4 +1,5 @@
-﻿
+﻿@model PagedList.IPagedList<BusinessConnectManagement.Models.Post>
+@using PagedList.Mvc;
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -10,36 +11,37 @@
         <img class="img-responsive rounded" src="~/assets/User/assets/images/slider.jpg" alt="macOS Yosemite Wallpaper">
         <div class="form">
             <div class="container">
-                <form action="">
+                <form id="Search" action="">
                     <div class="columns">
                         <div class="column col-3 col-sm-12 col-md-6 col-xl-3 mb10 px-0">
                             <div class="form-group">
-                                <input class="form-input" type="text" id="input-example-1" name="SearchString" placeholder="Tìm việc">
+                                <input class="form-input" type="text" id="searchString" name="SearchString" placeholder="Tìm việc">
                             </div>
                         </div>
                         <div class="column col-3 col-sm-12 col-md-6 col-xl-3 mb10 px-0">
                             <div class="form-group">
-                                <select class="form-select">
-                                    <option>Partime</option>
-                                    <option>...</option>
-                                    <option>...</option>
-                                    <option>...</option>
+                                <select id="Form" name="Form" class="form-select">
+                                    <option value="">Chọn Hình Thức Thực Tập</option>
+                                    <option value="Online">Online</option>
+                                    <option value="Offline">Offline</option>
                                 </select>
                             </div>
                         </div>
                         <div class="column col-3 col-sm-12 col-md-6 col-xl-3 mb10 px-0">
                             <div class="form-group">
-                                <select class="form-select">
-                                    <option>Thực tập</option>
-                                    <option>...</option>
-                                    <option>...</option>
-                                    <option>...</option>
+                                <select name="Major" class="form-select">
+                                    <option value="">Chọn Chuyên Nghành</option>
+                                    @foreach (var item in ViewBag.Major)
+                                    {
+                                        <option value="@item.Major1">@item.Major1</option>
+                                    }
+
                                 </select>
                             </div>
                         </div>
+
                         <div class="column col-3 col-sm-12 col-md-6 col-xl-3 mb10 px-0">
-                            <input class="btn btn-error w100" type="submit" value="Tim Kiem"/>
-                            
+                            <button class="btn btn-error w100" onclick="insertParam()">Tim Kiem</button>
                         </div>
                     </div>
                 </form>
@@ -51,12 +53,16 @@
 
     <section id="job">
         <div class="container">
-            <div class="title-home mb30">
+            <div class="title-home">
                 <h3>Công việc nổi bật</h3>
+
             </div>
+
             <div class="columns pt30">
                 @foreach (var item in Model)
                 {
+                    /*string str1 = item.DueDate;
+                    DateTime d = DateTime.ParseExact(str1, "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture);*/
                     <div class="column col-6 col-sm-12 col-md-12 col-xl-6 mb10">
                         <a href="@Url.Action("Details", "Posts",  new { id=item.ID })">
                             <div class="item d-flex align-middle">
@@ -65,31 +71,30 @@
                                     <div class="d-flex align-middle justify-between mb-2">
                                         <h3 class="text-h4 bold-6 mb-0 ellipsis">@item.Title</h3>
                                         <div class="chip bg-error">
-                                            <small class="bold-6">Mới Nhất</small>
+                                            <small class="bold-6">Nổi bật</small>
                                         </div>
                                     </div>
-                                    <p class="bold-6 text-italic mb-2">Doanh nghiệp: @item.BusinessUser.BusinessName</p>
+                                    <p class="bold-6 text-italic mb-2">@item.BusinessUser.BusinessName</p>
                                     <div class="desc d-flex align-middle mb-2">
-                                        @*<span class="mb-0 mr10 text-error">
-                                            <i class="fa-solid fa-briefcase"></i> Xây
-                                            dựng
-                                        </span>
                                         <span class="mb-0 mr10 text-success">
-                                            <i class="fa-solid fa-tag"></i>
-                                            Fresher
+                                            @if (item.Major_ID != null)
+                                            {
+                                                <i class="fa-solid fa-tag"></i> @item.Major.Major1
+                                            }
+                                            else
+                                            {
+
+                                            }
                                         </span>
                                         <span class="mb-0 mr10 text-warning">
-                                            <i class="fa-solid fa-tag"></i>
-                                            Fulltime
-                                        </span>*@
+                                            <i class="fa-solid fa-tag"></i> @item.Form
+                                        </span>
                                         <span class="mb-0 mr10 text-muted">
-                                            <i class="fa-solid fa-location-dot"></i> TP.Hồ
-                                            Chí
-                                            Minh
+                                            <i class="fa-solid fa-location-dot"></i> @item.BusinessUser.Address
                                         </span>
                                     </div>
                                     <p class="text-primary bold-6">
-                                        <i>Hạn nộp: 01/01/2023</i>
+                                        <i>Hạn nộp: @item.DueDate</i>
                                     </p>
                                 </div>
                             </div>
@@ -97,10 +102,30 @@
 
                     </div>
                 }
-
-
+            </div>
+            <div class="pagination-container" style="float: right">
+                Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+            </div>
+            <div class="center">
+                <div class="pagination-container">
+                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+                </div>
             </div>
         </div>
     </section>
 
 </main>
+
+@section Scripts {
+    <script>
+        function insertParam() {
+            searchString = document.getElementById("searchString").value;
+            form = document.getElementById("Form").value;
+            console.log(searchString)
+
+            const actionUrl = `@Url.Action("Search", "Posts")`;
+            console.log(actionUrl)
+            $('#Search').attr('action', `${actionUrl}`)
+        }
+    </script>
+}

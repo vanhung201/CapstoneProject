@@ -551,6 +551,7 @@ table.dataTable td {
   float: left;
   text-align: left;
   font-weight: 400;
+  margin-bottom: 8px;
 }
 
 .dataTables_wrapper .dataTables_filter input {
