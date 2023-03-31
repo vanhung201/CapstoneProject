@@ -8,9 +8,11 @@ using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
 using BusinessConnectManagement.Models;
+using BusinessConnectManagement.Middleware;
 
 namespace BusinessConnectManagement.Controllers
 {
+    [LoginVerification] 
     public class InternshipResultsController : Controller
     {
         private BCMEntities db = new BCMEntities();

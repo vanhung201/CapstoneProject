@@ -77,7 +77,7 @@
                                 <img src="~/assets/User/assets/images/user.png" alt="user">
                             </a>
                             <ul class="submenu">
-                                <li><a href="@Url.Action("InformationStudent", "AccountOfStudent")">Thông Tin Cá Nhân</a></li>
+                                <li><a href="@Url.Action("Information", "Account")">Thông Tin Cá Nhân</a></li>
                                 @if (isStudent)
                                 {
                                 <li><a href="@Url.Action("listReg","Registration")">Danh Sách Ứng Tuyển</a></li>
@@ -127,10 +127,48 @@
                             <img src="~/assets/User/assets/images/logo.png" alt="logo">
                         </a>
                     </div>
-                    <div class="user">
-                        <a href="#">
-                            <img src="~/assets/User/assets/images/user.png" alt="user">
-                        </a>
+                    <div id="user">
+                        @if (Request.IsAuthenticated)
+                        {
+                            <a href="#" class="user">
+                                <img src="~/assets/User/assets/images/user.png" alt="user">
+                            </a>
+                            <ul class="submenu">
+                                <li><a href="@Url.Action("Information", "Account")">Thông Tin Cá Nhân</a></li>
+                                @if (isStudent)
+                                {
+                                    <li><a href="@Url.Action("listReg","Registration")">Danh Sách Ứng Tuyển</a></li>
+                                    <li><a href="@Url.Action("Index","InternshipResults")">Kết Quả Thực Tập</a></li>
+                                }
+                                @if (!isStudent)
+                                {
+                                    switch (curUser.Role)
+                                    {
+                                        case "Admin":
+                                            link = Url.Action(curUser.Role + "Home", curUser.Role);
+                                            break;
+                                        case "Mentor":
+                                            link = Url.Action(curUser.Role + "Home", curUser.Role);
+                                            break;
+                                        case "Faculty":
+                                            link = Url.Action(curUser.Role + "Home", curUser.Role);
+                                            break;
+                                        case "Business":
+                                            link = Url.Action(curUser.Role + "Home", curUser.Role);
+                                            break;
+                                    }
+                                    <li><a href="@link">Trở Về Trang Quản Lý</a></li>
+                                }
+                                <li><a href="@Url.Action("SignOut","AccountOfStudent")">Đăng Xuất</a></li>
+                            </ul>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("Login","AccountOfStudent")" class="btn-login">
+                                Đăng Nhập
+                            </a>
+                        }
+
                     </div>
                 </div>
             </div>

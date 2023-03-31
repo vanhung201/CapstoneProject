@@ -140,7 +140,7 @@ namespace BusinessConnectManagement.Controllers
         }
         [LoginVerification]
         [HttpGet]
-        public ActionResult InformationStudent()
+        public ActionResult Information()
         {
             var email = User.Identity.Name;
             var curUser = db.VanLangUsers.Where(x => x.Email == email).FirstOrDefault();
@@ -159,6 +159,16 @@ namespace BusinessConnectManagement.Controllers
                 user.FullName = vlu.FullName;
                 user.Major_ID = vlu.Major_ID;
                 user.Mobile = vlu.Mobile;
+                if (user.Major_ID != null)
+                {
+                    user.Major_ID = vlu.Major_ID;
+
+                }
+                else
+                {
+                    TempData["message"] = "Vui Lòng Chọn Chuyên Ngành";
+                    TempData["messageType"] = "warning";
+                }
             }
             TempData["message"] = "Cập Nhật Thành Công";
             TempData["messageType"] = "success";
