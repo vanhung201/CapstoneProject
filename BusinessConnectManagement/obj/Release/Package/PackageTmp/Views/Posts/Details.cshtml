@@ -27,12 +27,15 @@
             </div>
             <div class="right" id="btn_apply">
                 <div class="text-center mt10 d-inline-flex action-wrapper">
-                    @if (ViewBag.isStudent = false)
+                    @if (ViewBag.isStudent == true)
                     {
                         if (ViewBag.isRegisted == true)
                         {
                             if (ViewBag.regStatus == "Phê Duyệt")
                             {
+
+                                <label class="btn btn-update">Đơn Ứng Tuyển Đã Được Phê Duyệt</label>
+
                             }
                             else
                             {
@@ -44,14 +47,20 @@
                         }
                         else
                         {
-                            <div class="btn btn-error" id="btn-error">
-                                Ứng Tuyển
-                            </div>
-                        }
-                    } else
-                        {
+                            if (ViewBag.isExist == true)
+                            {
+
+                            }
+                            else
+                            {
+                                <div class="btn btn-error" id="btn-error">
+                                    Ứng Tuyển
+                                </div>
+                            }
 
                         }
+                    }
+
 
                 </div>
             </div>
@@ -97,22 +106,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="summary-job columns">
-                        @foreach (var item in ViewBag.Position)
-                        {
-                            if (item.status == true)
-                            {
-                                <div class="column col-6 col-sm-12 col-md-6 col-xl-6">
-                                    <div class="item d-flex align-middle">
-                                        <div>
-                                            <h5 class="bold-6">Kinh nghiệm</h5>
-                                            <p class="bold-7 mb10">@item.Name</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                        }
-                    </div>
                     <div class="main-job">
                         <div class="title d-flex align-middle  ">
                             <img src="~/assets/User/assets/images/files.png" alt="file">
@@ -143,7 +136,15 @@
                                 <i class="fa-solid fa-envelope mr10"></i>@Model.BusinessUser.EmailContact
                             </li>
                             <li class="d-flex align-middle">
-                                <i class="fa-solid fa-earth-americas mr10"></i> @Model.BusinessUser.Website
+                                @if (Model.BusinessUser.Website != null)
+                                {
+                                    <i class="fa-solid fa-earth-americas mr10"></i> @Model.BusinessUser.Website
+                                }
+                                else
+                                {
+                                    <i class="fa-solid fa-earth-americas mr10"></i> <span>Thông tin chưa cập nhật.</span>
+                                }
+
                             </li>
                         </ul>
                     </div>
@@ -153,43 +154,60 @@
     </section>
 
 
-
-
     <section id="job">
-        <div class="container border-top">
-            <div class="py15">
-
-                <h4 class="text-h4 mb20">Công việc khác</h4>
+        <div class="container  border-top">
+            <h4 class="text-h4 mb20">Công việc khác</h4>
+            <div class="title-home">
+                <a href="@Url.Action("Index", "Posts")">Xem thêm</a>
+            </div>
+            <div class="columns pt30">
                 @foreach (var item in ViewBag.Post)
                 {
-                    <a href="@Url.Action("Details", "Posts",  new { id=item.ID })">
-                        <div class="item d-flex align-middle">
-                            <img src="@Url.Content("~/Uploads/Images/" + item.BusinessUser.BusinessLogo)"/>
-                            <div class="content">
-                                <div class="d-flex align-middle justify-between mb-2">
-                                    <h3 class="text-h4 bold-6 mb-0 ellipsis">@item.Title</h3>
-                                    <div class="chip bg-error">
-                                        <small class="bold-6">Nổi bật</small>
+                    <div class="column col-6 col-sm-12 col-md-12 col-xl-6 mb10">
+                        <a href="@Url.Action("Details", "Posts",  new { id=item.ID })">
+                            <div class="item d-flex align-middle">
+                                <img src="@Url.Content("~/Uploads/Images/" + item.BusinessUser.BusinessLogo)" alt="image-job">
+                                <div class="content">
+                                    <div class="d-flex align-middle justify-between mb-2">
+                                        <h3 class="text-h4 bold-6 mb-0 ellipsis">@item.Title</h3>
+                                        <div class="chip bg-error">
+                                            <small class="bold-6">Mới Nhất</small>
+                                        </div>
                                     </div>
+                                    <p class="bold-6 text-italic mb-2">Doanh nghiệp: @item.BusinessUser.BusinessName</p>
+                                    <div class="desc d-flex align-middle mb-2">
+                                        <span class="mb-0 mr10 text-success">
+                                            @if (item.Major_ID != null)
+                                            {
+                                                <i class="fa-solid fa-tag"></i> @item.Major.Major1
+                                            }
+                                            else
+                                            {
+
+                                            }
+                                        </span>
+                                        <span class="mb-0 mr10 text-warning">
+                                            <i class="fa-solid fa-tag"></i> @item.Form
+                                        </span>
+                                        <span class="mb-0 mr10 text-muted">
+                                            <i class="fa-solid fa-location-dot"></i> @item.BusinessUser.Address
+                                        </span>
+                                    </div>
+                                    <p class="text-primary bold-6">
+                                        <i>Hạn nộp: @item.DueDate</i>
+                                    </p>
                                 </div>
-                                <p class="bold-6 text-italic mb-2">@item.BusinessUser.BusinessName</p>
-                                <div class="desc d-flex align-middle mb-2">
-                                    <span class="mb-0 mr10 text-muted">
-                                        <i class="fa-solid fa-location-dot"></i> TP.Hồ
-                                        Chí
-                                        Minh
-                                    </span>
-                                </div>
-                                <p class="text-primary bold-6">
-                                    <i>Hạn nộp: 01/01/2023</i>
-                                </p>
                             </div>
-                        </div>
-                    </a>
+                        </a>
+
+                    </div>
                 }
             </div>
+
         </div>
     </section>
+
+
 
 </main>
 <form class="form" action="@Url.Action("Apply", "Registration")" id="apply_form" enctype="multipart/form-data" method="post">
@@ -233,9 +251,9 @@
 
 <div class="form" id="confirm_apply">
     <div class="form-container--small">
-        <h1 class="form-heading">Ứng Tuyển</h1>
+        <h1 class="form-heading"><span class="text-danger">Xác Nhận Ứng Tuyển</span></h1>
 
-        <span>Bạn Có Muốn Nộp CV Cho Vị Trí <span class="text-danger" id="confirm_position"></span> ?</span>
+        <span style="position: relative; text-align: center; margin-left: 132px; top: 12px;">Bạn Có Muốn <span class="text-danger">Ứng Tuyển Không</span> ?</span>
 
         <div class="form-group float-right">
             <div class="btn btn--small btn-error" id="btn_cancel_apply">

@@ -9,7 +9,7 @@
     --font-primary: 'Montserrat', sans-serif;
     /*--font-primary: "Nunito Sans", sans-serif;*/
     --font-toast: "Roboto", sans-serif;
-    --sidebar-max-width: 22rem;
+    --sidebar-max-width: 24rem;
     --sidebar-min-width: 7.5rem;
     --title-color: #fdf5f1;
     --success-color: #38663c;
@@ -308,6 +308,15 @@ tbody > tr:last-child td:first-child {
 .btn--create {
   background-color: #00b09b;
 }
+.btn--createe {
+    position: absolute;
+    right: 0;
+}
+
+.btn--createe {
+    background-color: #00b09b;
+}
+
 
 .btn--add {
   color: #00b09b;

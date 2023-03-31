@@ -17,8 +17,8 @@
         </div>
     </div>
 
-    <section>
-        <div class="container">
+    <section class="mt30">
+        <div class="container mb30">
             <table id="table1" class="display">
                 <thead>
                     <tr>
@@ -33,81 +33,52 @@
         </div>
     </section>
 
-    <form action="@Url.Action("Edit", "Registration")" class="form" id="updateForm" method="post">
-
+    <form class="form" id="updateForm" method="post">
         <div class="form-container">
-
-            <h1 class="form-heading">Cập nhật Kết quả</h1>
+            <h1 class="form-heading">Thông Tin Ứng Tuyển</h1>
             <div class="row">
                 <div class="column">
-                    <div class="form-group">
-                        <label for="comment" class="form-label">Nhận xét</label>
-                        <label name="Comment" id="comment" class="form-label" autocomplete="off" />
-                    </div>
-                    <div class="form-group">
-                        <label for="comment" class="form-label">ID</label>
-                        <input list="" name="ID" id="id" class="form-input" />
-                    </div>
+
                     <div class="form-group">
                         <label for="comment" class="form-label">Email</label>
-                        <input list="" name="Email_VanLang" id="email" class="form-input" />
+                        <input name="Email_Mentor" id="Email" class="form-input" autocomplete="off" disabled />
                     </div>
                     <div class="form-group">
-                        <label for="comment" class="form-label">Post_ID</label>
-                        <input list="" name="Post_ID" id="post_id" class="form-input" hidden />
+                        <label for="comment" class="form-label">Tên doanh nghiệp</label>
+                        <input list="" name="Businessname" id="BusinessName" class="form-input" disabled />
                     </div>
+
                     <div class="form-group">
-                        <label for="comment" class="form-label">Mentor</label>
-                        <input list="" name="Semester_ID" id="semester_id" class="form-input" hidden />
-                    </div>
-                    <div class="form-group">
-                        <label for="comment" class="form-label">Business_ID</label>
-                        <input list="" name="Business_ID" id="bu_id" class="form-input" hidden />
+                        <label for="comment" class="form-label">Trạng thái</label>
+                        <input list="" name="MentorComment" id="status" class="form-input" disabled />
                     </div>
                 </div>
                 <div class="column">
                     <div class="form-group">
+                        <label for="comment" class="form-label">Họ và tên</label>
+                        <input list="" name="MentorPoint" id="FullName" class="form-input" disabled />
+                    </div>
+                    <div class="form-group">
+                        <label for="comment" class="form-label">Vị trí thực tập</label>
+                        <input name="Position" id="PositionName" class="form-input" autocomplete="off" disabled />
+                    </div>
+                    <div class="form-group">
                         <label for="comment" class="form-label">CV</label>
-                        <input list="" name="CV" id="cv" class="form-input" hidden />
+                        <input list="" name="CV" id="CV" class="form-input" disabled />
                     </div>
                     <div class="form-group">
-                        <label for="comment" class="form-label">Ngày đăng ký</label>
-                        <input list="" name="RegistrationDate" id="registrationDate" class="form-input" hidden />
-                    </div>
-                    <div class="form-group">
-                        <label for="comment" class="form-label">Ngày cập nhật</label>
-                        <input list="" name="RegistrationModify" id="registrationModify" class="form-input" hidden />
-                    </div>
-                    <div class="form-group">
-                        <label for="comment" class="form-label">Kết quả phỏng vấn</label>
-                        <input list="" name="InterviewResult" id="interviewResult" class="form-input" hidden />
-                    </div>
-                    <div class="form-group">
-                        <label for="comment" class="form-label">Nhận xét phỏng vấn</label>
-                        <input list="" name="InterviewResultComment" id="interviewComment" class="form-input" hidden />
-                    </div>
-                    <div class="form-group">
-                        <label for="comment" class="form-label">Trạng thái phỏng vấn</label>
-                        <input list="" name="StatusInternview" id="interviewStatus" class="form-input" hidden />
-                    </div>
-                    <div class="form-group">
-                        <label for="comment" class="form-label">InternshipTopic_ID</label>
-                        <input list="" name="InternshipTopic_ID" id="position_id" class="form-input" hidden />
-
+                        <label for="comment" class="form-label">Nhận xét</label>
+                        <input list="" name="BusinessComment" id="Comment" class="form-input" disabled />
                     </div>
                 </div>
             </div>
-
-
-
-
             <div class="form-group">
                 <a class="btn btn--cancel">
                     Hủy
                 </a>
-                <button class="btn btn--confirm" id="btn--update">
+                <a class="btn btn--confirm" id="btn--cancel">
                     Xác Nhận
-                </button>
+                </a>
             </div>
         </div>
     </form>
@@ -139,7 +110,7 @@
                         render: function (t, e, a) {
                             return (
                                 `
-                                <a href="@Url.Action("Details", "Posts")${t}" id="business_detail" class="business_detail">
+                                <a href="@Url.Action("getRegistrationData", "Registration")/${t}" id="business_detail" class="business_detail">
                                 <div class="btn btn-update">
                                     <span class="btn-text">Xem Chi Tiết</span>
                                 </div>
@@ -169,31 +140,22 @@
                 dataType: 'json',
                 success: function (res) {
                     console.log(res)
-                    const actionUrl = `@Url.Action("Edit", "Registration")` + `/${res[0].id}`
-                    $('#id').val(res[0].id)
-                    $('#email').val(res[0].email)
-                    $('#post_id').val(res[0].post_id)
-                    $('#semester_id').val(res[0].semester_id)
-                    $('#cv').val(res[0].cv)
-                    $('#registrationDate').val(res[0].registrationDate)
-                    $('#registrationModify').val(res[0].registrationModify)
-                    $('#bu_id').val(res[0].bu_id)
-                    $('#interviewResult').val(res[0].interviewResult)
-                    $('#interviewComment').val(res[0].interviewComment)
-                    $('#interviewStatus').val(res[0].interviewStatus)
-                    $('#position_id').val(res[0].position_id)
-
-                    if (res[0].status === "Chờ Phê Duyệt") {
-                        $('select option[value="Chờ Phê Duyệt"]').attr("selected", "selected");
-                    } else {
-                        $('select option[value="Phê Duyệt"]').attr("selected", "selected");
-                    }
-                    $('#comment').val(res[0].comment)
-                    $('#updateForm').attr('action', `${actionUrl}`)
+                    $('#ID').val(res[0].ID)
+                    $('#CV').val(res[0].CV)
+                    $('#Position').val(res[0].Position)
+                    $('#PositionName').val(res[0].PositionName)
+                    $('#Email').val(res[0].Email)
+                    $('#FullName').val(res[0].FullName)
+                    $('#BusinessName').val(res[0].BusinessName)
+                    $('#status').val(res[0].status)
+                    $('#Comment').val(res[0].Comment)
                 }
             })
         })
         $('.btn--cancel').on('click', function () {
+            $('#updateForm').removeClass('is-appear')
+        })
+        $('#btn--cancel').on('click', function () {
             $('#updateForm').removeClass('is-appear')
         })
     </script>

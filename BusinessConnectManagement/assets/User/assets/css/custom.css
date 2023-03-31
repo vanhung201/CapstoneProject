@@ -979,7 +979,7 @@ footer {
     display: block;
     position: absolute;
     top: 150%;
-    right: 0;
+    right: -110%;
     /*left: 50%;
     transform: translateX(-50%);*/
     z-index: 999;

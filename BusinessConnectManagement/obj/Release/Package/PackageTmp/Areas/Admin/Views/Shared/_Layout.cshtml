@@ -84,7 +84,7 @@
                                  class="menu-image" />
                             <span class="menu-title">Business Connection Management</span>
                         </a>
-                        <i class="fal fa-long-arrow-right" id="menu-icon"></i>
+                        <i class="fal fa-long-arrow-left" id="menu-icon"></i>
                     </div>
 
                     <ul class="menu-list">
@@ -114,7 +114,7 @@
                                 <i class="menu-icon fal fa-globe"></i>
                                 <span class="menu-text">Năm Học</span>
                             </a>
-                            <span class="menu-tooltip">Học Kỳ</span>
+                            <span class="menu-tooltip">Năm Học</span>
                         </li>
                         <li class="menu-item">
                             <a href="@Url.Action("Index", "MOUs", new { area = "Faculty" })" class="menu-feature">
@@ -178,7 +178,7 @@
                                  class="menu-image" />
                             <span class="menu-title">Business Connection Management</span>
                         </a>
-                        <i class="fal fa-long-arrow-right" id="menu-icon"></i>
+                        <i class="fal fa-long-arrow-left" id="menu-icon"></i>
                     </div>
 
                     <ul class="menu-list">
@@ -195,6 +195,13 @@
                                 <span class="menu-text">Hợp tác</span>
                             </a>
                             <span class="menu-tooltip">Hợp tác</span>
+                        </li>
+                        <li class="menu-item">
+                            <a href="@Url.Action("Index", "YearStudies", new { area = "Faculty" })" class="menu-feature">
+                                <i class="menu-icon fal fa-globe"></i>
+                                <span class="menu-text">Năm Học</span>
+                            </a>
+                            <span class="menu-tooltip">Năm Học</span>
                         </li>
                         <li class="menu-item">
                             <a href="@Url.Action("Index", "MOUs", new { area = "Faculty" })" class="menu-feature">
@@ -257,7 +264,7 @@
                                  class="menu-image" />
                             <span class="menu-title">Business Connection Management</span>
                         </a>
-                        <i class="fal fa-long-arrow-right" id="menu-icon"></i>
+                        <i class="fal fa-long-arrow-left" id="menu-icon"></i>
                     </div>
                     <ul>
                         <li class="menu-item">
@@ -309,10 +316,7 @@
     </div>
 
 
-</body>
-
 <script src="~/assets/js/index.js"></script>
-<script src="~/assets/js/admin.js"></script>
 <script src="~/Scripts/jquery-3.4.1.js"></script>
 <script src="~/Scripts/jquery.validate.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
@@ -333,13 +337,17 @@
     let formAddCr = document.getElementById("addFormCr");
     let formAdd = document.getElementById("addForm");
     let formImport = document.getElementById("importForm");
+    let formDowload = document.getElementById("dowloadForm");
     let formUpdate = document.getElementById("updateForm");
     let formDelete = document.getElementById("deleteForm");
     let icon = document.querySelector(".form-icon");
     let isHide = "is-hide";
     let isAppear = "is-appear";
-    $(".btn--ìmport").on("click", function () {
+    $(".btn--import").on("click", function () {
         formImport.classList.add(isAppear);
+    });
+    $(".btn--dowload").on("click", function () {
+        formDowload.classList.add(isAppear);
     });
     $(".btn--create").on("click", function () {
         formAdd.classList.add(isAppear);
@@ -382,5 +390,7 @@
     }
 </script>
 @RenderSection("scripts", required: false)
+</body>
+
 
 </html>
