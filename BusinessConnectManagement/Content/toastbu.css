@@ -1,4 +1,4 @@
-.toast-title {
+﻿.toast-title {
     font-weight: 700;
 }
 
@@ -80,8 +80,8 @@ button.toast-close-button {
 }
 
 .toast-top-right {
-    top: 12px;
-    right: 12px;
+    top: 12%;
+    right: 0%;
 }
 
 .toast-bottom-right {
