@@ -6,11 +6,13 @@
 /* COLORS                       
 /* -------------------------------------------------------------------------- */
 :root {
-  --primary: #ff3d4e;
-  --primary-hover: #fe505f;
-  --primary-focus: grey;
-  --primary-inverse: white;
-  --animation-curve: cubic-bezier(0.12, 0.7, 0.74, 0.71);
+    --primary: #ff3d4e;
+    --primary-hover: #fe505f;
+    --primary-focus: grey;
+    --primary-inverse: white;
+    --animation-curve: cubic-bezier(0.12, 0.7, 0.74, 0.71);
+    --header-height: 75px;
+    --header-height-mobile: 61px;
 }
 .main-bg-color {background-color: var(--primary);color: var(--primary-inverse);}
 .main-text-color {color: var(--primary);}
@@ -186,4 +188,8 @@ header {
     top: 0;
     background-color: var(--primary);
     z-index: 10000;
+}
+
+.flex-wrap {
+    flex-wrap: wrap !important;
 }
