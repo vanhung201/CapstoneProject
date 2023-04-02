@@ -7,7 +7,7 @@
 
 <main>
     <div id="bg-form">
-        <img class="img-responsive rounded" src="~/assets/User/assets/images/slider.jpg" alt="macOS Yosemite Wallpaper">
+        <img class="img-responsive rounded" src="~/assets/User/assets/images/homepage.jpg" alt="macOS Yosemite Wallpaper">
         <div class="form">
             <div class="container">
                 <form action="">
@@ -38,15 +38,10 @@
             <div class="columns py20">
                 @foreach (var item in Model)
                 {
-                    <div class="column col-4 col-sm-12 col-md-12 col-xl-4 mb10">
+                    <div class="column col-4 col-sm-12 col-md-12 col-xl-4 mb10 wow rollIn" data-wow-delay="0.5s">
                         <div class="item">
                             <div class="zoom-small">
                                 <img src="@Url.Content("~/Uploads/Images/" + item.BusinessUser.BusinessLogo)" alt="mou1">
-                            </div>
-                            <div class="py-2 d-flex align-middle scroll-mobile">
-                                <small class="bold-6 bg-success rounded mr10 px-2 py-1">Công nghệ thông tin</small>
-                                <small class="bold-6 bg-success rounded mr10 px-2 py-1">Marketing</small>
-                                <small class="bold-6 bg-success rounded mr10 px-2 py-1">XNK</small>
                             </div>
                             <div class="name ellipsis">@item.BusinessUser.BusinessName</div>
                             <p class="summary ellipsis-3 mb-0">
