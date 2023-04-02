@@ -1271,6 +1271,7 @@
     <Content Include="assets\User\assets\css\font\fontawesome\css\v5-font-face.min.css" />
     <Content Include="assets\User\assets\css\form.css" />
     <Content Include="assets\User\assets\css\reset.css" />
+    <Content Include="assets\User\assets\css\responsive.css" />
     <Content Include="assets\User\assets\css\spectre\spectre-exp.min.css" />
     <Content Include="assets\User\assets\css\spectre\spectre-icons.min.css" />
     <Content Include="assets\User\assets\css\spectre\spectre.min.css" />
@@ -1507,6 +1508,10 @@
     <Content Include="Views\Shared\_LayoutHeaderOnly.cshtml" />
     <Content Include="Views\Account\Information.cshtml" />
     <Content Include="Views\Home\Position.cshtml" />
+    <Content Include="Views\Error\Forbidden.cshtml" />
+    <Content Include="Uploads\ExcelTemplate\Business.xlsx" />
+    <Content Include="Uploads\ExcelTemplate\Mentor.xlsx" />
+    <Content Include="Uploads\ExcelTemplate\Student.xlsx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1515,7 +1520,6 @@
     <Folder Include="Areas\Faculty\Data\" />
     <Folder Include="Areas\Mentor\Data\" />
     <Folder Include="assets\js\ckfinder\userfiles\" />
-    <Folder Include="Uploads\ExcelTemplate\" />
     <Folder Include="Uploads\Import\" />
   </ItemGroup>
   <ItemGroup>

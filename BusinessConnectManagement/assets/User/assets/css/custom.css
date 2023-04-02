@@ -10,6 +10,10 @@
     background-color: var(--primary);
     z-index: 10000;
 }
+
+html {
+    scroll-behavior: smooth;
+}
 /* //////////////////////////////////////////////////////
 /    Header    /
 ////////////////////////////////////////////////////// */
@@ -51,7 +55,14 @@ header .user {
 /    main    /
 ////////////////////////////////////////////////////// */
 #slider {
+    margin-top: var(--header-height);
     position: relative;
+}
+
+@media only screen and (max-width: 480px) {
+    #slider {
+        margin-top: var(--header-height-mobile);
+    }
 }
 
     #slider video {
@@ -552,16 +563,90 @@ li {
     }
 
 #news .item {
+    height: 100%;
     background-color: white;
     border-radius: 20px;
     box-shadow: 0 3px 7px 0 rgb(0 0 0 / 18%);
     padding: 15px;
 }
 
-    #news .item .name {
-        font-size: 1.2rem;
-        font-weight: 600;
+.zoom-small {
+    height:213px;
+}
+
+.sidebar {
+    width: 28px;
+    height: 28px;
+    color: #fff;
+}
+
+.nav__overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0,0,0,.2);
+    display: none;
+    animation: fadeIn linear .2s;
+}
+
+.nav__mobile {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 320px;
+    max-width: 100%;
+    background-color: var(--primary);
+    transform: translateX(-100%);
+    opacity: 0;
+    transition: transform linear .2s, opacity linear .2s;
+}
+
+.img-wrapper {
+    margin: 24px 24px 0 24px;
+}
+
+.nav__mobile-list {
+    margin: 24px;
+    list-style: none;
+}
+
+    .nav__mobile-list li {
+        margin:12px 0;
     }
+
+    .nav__mobile-close {
+        width: 20px;
+        height: 20px;
+        color: #fff;
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+    }
+
+.nav__mobile-link {
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0 5px;
+    color: #fff !important;
+}
+
+.nav__input:checked ~ .nav__overlay {
+    display: block;
+}
+
+.nav__input:checked ~ .nav__mobile {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+#news .item .name {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
 
 .title-ft {
     font-size: 1.3rem;
@@ -670,6 +755,7 @@ footer {
 ////////////////////////////////////////////////////// */
 
 #bg-form {
+    margin-top: var(--header-height);
     position: relative;
     height: 40vh;
 }
@@ -724,6 +810,7 @@ footer {
     height: 300px;
     position: relative;
     color: white;
+    margin-top:var(--header-height);
 }
 
     #bg-bread .overlay-bread {
@@ -856,7 +943,9 @@ footer {
         }
 
 @media only screen and (max-width: 480px) {
-
+    #bg-bread {
+        margin-top: var(--header-height-mobile);
+    }
     #slider .form {
         width: 95%;
     }
@@ -908,12 +997,13 @@ footer {
         position: absolute;
         left: 10px;
         bottom: 10px;
+        width:50%
     }
 
     #bg-bread .right {
         position: absolute;
-        right: 10px;
-        top: 10px;
+        right: 30px;
+        width: 50%;
     }
 }
 
@@ -935,12 +1025,34 @@ footer {
 
     #bg-bread .right {
         position: absolute;
-        right: 10px;
-        top: 10px;
+        right: -100px;
+    }
+    #bg-bread {
+        margin-top: 63px;
+    }
+    #user:hover .submenu {
+        top: 100% !important; 
+        right: -27% !important;
+        width: 100vw !important;
+        background-color: var(--primary) !important;
+        border-radius: 0 !important;
+        margin-top: 0 !important;
+        
     }
 }
 
 @media only screen and (min-width: 912px) and (max-width: 1200px) {
+    #user:hover .submenu {
+        top: 100%;
+        right: -27%;
+        width: 100vw;
+        background-color: var(--primary);
+        border-radius: 0;
+        margin-top: 0;
+    }
+    #bg-form {
+        margin-top: 63px;
+    }
     #job .item {
         margin-bottom: 20px;
     }
@@ -952,10 +1064,16 @@ footer {
     }
 
     #bg-bread .right {
-        position: absolute;
-        right: 10px;
-        top: 10px;
+    position: absolute;
+    right: -100px;
     }
+    #bg-bread {
+        margin-top:64px;
+    }
+}
+
+@media only screen and (min-width:768px){
+    
 }
 
 @media only screen and (max-width: 480px) {
@@ -1055,7 +1173,7 @@ footer {
     position: relative;
 }
 
-#header-desktop {
+#header-desktop, #header-mobile {
     padding: 12px 0;
 }
 

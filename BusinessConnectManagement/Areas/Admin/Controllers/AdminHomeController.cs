@@ -13,6 +13,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using System.Transactions;
 using System.Web.Services.Description;
+using System.Text.RegularExpressions;
 
 namespace BusinessConnectManagement.Areas.Admin.Controllers
 {
@@ -45,7 +46,7 @@ namespace BusinessConnectManagement.Areas.Admin.Controllers
                             });
             return Json(listData, JsonRequestBehavior.AllowGet);
         }
-        
+
         public ActionResult AuthorizeList()
         {
             var vanLangUsers = db.VanLangUsers.Where(x => x.Role != "Admin");
@@ -60,25 +61,25 @@ namespace BusinessConnectManagement.Areas.Admin.Controllers
             VanLangUser vanLangUser = db.VanLangUsers.Find(email);
 
             var list = (from vl in db.VanLangUsers
-                            join mj in db.Majors on vl.Major_ID equals mj.ID into major
-                            join st in db.Status on vl.Status_ID equals st.ID into status
-                            where vl.Email == email
-                            select new
-                            {
-                                email= vl.Email,
-                                username = vl.FullName,
-                                student = vl.Student_ID,
-                                phone = vl.Mobile,
-                                majorr = vl.Major.Major1,
-                                access = vl.Last_Access,
-                                role = vl.Role,
-                                status = vl.Status.Status1
-                            });
+                        join mj in db.Majors on vl.Major_ID equals mj.ID into major
+                        join st in db.Status on vl.Status_ID equals st.ID into status
+                        where vl.Email == email
+                        select new
+                        {
+                            email = vl.Email,
+                            username = vl.FullName,
+                            student = vl.Student_ID,
+                            phone = vl.Mobile,
+                            majorr = vl.Major.Major1,
+                            access = vl.Last_Access,
+                            role = vl.Role,
+                            status = vl.Status.Status1
+                        });
             return Json(list, JsonRequestBehavior.AllowGet);
         }
         public ActionResult Edit(string email)
         {
-           
+
 
             VanLangUser vanLangUser = db.VanLangUsers.Find(email);
 
@@ -96,9 +97,9 @@ namespace BusinessConnectManagement.Areas.Admin.Controllers
                             });
             return Json(listData, JsonRequestBehavior.AllowGet);
 
-         
+
         }
-        
+
         [HttpPost]
         public ActionResult Edit(VanLangUser vanLangUser)
         {
@@ -201,12 +202,12 @@ namespace BusinessConnectManagement.Areas.Admin.Controllers
             {
                 String message = string.Empty;
                 string path = Server.MapPath("~/Uploads/Import/" + postFile.FileName);
-                if(System.IO.File.Exists(path))
+                if (System.IO.File.Exists(path))
                     System.IO.File.Delete(path);
                 postFile.SaveAs(path);
                 int count = 0;
                 ImportDataEx(out count, path);
-                if(ImportDataEx(out count, path) == true)
+                if (ImportDataEx(out count, path) == true)
                 {
                     TempData["AlertMessage"] = "<div class=\"toast toast--success\" style=\"position: abosolute; z-index: 20;\">\r\n     <div class=\"toast-left toast-left--success\">\r\n       <i class=\"fas fa-check-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n       <p class=\"toast-text\">Import dữ liệu thành công.</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n      <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>\r\n";
                     return RedirectToAction("AuthorizeList", "AdminHome");
@@ -216,15 +217,15 @@ namespace BusinessConnectManagement.Areas.Admin.Controllers
                     TempData["AlertMessage"] = "<div class=\"toast toast--error\">\r\n     <div class=\"toast-left toast-left--error\">\r\n       <i class=\"fas fa-times-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n    <p class=\"toast-text\">File Excel không đúng định dạng dữ liệu.</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n       <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>";
                     return RedirectToAction("AuthorizeList", "AdminHome");
                 }
-               
+
 
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 TempData["AlertMessage"] = "<div class=\"toast toast--error\">\r\n     <div class=\"toast-left toast-left--error\">\r\n       <i class=\"fas fa-times-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n    <p class=\"toast-text\">File Excel không đúng định dạng dữ liệu.</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n       <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>";
                 return RedirectToAction("AuthorizeList", "AdminHome");
             }
-           
+
 
         }
 
@@ -234,7 +235,7 @@ namespace BusinessConnectManagement.Areas.Admin.Controllers
             count = 0;
             try
             {
-             
+
                 using (var package = new ExcelPackage(path))
                 {
                     ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
@@ -250,8 +251,7 @@ namespace BusinessConnectManagement.Areas.Admin.Controllers
                     object CheckFullName = worksheet.Cells[checkRow, checkColumn + 2].Value;
                     object CheckStudent_ID = worksheet.Cells[checkRow, checkColumn + 3].Value;
                     object CheckMobile = worksheet.Cells[checkRow, checkColumn + 4].Value;
-                    object CheckRole = worksheet.Cells[checkRow, checkColumn + 5].Value;
-                    object Checkmajor_ID = worksheet.Cells[checkRow, checkColumn + 6].Value;
+                    object Checkmajor_ID = worksheet.Cells[checkRow, checkColumn + 5].Value;
                     object Checkstatus_ID = worksheet.Cells[checkRow, checkColumn + 7].Value;
                     //mentor
                     object CheckEmailMentor = worksheet.Cells[checkRow, checkColumn + 1].Value;
@@ -266,13 +266,13 @@ namespace BusinessConnectManagement.Areas.Admin.Controllers
                     int checkRoleRow = 2;
                     object CheckRoleStart = worksheet.Cells[checkRoleRow, checkRoleColumn].Value;
                     //
-                   
+
 
                     object data = null;
-                    if(CheckRoleStart.ToString()== "Mentor")
+                    if (CheckRoleStart.ToString() == "Mentor")
                     {
                         /*----------------------------------Mentor---------------------------*/
-                        if (CheckEmailMentor.ToString() == "Email" && CheckFullNameMentor.ToString() == "Họ và tên" && CheckMobileMentor.ToString() == "SĐT" && CheckRoleMentor.ToString() == "Vai trò" )
+                        if (CheckEmailMentor.ToString() == "Email" && CheckFullNameMentor.ToString() == "Họ và tên" && CheckMobileMentor.ToString() == "SĐT" && CheckRoleMentor.ToString() == "Vai trò")
                         {
                             do
                             {
@@ -280,17 +280,28 @@ namespace BusinessConnectManagement.Areas.Admin.Controllers
                                 object Email = worksheet.Cells[startRow, startColumn + 1].Value;
                                 object FullName = worksheet.Cells[startRow, startColumn + 2].Value;
                                 object Mobile = worksheet.Cells[startRow, startColumn + 3].Value;
-                                object Role = worksheet.Cells[startRow, startColumn + 4].Value;
-                                object status_ID = worksheet.Cells[startRow, startColumn + 5].Value;
                                 //read column class name
 
                                 if (data != null && Email != null)
                                 {
-                                    //importData
-                                    var isSuccess = saveClassMentor(Email.ToString(), FullName.ToString(), Mobile.ToString(), Role.ToString(), db);
-                                    if (isSuccess)
+                                    object CheckEmailVLU = worksheet.Cells[startRow, startColumn + 1].Value;
+                                    object CheckMobilePhone = worksheet.Cells[startRow, startColumn + 3].Value;
+
+                                    string emailPattern = @"^([\w\.\-]+)@vanlanguni.vn";
+                                    string emailPatternVLU = @"^([\w\.\-]+)@vlu.edu.vn";
+                                    string phonePattern = @"^0\d{9,10}$";
+                                    if ((CheckEmailVLU.ToString() != null && Regex.IsMatch(CheckEmailVLU.ToString(), emailPattern)) || (CheckEmailVLU.ToString() != null && Regex.IsMatch(CheckEmailVLU.ToString(), emailPatternVLU)))
                                     {
-                                        count++;
+                                        if (CheckMobilePhone != null && Regex.IsMatch(CheckMobilePhone.ToString(), phonePattern))
+                                        {
+                                            var isSuccess = saveClassMentor(Email.ToString(), FullName.ToString(), Mobile.ToString(), db);
+                                            if (isSuccess)
+                                            {
+                                                count++;
+                                            }
+                                        }
+                                        //importData
+
                                     }
                                 }
                                 startRow++;
@@ -302,14 +313,14 @@ namespace BusinessConnectManagement.Areas.Admin.Controllers
                         {
                             System.IO.File.Delete(path);
                             result = false;
-                           
+
 
                         }
                     }
                     else
                     {
                         //---------------------Student------------------
-                        if (CheckEmail.ToString() == "Email" && CheckFullName.ToString() == "Họ và tên" && CheckStudent_ID.ToString() == "Mã sinh viên" && CheckMobile.ToString() == "SĐT" && CheckRole.ToString() == "Vai trò" && Checkmajor_ID.ToString() == "Chuyên nghành")
+                        if (CheckEmail.ToString() == "Email" && CheckFullName.ToString() == "Họ và tên" && CheckStudent_ID.ToString() == "Mã sinh viên" && CheckMobile.ToString() == "SĐT" && Checkmajor_ID.ToString() == "Chuyên nghành")
                         {
                             do
                             {
@@ -318,19 +329,33 @@ namespace BusinessConnectManagement.Areas.Admin.Controllers
                                 object FullName = worksheet.Cells[startRow, startColumn + 2].Value;
                                 object Student_ID = worksheet.Cells[startRow, startColumn + 3].Value;
                                 object Mobile = worksheet.Cells[startRow, startColumn + 4].Value;
-                                object Role = worksheet.Cells[startRow, startColumn + 5].Value;
-                                object major_ID = worksheet.Cells[startRow, startColumn + 6].Value;
+                                object major_ID = worksheet.Cells[startRow, startColumn + 5].Value;
 
                                 //read column class name
 
                                 if (data != null && Email != null)
                                 {
-                                    //importData
-                                    var isSuccess = saveClass(Email.ToString(), FullName.ToString(), Student_ID.ToString(), Mobile.ToString(), Role.ToString(), Int32.Parse(major_ID.ToString()), db);
-                                    if (isSuccess)
+                                    object CheckEmailVLU = worksheet.Cells[startRow, startColumn + 1].Value;
+                                    object CheckMobilePhone = worksheet.Cells[startRow, startColumn + 4].Value;
+
+                                    string emailPattern = @"^([\w\.\-]+)@vanlanguni.vn";
+                                    string emailPatternVLU = @"^([\w\.\-]+)@vlu.edu.vn";
+                                    string phonePattern = @"^0\d{9,10}$";
+                                    if ((CheckEmailVLU.ToString() != null && Regex.IsMatch(CheckEmailVLU.ToString(), emailPattern)) || (CheckEmailVLU.ToString() != null && Regex.IsMatch(CheckEmailVLU.ToString(), emailPatternVLU)))
                                     {
-                                        count++;
+                                        if (CheckMobilePhone != null && Regex.IsMatch(CheckMobilePhone.ToString(), phonePattern))
+                                        {
+                                            var isSuccess = saveClass(Email.ToString(), FullName.ToString(), Student_ID.ToString(), Mobile.ToString(), Int32.Parse(major_ID.ToString()), db);
+                                            if (isSuccess)
+                                            {
+                                                count++;
+                                            }
+                                        }
+                                        //importData
+
                                     }
+                                    //importData
+
 
                                 }
                                 startRow++;
@@ -347,7 +372,7 @@ namespace BusinessConnectManagement.Areas.Admin.Controllers
                     }
 
                 }
-               
+
             }
             catch
             {
@@ -357,19 +382,19 @@ namespace BusinessConnectManagement.Areas.Admin.Controllers
             return result;
         }
 
-        public bool saveClassMentor(String Email, String FullName, String Mobile, String Role, BCMEntities db)
+        public bool saveClassMentor(String Email, String FullName, String Mobile, BCMEntities db)
         {
             var result = false;
             try
             {
-              
-                if(db.VanLangUsers.Where(x => x.Email.Equals(Email)).Count() == 0) 
+
+                if (db.VanLangUsers.Where(x => x.Email.Equals(Email)).Count() == 0)
                 {
                     var item = new VanLangUser();
                     item.Email = Email;
-                    item.FullName= FullName;
+                    item.FullName = FullName;
                     item.Mobile = Mobile;
-                    item.Role = Role;
+                    item.Role = "Mentor";
                     item.Status_ID = 1;
                     db.VanLangUsers.Add(item);
                     db.SaveChanges();
@@ -377,13 +402,14 @@ namespace BusinessConnectManagement.Areas.Admin.Controllers
                 }
                 result = false;
             }
-            catch {
+            catch
+            {
                 result = false;
             }
-            return result; 
+            return result;
         }
         //-----------------------------------Mentor-----------------------
-        public bool saveClass(String Email, String FullName, String Student_ID, String Mobile, String Role, int Major_ID, BCMEntities db)
+        public bool saveClass(String Email, String FullName, String Student_ID, String Mobile, int Major_ID, BCMEntities db)
         {
             var result = false;
             try
@@ -396,7 +422,7 @@ namespace BusinessConnectManagement.Areas.Admin.Controllers
                     item.FullName = FullName;
                     item.Student_ID = Student_ID;
                     item.Mobile = Mobile;
-                    item.Role = Role;
+                    item.Role = "Student";
                     item.Major_ID = Major_ID;
                     item.Status_ID = 1;
                     db.VanLangUsers.Add(item);

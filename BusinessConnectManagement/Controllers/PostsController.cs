@@ -51,7 +51,9 @@ namespace BusinessConnectManagement.Controllers
         public ActionResult Search(int? page, string SearchString = "", string Form = "", string Major = "")
         {
 
-
+            ViewBag.SearchString = SearchString;
+            ViewBag.Form = Form;
+            ViewBag.Major = Major;
             ViewBag.Major = db.Majors.ToList();
             var bu = db.Posts.Include(x => x.BusinessUser).Where(s => s.BusinessUser.BusinessName.ToUpper().Contains(Form.ToUpper()));
             var titles = db.Posts.Include(x => x.BusinessUser).Where(s => s.Title.ToUpper().Contains(SearchString.ToUpper()));
@@ -68,7 +70,11 @@ namespace BusinessConnectManagement.Controllers
 
                     if (SearchString != "")
                     {
-
+                        if (!titles.Any())
+                        {
+                            TempData["Message"] = "Không có kết quả tìm kiếm với từ khóa: " + SearchString;
+                            return RedirectToAction("Search", "Posts");
+                        }
                         return View(titles.ToList().ToPagedList(pageNumber, pageSize));
                     }
                     else
@@ -80,11 +86,21 @@ namespace BusinessConnectManagement.Controllers
                 {
                     if (SearchString == "")
                     {
+                        if (!form.Any())
+                        {
+                            TempData["Message"] = "Không có kết quả tìm kiếm với từ khóa: " + form;
+                            return RedirectToAction("Search", "Posts");
+                        }
                         return View(form.ToList().ToPagedList(pageNumber, pageSize));
                     }
                     else
                     {
                         var tif = db.Posts.Include(x => x.BusinessUser).Where(s => s.Form.ToUpper().Contains(Form.ToUpper()) && s.Title.ToUpper().Contains(SearchString.ToUpper()));
+                        if (!tif.Any())
+                        {
+                            TempData["Message"] = "Không có kết quả tìm kiếm với từ khóa: " + SearchString + ", " + Form;
+                            return RedirectToAction("Search", "Posts");
+                        }
                         return View(tif.ToList().ToPagedList(pageNumber, pageSize));
                     }
                 }
@@ -96,11 +112,21 @@ namespace BusinessConnectManagement.Controllers
                     if (SearchString != "")
                     {
                         var getall = db.Posts.Include(x => x.BusinessUser).Where(s => s.Major.Major1.ToUpper().Contains(Major.ToUpper()) && s.Form.ToUpper().Contains(Form.ToUpper()) && s.Title.ToUpper().Contains(SearchString.ToUpper()));
+                        if (!getall.Any())
+                        {
+                            TempData["Message"] = "Không có kết quả tìm kiếm với từ khóa: " + Form + ", " + Major + ", " + SearchString;
+                            return RedirectToAction("Search", "Posts");
+                        }
                         return View(getall.ToList().ToPagedList(pageNumber, pageSize));
                     }
                     else
                     {
                         var getall = db.Posts.Include(x => x.BusinessUser).Where(s => s.Major.Major1.ToUpper().Contains(Major.ToUpper()) && s.Form.ToUpper().Contains(Form.ToUpper()));
+                        if (!getall.Any())
+                        {
+                            TempData["Message"] = "Không có kết quả tìm kiếm với từ khóa: " + Form + ", " + Major;
+                            return RedirectToAction("Search", "Posts");
+                        }
                         return View(getall.ToList().ToPagedList(pageNumber, pageSize));
                     }
                 }
@@ -109,11 +135,22 @@ namespace BusinessConnectManagement.Controllers
                     if (SearchString != "")
                     {
                         var getall = db.Posts.Include(x => x.BusinessUser).Where(s => s.Major.Major1.ToUpper().Contains(Major.ToUpper()) && s.Title.ToUpper().Contains(SearchString.ToUpper()));
+                        if (!getall.Any())
+                        {
+                            TempData["Message"] = "Không có kết quả tìm kiếm với từ khóa: " + SearchString + ", " + Major;
+                            return RedirectToAction("Search", "Posts");
+                        }
                         return View(getall.ToList().ToPagedList(pageNumber, pageSize));
                     }
                     else
                     {
                         var getall = db.Posts.Include(x => x.BusinessUser).Where(s => s.Major.Major1.ToUpper().Contains(Major.ToUpper()));
+                        if (!getall.Any())
+                        {
+                            TempData["Message"] = "Không có kết quả tìm kiếm với từ khóa: " + Major;
+
+                            return RedirectToAction("Search", "Posts");
+                        }
                         return View(getall.ToList().ToPagedList(pageNumber, pageSize));
                     }
                 }
