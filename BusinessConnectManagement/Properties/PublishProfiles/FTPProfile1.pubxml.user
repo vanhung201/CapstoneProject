@@ -8,7 +8,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAX+UdYnw4A0m9jGKKo1L4EAAAAAACAAAAAAAQZgAAAAEAACAAAAAXAVuMNZWYUliGtWCY70Fne4j6eG1UXGT9LgLyAMm5TgAAAAAOgAAAAAIAACAAAABmurwgwjP3+CTBo1NZIfx3Sns1yYGdX1Fu5sIR4Z6kvyAAAAA+pPCJ/IUuGxhR0Z01NjlkjN3pijJXJL7qI05JWK2fCEAAAAB2E2+8+x6mX3reeqlJpnZxlI8u/+iiatGsxcr+4HWQsjsezxRz9bFEIvw0aW4VygmlXmK+n+lVXVzBjQ8l8C7G</EncryptedPassword>
     <_PublishTargetUrl>ftp://fit-intern.com</_PublishTargetUrl>
-    <History>True|2023-03-31T10:12:27.9024628Z;True|2023-03-31T16:52:26.4720505+07:00;</History>
+    <History>True|2023-04-02T14:36:57.4263093Z;True|2023-03-31T17:12:27.9024628+07:00;True|2023-03-31T16:52:26.4720505+07:00;</History>
   </PropertyGroup>
   <ItemGroup>
     <File Include="App_Start/BundleConfig.cs">
@@ -24,13 +24,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/24/2023 20:04:47</publishTime>
     </File>
     <File Include="Areas/Admin/Views/AdminHome/AuthorizeList.cshtml">
-      <publishTime>03/31/2023 14:07:34</publishTime>
+      <publishTime>04/02/2023 22:02:03</publishTime>
     </File>
     <File Include="Areas/Admin/Views/AdminHome/ImportData.cshtml">
       <publishTime>03/31/2023 14:07:37</publishTime>
     </File>
     <File Include="Areas/Admin/Views/AdminHome/Index.cshtml">
-      <publishTime>03/31/2023 14:07:37</publishTime>
+      <publishTime>04/02/2023 22:06:55</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Email/EmailBusinessInternship.cshtml">
       <publishTime>03/31/2023 14:07:34</publishTime>
@@ -138,7 +138,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/31/2023 14:07:37</publishTime>
     </File>
     <File Include="Areas/Faculty/Views/BusinessUsers/Index.cshtml">
-      <publishTime>03/31/2023 14:07:34</publishTime>
+      <publishTime>04/02/2023 22:03:15</publishTime>
     </File>
     <File Include="Areas/Faculty/Views/CooperationCategories/Index.cshtml">
       <publishTime>03/31/2023 14:07:37</publishTime>
@@ -270,7 +270,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/31/2023 14:07:37</publishTime>
     </File>
     <File Include="assets/css/global.css">
-      <publishTime>03/31/2023 14:07:35</publishTime>
+      <publishTime>04/02/2023 18:46:09</publishTime>
     </File>
     <File Include="assets/css/global2.css">
       <publishTime>03/31/2023 14:07:37</publishTime>
@@ -285,7 +285,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/31/2023 14:07:37</publishTime>
     </File>
     <File Include="assets/css/index.css">
-      <publishTime>03/31/2023 14:07:37</publishTime>
+      <publishTime>04/02/2023 20:59:46</publishTime>
     </File>
     <File Include="assets/css/info.css">
       <publishTime>03/31/2023 14:56:04</publishTime>
@@ -3096,7 +3096,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/31/2023 14:07:37</publishTime>
     </File>
     <File Include="assets/User/assets/css/custom.css">
-      <publishTime>03/31/2023 17:06:15</publishTime>
+      <publishTime>04/02/2023 21:21:01</publishTime>
     </File>
     <File Include="assets/User/assets/css/font/fontawesome/css/all.css">
       <publishTime>03/31/2023 14:07:37</publishTime>
@@ -3177,10 +3177,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/31/2023 14:07:37</publishTime>
     </File>
     <File Include="assets/User/assets/css/form.css">
-      <publishTime>03/31/2023 14:07:37</publishTime>
+      <publishTime>04/02/2023 19:03:26</publishTime>
     </File>
     <File Include="assets/User/assets/css/reset.css">
       <publishTime>03/31/2023 14:07:37</publishTime>
+    </File>
+    <File Include="assets/User/assets/css/responsive.css">
+      <publishTime>04/02/2023 16:27:37</publishTime>
     </File>
     <File Include="assets/User/assets/css/spectre/spectre-exp.min.css">
       <publishTime>03/31/2023 14:07:37</publishTime>
@@ -3189,10 +3192,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/31/2023 14:07:37</publishTime>
     </File>
     <File Include="assets/User/assets/css/spectre/spectre.min.css">
-      <publishTime>03/31/2023 14:07:37</publishTime>
+      <publishTime>04/02/2023 20:12:26</publishTime>
     </File>
     <File Include="assets/User/assets/css/style.css">
-      <publishTime>03/31/2023 14:07:37</publishTime>
+      <publishTime>04/02/2023 20:13:16</publishTime>
     </File>
     <File Include="assets/User/assets/css/style2.css">
       <publishTime>03/31/2023 14:07:37</publishTime>
@@ -3297,10 +3300,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/31/2023 14:06:52</publishTime>
     </File>
     <File Include="bin/BusinessConnectManagement.dll">
-      <publishTime>04/01/2023 12:10:34</publishTime>
+      <publishTime>04/02/2023 21:35:47</publishTime>
     </File>
     <File Include="bin/BusinessConnectManagement.pdb">
-      <publishTime>04/01/2023 12:10:34</publishTime>
+      <publishTime>04/02/2023 21:35:47</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>03/31/2023 14:07:39</publishTime>
@@ -3855,7 +3858,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/31/2023 14:07:37</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>03/31/2023 14:07:34</publishTime>
+      <publishTime>04/02/2023 22:22:17</publishTime>
     </File>
     <File Include="Views/Home/Position.cshtml">
       <publishTime>03/31/2023 14:07:34</publishTime>
@@ -3873,7 +3876,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/31/2023 14:07:37</publishTime>
     </File>
     <File Include="Views/InternshipResults/Index.cshtml">
-      <publishTime>03/31/2023 16:01:48</publishTime>
+      <publishTime>04/02/2023 19:10:49</publishTime>
     </File>
     <File Include="Views/MOUs/Create.cshtml">
       <publishTime>03/31/2023 14:07:37</publishTime>
@@ -3882,34 +3885,34 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/31/2023 14:07:37</publishTime>
     </File>
     <File Include="Views/MOUs/Details.cshtml">
-      <publishTime>03/31/2023 14:07:34</publishTime>
+      <publishTime>04/02/2023 19:55:32</publishTime>
     </File>
     <File Include="Views/MOUs/Edit.cshtml">
       <publishTime>03/31/2023 14:07:37</publishTime>
     </File>
     <File Include="Views/MOUs/Index.cshtml">
-      <publishTime>03/31/2023 14:07:34</publishTime>
+      <publishTime>04/02/2023 20:46:23</publishTime>
     </File>
     <File Include="Views/Posts/Details.cshtml">
-      <publishTime>03/31/2023 14:07:34</publishTime>
+      <publishTime>04/02/2023 21:31:27</publishTime>
     </File>
     <File Include="Views/Posts/Index.cshtml">
-      <publishTime>03/31/2023 14:07:34</publishTime>
+      <publishTime>04/02/2023 20:43:05</publishTime>
     </File>
     <File Include="Views/Posts/Search.cshtml">
-      <publishTime>03/31/2023 14:07:34</publishTime>
+      <publishTime>04/02/2023 21:33:31</publishTime>
     </File>
     <File Include="Views/Registration/listReg.cshtml">
-      <publishTime>03/31/2023 16:00:44</publishTime>
+      <publishTime>04/02/2023 21:31:09</publishTime>
     </File>
     <File Include="Views/Shared/_ErrorLayout.cshtml">
       <publishTime>03/31/2023 17:59:16</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>03/31/2023 17:04:25</publishTime>
+      <publishTime>04/02/2023 21:30:19</publishTime>
     </File>
     <File Include="Views/Shared/_LayoutHeaderOnly.cshtml">
-      <publishTime>03/31/2023 17:04:38</publishTime>
+      <publishTime>04/02/2023 21:25:37</publishTime>
     </File>
     <File Include="Views/Web.config">
       <publishTime>03/31/2023 14:06:51</publishTime>
@@ -3918,7 +3921,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/31/2023 14:07:37</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>03/31/2023 22:10:24</publishTime>
+      <publishTime>04/02/2023 21:35:50</publishTime>
     </File>
   </ItemGroup>
 </Project>

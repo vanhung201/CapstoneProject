@@ -3,9 +3,10 @@
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    <link href="~/assets/User/assets/css/form.css" rel="stylesheet" />
 
+<link href="~/assets/User/assets/css/form.css" rel="stylesheet" />
 }
+
 @if (TempData["message"] != null)
 {
     <script>
@@ -18,9 +19,9 @@
         <div class="overlay-bread"></div>
         <div class="container">
             <div class="left">
-                <div class="d-flex align-middle mb10">
-                    <img class="avt" src="@Url.Content("~/Uploads/Images/" + Model.BusinessUser.BusinessLogo)" alt="image-job">
-                    <h3 class="text-h2">@Model.Title</h3>
+                <div class="d-flex align-middle mb10 flex-wrap">
+                    <img class="avt mr10" src="@Url.Content("~/Uploads/Images/" + Model.BusinessUser.BusinessLogo)" alt="image-job">
+                    <h3 class="text-h2 mt10">@Model.Title</h3>
 
                 </div>
 
@@ -68,7 +69,7 @@
     </div>
 
     <section id="description">
-        <div class="container">
+        <div class="container mt30">
             <div class="columns">
                 <div id="detail-job" class="column col-8 col-sm-12 col-md-12 col-xl-9 mb10">
                     <h3 class="text-h3 mb15">Chi tiết công việc</h3>

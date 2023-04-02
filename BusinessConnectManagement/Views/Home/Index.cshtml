@@ -55,7 +55,33 @@
             </div>
         </div>
     </div>
-
+    <section id="featured-icon" style="background-image: url(https://vhub.vanlanguni.edu.vn/images/stat.jpg);">
+        <div class="container">
+            <div class="columns">
+                <div class="column col-4">
+                    <div class="text-center">
+                        <img src="~/assets/User/assets/images/user.png" alt="user">
+                        <h3 class="count">@ViewBag.CountStudent</h3>
+                        <p>Sinh viên</p>
+                    </div>
+                </div>
+                <div class="column col-4">
+                    <div class="text-center">
+                        <img src="~/assets/User/assets/images/paper.png" alt="paper">
+                        <h3 class="count">@ViewBag.CountPost</h3>
+                        <p>Tin tuyển dụng</p>
+                    </div>
+                </div>
+                <div class="column col-4">
+                    <div class="text-center">
+                        <img src="~/assets/User/assets/images/company.png" alt="company">
+                        <h3 class="count">@ViewBag.CountBusiness</h3>
+                        <p>Công ty</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
     <section id="job">
         <div class="container">
             <div class="title-home">
@@ -169,7 +195,7 @@
                         </div>
                     </label>
                     <div class="accordion-body answer">
-                       
+
                     </div>
                 </div>
                 <div class="accordion item">
@@ -181,7 +207,7 @@
                         </div>
                     </label>
                     <div class="accordion-body answer">
-                        
+
                     </div>
                 </div>
                 <div class="accordion item">
@@ -193,7 +219,7 @@
                         </div>
                     </label>
                     <div class="accordion-body answer">
-                       
+
                     </div>
                 </div>
                 <div class="accordion item">
@@ -205,7 +231,7 @@
                         </div>
                     </label>
                     <div class="accordion-body answer">
-                       
+
                     </div>
                 </div>
             </article>
@@ -225,5 +251,16 @@
             console.log(actionUrl)
             $('#Search').attr('action', `${actionUrl}`)
         }
+        $('.count').each(function () {
+            $(this).prop('Counter', 0).animate({
+                Counter: $(this).text()
+            }, {
+                duration: 4000,
+                easing: 'swing',
+                step: function (now) {
+                    $(this).text(Math.ceil(now));
+                }
+            });
+        });
     </script>
 }

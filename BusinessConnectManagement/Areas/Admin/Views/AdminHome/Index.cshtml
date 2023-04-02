@@ -12,7 +12,7 @@
 
     var bu = db.BusinessUsers.Select(x => x.BusinessName).ToArray();
     var buID = db.BusinessUsers.Select(x => x.ID).ToArray();
-    var passedStudent = buID.Select(buId => db.Registrations.Count(x => x.Business_ID == buId && x.StatusInternview == "Đậu")).ToArray();
+    var passedStudent = buID.Select(buId => db.Registrations.Count(x => x.Business_ID == buId && x.StatusInternview == "Đậu Phỏng Vấn")).ToArray();
     var years = db.YearStudies.ToList();
     var curSemester = db.Semesters.Where(x => x.Status == true).Select(x => x.ID).ToList();
     var buSignedMOU = db.MOUs.Count();
@@ -304,7 +304,7 @@
                 datasets: [
                     {
                         label: `Số lượng`,
-                        backgroundColor: ["#bd362f", "#f89406", "#2f96b4"],
+                        backgroundColor: ["#bd362f", "#2f96b4", "#f89406"],
                         data: [@facultyNumber, @mentorNumber, @studentNumber],
                     },
                 ],
