@@ -55,7 +55,33 @@
             </div>
         </div>
     </div>
-
+    <section id="featured-icon" style="background-image: url(https://vhub.vanlanguni.edu.vn/images/stat.jpg);">
+        <div class="container">
+            <div class="columns">
+                <div class="column col-4">
+                    <div class="text-center">
+                        <img src="~/assets/User/assets/images/user.png" alt="user">
+                        <h3 class="count">@ViewBag.CountStudent</h3>
+                        <p>Sinh viên</p>
+                    </div>
+                </div>
+                <div class="column col-4">
+                    <div class="text-center">
+                        <img src="~/assets/User/assets/images/paper.png" alt="paper">
+                        <h3 class="count">@ViewBag.CountPost</h3>
+                        <p>Tin tuyển dụng</p>
+                    </div>
+                </div>
+                <div class="column col-4">
+                    <div class="text-center">
+                        <img src="~/assets/User/assets/images/company.png" alt="company">
+                        <h3 class="count">@ViewBag.CountBusiness</h3>
+                        <p>Công ty</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
     <section id="job">
         <div class="container">
             <div class="title-home">
@@ -66,7 +92,7 @@
             <div class="columns pt30">
                 @foreach (var item in Model)
                 {
-                    <div class="column col-6 col-sm-12 col-md-12 col-xl-6 mb10">
+                    <div class="column col-6 col-sm-12 col-md-12 col-xl-6 mb10 wow rollIn" data-wow-delay="0.5s">
                         <a href="@Url.Action("Details", "Posts",  new { id=item.ID })">
                             <div class="item d-flex align-middle">
                                 <img src="@Url.Content("~/Uploads/Images/" + item.BusinessUser.BusinessLogo)" alt="image-job">
@@ -92,13 +118,18 @@
                                         <span class="mb-0 mr10 text-warning">
                                             <i class="fa-solid fa-tag"></i> @item.Form
                                         </span>
+                                       
+                                    </div>
+                                    <div class="desc d-flex align-middle mb-2">
                                         <span class="mb-0 mr10 text-muted">
                                             <i class="fa-solid fa-location-dot"></i> @item.BusinessUser.Address
                                         </span>
                                     </div>
                                     <p class="text-primary bold-6">
                                         <i>Hạn nộp: @item.DueDate</i>
+                                        <i style="float:right">Lượt ứng tuyển: @item.Registrations.Count()</i>
                                     </p>
+                                   
                                 </div>
                             </div>
                         </a>
@@ -154,7 +185,64 @@
 
         </div>
     </section>
+    <section id="question">
+        <div class="container">
+            <div class="title-home">
+                <h3>Câu hỏi thường gặp</h3>
+            </div>
+            <article class="p15 bg-white mb15 shadow-xl">
+                <div class="accordion item">
+                    <input type="checkbox" id="accordion-1" name="accordion-radio" hidden />
+                    <label class="accordion-header question" for="accordion-1">
+                        <div class="d-flex justify-between align-middle">
+                            <p class="mb-0">Câu hỏi 1</p>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </label>
+                    <div class="accordion-body answer">
 
+                    </div>
+                </div>
+                <div class="accordion item">
+                    <input type="checkbox" id="accordion-2" name="accordion-checkbox" hidden />
+                    <label class="accordion-header question" for="accordion-2">
+                        <div class="d-flex justify-between align-middle">
+                            <p class="mb-0">Câu hỏi 2</p>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </label>
+                    <div class="accordion-body answer">
+
+                    </div>
+                </div>
+                <div class="accordion item">
+                    <input type="checkbox" id="accordion-3" name="accordion-checkbox" hidden />
+                    <label class="accordion-header question" for="accordion-3">
+                        <div class="d-flex justify-between align-middle">
+                            <p class="mb-0">Câu hỏi 3</p>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </label>
+                    <div class="accordion-body answer">
+
+                    </div>
+                </div>
+                <div class="accordion item">
+                    <input type="checkbox" id="accordion-4" name="accordion-checkbox" hidden />
+                    <label class="accordion-header question" for="accordion-4">
+                        <div class="d-flex justify-between align-middle">
+                            <p class="mb-0">Câu hỏi 4</p>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </label>
+                    <div class="accordion-body answer">
+
+                    </div>
+                </div>
+            </article>
+
+        </div>
+    </section>
 </main>
 
 @section Scripts {
@@ -168,5 +256,16 @@
             console.log(actionUrl)
             $('#Search').attr('action', `${actionUrl}`)
         }
+        $('.count').each(function () {
+            $(this).prop('Counter', 0).animate({
+                Counter: $(this).text()
+            }, {
+                duration: 4000,
+                easing: 'swing',
+                step: function (now) {
+                    $(this).text(Math.ceil(now));
+                }
+            });
+        });
     </script>
 }

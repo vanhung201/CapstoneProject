@@ -184,7 +184,7 @@
                              }
                          }
                      },
-                     { data: "semester_id" },
+                     { data: "semester_id", visible: false },
                      
                     {
                         data: "id",
@@ -232,11 +232,11 @@
 
                          }),
                          this.api()
-                             .columns(3)
+                             .columns(5)
                              .every(function () {
                                  var t = this,
                                      e = $(
-                                         '<select id="UserType2" style="margin-right: 8px;border: 1px solid #aaa;border-radius: 3px;padding: 5px;background-color: transparent; margin-left: 50px;" class="form-select text-capitalize mb-md-0 mb-2xx"><option value=""> ---- Chọn doanh nghiệp để lọc ---- </option></select>'
+                                         '<select id="UserType2" style="margin-right: 8px;border: 1px solid #aaa;border-radius: 3px;padding: 5px;background-color: transparent; margin-left: 25px;" class="form-select text-capitalize mb-md-0 mb-2xx"><option value=""> Chọn trạng thái để lọc </option></select>'
                                      )
                                          .prependTo("#table_listData_filter")
                                          .on("change", function () {

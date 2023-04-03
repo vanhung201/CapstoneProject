@@ -3,9 +3,10 @@
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    <link href="~/assets/User/assets/css/form.css" rel="stylesheet" />
 
+<link href="~/assets/User/assets/css/form.css" rel="stylesheet" />
 }
+
 @if (TempData["message"] != null)
 {
     <script>
@@ -18,9 +19,9 @@
         <div class="overlay-bread"></div>
         <div class="container">
             <div class="left">
-                <div class="d-flex align-middle mb10">
-                    <img class="avt" src="@Url.Content("~/Uploads/Images/" + Model.BusinessUser.BusinessLogo)" alt="image-job">
-                    <h3 class="text-h2">@Model.Title</h3>
+                <div class="d-flex align-middle mb10 flex-wrap">
+                    <img class="avt mr10" src="@Url.Content("~/Uploads/Images/" + Model.BusinessUser.BusinessLogo)" alt="image-job">
+                    <h3 class="text-h2 mt10">@Model.Title</h3>
 
                 </div>
 
@@ -29,6 +30,9 @@
                 <div class="text-center mt10 d-inline-flex action-wrapper">
                     @if (ViewBag.isStudent == true)
                     {
+                        DateTime now = DateTime.Now;
+                        DateTime dateTime = Convert.ToDateTime(Model.DueDate);
+
                         if (ViewBag.isRegisted == true)
                         {
                             if (ViewBag.regStatus == "Phê Duyệt")
@@ -43,22 +47,26 @@
                                     <button type="submit" class="btn btn-error">Hủy Ứng Tuyển</button>
                                 </form>
                                 <button class="btn btn-update" id="btn-update" data-href="@Url.Action("getRegistrationData", "Registration", new {id = ViewBag.registedID})">Cập Nhật Thông Tin</button>
-                            }
-                        }
-                        else
-                        {
-                            if (ViewBag.isExist == true)
-                            {
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (ViewBag.isExist == true)
+                                        {
 
-                            }
-                            else
-                            {
+                                        }
+                                        else if(dateTime <= now)
+                                        {
+
+                                        }
+                                        else 
+                                        {
                                 <div class="btn btn-error" id="btn-error">
                                     Ứng Tuyển
                                 </div>
                             }
 
-                        }
+                    }
                     }
 
 
@@ -68,7 +76,7 @@
     </div>
 
     <section id="description">
-        <div class="container">
+        <div class="container mt30">
             <div class="columns">
                 <div id="detail-job" class="column col-8 col-sm-12 col-md-12 col-xl-9 mb10">
                     <h3 class="text-h3 mb15">Chi tiết công việc</h3>

@@ -33,6 +33,8 @@ namespace BusinessConnectManagement.Controllers
             ViewBag.CountPost = db.Posts.Count();
             ViewBag.CountBusiness = db.BusinessUsers.Count();
             ViewBag.MOU = db.MOUs.ToList();
+            var getReID = db.Posts.FirstOrDefault();
+            ViewBag.Registration = db.Registrations.Where(x => x.Post_ID == getReID.ID).Count();
             return View(posts.ToPagedList(pageNumber, pageSize));
         }
         public ActionResult Contact()

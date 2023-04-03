@@ -26,6 +26,7 @@ namespace BusinessConnectManagement.Controllers
         [HttpPost]
         public ActionResult Apply(Registration registration, HttpPostedFileBase CV)
         {
+            
             var post = db.Posts.Where(x => x.ID == registration.Post_ID).FirstOrDefault();
             var email = User.Identity.Name;
             var isExist = db.Registrations.Any(x => x.Email_VanLang == email && x.Post_ID == post.ID);
@@ -38,6 +39,7 @@ namespace BusinessConnectManagement.Controllers
             }
             else
             {
+                
                 if (CV != null)
                 {
                     if (Path.GetExtension(CV.FileName).ToLower() != ".pdf")

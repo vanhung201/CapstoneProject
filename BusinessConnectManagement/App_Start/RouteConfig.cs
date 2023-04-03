@@ -14,8 +14,15 @@ namespace BusinessConnectManagement
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "Login Page",
+                url: "trang-dang-nhap",
+                defaults: new { controller = "Account", action = "Login", id = UrlParameter.Optional },
+                namespaces: new[] { "BusinessConnectManagement.Controllers" }
+            );
+
+            routes.MapRoute(
                 name: "Login for Manager",
-                url: "trang-dang-nhap/dang-nhap",
+                url: "dang-nhap",
                 defaults: new { controller = "Account", action = "SignIn", id = UrlParameter.Optional },
                 namespaces: new[] { "BusinessConnectManagement.Controllers" }
             );
@@ -35,15 +42,7 @@ namespace BusinessConnectManagement
             );
 
             routes.MapRoute(
-                name: "Login Page",
-                url: "trang-dang-nhap",
-                defaults: new { controller = "Account", action = "Login", id = UrlParameter.Optional },
-                namespaces: new[] { "BusinessConnectManagement.Controllers" }
-            );
-
-
-            routes.MapRoute(
-                name: "Information",
+                name: "Student Information",
                 url: "cap-nhat-thong-tin-tai-khoan",
                 defaults: new { controller = "Account", action = "Information", id = UrlParameter.Optional },
                 namespaces: new[] { "BusinessConnectManagement.Controllers" }

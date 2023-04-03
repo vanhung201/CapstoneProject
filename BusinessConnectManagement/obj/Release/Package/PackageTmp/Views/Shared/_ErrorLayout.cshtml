@@ -20,7 +20,19 @@
                 <h2>Error<br>@ViewBag.ErrorName</h2>
             </div>
             <p>
-                @ViewBag.ErrorContent <a href="@Url.Action("Index", "Home")">Quay lại Trang chủ</a>
+                @if (ViewBag.ErrorName == "404")
+                {
+                    @ViewBag.ErrorContent <a href="@Url.Action("Index", "Home")">Quay lại Trang chủ</a>
+                }
+                else if (ViewBag.ErrorName == "500")
+                {
+                    @ViewBag.ErrorContent <a href="@Url.Action("Index", "Home")">Quay lại Trang chủ</a>
+                }
+                else if (ViewBag.ErrorName == "403")
+                {
+                    @ViewBag.ErrorContent <a href="@Url.Action("ClearSession", "Error")">Vui Lòng Bấm Vào Đây</a>
+                }
+
             </p>
         </div>
     </div>

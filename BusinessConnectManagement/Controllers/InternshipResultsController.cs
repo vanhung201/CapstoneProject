@@ -233,13 +233,16 @@ namespace BusinessConnectManagement.Controllers
                 {
                     if (db.InternshipResults.Any(x => x.VanLangUser.Email == registration.Email_VanLang) == false)
                     {
-                        TempData["AlertMessage"] = "<div class=\"toast toast--success\">            <div class=\"toast-left toast-left--success\">               <i class=\"fas fa-check-circle\"></i>\r\n            </div>\r\n            <div class=\"toast-content\">\r\n                <p class=\"toast-text\">Cập Nhật Thành Công</p>            </div>\r\n            <div class=\"toast-right\">\r\n                <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n            </div>\r\n        </div>";
+                        TempData["message"] = "Xác nhận không thành công.";
+                        TempData["messageType"] = "warning";
+                        
                         return RedirectToAction("Index");
                     }
                 }
               
                 db.SaveChanges();
-                TempData["AlertMessage"] = "<div class=\"toast toast--success\">            <div class=\"toast-left toast-left--success\">               <i class=\"fas fa-check-circle\"></i>\r\n            </div>\r\n            <div class=\"toast-content\">\r\n                <p class=\"toast-text\">Cập Nhật Thành Công</p>            </div>\r\n            <div class=\"toast-right\">\r\n                <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n            </div>\r\n        </div>";
+                TempData["message"] = "Xác nhận thực tập thành công.";
+                TempData["messageType"] = "success";
                 return RedirectToAction("Index");
             }
             ViewBag.Business_ID = new SelectList(db.BusinessUsers, "ID", "Username", internshipResult.Business_ID);
