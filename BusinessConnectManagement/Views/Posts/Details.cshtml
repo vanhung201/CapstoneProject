@@ -30,6 +30,9 @@
                 <div class="text-center mt10 d-inline-flex action-wrapper">
                     @if (ViewBag.isStudent == true)
                     {
+                        DateTime now = DateTime.Now;
+                        DateTime dateTime = Convert.ToDateTime(Model.DueDate);
+
                         if (ViewBag.isRegisted == true)
                         {
                             if (ViewBag.regStatus == "Phê Duyệt")
@@ -44,22 +47,26 @@
                                     <button type="submit" class="btn btn-error">Hủy Ứng Tuyển</button>
                                 </form>
                                 <button class="btn btn-update" id="btn-update" data-href="@Url.Action("getRegistrationData", "Registration", new {id = ViewBag.registedID})">Cập Nhật Thông Tin</button>
-                            }
-                        }
-                        else
-                        {
-                            if (ViewBag.isExist == true)
-                            {
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (ViewBag.isExist == true)
+                                        {
 
-                            }
-                            else
-                            {
+                                        }
+                                        else if(dateTime <= now)
+                                        {
+
+                                        }
+                                        else 
+                                        {
                                 <div class="btn btn-error" id="btn-error">
                                     Ứng Tuyển
                                 </div>
                             }
 
-                        }
+                    }
                     }
 
 

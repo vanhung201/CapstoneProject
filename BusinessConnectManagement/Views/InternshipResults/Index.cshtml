@@ -3,7 +3,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     <link href="~/assets/User/assets/css/form.css" rel="stylesheet" />
 }
-
+@if (TempData["message"] != null)
+{
+    <script>
+        toastr.@(TempData["messageType"])('@TempData["message"]','Thông Báo');
+    </script>
+}
 <main>
     <div id="bg-bread">
         <div class="overlay-bread"></div>
@@ -12,12 +17,7 @@
                 <div class="d-flex align-middle mb10">
                     <h3 class="text-h2">Danh Sách Thực Tập</h3>
                 </div>
-                @if (TempData != null)
-                {
 
-                    @Html.Raw(@TempData["AlertMessage"])
-
-                }
             </div>
         </div>
     </div>
@@ -106,11 +106,11 @@
             <input name="BusinessComment" id="BusinessComment" class="form-input" autocomplete="off" type="hidden" />
             <input name="InternshipTopic_ID" id="position_id" class="form-input" autocomplete="off" type="hidden" />
             <input name="Status" id="Status" class="form-input" autocomplete="off" type="hidden" />
-            <div class="form-group">
-                <a class="btn btn--cancel">
+            <div class="form-group text-center">
+                <div class="btn btn-error btn--cancel">
                     Hủy
-                </a>
-                <button class="btn btn--confirm" id="btn--update">
+                </div>
+                <button class="btn btn-success btn--confirm" id="btn--update">
                     Xác Nhận
                 </button>
             </div>
@@ -145,8 +145,8 @@
                         render: function (t, e, a) {
                             const test = (a.status == "Chờ Xác Nhận") ?
                                 `<a href="@Url.Action("Details", "InternshipResults")/${t}" id="business_detail" class="business_confirm">
-                                <div class="btn btn-error">
-                                    <span class="btn-text">Xác Nhận Thực Tập</span>
+                                <div class="btn btn-success">
+                                   <i class="btn-icon btn-success fal fa-check-circle"></i>
 
                                 </div>
                                 </a>`
@@ -156,7 +156,8 @@
                                 `
                                 <a href="@Url.Action("Details", "InternshipResults")/${t}" id="business_detail" class="business_detail">
                                 <div class="btn btn-update">
-                                    <span class="btn-text">Xem Chi Tiết</span>
+                                   
+                                    <i class="btn-icon btn-icon--detail fal fa-info-circle"></i>
 
                                 </div>
                                 </a>

@@ -118,13 +118,18 @@
                                         <span class="mb-0 mr10 text-warning">
                                             <i class="fa-solid fa-tag"></i> @item.Form
                                         </span>
+                                       
+                                    </div>
+                                    <div class="desc d-flex align-middle mb-2">
                                         <span class="mb-0 mr10 text-muted">
                                             <i class="fa-solid fa-location-dot"></i> @item.BusinessUser.Address
                                         </span>
                                     </div>
                                     <p class="text-primary bold-6">
                                         <i>Hạn nộp: @item.DueDate</i>
+                                        <i style="float:right">Lượt ứng tuyển: @item.Registrations.Count()</i>
                                     </p>
+                                   
                                 </div>
                             </div>
                         </a>
