@@ -53,7 +53,7 @@ namespace BusinessConnectManagement.Controllers
 
             ViewBag.SearchString = SearchString;
             ViewBag.Form = Form;
-            ViewBag.Major = Major;
+            ViewBag.Majorr = Major;
             ViewBag.Major = db.Majors.ToList();
             var bu = db.Posts.Include(x => x.BusinessUser).Where(s => s.BusinessUser.BusinessName.ToUpper().Contains(Form.ToUpper()));
             var titles = db.Posts.Include(x => x.BusinessUser).Where(s => s.Title.ToUpper().Contains(SearchString.ToUpper()));

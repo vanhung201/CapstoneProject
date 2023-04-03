@@ -44,7 +44,7 @@ namespace BusinessConnectManagement
             routes.MapRoute(
                 name: "Student Information",
                 url: "cap-nhat-thong-tin-tai-khoan",
-                defaults: new { controller = "AccountOfStudent", action = "StudentInformation", id = UrlParameter.Optional },
+                defaults: new { controller = "Account", action = "Information", id = UrlParameter.Optional },
                 namespaces: new[] { "BusinessConnectManagement.Controllers" }
             );
 
