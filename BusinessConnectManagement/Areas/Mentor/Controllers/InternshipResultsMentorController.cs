@@ -12,9 +12,11 @@ using System.Web.Mvc;
 using BusinessConnectManagement.Models;
 using OfficeOpenXml.Style;
 using OfficeOpenXml;
+using BusinessConnectManagement.Middleware;
 
 namespace BusinessConnectManagement.Areas.Mentor.Controllers
 {
+    [LoginVerification]
     public class InternshipResultsMentorController : Controller
     {
         private BCMEntities db = new BCMEntities();
@@ -236,24 +238,29 @@ namespace BusinessConnectManagement.Areas.Mentor.Controllers
                         ws.Cells["A3"].Value = string.Format("{0:dd MMMM yyyy} at {0:H: mm tt}", DateTimeOffset.Now); ;
                         ws.Row(1).Style.Font.Bold = true;
                         ws.Cells["A2"].Style.Font.Bold = true;
-                        ws.Cells["A4:J4"].Merge = true;
+                        ws.Cells["A4:L4"].Merge = true;
+                        ws.Cells["A1:C1"].Merge = true;
+                        ws.Cells["A2:C2"].Merge = true;
+                        ws.Cells["A3:C3"].Merge = true;
                         ws.Cells["A4"].Value = "Danh Sách Sinh Viên Hướng Dẫn Học Kỳ " + getValueSemester.Semester.Semester1;
                         ws.Cells["A4"].Style.HorizontalAlignment = ExcelHorizontalAlignment.CenterContinuous;
                         ws.Row(4).Style.Font.Bold = true;
                         ws.Row(4).Style.Font.Size = 18;
 
-                        ws.Cells["A5"].Value = "Email VLU";
+                        ws.Cells["A5"].Value = "STT";
                         ws.Cells["B5"].Value = "Họ Và Tên";
                         ws.Cells["C5"].Value = "MSSV";
                         ws.Cells["D5"].Value = "Số Điện Thoại";
-                        ws.Cells["E5"].Value = "Doanh Nghiệp Thực Tập";
-                        ws.Cells["F5"].Value = "Vị Trí Thực Tập";
-                        ws.Cells["G5"].Value = "Trạng Thái";
-                        ws.Cells["H5"].Value = "Điểm Thực Tập Mentor";
-                        ws.Cells["I5"].Value = "Mentor Nhận Xét";
-                        ws.Cells["J5"].Value = "Điểm Thực Tập Doanh Nghiệp";
-                        ws.Cells["K5"].Value = "Doanh Nghiệp Nhận Xét";
+                        ws.Cells["E5"].Value = "Email VLU";
+                        ws.Cells["F5"].Value = "Doanh Nghiệp Thực Tập";
+                        ws.Cells["G5"].Value = "Vị Trí Thực Tập";
+                        ws.Cells["H5"].Value = "Trạng Thái";
+                        ws.Cells["I5"].Value = "Điểm Thực Tập Mentor";
+                        ws.Cells["J5"].Value = "Mentor Nhận Xét";
+                        ws.Cells["K5"].Value = "Điểm Thực Tập Doanh Nghiệp";
+                        ws.Cells["L5"].Value = "Doanh Nghiệp Nhận Xét";
                         int rowStart = 6;
+                        int countSTT = 1;
                         foreach (var item in myTable)
                         {
                             if (item.Status == "Thực Tập Xong")
@@ -274,23 +281,21 @@ namespace BusinessConnectManagement.Areas.Mentor.Controllers
                                 ws.Row(rowStart).Style.Border.Right.Style = ExcelBorderStyle.Thin;
                                 ws.Row(rowStart).Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
                             }
-                            ws.Cells[string.Format("A{0}", rowStart)].Value = item.Student_Email;
+                            ws.Cells[string.Format("A{0}", rowStart)].Value = countSTT;
                             ws.Cells[string.Format("B{0}", rowStart)].Value = item.VanLangUser.FullName;
                             ws.Cells[string.Format("C{0}", rowStart)].Value = item.VanLangUser.Student_ID;
                             ws.Cells[string.Format("D{0}", rowStart)].Value = item.VanLangUser.Mobile;
-                            ws.Cells[string.Format("E{0}", rowStart)].Value = item.BusinessUser.BusinessName;
-                            ws.Cells[string.Format("F{0}", rowStart)].Value = item.InternshipTopic.InternshipTopicName;
-                            ws.Cells[string.Format("G{0}", rowStart)].Value = item.Status;
-                            ws.Cells[string.Format("H{0}", rowStart)].Value = item.MentorPoint;
-                            ws.Cells[string.Format("I{0}", rowStart)].Value = item.MentorComment;
-                            ws.Cells[string.Format("J{0}", rowStart)].Value = item.BusinessPoint;
-                            ws.Cells[string.Format("K{0}", rowStart)].Value = item.BusinessComment;
+                            ws.Cells[string.Format("E{0}", rowStart)].Value = item.Student_Email;
+                            ws.Cells[string.Format("F{0}", rowStart)].Value = item.BusinessUser.BusinessName;
+                            ws.Cells[string.Format("G{0}", rowStart)].Value = item.InternshipTopic.InternshipTopicName;
+                            ws.Cells[string.Format("H{0}", rowStart)].Value = item.Status;
+                            ws.Cells[string.Format("I{0}", rowStart)].Value = item.MentorPoint;
+                            ws.Cells[string.Format("J{0}", rowStart)].Value = item.MentorComment;
+                            ws.Cells[string.Format("K{0}", rowStart)].Value = item.BusinessPoint;
+                            ws.Cells[string.Format("L{0}", rowStart)].Value = item.BusinessComment;
                             rowStart++;
+                            countSTT++;
                         }
-
-
-
-
                         ws.Cells["A:AZ"].AutoFitColumns();
                         Response.Clear();
                         Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
@@ -298,10 +303,12 @@ namespace BusinessConnectManagement.Areas.Mentor.Controllers
                         Response.BinaryWrite(pck.GetAsByteArray());
                         Response.End();
                     }
-
                 }
-                TempData["AlertMessage"] = "<div class=\"toast toast--error\">\r\n     <div class=\"toast-left toast-left--error\">\r\n       <i class=\"fas fa-times-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n    <p class=\"toast-text\">Học kỳ không có dữ liệu để Export</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n       <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>";
-                return RedirectToAction("Index");
+                else
+                {
+                    TempData["AlertMessage"] = "<div class=\"toast toast--error\">\r\n     <div class=\"toast-left toast-left--error\">\r\n       <i class=\"fas fa-times-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n    <p class=\"toast-text\">Học kỳ không có dữ liệu để Export</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n       <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>";
+                }
+               
             }
             return RedirectToAction("Index");
         }

@@ -14,6 +14,7 @@ using System.Web.Security;
 using System.Transactions;
 using System.Web.Services.Description;
 using System.Text.RegularExpressions;
+using System.Web.Helpers;
 
 namespace BusinessConnectManagement.Areas.Admin.Controllers
 {
@@ -198,33 +199,229 @@ namespace BusinessConnectManagement.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult ImportData(HttpPostedFileBase postFile, VanLangUser vanLangUser)
         {
-            try
+
+            String message = string.Empty;
+            string path = Server.MapPath("~/Uploads/Import/" + postFile.FileName);
+            if (System.IO.File.Exists(path))
+                System.IO.File.Delete(path);
+            postFile.SaveAs(path);
+            int count = 0;
+
+
+            using (var package = new ExcelPackage(path))
             {
-                String message = string.Empty;
-                string path = Server.MapPath("~/Uploads/Import/" + postFile.FileName);
-                if (System.IO.File.Exists(path))
-                    System.IO.File.Delete(path);
-                postFile.SaveAs(path);
-                int count = 0;
-                ImportDataEx(out count, path);
-                if (ImportDataEx(out count, path) == true)
+                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                var worksheet = package.Workbook.Worksheets[0];
+
+                int startColumn = 1;
+                int startRow = 5;
+                //checkHeader
+                int checkColumn = 1;
+                int checkRow = 4;
+                //count success fail
+                int success = 0;
+                int fail = 0;
+                //Student
+                object CheckEmail = worksheet.Cells[checkRow, checkColumn + 1].Value;
+                object CheckFullName = worksheet.Cells[checkRow, checkColumn + 2].Value;
+                object CheckStudent_ID = worksheet.Cells[checkRow, checkColumn + 3].Value;
+                object CheckMobile = worksheet.Cells[checkRow, checkColumn + 4].Value;
+                object Checkmajor_ID = worksheet.Cells[checkRow, checkColumn + 5].Value;
+                object Checkstatus_ID = worksheet.Cells[checkRow, checkColumn + 7].Value;
+                //mentor
+                object CheckEmailMentor = worksheet.Cells[checkRow, checkColumn + 1].Value;
+                object CheckFullNameMentor = worksheet.Cells[checkRow, checkColumn + 2].Value;
+                object CheckMobileMentor = worksheet.Cells[checkRow, checkColumn + 3].Value;
+                object CheckRoleMentor = worksheet.Cells[checkRow, checkColumn + 4].Value;
+                object Checkstatus_IDMentor = worksheet.Cells[checkRow, checkColumn + 5].Value;
+
+
+                //checkRole
+                int checkRoleColumn = 2;
+                int checkRoleRow = 2;
+                object CheckRoleStart = worksheet.Cells[checkRoleRow, checkRoleColumn].Value;
+                //
+
+
+                object data = null;
+                if (CheckRoleStart.ToString() == "Mentor")
                 {
-                    TempData["AlertMessage"] = "<div class=\"toast toast--success\" style=\"position: abosolute; z-index: 20;\">\r\n     <div class=\"toast-left toast-left--success\">\r\n       <i class=\"fas fa-check-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n       <p class=\"toast-text\">Import dữ liệu thành công.</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n      <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>\r\n";
-                    return RedirectToAction("AuthorizeList", "AdminHome");
+                    /*----------------------------------Mentor---------------------------*/
+                    if (CheckEmailMentor.ToString() == "Email" && CheckFullNameMentor.ToString() == "Họ và tên" && CheckMobileMentor.ToString() == "SĐT")
+                    {
+                        List<string> errorMessages = new List<string>();
+                        for (startRow = 5; startRow <= worksheet.Dimension.End.Row; startRow++)
+                        {
+                            if (worksheet.Cells[startRow, startColumn].Value != null)
+                            {
+                                VanLangUser vanlang = new VanLangUser();
+                                data = worksheet.Cells[startRow, startColumn].Value;
+                                vanlang.Email = worksheet.Cells[startRow, startColumn + 1].Value?.ToString();
+                                vanlang.FullName = worksheet.Cells[startRow, startColumn + 2].Value?.ToString();
+                                vanlang.Mobile = worksheet.Cells[startRow, startColumn + 3].Value?.ToString();
+                                vanlang.Role = "Mentor";
+                                vanlang.Status_ID = 1;
+                                //read column class name
+                                string emailPattern = @"^([\w\.\-]+)@vanlanguni.vn";
+                                string emailPatternVLU = @"^([\w\.\-]+)@vlu.edu.vn";
+                                string phonePattern = @"^0\d{9,10}$";
+                                if (data != null && (vanlang.Email != null && Regex.IsMatch(vanlang.Email, emailPattern)) || (vanlang.Email != null && Regex.IsMatch(vanlang.Email, emailPatternVLU)))
+                                {
+                                    if (vanlang.Mobile != null && Regex.IsMatch(vanlang.Mobile.ToString(), phonePattern) && vanlang.FullName != null && vanlang.FullName.Length >= 3 && db.VanLangUsers.Where(x => x.Email.Equals(vanlang.Email)).Count() == 0)
+                                    {
+                                        db.VanLangUsers.Add(vanlang);
+                                        db.SaveChanges();
+                                        success++;
+                                    }
+                                    else
+                                    {
+                                        errorMessages.Add($"{startRow}");
+                                        fail++;
+                                    }
+                                    //importData
+
+
+                                }
+                                else
+                                {
+                                    errorMessages.Add($"{startRow}");
+                                    fail++;
+                                }
+                            }
+                            else
+                            {
+                                errorMessages.Add($"{startRow}");
+                                fail++;
+                            }
+
+                        }
+
+                        string summaryMessage = $"<span style='color: green'>Import thành công: {success}</span><br /><span style='color: red'>Impor không thành công: {fail}</span>";
+
+                        // If there are errors, add them to the summary message
+                        if (errorMessages.Count > 0)
+                        {
+                            summaryMessage += "<br /> Không thành công tại hàng:";
+                            foreach (string errorMessage in errorMessages)
+                            {
+                                summaryMessage += $"\n{errorMessage}, ";
+                            }
+                        }
+
+                        // Set TempData
+                        TempData["AlertMessage"] = $@"
+                                    <form id='importAlert' action='' class='form is-appear' style='z-index: 99;'>
+                                        <div class='form-container--small'>
+                                            <h1 class='form-heading'>Thông báo</h1>
+                                            <span>
+                                               {summaryMessage}
+                                            </span>
+                                            <div class='form-group'>
+                                              <a id='btn--cancel' class='btn btn--confirm'>Xác nhận</a>
+                                            </div>
+                                        </div>
+                                    </form>";
+
+
+                    }
+                    else
+                    {
+                        TempData["AlertMessage"] = "<div class=\"toast toast--error\">\r\n     <div class=\"toast-left toast-left--error\">\r\n       <i class=\"fas fa-times-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n    <p class=\"toast-text\">File Excel không đúng định dạng dữ liệu.</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n       <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>";
+                    }
                 }
                 else
                 {
-                    TempData["AlertMessage"] = "<div class=\"toast toast--error\">\r\n     <div class=\"toast-left toast-left--error\">\r\n       <i class=\"fas fa-times-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n    <p class=\"toast-text\">File Excel không đúng định dạng dữ liệu.</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n       <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>";
-                    return RedirectToAction("AuthorizeList", "AdminHome");
+                    //---------------------Student------------------
+                    if (CheckEmail.ToString() == "Email" && CheckFullName.ToString() == "Họ và tên" && CheckStudent_ID.ToString() == "Mã sinh viên" && CheckMobile.ToString() == "SĐT" && Checkmajor_ID.ToString() == "Chuyên nghành")
+                    {
+                        List<string> errorMessages = new List<string>();
+                        for (startRow = 5; startRow <= worksheet.Dimension.End.Row; startRow++)
+                        {
+                            object value = worksheet.Cells[startRow, startColumn + 5].Value;
+                            if (worksheet.Cells[startRow, startColumn].Value != null && value != null && double.TryParse(value.ToString(), out double result))
+                            {
+                                VanLangUser vanlang = new VanLangUser();
+                                data = worksheet.Cells[startRow, startColumn].Value;
+                                vanlang.Email = worksheet.Cells[startRow, startColumn + 1].Value?.ToString();
+                                vanlang.FullName = worksheet.Cells[startRow, startColumn + 2].Value?.ToString();
+                                vanlang.Student_ID = worksheet.Cells[startRow, startColumn + 3].Value?.ToString();
+                                vanlang.Mobile = worksheet.Cells[startRow, startColumn + 4].Value?.ToString();
+                                vanlang.Major_ID = (int?)result;
+                                vanlang.Role = "Student";
+                                vanlang.Status_ID = 1;
+                                //read column class name
+                                string phonePattern = @"^0\d{9,10}$";
+                                var countMajor = db.Majors.Count();
+                                if (data != null && (vanlang.Email != null && Regex.IsMatch(vanlang.Email, @"^[a-zA-Z0-9._%+-]+@vanlanguni.vn")) || (vanlang.Email != null && Regex.IsMatch(vanlang.Email, @"^[a-zA-Z0-9._%+-]+@vlu.edu.vn")))
+                                {
+                                    if (vanlang.Major_ID <= countMajor && vanlang.Mobile != null && Regex.IsMatch(vanlang.Mobile.ToString(), phonePattern) && vanlang.FullName != null && vanlang.FullName.Length >= 3 && vanlang.Student_ID != null && vanlang.Student_ID.Length >= 3 && db.VanLangUsers.Where(x => x.Email.Equals(vanlang.Email)).Count() == 0)
+                                    {
+                                        db.VanLangUsers.Add(vanlang);
+                                        db.SaveChanges();
+                                        success++;
+                                    }
+                                    else
+                                    {
+                                        errorMessages.Add($"{startRow}");
+                                        fail++;
+                                    }
+                                    //importData
+
+
+                                }
+                                else
+                                {
+                                    errorMessages.Add($"{startRow}");
+                                    fail++;
+                                }
+                            }
+                            else
+                            {
+                                errorMessages.Add($"{startRow}");
+                                fail++;
+                            }
+
+                        }
+
+                        string summaryMessage = $"<span style='color: green'>Import thành công: {success}</span><br /><span style='color: red'>Impor không thành công: {fail}</span>";
+
+                        // If there are errors, add them to the summary message
+                        if (errorMessages.Count > 0)
+                        {
+                            summaryMessage += "<br /> Không thành công tại hàng:";
+                            foreach (string errorMessage in errorMessages)
+                            {
+                                summaryMessage += $"\n{errorMessage}, ";
+                            }
+                        }
+
+                        // Set TempData
+                        TempData["AlertMessage"] = $@"
+                                    <form id='importAlert' action='' class='form is-appear' style='z-index: 99;'>
+                                        <div class='form-container--small'>
+                                            <h1 class='form-heading'>Thông báo</h1>
+                                            <span>
+                                               {summaryMessage}
+                                            </span>
+                                            <div class='form-group'>
+                                              <a id='btn--cancel' class='btn btn--confirm'>Xác nhận</a>
+                                            </div>
+                                        </div>
+                                    </form>";
+
+
+
+                    }
+                    else
+                    {
+                        TempData["AlertMessage"] = "<div class=\"toast toast--error\">\r\n     <div class=\"toast-left toast-left--error\">\r\n       <i class=\"fas fa-times-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n    <p class=\"toast-text\">File Excel không đúng định dạng dữ liệu.</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n       <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>";
+
+                    }
                 }
 
+            }
 
-            }
-            catch (Exception e)
-            {
-                TempData["AlertMessage"] = "<div class=\"toast toast--error\">\r\n     <div class=\"toast-left toast-left--error\">\r\n       <i class=\"fas fa-times-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n    <p class=\"toast-text\">File Excel không đúng định dạng dữ liệu.</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n       <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>";
-                return RedirectToAction("AuthorizeList", "AdminHome");
-            }
+            return RedirectToAction("AuthorizeList");
 
 
         }
