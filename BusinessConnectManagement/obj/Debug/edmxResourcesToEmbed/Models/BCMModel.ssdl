@@ -60,6 +60,7 @@
     <Property Name="InternshipTopicName" Type="nvarchar" MaxLength="200" />
     <Property Name="InternshipTopicGoals" Type="nvarchar(max)" />
     <Property Name="InternshipTopicDescription" Type="nvarchar(max)" />
+    <Property Name="ShortName" Type="nvarchar" MaxLength="200" />
   </EntityType>
   <EntityType Name="Major">
     <Key>
@@ -106,6 +107,7 @@
     <Property Name="Post_ID" Type="int" />
     <Property Name="InternshipTopic_ID" Type="int" />
     <Property Name="Business_ID" Type="int" />
+    <Property Name="Quantity" Type="int" />
   </EntityType>
   <EntityType Name="Registration">
     <Key>

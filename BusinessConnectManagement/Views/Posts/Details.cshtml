@@ -59,6 +59,10 @@
                                         {
 
                                         }
+                                        else if(ViewBag.regStatus == "Không Duyệt" || ViewBag.regStatus == "Hủy Duyệt")
+                                        {
+                                        
+                                        }
                                         else 
                                         {
                                 <div class="btn btn-error" id="btn-error">
@@ -113,6 +117,23 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <h3 class="text-h3 mb15">Vị trí tuyển dụng</h3>
+                    <div class="summary-job columns">
+                        @foreach (var item in ViewBag.Position)
+                        {
+                            if (item.status == true)
+                            {
+                                <div class="column col-6 col-sm-12 col-md-6 col-xl-6">
+                                    <div class="item d-flex align-middle">
+                                        <div>
+                                            <p class="bold-7 mb10">@item.Name</p>
+                                            <p class="bold-7">Số lượng: @item.Quantity<p>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
                     </div>
                     <div class="main-job">
                         <div class="title d-flex align-middle  ">
@@ -237,11 +258,12 @@
                 {
                     if (item.status == true)
                     {
-                        <option id="positionName" value="@item.Id">@item.Name</option>
+                        <option id="positionName" data-id="@Model.ID" value="@item.Id">@item.Name</option>
                     }
                 }
             </select>
             <span class="text-danger" id="position_validation"></span>
+            <span class="text-danger" id="check_quantity"></span>
         </div>
 
         <div class="form-group float-right">
@@ -365,6 +387,29 @@
                     $("#position1").val(res[0].Position);
                     $("#positionNameUpdate").val(res[0].PositionName);
                     $("#reg_id").val(res[0].ID);
+                }
+            })
+        })
+
+        $("#position").on("change", function () {
+            const post_id = @Model.ID;
+            const position_id = $(this).val();
+            var url = `@Url.Action("CheckQuantity", "Posts")?post_id=${post_id}&&position_id=${position_id}`;
+            console.log(url)
+            $.ajax({
+                url: url,
+                type: 'get',
+                dataType: 'json',
+                success: function (res) {
+                    if (res != "") {
+                        $('#check_quantity').text(res);
+                        $('#btn_apply_CV').addClass('is-hide');
+                    } else {
+                        if ($('#btn_apply_CV').hasClass('is-hide')) {
+                            $('#check_quantity').text(res);
+                            $('#btn_apply_CV').removeClass('is-hide');
+                        }
+                    }
                 }
             })
         })
