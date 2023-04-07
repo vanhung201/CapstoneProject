@@ -29,7 +29,7 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
             int BusinessID = Convert.ToInt16(Session["BusinessID"]);
             ViewBag.YearStudy = db.YearStudies.ToList();
             var registrations = db.Registrations.Where(x => x.Business_ID == BusinessID && x.StatusRegistration == "Phê duyệt");
-           
+
             return View(registrations.ToList());
         }
 
@@ -44,17 +44,17 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
                             join intern in db.InternshipTopics on re.InternshipTopic_ID equals intern.ID into interns
                             where re.Business_ID == BusinessID && re.StatusRegistration == "Phê duyệt"
                             select new
-                           
-                           {
-                               id = re.ID,
-                               fullname = re.VanLangUser.FullName,
-                               email = re.Email_VanLang,
-                               phone = re.VanLangUser.Mobile,
-                               cv = re.CV,
-                               status = re.StatusInternview,
-                               semester = re.Semester.Semester1
-                           };
-                           return Json(dataRegis, JsonRequestBehavior.AllowGet);
+
+                            {
+                                id = re.ID,
+                                fullname = re.VanLangUser.FullName,
+                                email = re.Email_VanLang,
+                                phone = re.VanLangUser.Mobile,
+                                cv = re.CV,
+                                status = re.StatusInternview,
+                                semester = re.Semester.Semester1
+                            };
+            return Json(dataRegis, JsonRequestBehavior.AllowGet);
         }
 
         // GET: Business/InternViews/Details/5
@@ -125,7 +125,7 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
             ViewBag.Post_ID = new SelectList(db.Posts, "ID", "Title", registration.Post_ID);
             ViewBag.Semester_ID = new SelectList(db.Semesters, "ID", "Semester1", registration.Semester_ID);
             ViewBag.Email_VanLang = new SelectList(db.VanLangUsers, "Email", "FullName", registration.Email_VanLang);
-            
+
             return View(registration);
         }
 
@@ -148,7 +148,7 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
             ViewBag.Post_ID = new SelectList(db.Posts, "ID", "Title", registration.Post_ID);
             ViewBag.Semester_ID = new SelectList(db.Semesters, "ID", "Semester1", registration.Semester_ID);
             ViewBag.Email_VanLang = new SelectList(db.VanLangUsers, "Email", "FullName", registration.Email_VanLang);
-            
+
             return View(registration);
         }
 
@@ -164,15 +164,15 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
                 if (registration.StatusInternview == "Đậu Phỏng Vấn")
                 {
                     var internship = db.InternshipResults.Where(x => x.ID == registration.InternshipResult_ID).FirstOrDefault();
-                   /* if (db.InternshipResults.Any(x => x.Student_Email == registration.Email_VanLang && x.InternshipTopic_ID == registration.InternshipTopic_ID))
-                    {
-                        TempData["AlertMessage"] = "<div class=\"toast toast--success\">            <div class=\"toast-left toast-left--success\">               <i class=\"fas fa-check-circle\"></i>\r\n            </div>\r\n            <div class=\"toast-content\">\r\n                <p class=\"toast-text\">Cập Nhật Thành Công</p>            </div>\r\n            <div class=\"toast-right\">\r\n                <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n            </div>\r\n        </div>";
-                        return RedirectToAction("Index");
+                    /* if (db.InternshipResults.Any(x => x.Student_Email == registration.Email_VanLang && x.InternshipTopic_ID == registration.InternshipTopic_ID))
+                     {
+                         TempData["AlertMessage"] = "<div class=\"toast toast--success\">            <div class=\"toast-left toast-left--success\">               <i class=\"fas fa-check-circle\"></i>\r\n            </div>\r\n            <div class=\"toast-content\">\r\n                <p class=\"toast-text\">Cập Nhật Thành Công</p>            </div>\r\n            <div class=\"toast-right\">\r\n                <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n            </div>\r\n        </div>";
+                         return RedirectToAction("Index");
 
-                    }*/
-                    if(db.InternshipResults.Any(x => x.Student_Email == registration.Email_VanLang && x.Status == "Đang Thực Tập"))
+                     }*/
+                    if (db.InternshipResults.Any(x => x.Student_Email == registration.Email_VanLang && x.Status == "Đang Thực Tập"))
                     {
-                    TempData["AlertMessage"] = "<div class=\"toast toast--error\">\r\n     <div class=\"toast-left toast-left--error\">\r\n       <i class=\"fas fa-times-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n    <p class=\"toast-text\">Sinh Viên Đang Thực Tập.</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n       <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>";
+                        TempData["AlertMessage"] = "<div class=\"toast toast--error\">\r\n     <div class=\"toast-left toast-left--error\">\r\n       <i class=\"fas fa-times-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n    <p class=\"toast-text\">Sinh Viên Đang Thực Tập.</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n       <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>";
 
                         return RedirectToAction("Index");
                     }
@@ -204,7 +204,7 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
                     InternShip.Status = "Chờ Xác Nhận";
                     registration.InternshipResult_ID = InternShip.ID;
                     registration.InterviewResult = "Chờ Xác Nhận";
-                   
+
                     db.InternshipResults.Add(InternShip);
                     db.Entry(registration).State = EntityState.Modified;
                     db.SaveChanges();
@@ -219,7 +219,7 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
                         TempData["AlertMessage"] = "<div class=\"toast toast--success\">            <div class=\"toast-left toast-left--success\">               <i class=\"fas fa-check-circle\"></i>\r\n            </div>\r\n            <div class=\"toast-content\">\r\n                <p class=\"toast-text\">Cập Nhật Thành Công.</p>            </div>\r\n            <div class=\"toast-right\">\r\n                <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n            </div>\r\n        </div>";
                         return RedirectToAction("Index");
                     }
-                    if(db.InternshipResults.Any(x => x.ID == registration.InternshipResult_ID && x.Status == "Thực Tập Xong"))
+                    if (db.InternshipResults.Any(x => x.ID == registration.InternshipResult_ID && x.Status == "Thực Tập Xong"))
                     {
                         TempData["AlertMessage"] = "<div class=\"toast toast--error\">\r\n     <div class=\"toast-left toast-left--error\">\r\n       <i class=\"fas fa-times-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n    <p class=\"toast-text\">Sinh Viên Đã Thực Tập Xong.</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n       <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>";
                         return RedirectToAction("Index");
@@ -228,7 +228,7 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
                     db.InternshipResults.Remove(asd);
                     registration.InterviewResult = "Chờ Xác Nhận";
                     registration.InternshipResult_ID = null;
-                  
+
                 }
                 db.Entry(registration).State = EntityState.Modified;
                 db.SaveChanges();
@@ -241,7 +241,7 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
             ViewBag.Post_ID = new SelectList(db.Posts, "ID", "Title", registration.Post_ID);
             ViewBag.Semester_ID = new SelectList(db.Semesters, "ID", "Semester1", registration.Semester_ID);
             ViewBag.Email_VanLang = new SelectList(db.VanLangUsers, "Email", "FullName", registration.Email_VanLang);
-            
+
             return View(registration);
         }
         public ActionResult DownloadFile(string filePath)
@@ -296,7 +296,7 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
             if (ModelState.IsValid)
             {
                 int BusinessID = Convert.ToInt16(Session["BusinessID"]);
-               
+
                 var myTable = db.Registrations.Where(x => x.Business_ID == BusinessID && x.Semester_ID == semester_id).ToList();
                 var intern = myTable.Select(x => new InternshipResult
                 {
@@ -304,7 +304,7 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
                     Student_Email = x.VanLangUser.Email,
                     InternshipTopic_ID = x.InternshipTopic_ID,
                     InternshipTopic = x.InternshipTopic,
-                  
+
 
                 }).ToList();
 
@@ -325,8 +325,8 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
                         ws.Cells.Style.Font.Size = 12;
                         ws.Row(5).Style.Font.Size = 14;
                         ws.Row(5).Style.Font.Bold = true;
-                       
-                        
+
+
 
 
                         ws.Cells["A1"].Value = "Văn Lang University";
@@ -337,23 +337,27 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
                         ws.Row(1).Style.Font.Bold = true;
                         ws.Cells["A2"].Style.Font.Bold = true;
                         ws.Cells["A4:H4"].Merge = true;
-                        ws.Cells["A4"].Value = "Danh Sách Ứng Tuyển Học Kỳ "+ getNameSemester.Semester.Semester1;
+                        ws.Cells["A1:C1"].Merge = true;
+                        ws.Cells["A2:C2"].Merge = true;
+                        ws.Cells["A3:C3"].Merge = true;
+                        ws.Cells["A4"].Value = "Danh Sách Ứng Tuyển Học Kỳ " + getNameSemester.Semester.Semester1;
                         ws.Cells["A4"].Style.HorizontalAlignment = ExcelHorizontalAlignment.CenterContinuous;
                         ws.Row(4).Style.Font.Bold = true;
                         ws.Row(4).Style.Font.Size = 18;
-                       
 
 
 
-                        ws.Cells["A5"].Value = "Email VLU";
+                        ws.Cells["A5"].Value = "STT";
                         ws.Cells["B5"].Value = "Họ Và Tên";
                         ws.Cells["C5"].Value = "MSSV";
                         ws.Cells["D5"].Value = "Số Điện Thoại";
-                        ws.Cells["E5"].Value = "Vị Trí Thực Tập";
-                        ws.Cells["F5"].Value = "Trạng Thái Phỏng Vấn";
-                       
-                      
+                        ws.Cells["E5"].Value = "Email VLU";
+                        ws.Cells["F5"].Value = "Vị Trí Thực Tập";
+                        ws.Cells["G5"].Value = "Trạng Thái Phỏng Vấn";
+
+
                         int rowStart = 6;
+                        int countSTT = 1;
                         foreach (var item in myTable)
                         {
                             if (item.StatusInternview == "Đậu Phỏng Vấn")
@@ -374,25 +378,29 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
                                 ws.Row(rowStart).Style.Border.Right.Style = ExcelBorderStyle.Thin;
                                 ws.Row(rowStart).Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
                             }
-                            ws.Cells[string.Format("A{0}", rowStart)].Value = item.VanLangUser.Email;
+                            ws.Cells[string.Format("A{0}", rowStart)].Value = countSTT;
                             ws.Cells[string.Format("B{0}", rowStart)].Value = item.VanLangUser.FullName;
                             ws.Cells[string.Format("C{0}", rowStart)].Value = item.VanLangUser.Student_ID;
                             ws.Cells[string.Format("D{0}", rowStart)].Value = item.VanLangUser.Mobile;
-                            ws.Cells[string.Format("E{0}", rowStart)].Value = item.InternshipTopic.InternshipTopicName;
-                            ws.Cells[string.Format("F{0}", rowStart)].Value = item.StatusInternview;
+                            ws.Cells[string.Format("E{0}", rowStart)].Value = item.VanLangUser.Email;
+                            ws.Cells[string.Format("F{0}", rowStart)].Value = item.InternshipTopic.InternshipTopicName;
+                            ws.Cells[string.Format("G{0}", rowStart)].Value = item.StatusInternview;
                             rowStart++;
+                            countSTT++;
                         }
                         ws.Cells["A:AZ"].AutoFitColumns();
                         Response.Clear();
                         Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-                        Response.AddHeader("content-disposition", "attachment; filename=ExcelReport.xlsx");
+                        Response.AddHeader("content-disposition", "attachment; filename=RegistrationReport.xlsx");
                         Response.BinaryWrite(pck.GetAsByteArray());
                         Response.End();
                     }
 
                 }
-                TempData["AlertMessage"] = "<div class=\"toast toast--error\">\r\n     <div class=\"toast-left toast-left--error\">\r\n       <i class=\"fas fa-times-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n    <p class=\"toast-text\">Học kỳ không có dữ liệu để Export</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n       <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>";
-                return RedirectToAction("Index");
+                else
+                {
+                    TempData["AlertMessage"] = "<div class=\"toast toast--error\">\r\n     <div class=\"toast-left toast-left--error\">\r\n       <i class=\"fas fa-times-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n    <p class=\"toast-text\">Học kỳ không có dữ liệu để Export</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n       <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>";
+                }
             }
             return RedirectToAction("Index");
         }

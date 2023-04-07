@@ -32,6 +32,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                             join post in db.Posts on rg.Post_ID equals post.ID 
                             join sem in db.Semesters on rg.Semester_ID equals sem.ID into semi
                             join emailVL in db.VanLangUsers on rg.Email_VanLang equals emailVL.Email
+                            orderby rg.StatusRegistration == "Chờ Duyệt" descending
                             select new
                             {
                                 id = rg.ID,

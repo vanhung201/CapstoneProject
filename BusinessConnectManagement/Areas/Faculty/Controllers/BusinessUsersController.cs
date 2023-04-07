@@ -1,12 +1,15 @@
 ﻿using BusinessConnectManagement.Middleware;
 using BusinessConnectManagement.Models;
+using Microsoft.Office.Interop.Excel;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
@@ -184,7 +187,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                     logo.SaveAs(path + businessUser.BusinessLogo);
                     /*businessUser.Status = businessUser.Status_ID();*/
                 }
-                if (db.BusinessUsers.Any(x=>x.ID != businessUser.ID && x.BusinessName == businessUser.BusinessName))
+                if (db.BusinessUsers.Any(x => x.ID != businessUser.ID && x.BusinessName == businessUser.BusinessName))
                 {
                     TempData["AlertMessage"] = "<div class=\"toast toast--error\">\r\n     <div class=\"toast-left toast-left--error\">\r\n       <i class=\"fas fa-times-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n    <p class=\"toast-text\">Tên Doanh Nghiệp Đã Tồn Tại</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n       <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>";
                     return RedirectToAction("Index");
@@ -269,169 +272,153 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         [HttpPost]
         public ActionResult ImportData(HttpPostedFileBase postFile, VanLangUser vanLangUser)
         {
-            try
+            String message = string.Empty;
+            string path = Server.MapPath("~/Uploads/Import/" + postFile.FileName);
+            if (System.IO.File.Exists(path))
+                System.IO.File.Delete(path);
+            postFile.SaveAs(path);
+            int count = 0;
+            using (var package = new ExcelPackage(path))
             {
-                String message = string.Empty;
-                string path = Server.MapPath("~/Uploads/Import/" + postFile.FileName);
-                if (System.IO.File.Exists(path))
-                    System.IO.File.Delete(path);
-                postFile.SaveAs(path);
-                int count = 0;
-                ImportDataEx(out count, path);
-                if (ImportDataEx(out count, path) == true)
+                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                var worksheet = package.Workbook.Worksheets[0];
+
+                int startColumn = 1;
+                int startRow = 5;
+                //checkHeader
+                int checkColumn = 1;
+                int checkRow = 4;
+                //count success fail
+                int success = 0;
+                int fail = 0;
+                //mentor
+                object CheckUsername = worksheet.Cells[checkRow, checkColumn + 1].Value;
+                object CheckPassword = worksheet.Cells[checkRow, checkColumn + 2].Value;
+                object CheckBusinessName = worksheet.Cells[checkRow, checkColumn + 3].Value;
+                object CheckAddress = worksheet.Cells[checkRow, checkColumn + 4].Value;
+                object CheckBusinessPhone = worksheet.Cells[checkRow, checkColumn + 5].Value;
+                object CheckContactName = worksheet.Cells[checkRow, checkColumn + 6].Value;
+                object CheckContactPhone = worksheet.Cells[checkRow, checkColumn + 7].Value;
+                object CheckContactEmail = worksheet.Cells[checkRow, checkColumn + 8].Value;
+
+
+                //checkRole
+                int checkRoleColumn = 2;
+                int checkRoleRow = 2;
+                object CheckRoleStart = worksheet.Cells[checkRoleRow, checkRoleColumn].Value;
+                //
+
+
+                object data = null;
+                if (CheckRoleStart.ToString() == "Doanh Nghiệp")
                 {
-                    TempData["AlertMessage"] = "<div class=\"toast toast--success\" style=\"position: abosolute; z-index: 20;\">\r\n     <div class=\"toast-left toast-left--success\">\r\n       <i class=\"fas fa-check-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n       <p class=\"toast-text\">Import doanh nghiệp thành công.</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n      <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>\r\n";
-                    return RedirectToAction("Index", "BusinessUsers");
+                    /*----------------------------------Mentor---------------------------*/
+                    if (CheckUsername.ToString() == "Tên Đăng Nhập" && CheckPassword.ToString() == "Mật Khẩu" && CheckBusinessName.ToString() == "Tên Doanh Nghiệp" && CheckAddress.ToString() == "Địa Chỉ" && CheckBusinessPhone.ToString() == "SĐT Doanh Nghiệp" && CheckContactName.ToString() == "Tên Người Liên Hệ" && CheckContactPhone.ToString() == "SĐT Người Liên Hệ" && CheckContactEmail.ToString() == "Email Người Liên Hệ")
+                    {
+
+                        List<string> errorMessages = new List<string>();
+
+                        for (startRow = 5; startRow <= worksheet.Dimension.End.Row; startRow++)
+                        {
+                            if (worksheet.Cells[startRow, startColumn].Value != null)
+                            {
+                                BusinessUser businessUser = new BusinessUser();
+                                data = worksheet.Cells[startRow, startColumn].Value;
+                                businessUser.Username = worksheet.Cells[startRow, startColumn + 1].Value?.ToString();
+                                businessUser.Password = worksheet.Cells[startRow, startColumn + 2].Value?.ToString();
+                                businessUser.BusinessName = worksheet.Cells[startRow, startColumn + 3].Value?.ToString();
+                                businessUser.Address = worksheet.Cells[startRow, startColumn + 4].Value?.ToString();
+                                businessUser.BusinessPhone = worksheet.Cells[startRow, startColumn + 5].Value?.ToString();
+                                businessUser.ContactName = worksheet.Cells[startRow, startColumn + 6].Value?.ToString();
+                                businessUser.ContactPhone_1 = worksheet.Cells[startRow, startColumn + 7].Value?.ToString();
+                                businessUser.EmailContact = worksheet.Cells[startRow, startColumn + 8].Value?.ToString();
+                                businessUser.Status_ID = 1;
+                                businessUser.BusinessLogo = "logoDoanhNghiep.png";
+                                if (data != null && businessUser.BusinessName != null && businessUser.BusinessName.Length >= 3)
+                                {
+
+                                    if (db.BusinessUsers.Where(x => x.BusinessName.Equals(businessUser.BusinessName)).Count() == 0)
+                                    {
+                                        if (businessUser.EmailContact != null && Regex.IsMatch(businessUser.EmailContact, @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"))
+                                        {
+                                            if (businessUser.ContactPhone_1 != null && Regex.IsMatch(businessUser.ContactPhone_1, @"^?\d{10,11}$") && businessUser.BusinessPhone != null && Regex.IsMatch(businessUser.BusinessPhone, @"^?\d{10,11}$") && businessUser.Username != null && businessUser.Username.Length >= 3 && businessUser.Password != null && businessUser.Password.Length >= 3 && businessUser.Address != null && businessUser.Address.Length >= 3 && businessUser.ContactName != null && businessUser.ContactName.Length >= 3
+                                                )
+                                            {
+                                                db.BusinessUsers.Add(businessUser);
+                                                db.SaveChanges();
+                                                success++;
+                                            }
+                                            else
+                                            {
+                                                errorMessages.Add($"{startRow}");
+                                                fail++;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            errorMessages.Add($"{startRow}");
+                                            fail++;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        errorMessages.Add($"{startRow}");
+                                        fail++;
+                                    }
+                                }
+                                else
+                                {
+                                    errorMessages.Add($"{startRow}");
+                                    fail++;
+                                }
+                            }
+                        }
+
+                        // Generate summary message
+                        string summaryMessage = $"<span style='color: green'>Import thành công: {success}</span><br /><span style='color: red'>Impor không thành công: {fail}</span>";
+
+                        // If there are errors, add them to the summary message
+                        if (errorMessages.Count > 0)
+                        {
+                            summaryMessage += "<br /> Không thành công tại hàng:";
+                            foreach (string errorMessage in errorMessages)
+                            {
+                                summaryMessage += $"\n{errorMessage}, ";
+                            }
+                        }
+
+                        // Set TempData
+                        TempData["AlertMessage"] = $@"
+                                    <form id='importAlert' action='' class='form is-appear' style='z-index: 99;'>
+                                        <div class='form-container--small'>
+                                            <h1 class='form-heading'>Thông báo</h1>
+                                            <span>
+                                               {summaryMessage}
+                                            </span>
+                                            <div class='form-group'>
+                                              <a id='btn--cancel' class='btn btn--confirm'>Xác nhận</a>
+                                            </div>
+                                        </div>
+                                    </form>";
+                    }
+                    else
+                    {
+                        TempData["AlertMessage"] = "<div class=\"toast toast--error\">\r\n     <div class=\"toast-left toast-left--error\">\r\n       <i class=\"fas fa-times-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n    <p class=\"toast-text\">File Excel không đúng định dạng dữ liệu.</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n       <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>";
+
+                    }
+
                 }
                 else
                 {
                     TempData["AlertMessage"] = "<div class=\"toast toast--error\">\r\n     <div class=\"toast-left toast-left--error\">\r\n       <i class=\"fas fa-times-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n    <p class=\"toast-text\">File Excel không đúng định dạng dữ liệu.</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n       <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>";
-                    return RedirectToAction("Index", "BusinessUsers");
 
                 }
-
-
-            }
-            catch (Exception e)
-            {
-                TempData["AlertMessage"] = "<div class=\"toast toast--error\">\r\n     <div class=\"toast-left toast-left--error\">\r\n       <i class=\"fas fa-times-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n    <p class=\"toast-text\">File Excel không đúng định dạng dữ liệu.</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n       <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>";
-                return RedirectToAction("Index", "BusinessUsers");
-
             }
 
+            return RedirectToAction("Index", "BusinessUsers");
 
         }
 
-        private bool ImportDataEx(out int count, string path)
-        {
-            var result = false;
-            count = 0;
-            try
-            {
-
-                using (var package = new ExcelPackage(path))
-                {
-                    ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-                    var worksheet = package.Workbook.Worksheets[0];
-
-                    int startColumn = 1;
-                    int startRow = 5;
-                    //checkHeader
-                    int checkColumn = 1;
-                    int checkRow = 4;
-
-                    //mentor
-                    object CheckUsername = worksheet.Cells[checkRow, checkColumn + 1].Value;
-                    object CheckPassword = worksheet.Cells[checkRow, checkColumn + 2].Value;
-                    object CheckBusinessName = worksheet.Cells[checkRow, checkColumn + 3].Value;
-                    object CheckAddress = worksheet.Cells[checkRow, checkColumn + 4].Value;
-                    object CheckBusinessPhone = worksheet.Cells[checkRow, checkColumn + 5].Value;
-                    object CheckContactName = worksheet.Cells[checkRow, checkColumn + 6].Value;
-                    object CheckContactPhone = worksheet.Cells[checkRow, checkColumn + 7].Value;
-                    object CheckContactEmail = worksheet.Cells[checkRow, checkColumn + 8].Value;
-
-
-                    //checkRole
-                    int checkRoleColumn = 2;
-                    int checkRoleRow = 2;
-                    object CheckRoleStart = worksheet.Cells[checkRoleRow, checkRoleColumn].Value;
-                    //
-
-
-                    object data = null;
-                    if (CheckRoleStart.ToString() == "Doanh Nghiệp")
-                    {
-                        /*----------------------------------Mentor---------------------------*/
-                        if (CheckUsername.ToString() == "Tên Đăng Nhập" && CheckPassword.ToString() == "Mật Khẩu" && CheckBusinessName.ToString() == "Tên Doanh Nghiệp" && CheckAddress.ToString() == "Địa Chỉ" && CheckBusinessPhone.ToString() == "SĐT Doanh Nghiệp" && CheckContactName.ToString() == "Tên Người Liên Hệ" && CheckContactPhone.ToString() == "SĐT Người Liên Hệ" && CheckContactEmail.ToString() == "Email Người Liên Hệ")
-                        {
-                            do
-                            {
-                                data = worksheet.Cells[startRow, startColumn].Value;
-                                object Username = worksheet.Cells[startRow, startColumn + 1].Value;
-                                object Password = worksheet.Cells[startRow, startColumn + 2].Value;
-                                object BusinessName = worksheet.Cells[startRow, startColumn + 3].Value;
-                                object Address = worksheet.Cells[startRow, startColumn + 4].Value;
-                                object BusinessPhone = worksheet.Cells[startRow, startColumn + 5].Value;
-                                object ContactName = worksheet.Cells[startRow, startColumn + 6].Value;
-                                object ContactPhone = worksheet.Cells[startRow, startColumn + 7].Value;
-                                object ContactEmail = worksheet.Cells[startRow, startColumn + 8].Value;
-                                //read column class name
-
-                                if (data != null && BusinessName != null)
-                                {
-                                    //importData
-                                    var isSuccess = saveBusiness(Username.ToString(), Password.ToString(), BusinessName.ToString(), Address.ToString(), BusinessPhone.ToString(), ContactName.ToString(), ContactPhone.ToString(), ContactEmail.ToString(), db);
-                                    if (isSuccess)
-                                    {
-                                        count++;
-                                    }
-                                }
-                                startRow++;
-                            }
-                            while (data != null);
-                            result = true;
-                        }
-                        else
-                        {
-                            System.IO.File.Delete(path);
-                            result = false;
-
-
-                        }
-                    }
-                    else
-                    {
-                        System.IO.File.Delete(path);
-                        result = false;
-                    }
-                }
-
-            }
-            catch
-            {
-                System.IO.File.Delete(path);
-                result = false;
-            }
-            return result;
-        }
-
-        public bool saveBusiness(String Username, String Password, String BusinessName, String Address, String BusinessPhone, String ContactName, String ContactPhone, String ContactEmail, BCMEntities db)
-        {
-            var result = false;
-            try
-            {
-
-                if (db.BusinessUsers.Where(x => x.BusinessName.Equals(BusinessName)).Count() == 0)
-                {
-                    var checkSem = db.Semesters.Where(x => x.Status == true).FirstOrDefault();
-                    var item = new BusinessUser();
-                    item.Username= Username;
-                    item.Password= Password;
-                    item.BusinessName= BusinessName;
-                    item.Address= Address;
-                    item.BusinessPhone= BusinessPhone;
-                    item.ContactName= ContactName;
-                    item.ContactPhone_1 = ContactPhone;
-                    item.EmailContact = ContactEmail;
-                    item.Last_Access = null;
-                    item.Website= null;
-                    item.Fanpage= null;
-                    item.BusinessLogo= "logoDoanhNghiep.png";
-                    item.ContactPhone_2= null;
-                    item.Semester_ID = checkSem.ID;
-                    item.Status_ID = 1;
-                    db.BusinessUsers.Add(item);
-                    db.SaveChanges();
-                    result = true;
-                }
-                result = false;
-            }
-            catch
-            {
-                result = false;
-            }
-            return result;
-        }
         public ActionResult DownloadFile(string filePath)
         {
             string fullName = Server.MapPath("~/Uploads/ExcelTemplate/" + filePath);

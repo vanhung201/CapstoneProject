@@ -250,20 +250,25 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
                         ws.Row(1).Style.Font.Bold = true;
                         ws.Cells["A2"].Style.Font.Bold = true;
                         ws.Cells["A4:J4"].Merge = true;
+                        ws.Cells["A1:C1"].Merge = true;
+                        ws.Cells["A2:C2"].Merge = true;
+                        ws.Cells["A3:C3"].Merge = true;
                         ws.Cells["A4"].Value = "Danh Sách Sinh Viên Thực Tập Học Kỳ " + getValueSemester.Semester.Semester1;
                         ws.Cells["A4"].Style.HorizontalAlignment = ExcelHorizontalAlignment.CenterContinuous;
                         ws.Row(4).Style.Font.Bold = true;
                         ws.Row(4).Style.Font.Size = 18;
 
-                        ws.Cells["A5"].Value = "Email VLU";
+                        ws.Cells["A5"].Value = "STT";
                         ws.Cells["B5"].Value = "Họ Và Tên";
                         ws.Cells["C5"].Value = "MSSV";
                         ws.Cells["D5"].Value = "Số Điện Thoại";
-                        ws.Cells["E5"].Value = "Vị Trí Thực Tập";
-                        ws.Cells["F5"].Value = "Trạng Thái";
-                        ws.Cells["G5"].Value = "Điểm Thực Tập";
-                        ws.Cells["H5"].Value = "Nhận Xét";
+                        ws.Cells["E5"].Value = "Email VLU";
+                        ws.Cells["F5"].Value = "Vị Trí Thực Tập";
+                        ws.Cells["G5"].Value = "Trạng Thái";
+                        ws.Cells["H5"].Value = "Điểm Thực Tập";
+                        ws.Cells["I5"].Value = "Nhận Xét";
                         int rowStart = 6;
+                        int countSTT = 1;
                         foreach (var item in myTable)
                         {
                             if (item.Status == "Thực Tập Xong")
@@ -284,15 +289,17 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
                                 ws.Row(rowStart).Style.Border.Right.Style = ExcelBorderStyle.Thin;
                                 ws.Row(rowStart).Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
                             }
-                            ws.Cells[string.Format("A{0}", rowStart)].Value = item.Student_Email;
+                            ws.Cells[string.Format("A{0}", rowStart)].Value = countSTT;
                             ws.Cells[string.Format("B{0}", rowStart)].Value = item.VanLangUser.FullName;
                             ws.Cells[string.Format("C{0}", rowStart)].Value = item.VanLangUser.Student_ID;
                             ws.Cells[string.Format("D{0}", rowStart)].Value = item.VanLangUser.Mobile;
-                            ws.Cells[string.Format("E{0}", rowStart)].Value = item.InternshipTopic.InternshipTopicName;
-                            ws.Cells[string.Format("F{0}", rowStart)].Value = item.Status;
-                            ws.Cells[string.Format("G{0}", rowStart)].Value = item.BusinessPoint;
-                            ws.Cells[string.Format("H{0}", rowStart)].Value = item.BusinessComment;
+                            ws.Cells[string.Format("E{0}", rowStart)].Value = item.Student_Email;
+                            ws.Cells[string.Format("F{0}", rowStart)].Value = item.InternshipTopic.InternshipTopicName;
+                            ws.Cells[string.Format("G{0}", rowStart)].Value = item.Status;
+                            ws.Cells[string.Format("H{0}", rowStart)].Value = item.BusinessPoint;
+                            ws.Cells[string.Format("I{0}", rowStart)].Value = item.BusinessComment;
                             rowStart++;
+                            countSTT++;
                         }
 
 
@@ -301,14 +308,16 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
                         ws.Cells["A:AZ"].AutoFitColumns();
                         Response.Clear();
                         Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-                        Response.AddHeader("content-disposition", "attachment; filename=ExcelReport.xlsx");
+                        Response.AddHeader("content-disposition", "attachment; filename=InternshipReport.xlsx");
                         Response.BinaryWrite(pck.GetAsByteArray());
                         Response.End();
                     }
 
                 }
-                TempData["AlertMessage"] = "<div class=\"toast toast--error\">\r\n     <div class=\"toast-left toast-left--error\">\r\n       <i class=\"fas fa-times-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n    <p class=\"toast-text\">Học kỳ không có dữ liệu để Export</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n       <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>";
-                return RedirectToAction("Index");
+                else
+                {
+                    TempData["AlertMessage"] = "<div class=\"toast toast--error\">\r\n     <div class=\"toast-left toast-left--error\">\r\n       <i class=\"fas fa-times-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n    <p class=\"toast-text\">Học kỳ không có dữ liệu để Export</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n       <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>";
+                }
             }
             return RedirectToAction("Index");
         }

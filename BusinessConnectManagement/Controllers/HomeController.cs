@@ -25,7 +25,6 @@ namespace BusinessConnectManagement.Controllers
 
 
             int pageSize = 6;
-
             int pageNumber = (page ?? 1);
 
             ViewBag.Posts = posts;
