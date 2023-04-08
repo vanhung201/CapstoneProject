@@ -28,6 +28,8 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
             public string name { get; set; }
             public int id { get; set; }
             public bool status { get; set; }
+            public int quantity { get;set; }
+            public string shortName { get;set; }
         }
         // GET: Faculty/Posts
         [HttpGet]
@@ -65,8 +67,6 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         // GET: Faculty/Posts/Details/5
         public ActionResult Details(int id)
         {
-            
-
             ViewBag.Business_ID = db.BusinessUsers.ToList();
             Post postt = db.Posts.Find(id);
             var listData = (from post in db.Posts
@@ -98,15 +98,11 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
             foreach (var item in PostPosition)
             {
                 bool isExist = PostPositionList.Where(x => x.InternshipTopic_ID == item.ID).Any();
-                postInternGets.Add(new PostInternGet { name = item.InternshipTopicName, id = item.ID, status = isExist });
+                int quantity = PostPositionList.FirstOrDefault(x => x.InternshipTopic_ID == item.ID)?.Quantity ?? 0;
+                postInternGets.Add(new PostInternGet { name = item.InternshipTopicName, id = item.ID, status = isExist, quantity = quantity,shortName = item.ShortName });
             }
             ViewBag.PostIntern = postInternGets;
-          
             return Json(new { listData, postIntern = ViewBag.PostIntern}, JsonRequestBehavior.AllowGet);
-
-            
-
-
         }
 
 
@@ -128,12 +124,12 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
             if (ModelState.IsValid)
             {
                 var checkSem = db.Semesters.Where(x => x.Status == true).FirstOrDefault();
-                    post.PostDay = string.Format("{0:dd/MM/yyyy hh:mm:ss}", DateTime.Now);
-                    post.ModifyDay = string.Format("{0:dd/MM/yyyy hh:mm:ss}", DateTime.Now);
-                    var query = db.VanLangUsers.Where(x => x.Email == User.Identity.Name).FirstOrDefault();
-                    post.Email_ID = query.Email;
-                    post.Semester_ID = checkSem.ID;
-                    db.Posts.Add(post);
+                post.PostDay = string.Format("{0:dd/MM/yyyy hh:mm:ss}", DateTime.Now);
+                post.ModifyDay = string.Format("{0:dd/MM/yyyy hh:mm:ss}", DateTime.Now);
+                var query = db.VanLangUsers.Where(x => x.Email == User.Identity.Name).FirstOrDefault();
+                post.Email_ID = query.Email;
+                post.Semester_ID = checkSem.ID;
+                db.Posts.Add(post);
                 db.SaveChanges();
                 string[] positions = form.GetValues("positions");
                 for (int i = 0; i < positions.Length; i++)
@@ -142,20 +138,23 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                     pp.Business_ID = post.Business_ID;
                     pp.Post_ID = post.ID;
                     pp.InternshipTopic_ID = Int32.Parse(positions[i]);
+
+                    // Get the quantity for this position
+                    int quantity = Int32.Parse(form["quantity-" + positions[i]]);
+                    pp.Quantity = quantity;
                     db.PostInternshipTopics.Add(pp);
                 }
                 db.SaveChanges();
                 TempData["AlertMessage"] = "<div class=\"toast toast--success\">\r\n     <div class=\"toast-left toast-left--success\">\r\n       <i class=\"fas fa-check-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n       <p class=\"toast-text\">Thêm dữ liệu thành công</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n      <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>\r\n";
                 return RedirectToAction("Index");
-
             }
 
             ViewBag.Semester_ID = new SelectList(db.Semesters, "ID", "Semester1", post.Semester_ID);
             return View(post);
         }
 
-        // GET: Faculty/Posts/Edit/5
-        public ActionResult Edit(int? id)
+    // GET: Faculty/Posts/Edit/5
+    public ActionResult Edit(int? id)
         {
             if (id == null)
             {
@@ -201,7 +200,10 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                         pp.Business_ID = post.Business_ID;
                         pp.Post_ID = post.ID;
                         pp.InternshipTopic_ID = Int32.Parse(positions[i]);
+                        int quantity = Int32.Parse(form["quantity-" + positions[i]]);
+                        pp.Quantity = quantity;
                         db.PostInternshipTopics.Add(pp);
+
                     }
                 }
                

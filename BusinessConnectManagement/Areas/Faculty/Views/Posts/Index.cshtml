@@ -55,7 +55,6 @@
                     <label class="form-label">Tiêu đề</label>
                     <input list="" name="Title" class="form-input" value=""
                            autocomplete="off" required />
-
                 </div>
                 <div class="form-group">
                     <label class="form-label">Doanh Nghiệp</label>
@@ -95,15 +94,15 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label">Vị Trí</label>
-                    <select multiple data-placeholder="Chọn vị trí" name="positions"  class="chosen-select">
+                    <select id="pos-select" multiple data-placeholder="Chọn vị trí" name="positions" class="chosen-select">
                         @foreach (var item in ViewBag.Position)
                         {
-                            <option value="@item.ID">@item.InternshipTopicName</option>
+                            <option value="@item.ID" data-shortName="@item.ShortName">@item.InternshipTopicName</option>
                         }
                     </select>
+                </div>
+                <div class="form-group" id="quantity-inputs">
 
-                    <!-- dribbble -->
-                    
                 </div>
             </div>
         </div>
@@ -196,11 +195,8 @@
                             <option value="@item.ID">@item.InternshipTopicName</option>
                         }
                     </select>
-
-
-                    <!-- dribbble -->
-
                 </div>
+                <div class="form-group" id="inputs"></div>
             </div>
         </div>
         <div class="form-group">
@@ -260,17 +256,22 @@
     <script type="text/javascript">
     $('.btn--cancel').on('click', function () {
         $('#form_detail').removeClass('is-appear')
+        $("#inputs").empty();
+
     })
     $('.btn--cancel').on('click', function () {
         $('#addForm').removeClass('is-appear')
+        $('#input').empty();
     })
     $('.btn--cancel').on('click', function () {
         $('#deleteForm').removeClass('is-appear')
     })
-    $('#btn--update').on('click', function () {
+        $('#btn--update').on('click', function () {
+        $('#input').empty();
         $('#form_detail').submit()
     })
-    $('#btn--add').on('click', function () {
+        $('#btn--add').on('click', function () {
+        $('#input').empty();
         $('#addForm').submit()
     })
 
@@ -384,9 +385,49 @@
                             }
                         } 
                     }
-                    console.log(arr)
                     $('.PostI').val(arr)
                     $('.PostI').trigger('chosen:updated')
+                    var selectedOptions = $('.PostI option:selected');
+                    var quantityInputsContainer = $('<div style="display: flex; flex-wrap: wrap; max-width:345px"></div>');
+
+                    selectedOptions.each(function () {
+                        var optionValue = $(this).val();
+
+                        // Find the corresponding item in the postIntern array using its id
+                        var selectedItem = res.postIntern.find(function (item) {
+                            return item.id == optionValue;
+                        });
+
+                        // Create the quantity input field
+                        var quantityInput = '<label style="margin-bottom:2rem" class="form-label">Số lượng ' + selectedItem.shortName + ': </label>' +
+                            '<input min="1" class="form-input" style="margin-bottom:2rem" type="number" name="quantity-' + selectedItem.id + '" value="' + selectedItem.quantity + '"/>';
+
+                        // Add the quantity input field to the container
+                        $(quantityInput).appendTo(quantityInputsContainer);
+                    });
+                    $('#inputs').append(quantityInputsContainer);
+                    $('.PostI').on('change', function () {
+                        var selectedOptions = $('.PostI option:selected');
+                        var quantityInputsContainer = $('<div style="display: flex; flex-wrap: wrap; max-width:345px"></div>');
+                        selectedOptions.each(function () {
+                            var optionValue = $(this).val();
+
+                            // Find the corresponding item in the postIntern array using its id
+                            var selectedItem = res.postIntern.find(function (item) {
+                                return item.id == optionValue;
+                            });
+
+                            // Create the quantity input field
+                            var quantityInput = '<label style="margin-bottom:2rem" class="form-label">Số lượng ' + selectedItem.shortName + ': </label>' +
+                                '<input min="1" class="form-input" style="margin-bottom:2rem" type="number" name="quantity-' + selectedItem.id + '" value="' + selectedItem.quantity + '"/>';
+
+                            // Add the quantity input field to the container
+                            $(quantityInput).appendTo(quantityInputsContainer);
+                        });
+                        $("#inputs").empty();
+                        $('#inputs').append(quantityInputsContainer);
+                    });
+                        
                     $('#ID').val(res.listData[0].id)
                     $('#Title').val(res.listData[0].title)
                     $('#Email_ID').val(res.listData[0].email)
@@ -573,104 +614,23 @@
     </script>
     <script>
         $(document).ready(function () {
+            $('#pos-select').on('change', function () {
+                var selectedOptions = $('#pos-select option:selected');
+                $('#quantity-inputs').empty();
 
-            /*var select = $('select[multiple]');
-            var options = select.find('option');
+                var quantityInputsContainer = $('<div style="display: flex; flex-wrap: wrap; max-width:345px"></div>');
 
-            var div = $('<div />').addClass('selectMultiple');
-            var active = $('<div />');
-            var list = $('<ul />');
-            var placeholder = select.data('placeholder');
+                selectedOptions.each(function () {
+                    var optionValue = $(this).val();
+                    console.log(optionValue);
+                    var optionName = $(this).data('shortname');
+                    var quantityInput = '<label style="margin-bottom:2rem" class="form-label">Số lượng ' + optionName + ': </label>' +
+                        '<input class="form-input" style="margin-bottom:2rem" type="number" name="quantity-' + optionValue + '"/>';
+                    $(quantityInput).appendTo(quantityInputsContainer);
+                });
 
-            var span = $('<span />').text(placeholder).appendTo(active);
-
-            options.each(function () {
-                var text = $(this).text();
-                if ($(this).is(':selected')) {
-                    active.append($('<a />').html('<em>' + text + '</em><i></i>'));
-                    span.addClass('hide');
-                } else {
-                    list.append($('<li />').html(text));
-                }
+                $('#quantity-inputs').append(quantityInputsContainer);
             });
-
-            active.append($('<div />').addClass('arrow'));
-            div.append(active).append(list);
-
-            select.wrap(div);*/
-
-            $(document).on('click', '.selectMultiple ul li', function (e) {
-                var select = $(this).parent().parent();
-                var li = $(this);
-                if (!select.hasClass('clicked')) {
-                    select.addClass('clicked');
-                    li.prev().addClass('beforeRemove');
-                    li.next().addClass('afterRemove');
-                    li.addClass('remove');
-                    var a = $('<a />').addClass('notShown').html('<em>' + li.text() + '</em><i></i>').hide().appendTo(select.children('div'));
-                    a.slideDown(400, function () {
-                        setTimeout(function () {
-                            a.addClass('shown');
-                            select.children('div').children('span').addClass('hide');
-                            select.find('option:contains(' + li.text() + ')').prop('selected', true);
-                        }, 500);
-                    });
-                    setTimeout(function () {
-                        if (li.prev().is(':last-child')) {
-                            li.prev().removeClass('beforeRemove');
-                        }
-                        if (li.next().is(':first-child')) {
-                            li.next().removeClass('afterRemove');
-                        }
-                        setTimeout(function () {
-                            li.prev().removeClass('beforeRemove');
-                            li.next().removeClass('afterRemove');
-                        }, 200);
-
-                        li.slideUp(400, function () {
-                            li.remove();
-                            select.removeClass('clicked');
-                        });
-                    }, 600);
-                }
-            });
-
-            $(document).on('click', '.selectMultiple > div a', function (e) {
-                var select = $(this).parent().parent();
-                var self = $(this);
-                self.removeClass().addClass('remove');
-                select.addClass('open');
-                setTimeout(function () {
-                    self.addClass('disappear');
-                    setTimeout(function () {
-                        self.animate({
-                            width: 0,
-                            height: 0,
-                            padding: 0,
-                            margin: 0
-                        }, 300, function () {
-                            var li = $('<li />').text(self.children('em').text()).addClass('notShown').appendTo(select.find('ul'));
-                            li.slideDown(400, function () {
-                                li.addClass('show');
-                                setTimeout(function () {
-                                    select.find('option:contains(' + self.children('em').text() + ')').prop('selected', false);
-                                    if (!select.find('option:selected').length) {
-                                        select.children('div').children('span').removeClass('hide');
-                                    }
-                                    li.removeClass();
-                                }, 400);
-                            });
-                            self.remove();
-                        })
-                    }, 300);
-                }, 400);
-            });
-
-            $(document).on('click', '.selectMultiple > div .arrow, .selectMultiple > div span', function (e) {
-                $(this).parent().parent().toggleClass('open');
-            });
-
         });
-
     </script>
 }

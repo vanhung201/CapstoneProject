@@ -60,6 +60,7 @@
     <EntitySetMapping Name="InternshipTopics">
       <EntityTypeMapping TypeName="BCMModel.InternshipTopic">
         <MappingFragment StoreEntitySet="InternshipTopic">
+          <ScalarProperty Name="ShortName" ColumnName="ShortName" />
           <ScalarProperty Name="InternshipTopicDescription" ColumnName="InternshipTopicDescription" />
           <ScalarProperty Name="InternshipTopicGoals" ColumnName="InternshipTopicGoals" />
           <ScalarProperty Name="InternshipTopicName" ColumnName="InternshipTopicName" />
@@ -110,6 +111,7 @@
     <EntitySetMapping Name="PostInternshipTopics">
       <EntityTypeMapping TypeName="BCMModel.PostInternshipTopic">
         <MappingFragment StoreEntitySet="PostInternshipTopic">
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
           <ScalarProperty Name="Business_ID" ColumnName="Business_ID" />
           <ScalarProperty Name="InternshipTopic_ID" ColumnName="InternshipTopic_ID" />
           <ScalarProperty Name="Post_ID" ColumnName="Post_ID" />

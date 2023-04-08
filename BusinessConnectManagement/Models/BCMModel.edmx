@@ -65,6 +65,7 @@
           <Property Name="InternshipTopicName" Type="nvarchar" MaxLength="200" />
           <Property Name="InternshipTopicGoals" Type="nvarchar(max)" />
           <Property Name="InternshipTopicDescription" Type="nvarchar(max)" />
+          <Property Name="ShortName" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="Major">
           <Key>
@@ -111,6 +112,7 @@
           <Property Name="Post_ID" Type="int" />
           <Property Name="InternshipTopic_ID" Type="int" />
           <Property Name="Business_ID" Type="int" />
+          <Property Name="Quantity" Type="int" />
         </EntityType>
         <EntityType Name="Registration">
           <Key>
@@ -883,6 +885,7 @@
           <Property Name="InternshipTopicName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="InternshipTopicGoals" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="InternshipTopicDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ShortName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="InternshipResults" Relationship="BCMModel.FK_InternshipResult_InternshipTopic" FromRole="InternshipTopic" ToRole="InternshipResult" />
           <NavigationProperty Name="PostInternshipTopics" Relationship="BCMModel.FK_PostInternshipTopic_InternshipTopic" FromRole="InternshipTopic" ToRole="PostInternshipTopic" />
           <NavigationProperty Name="Registrations" Relationship="BCMModel.FK_Registration_InternshipTopic" FromRole="InternshipTopic" ToRole="Registration" />
@@ -942,6 +945,7 @@
           <Property Name="Post_ID" Type="Int32" />
           <Property Name="InternshipTopic_ID" Type="Int32" />
           <Property Name="Business_ID" Type="Int32" />
+          <Property Name="Quantity" Type="Int32" />
           <NavigationProperty Name="BusinessUser" Relationship="BCMModel.FK_PostInternshipTopic_BusinessUser" FromRole="PostInternshipTopic" ToRole="BusinessUser" />
           <NavigationProperty Name="InternshipTopic" Relationship="BCMModel.FK_PostInternshipTopic_InternshipTopic" FromRole="PostInternshipTopic" ToRole="InternshipTopic" />
           <NavigationProperty Name="Post" Relationship="BCMModel.FK_PostPosition_Post" FromRole="PostInternshipTopic" ToRole="Post" />
@@ -1460,6 +1464,7 @@
           <EntitySetMapping Name="InternshipTopics">
             <EntityTypeMapping TypeName="BCMModel.InternshipTopic">
               <MappingFragment StoreEntitySet="InternshipTopic">
+                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
                 <ScalarProperty Name="InternshipTopicDescription" ColumnName="InternshipTopicDescription" />
                 <ScalarProperty Name="InternshipTopicGoals" ColumnName="InternshipTopicGoals" />
                 <ScalarProperty Name="InternshipTopicName" ColumnName="InternshipTopicName" />
@@ -1510,6 +1515,7 @@
           <EntitySetMapping Name="PostInternshipTopics">
             <EntityTypeMapping TypeName="BCMModel.PostInternshipTopic">
               <MappingFragment StoreEntitySet="PostInternshipTopic">
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
                 <ScalarProperty Name="Business_ID" ColumnName="Business_ID" />
                 <ScalarProperty Name="InternshipTopic_ID" ColumnName="InternshipTopic_ID" />
                 <ScalarProperty Name="Post_ID" ColumnName="Post_ID" />
