@@ -22,7 +22,7 @@ namespace BusinessConnectManagement.Controllers
 
             public bool status { get; set; }
             public int IdI { get; set; }
-
+            public int Quantity { get; set; }
 
         }
 
@@ -189,9 +189,9 @@ namespace BusinessConnectManagement.Controllers
             List<PostPositionDetail> postPositionDetails = new List<PostPositionDetail>();
             foreach (var item in position)
             {
-                bool isExist = postPosition.Where(x => x.InternshipTopic_ID == item.ID).Any();
-                postPositionDetails.Add(new PostPositionDetail { Name = item.InternshipTopicName, Id = item.ID, status = isExist }); ;
-
+                bool isExist = postPosition.Any(x => x.InternshipTopic_ID == item.ID);
+                int quantity = postPosition.FirstOrDefault(x => x.InternshipTopic_ID == item.ID)?.Quantity ?? 0;
+                postPositionDetails.Add(new PostPositionDetail { Name = item.InternshipTopicName, Id = item.ID, status = isExist, Quantity = quantity }); ;
             }
             ViewBag.Position = postPositionDetails;
 
@@ -292,6 +292,18 @@ namespace BusinessConnectManagement.Controllers
             db.Posts.Remove(post);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public ActionResult CheckQuantity(int post_id, int position_id)
+        {
+            var pp = db.PostInternshipTopics.Where(x => x.Post_ID == post_id && x.InternshipTopic_ID == position_id).FirstOrDefault();
+            var count = db.Registrations.Where(x => x.Post_ID == post_id && x.InternshipTopic_ID == position_id).Count();
+            var message = "";
+            if (count == pp.Quantity)
+            {
+                message = "Quá số lượng đăng ký";
+            }
+            return Json(message, JsonRequestBehavior.AllowGet);
         }
 
         protected override void Dispose(bool disposing)

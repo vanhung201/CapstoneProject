@@ -26,6 +26,7 @@ namespace BusinessConnectManagement.Models
         public string InternshipTopicName { get; set; }
         public string InternshipTopicGoals { get; set; }
         public string InternshipTopicDescription { get; set; }
+        public string ShortName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InternshipResult> InternshipResults { get; set; }

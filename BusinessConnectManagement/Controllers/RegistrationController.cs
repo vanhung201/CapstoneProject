@@ -30,6 +30,8 @@ namespace BusinessConnectManagement.Controllers
             var post = db.Posts.Where(x => x.ID == registration.Post_ID).FirstOrDefault();
             var email = User.Identity.Name;
             var isExist = db.Registrations.Any(x => x.Email_VanLang == email && x.Post_ID == post.ID);
+            var pp = db.PostInternshipTopics.Where(x => x.Post_ID == registration.Post_ID && x.InternshipTopic_ID == registration.InternshipTopic_ID).FirstOrDefault();
+            var count = db.Registrations.Where(x => x.Post_ID == registration.Post_ID && x.InternshipTopic_ID == registration.InternshipTopic_ID).Count();
             if (isExist)
             {
                 TempData["message"] = "Bạn đã ứng tuyển cho bài viết này rồi";
@@ -50,6 +52,14 @@ namespace BusinessConnectManagement.Controllers
                     }
                     else
                     {
+                        if (count == pp.Quantity)
+                        {
+                            TempData["message"] = "Quá số lượng đăng ký";
+                            TempData["messageType"] = "error";
+                            return RedirectToAction("Details", "Posts", new { id = post.ID });
+                        }
+                        else
+                        {
                         using (var scope = new TransactionScope())
                         {
                             registration.CV = CV.FileName;
@@ -71,6 +81,7 @@ namespace BusinessConnectManagement.Controllers
                             TempData["message"] = "Ứng tuyển thành công";
                             TempData["messageType"] = "success";
                             return RedirectToAction("Details", "Posts", new { id = post.ID });
+                        }
                         }
                     }
 
