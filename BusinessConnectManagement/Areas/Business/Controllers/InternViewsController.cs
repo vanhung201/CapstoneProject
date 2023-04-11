@@ -188,7 +188,7 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
                     emailBody = emailBody.Replace("{InterviewResultComment}", registration.InterviewResultComment);
                     string Subject = "Thông Báo";
                     string Body = emailBody;
-                    Outlook mail = new Outlook(To, Subject, Body);
+                    Outlook mail = new Outlook(To, Subject, Body, "");
                     mail.SendMail();
                     var InternShip = new InternshipResult();
                     InternShip.Student_Email = registration.Email_VanLang;

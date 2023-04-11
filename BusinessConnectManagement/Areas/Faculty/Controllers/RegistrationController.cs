@@ -91,7 +91,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                 emailBody = emailBody.Replace("{Comment}", registration.Comment);
                 string Subject = "Thông Báo";
                 string Body = emailBody;
-                Outlook mail = new Outlook(To, Subject, Body);
+                Outlook mail = new Outlook(To, Subject, Body, "");
                 mail.SendMail();
                 TempData["AlertMessage"] = "<div class=\"toast toast--success\">\r\n     <div class=\"toast-left toast-left--success\">\r\n       <i class=\"fas fa-check-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n       <p class=\"toast-text\">Cập nhật thành công</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n      <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>";
                 return RedirectToAction("Index");

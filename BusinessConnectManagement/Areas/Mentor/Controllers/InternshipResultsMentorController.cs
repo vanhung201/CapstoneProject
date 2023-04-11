@@ -152,7 +152,7 @@ namespace BusinessConnectManagement.Areas.Mentor.Controllers
                 emailBody = emailBody.Replace("{mentorComment}", internshipResult.MentorComment);
                 string Subject = "Thông Báo";
                 string Body = emailBody;
-                Outlook mail = new Outlook(To, Subject, Body);
+                Outlook mail = new Outlook(To, Subject, Body, "");
                 mail.SendMail();
                 db.SaveChanges();
 
