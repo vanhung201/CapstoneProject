@@ -121,7 +121,7 @@ namespace BusinessConnectManagement.Areas.Admin.Controllers
                 emailBody = emailBody.Replace("{Mobile}", vanLangUser.Mobile);
                 string Subject = "Thông Báo";
                 string Body = emailBody;
-                Outlook mail = new Outlook(To, Subject, Body);
+                Outlook mail = new Outlook(To, Subject, Body,"");
                 mail.SendMail();
                 TempData["AlertMessage"] = "<div class=\"toast toast--success\" style=\"position: abosolute; z-index: 20;\">\r\n     <div class=\"toast-left toast-left--success\">\r\n       <i class=\"fas fa-check-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n       <p class=\"toast-text\">Cập nhật thành công.</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n      <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>\r\n";
                 return RedirectToAction("AuthorizeList");
@@ -654,6 +654,52 @@ namespace BusinessConnectManagement.Areas.Admin.Controllers
             if (br != fs.Length)
                 throw new System.IO.IOException(s);
             return data;
+        }
+        [ValidateInput(false)]
+        public ActionResult SendMail(string content)
+        {
+            string template = Server.MapPath("~/Areas/Admin/Views/Email/EmailNotify.cshtml");
+            string emailBody = System.IO.File.ReadAllText(template);
+            var curSemester = db.Semesters.Where(x => x.Status == true).FirstOrDefault();
+            var mentorEmails = db.InternshipResults
+                .Where(x => x.Semester_ID == curSemester.ID && x.Status == "Đang Thực Tập")
+                .DistinctBy(x=>x.Mentor_Email)
+                .Select(x => x.Mentor_Email)
+                .ToList();
+            var studentEmails = db.InternshipResults
+                .Where(x => x.Semester_ID == curSemester.ID && x.Status == "Đang Thực Tập")
+                .DistinctBy(x=>x.Student_Email)
+                .Select(x => x.Student_Email)
+                .ToList();
+
+            // Build email body and other details
+            emailBody = emailBody.Replace("{content}", content);
+            string Subject = "Thông Báo";
+            string Body = emailBody;
+
+            // Send emails to students
+
+            foreach (var studentEmail in studentEmails)
+            {
+                Outlook studentMail = new Outlook(studentEmail, Subject, Body, "");
+                studentMail.SendMail();
+            }
+
+            // Send emails to mentors
+            foreach (var mentorEmail in mentorEmails)
+            {
+                if (!string.IsNullOrEmpty(mentorEmail))
+                {
+                    Outlook mentorMail = new Outlook("taikhoan.quantri.bcm@gmail.com", Subject, Body, mentorEmail);
+                    mentorMail.SendMail();
+                }
+            }
+
+
+            var referrerUrl = Request.UrlReferrer?.ToString() ?? "/";
+            TempData["message"] = "Cập nhật thành công";
+            TempData["messageType"] = "success";
+            return Redirect(referrerUrl);
         }
         protected override void Dispose(bool disposing)
         {

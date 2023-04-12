@@ -37,5 +37,10 @@ namespace BusinessConnectManagement.Areas.Admin.Controllers
             return View();
         }
 
+        public ActionResult EmailNotify()
+        {
+            return View();
+        }
+
     }
 }

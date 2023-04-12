@@ -156,7 +156,7 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
                     emailBody = emailBody.Replace("{BusinessComment}", internshipResult.BusinessComment);
                     string Subject = "Thông Báo";
                     string Body = emailBody;
-                    Outlook mail = new Outlook(To, Subject, Body);
+                    Outlook mail = new Outlook(To, Subject, Body,"");
                     mail.SendMail();
                 }
                 TempData["AlertMessage"] = "<div class=\"toast toast--success\">            <div class=\"toast-left toast-left--success\">               <i class=\"fas fa-check-circle\"></i>\r\n            </div>\r\n            <div class=\"toast-content\">\r\n                <p class=\"toast-text\">Cập Nhật Thành Công.</p>            </div>\r\n            <div class=\"toast-right\">\r\n                <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n            </div>\r\n        </div>";
