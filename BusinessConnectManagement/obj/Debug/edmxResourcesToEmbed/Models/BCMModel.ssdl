@@ -51,6 +51,11 @@
     <Property Name="BusinessComment" Type="nvarchar(max)" />
     <Property Name="InternshipTopic_ID" Type="int" />
     <Property Name="Status" Type="nvarchar" MaxLength="50" />
+    <Property Name="MentorComment2" Type="nvarchar(max)" />
+    <Property Name="MentorCommentB1" Type="nvarchar(max)" />
+    <Property Name="MentorCommentB2" Type="nvarchar(max)" />
+    <Property Name="BusinessComment2" Type="nvarchar(max)" />
+    <Property Name="BusinessPoint2" Type="float" />
   </EntityType>
   <EntityType Name="InternshipTopic">
     <Key>

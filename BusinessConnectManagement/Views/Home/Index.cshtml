@@ -82,7 +82,7 @@
             </div>
         </div>
     </section>
-    <section id="job">
+    <section id="job" class="jobhot">
         <div class="container">
             <div class="title-home">
                 <h3>Công việc nổi bật</h3>
@@ -90,10 +90,10 @@
             </div>
 
             <div class="columns pt30">
-                @foreach (var item in Model)
+                @foreach (var item in ViewBag.PostsHot)
                 {
                     <div class="column col-6 col-sm-12 col-md-12 col-xl-6 mb10 wow rollIn" data-wow-delay="0.5s">
-                        <a href="@Url.Action("Details", "Posts",  new { id=item.ID })">
+                        <a href="@Url.Action("Details", "Posts", new { id = item.ID })">
                             <div class="item d-flex align-middle">
                                 <img src="@Url.Content("~/Uploads/Images/" + item.BusinessUser.BusinessLogo)" alt="image-job">
                                 <div class="content">
@@ -118,7 +118,7 @@
                                         <span class="mb-0 mr10 text-warning">
                                             <i class="fa-solid fa-tag"></i> @item.Form
                                         </span>
-                                       
+
                                     </div>
                                     <div class="desc d-flex align-middle mb-2">
                                         <span class="mb-0 mr10 text-muted">
@@ -127,9 +127,9 @@
                                     </div>
                                     <p class="text-primary bold-6">
                                         <i>Hạn nộp: @item.DueDate</i>
-                                        <i style="float:right">Lượt ứng tuyển: @item.Registrations.Count()</i>
+                                        <i style="float:right">Lượt ứng tuyển: @item.Registrations.Count</i>
                                     </p>
-                                   
+
                                 </div>
                             </div>
                         </a>
@@ -141,7 +141,72 @@
                 Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
             </div>
             <div class="center">
-                <div class="pagination-container">
+                <div class="pagination-container" id="pagination-hot">
+                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="job" class="jobnew">
+        <div class="container">
+            <div class="title-home">
+                <h3>Công việc mới nhất</h3>
+                <a href="@Url.Action("Index", "Posts")">Xem thêm</a>
+            </div>
+
+            <div class="columns pt30">
+                @foreach (var item in Model)
+                {
+                    <div class="column col-6 col-sm-12 col-md-12 col-xl-6 mb10 wow rollIn" data-wow-delay="0.5s">
+                        <a href="@Url.Action("Details", "Posts",  new { id=item.ID })">
+                            <div class="item d-flex align-middle">
+                                <img src="@Url.Content("~/Uploads/Images/" + item.BusinessUser.BusinessLogo)" alt="image-job">
+                                <div class="content">
+                                    <div class="d-flex align-middle justify-between mb-2">
+                                        <h3 class="text-h4 bold-6 mb-0 ellipsis"> @item.Title</h3>
+                                        <div class="chip bg-error">
+                                            <small class="bold-6">Mới nhất</small>
+                                        </div>
+                                    </div>
+                                    <p class="bold-6 text-italic mb-2"> @item.BusinessUser.BusinessName</p>
+                                    <div class="desc d-flex align-middle mb-2">
+                                        <span class="mb-0 mr10 text-success">
+                                            @if (item.Major_ID != null)
+                                            {
+                                                <i class="fa-solid fa-tag"></i> @item.Major.Major1
+                                            }
+                                            else
+                                            {
+
+                                            }
+                                        </span>
+                                        <span class="mb-0 mr10 text-warning">
+                                            <i class="fa-solid fa-tag"></i> @item.Form
+                                        </span>
+
+                                    </div>
+                                    <div class="desc d-flex align-middle mb-2">
+                                        <span class="mb-0 mr10 text-muted">
+                                            <i class="fa-solid fa-location-dot"></i> @item.BusinessUser.Address
+                                        </span>
+                                    </div>
+                                    <p class="text-primary bold-6">
+                                        <i>Hạn nộp: @item.DueDate</i>
+                                        <i style="float:right">Lượt ứng tuyển: @item.Registrations.Count()</i>
+                                    </p>
+
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+                }
+            </div>
+            <div class="pagination-container" style="float: right">
+                Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+            </div>
+            <div class="center">
+                <div class="pagination-container" id="pagination-new">
                     @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
                 </div>
             </div>
@@ -265,6 +330,27 @@
                 step: function (now) {
                     $(this).text(Math.ceil(now));
                 }
+            });
+        });
+        $(document).ready(function () {
+            $('body').on('click', '#pagination-new a', function (e) {
+                e.preventDefault();
+                var url = $(this).attr('href');
+                $.get(url, function (data) {
+                    $('.jobnew').html($(data).find('.jobnew').html());
+                    $('html, body').animate({ scrollTop: $('.jobnew').offset().top - 73 }, 'slow');
+                });
+            });
+        });
+    
+        $(document).ready(function () {
+            $('body').on('click', '#pagination-hot a', function (e) {
+                e.preventDefault();
+                var url = $(this).attr('href');
+                $.get(url, function (data) {
+                    $('.jobhot').html($(data).find('.jobhot').html());
+                    $('html, body').animate({ scrollTop: $('.jobhot').offset().top - 73 }, 'slow');
+                });
             });
         });
     </script>

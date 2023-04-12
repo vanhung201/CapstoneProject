@@ -53,9 +53,14 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                                 mentor_email = intern.Mentor_Email,
                                 mentorpoint = intern.MentorPoint,
                                 mentorcomment = intern.MentorComment,
+                                mentorcomment2 = intern.MentorComment2,
+                                mentorcomment3 = intern.MentorCommentB1,
+                                mentorcomment4 = intern.MentorCommentB2,
                                 business_id = intern.Business_ID,
                                 businesspoint = intern.BusinessPoint,
+                                businesspoint2 = intern.BusinessPoint2,
                                 businesscomment = intern.BusinessComment,
+                                businesscomment2 = intern.BusinessComment2,
                                 position_id = intern.InternshipTopic_ID,
                                 status = intern.Status
 
@@ -120,7 +125,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Edit([Bind(Include = "ID,Student_Email,Semester_ID,Mentor_Email,MentorPoint,MentorComment,Business_ID,BusinessPoint,BusinessComment,InternshipTopic_ID,Status")] InternshipResult internshipResult)
+        public ActionResult Edit([Bind(Include = "ID,Student_Email,Semester_ID,Mentor_Email,MentorPoint,MentorComment,Business_ID,BusinessPoint,BusinessPoint2,BusinessComment,InternshipTopic_ID,Status,MentorComment2,MentorCommentB1,MentorCommentB2,BusinessComment2")] InternshipResult internshipResult)
         {
             if (ModelState.IsValid)
             {
