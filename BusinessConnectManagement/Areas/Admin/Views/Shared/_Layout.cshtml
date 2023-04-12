@@ -161,8 +161,8 @@
                         </li>
 
                         <li class="menu-item">
-                            <a class="menu-feature">
-                                <i class="menu-icon fal fa-mail-bulk" id="send-mail"></i>
+                            <a class="menu-feature" id="send-mail">
+                                <i class="menu-icon fal fa-mail-bulk" id=""></i>
                                 <span class="menu-text">Gửi Mail</span>
                             </a>
                             <span class="menu-tooltip">Gửi Mail</span>
@@ -316,6 +316,25 @@
 
         </div>
     </div>
+    <form id="form-mail" method="post" action="@Url.Action("SendMail", "AdminHome", new { area = "Admin" })" class="form" enctype="multipart/form-data">
+    <div class="form-container">
+        <h1 class="list-heading">Gửi Mail</h1>
+        <div class="form-group">
+            <label for="address" class="form-label">Nội Dung</label>
+            <textarea class="" name="content" id="mail-editor" autocomplete="off"></textarea>
+        </div>
+        <div class="form-group">
+            <a class="btn btn--cancel">
+                Hủy
+            </a>
+            <button class="btn btn--confirm" type="submit" id="btn--add">
+                Xác Nhận
+            </button>
+        </div>
+
+
+    </div>
+</form>
     <div id="icon">
         <i class="fal fa-bars"></i>
     </div>
@@ -323,7 +342,8 @@
         <a href="#wrap" class="moveTop-link"><i class="fal fa-arrow-up"></i><a>
     </div>
 
-
+    <script type="text/javascript" src="@Url.Content("~/assets/js/ckeditor/ckeditor.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/assets/js/ckfinder/ckfinder.js")"></script>
     <script src="~/assets/js/index.js"></script>
     <script src="~/Scripts/jquery-3.4.1.js"></script>
     <script src="~/Scripts/jquery.validate.js"></script>
@@ -342,6 +362,16 @@
             e.preventDefault();
             $('#form-mail').addClass('is-appear');
         })
+        $('.btn--cancel').on('click', function (e) {
+            $('#form-mail').removeClass('is-appear');
+        })
+
+         var editor = CKEDITOR.instances['editor1'];
+	 	    if (editor) { editor.destroy(true); }
+		    CKEDITOR.replace('mail-editor', {
+		        enterMode: CKEDITOR.ENTER_BR,
+		    });
+        CKFinder.setupCKEditor(null, '@Url.Content("~/ckfinder")');
 
         $(function () {
             $("#table_id_filter").append($("#filterEvent")).clone();

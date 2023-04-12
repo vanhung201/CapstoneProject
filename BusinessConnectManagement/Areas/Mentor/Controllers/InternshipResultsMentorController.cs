@@ -36,13 +36,15 @@ namespace BusinessConnectManagement.Areas.Mentor.Controllers
                             where intern.Mentor_Email == email
                             select new
                             {
-                              id = intern.ID,
-                              name = intern.VanLangUser.FullName,
-                              phone = intern.VanLangUser.Mobile,
-                              business = intern.BusinessUser.BusinessName,
-                              position = intern.InternshipTopic.InternshipTopicName,
-                              status = intern.Status,
-                              semester_id = intern.Semester.Semester1
+                                id = intern.ID,
+                                name = intern.VanLangUser.FullName,
+                                phone = intern.VanLangUser.Mobile,
+                                business = intern.BusinessUser.BusinessName,
+                                position = intern.InternshipTopic.InternshipTopicName,
+                                status = intern.Status,
+                                semester_id = intern.Semester.Semester1,
+                                mentor_email = intern.Mentor_Email,
+                                coment = intern.MentorComment
                             });
             return Json(listDataIntern, JsonRequestBehavior.AllowGet);
         }
@@ -68,9 +70,14 @@ namespace BusinessConnectManagement.Areas.Mentor.Controllers
                                       mentorcomment = intern.MentorComment,
                                       business_id = intern.Business_ID,
                                       businesspoint = intern.BusinessPoint,
+                                      businesspoint2 = intern.BusinessPoint2,
                                       businesscomment = intern.BusinessComment,
+                                      businesscomment2 = intern.BusinessComment2,
                                       position_id = intern.InternshipTopic_ID,
-                                      status = intern.Status
+                                      status = intern.Status,
+                                      mentorcomment2 = intern.MentorComment2,
+                                      mentorcomment3 = intern.MentorCommentB1,
+                                      mentorcomment4 = intern.MentorCommentB2,
                                   });
             return Json(listDataIntern, JsonRequestBehavior.AllowGet);                              
         }
@@ -129,7 +136,7 @@ namespace BusinessConnectManagement.Areas.Mentor.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Edit([Bind(Include = "ID,Student_Email,Semester_ID,Mentor_Email,MentorPoint,MentorComment,Business_ID,BusinessPoint,BusinessComment,InternshipTopic_ID,Status")] InternshipResult internshipResult)
+        public ActionResult Edit([Bind(Include = "ID,Student_Email,Semester_ID,Mentor_Email,MentorPoint,MentorComment,Business_ID,BusinessPoint,BusinessPoint2,BusinessComment,InternshipTopic_ID,Status,MentorComment2,MentorCommentB1,MentorCommentB2,BusinessComment2")] InternshipResult internshipResult)
         {
             var email = User.Identity.Name;
             var curUser = db.VanLangUsers.Where(x => x.Email == email).FirstOrDefault();
@@ -152,9 +159,10 @@ namespace BusinessConnectManagement.Areas.Mentor.Controllers
                 emailBody = emailBody.Replace("{mentorComment}", internshipResult.MentorComment);
                 string Subject = "Thông Báo";
                 string Body = emailBody;
-                Outlook mail = new Outlook(To, Subject, Body);
+                Outlook mail = new Outlook(To, Subject, Body, "");
                 mail.SendMail();
                 db.SaveChanges();
+                TempData["AlertMessage"] = "<div class=\"toast toast--success\">\r\n     <div class=\"toast-left toast-left--success\">\r\n       <i class=\"fas fa-check-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n       <p class=\"toast-text\">Nhận xét và đánh giá sinh viên hướng dẫn thành công.</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n      <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>";
 
                 return RedirectToAction("Index");
             }
@@ -190,7 +198,22 @@ namespace BusinessConnectManagement.Areas.Mentor.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+        [HttpPost]
+        [ValidateInput(false)]
+        public EmptyResult ExportWord(string GridHtml)
+        {
+            GridHtml = "<style>.line { line-height: 1.5; } .boder {border: 1px solid black; border-collapse: collapse;}</style>" + GridHtml;
+            Response.Clear();
+            Response.Buffer = true;
+            Response.AddHeader("content-disposition", "attachment; filename=ExcelReport.doc");
+            Response.Charset = "";
+            Response.ContentType = "application/vnd.ms-word";
+            Response.Output.Write(GridHtml);
+            Response.Flush();
+            Response.End();
 
+            return new EmptyResult();
+        }
         public ActionResult ExportToExcel(int semester_id)
         {
             if (ModelState.IsValid)

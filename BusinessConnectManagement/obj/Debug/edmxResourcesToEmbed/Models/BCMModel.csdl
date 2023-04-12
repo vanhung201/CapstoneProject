@@ -196,6 +196,11 @@
     <Property Name="BusinessComment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="InternshipTopic_ID" Type="Int32" />
     <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="MentorComment2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="MentorCommentB1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="MentorCommentB2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="BusinessComment2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="BusinessPoint2" Type="Double" />
     <NavigationProperty Name="BusinessUser" Relationship="BCMModel.FK_InternshipResult_BusinessUser" FromRole="InternshipResult" ToRole="BusinessUser" />
     <NavigationProperty Name="InternshipTopic" Relationship="BCMModel.FK_InternshipResult_InternshipTopic" FromRole="InternshipResult" ToRole="InternshipTopic" />
     <NavigationProperty Name="Semester" Relationship="BCMModel.FK_InternshipResult_Semester" FromRole="InternshipResult" ToRole="Semester" />

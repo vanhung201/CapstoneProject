@@ -56,6 +56,11 @@
           <Property Name="BusinessComment" Type="nvarchar(max)" />
           <Property Name="InternshipTopic_ID" Type="int" />
           <Property Name="Status" Type="nvarchar" MaxLength="50" />
+          <Property Name="MentorComment2" Type="nvarchar(max)" />
+          <Property Name="MentorCommentB1" Type="nvarchar(max)" />
+          <Property Name="MentorCommentB2" Type="nvarchar(max)" />
+          <Property Name="BusinessComment2" Type="nvarchar(max)" />
+          <Property Name="BusinessPoint2" Type="float" />
         </EntityType>
         <EntityType Name="InternshipTopic">
           <Key>
@@ -871,6 +876,11 @@
           <Property Name="BusinessComment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="InternshipTopic_ID" Type="Int32" />
           <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MentorComment2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MentorCommentB1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MentorCommentB2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BusinessComment2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BusinessPoint2" Type="Double" />
           <NavigationProperty Name="BusinessUser" Relationship="BCMModel.FK_InternshipResult_BusinessUser" FromRole="InternshipResult" ToRole="BusinessUser" />
           <NavigationProperty Name="InternshipTopic" Relationship="BCMModel.FK_InternshipResult_InternshipTopic" FromRole="InternshipResult" ToRole="InternshipTopic" />
           <NavigationProperty Name="Semester" Relationship="BCMModel.FK_InternshipResult_Semester" FromRole="InternshipResult" ToRole="Semester" />
@@ -1447,6 +1457,11 @@
           <EntitySetMapping Name="InternshipResults">
             <EntityTypeMapping TypeName="BCMModel.InternshipResult">
               <MappingFragment StoreEntitySet="InternshipResult">
+                <ScalarProperty Name="BusinessPoint2" ColumnName="BusinessPoint2" />
+                <ScalarProperty Name="BusinessComment2" ColumnName="BusinessComment2" />
+                <ScalarProperty Name="MentorCommentB2" ColumnName="MentorCommentB2" />
+                <ScalarProperty Name="MentorCommentB1" ColumnName="MentorCommentB1" />
+                <ScalarProperty Name="MentorComment2" ColumnName="MentorComment2" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="InternshipTopic_ID" ColumnName="InternshipTopic_ID" />
                 <ScalarProperty Name="BusinessComment" ColumnName="BusinessComment" />

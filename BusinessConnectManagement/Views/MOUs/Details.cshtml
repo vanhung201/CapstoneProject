@@ -47,21 +47,38 @@
                                                     <img src="@Url.Content("~/Uploads/Images/" + item.BusinessUser.BusinessLogo)" alt="image-job">
                                                     <div class="content">
                                                         <div class="d-flex align-middle justify-between mb-2">
-                                                            <h3 class="text-h4 bold-6 mb-0 ellipsis">@item.Title</h3>
+                                                            <h3 class="text-h4 bold-6 mb-0 ellipsis"> @item.Title</h3>
                                                             <div class="chip bg-error">
                                                                 <small class="bold-6">Nổi bật</small>
                                                             </div>
                                                         </div>
-                                                        <p class="bold-6 text-italic mb-2">@item.BusinessUser.BusinessName</p>
+                                                        <p class="bold-6 text-italic mb-2"> @item.BusinessUser.BusinessName</p>
+                                                        <div class="desc d-flex align-middle mb-2">
+                                                            <span class="mb-0 mr10 text-success">
+                                                                @if (item.Major_ID != null)
+                                                                {
+                                                                    <i class="fa-solid fa-tag"></i> @item.Major.Major1
+                                                                }
+                                                                else
+                                                                {
+
+                                                                }
+                                                            </span>
+                                                            <span class="mb-0 mr10 text-warning">
+                                                                <i class="fa-solid fa-tag"></i> @item.Form
+                                                            </span>
+
+                                                        </div>
                                                         <div class="desc d-flex align-middle mb-2">
                                                             <span class="mb-0 mr10 text-muted">
-                                                                <i class="fa-solid fa-location-dot"></i>
-                                                                @item.BusinessUser.Address
+                                                                <i class="fa-solid fa-location-dot"></i> @item.BusinessUser.Address
                                                             </span>
                                                         </div>
                                                         <p class="text-primary bold-6">
                                                             <i>Hạn nộp: @item.DueDate</i>
+                                                            <i style="float:right">Lượt ứng tuyển: @item.Registrations.Count</i>
                                                         </p>
+
                                                     </div>
                                                 </div>
                                             </a>
