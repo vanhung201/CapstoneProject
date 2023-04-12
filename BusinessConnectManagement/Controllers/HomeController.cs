@@ -14,11 +14,11 @@ namespace BusinessConnectManagement.Controllers
     {
         private BCMEntities db = new BCMEntities();
         // GET: Home
-        public ActionResult Index( int? page)
+        public ActionResult Index(int? page)
         {
             ViewBag.MOUs = db.MOUs.ToList();
             ViewBag.Major = db.Majors.ToList();
-            if (page == null) page= 1;
+            if (page == null) page = 1;
 
             var posts = (from post in db.Posts
                          select post).OrderByDescending(x => x.ID);
@@ -26,7 +26,7 @@ namespace BusinessConnectManagement.Controllers
 
             int pageSize = 6;
             int pageNumber = (page ?? 1);
-
+            ViewBag.PostsHot = db.Posts.OrderByDescending(x => x.Registrations.Count).ToPagedList(pageNumber, pageSize);
             ViewBag.Posts = posts;
             ViewBag.CountStudent = db.VanLangUsers.Count();
             ViewBag.CountPost = db.Posts.Count();

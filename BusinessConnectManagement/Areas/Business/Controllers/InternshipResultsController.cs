@@ -44,6 +44,7 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
                                status = internR.Status,
                                position = internR.InternshipTopic.InternshipTopicName,
                                semester = internR.Semester.Semester1,
+                               businesscomment = internR.BusinessComment,
                            };
             return Json(dataList, JsonRequestBehavior.AllowGet);
         }
@@ -61,16 +62,23 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
                                Mentor_Email = internR.Mentor_Email,
                                MentorPoint = internR.MentorPoint,
                                MentorComment = internR.MentorComment,
+                               MentorComment2 = internR.MentorComment2,
+                               MentorComment3 = internR.MentorCommentB1,
+                               MentorComment4 = internR.MentorCommentB2,
                                Business_ID = internR.Business_ID,
                                BusinessPoint = internR.BusinessPoint,
+                               BusinessPoint2 = internR.BusinessPoint2,
                                BusinessComment = internR.BusinessComment,
+                               BusinessComment2 = internR.BusinessComment2,
                                InternshipTopic_ID = internR.InternshipTopic_ID,
                                status = internR.Status,
                                FullName = internR.VanLangUser.FullName,
                                Student_ID = internR.VanLangUser.Student_ID,
                                Mobile = internR.VanLangUser.Mobile,
                                Major = internR.VanLangUser.Major.Major1,
-                               Position = internR.InternshipTopic.InternshipTopicName
+                               Position = internR.InternshipTopic.InternshipTopicName,
+                               BusinessName = internR.BusinessUser.BusinessName,
+                               Address = internR.BusinessUser.Address
                            };
             return Json(dataList, JsonRequestBehavior.AllowGet);
         }
@@ -129,7 +137,7 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Edit([Bind(Include = "ID,Student_Email,Semester_ID,Mentor_Email,MentorPoint,MentorComment,Business_ID,BusinessPoint,BusinessComment,InternshipTopic_ID,Status")] InternshipResult internshipResult)
+        public ActionResult Edit([Bind(Include = "ID,Student_Email,Semester_ID,Mentor_Email,MentorPoint,MentorComment,MentorComment2,MentorCommentB1,MentorCommentB2,Business_ID,BusinessPoint,BusinessPoint2,BusinessComment,BusinessComment2,InternshipTopic_ID,Status")] InternshipResult internshipResult)
         {
             if (ModelState.IsValid)
             {
@@ -201,7 +209,22 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+        [HttpPost]
+        [ValidateInput(false)]
+        public EmptyResult ExportWord(string GridHtml)
+        {
+            GridHtml = "<style>.line { line-height: 1.5; } .boder {border: 1px solid black; border-collapse: collapse;}</style>" + GridHtml;
+            Response.Clear();
+            Response.Buffer = true;
+            Response.AddHeader("content-disposition", "attachment; filename=ExcelReport.doc");
+            Response.Charset = "";
+            Response.ContentType = "application/vnd.ms-word";
+            Response.Output.Write(GridHtml);
+            Response.Flush();
+            Response.End();
 
+            return new EmptyResult();
+        }
         public ActionResult ExportToExcel(int semester_id)
         {
             if (ModelState.IsValid)

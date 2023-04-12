@@ -31,6 +31,11 @@ namespace BusinessConnectManagement.Models
         public string BusinessComment { get; set; }
         public Nullable<int> InternshipTopic_ID { get; set; }
         public string Status { get; set; }
+        public string MentorComment2 { get; set; }
+        public string MentorCommentB1 { get; set; }
+        public string MentorCommentB2 { get; set; }
+        public string BusinessComment2 { get; set; }
+        public Nullable<double> BusinessPoint2 { get; set; }
     
         public virtual BusinessUser BusinessUser { get; set; }
         public virtual InternshipTopic InternshipTopic { get; set; }
