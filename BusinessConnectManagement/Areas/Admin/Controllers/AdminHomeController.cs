@@ -701,6 +701,34 @@ namespace BusinessConnectManagement.Areas.Admin.Controllers
             TempData["messageType"] = "success";
             return Redirect(referrerUrl);
         }
+
+        public ActionResult ChangeNotification()
+        {
+            var query = db.VanLangUsers.FirstOrDefault(x => x.Email == User.Identity.Name);
+            if (query.Role == "Admin" || query.Role == "Faculty")
+            {
+                var noti = db.Notifications.Where(x => x.Mentor_Email == null && x.Business_ID == null).ToList();
+                noti.ForEach(n => n.IsRead = true);
+            }
+            else if (query.Role == "Mentor")
+            {
+                var noti = db.Notifications.Where(x => x.Mentor_Email == query.Email).ToList();
+                noti.ForEach(n => n.IsRead = true);
+            }
+            else if (query.Role == null) 
+            {
+                int BusinessID = Convert.ToInt16(Session["BusinessID"]);
+                var noti = db.Notifications.Where(x => x.Business_ID == BusinessID).ToList();
+                noti.ForEach(n => n.IsRead = true);
+            }
+            else
+            {
+                return Json(new { message = "failed" }, JsonRequestBehavior.AllowGet);
+            }
+            db.SaveChanges();
+            return Json(new { message = "successed" }, JsonRequestBehavior.AllowGet);
+
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

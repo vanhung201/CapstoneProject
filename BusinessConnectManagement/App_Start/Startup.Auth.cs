@@ -41,7 +41,7 @@ namespace BusinessConnectManagement
             }
         },
     });
-
+            app.MapSignalR();
         }
 
         private static string EnsureTrailingSlash(string value)

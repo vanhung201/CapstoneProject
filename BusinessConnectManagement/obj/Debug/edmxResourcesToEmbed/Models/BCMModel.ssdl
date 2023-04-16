@@ -189,6 +189,18 @@
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="YearStudy" Type="varchar" MaxLength="15" />
   </EntityType>
+  <EntityType Name="Notifications">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Mentor_Email" Type="varchar" MaxLength="250" />
+    <Property Name="Business_ID" Type="int" />
+    <Property Name="Title" Type="nvarchar" MaxLength="250" />
+    <Property Name="Message" Type="nvarchar" MaxLength="250" />
+    <Property Name="Date" Type="nvarchar" MaxLength="250" />
+    <Property Name="IsRead" Type="bit" />
+  </EntityType>
   <Association Name="FK_BusinessCooperationCategories_BusinessUser">
     <End Role="BusinessUser" Type="Self.BusinessUser" Multiplicity="1" />
     <End Role="BusinessCooperationCategories" Type="Self.BusinessCooperationCategories" Multiplicity="*" />
@@ -294,6 +306,30 @@
       </Principal>
       <Dependent Role="MOU">
         <PropertyRef Name="Business_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Notifications_BusinessUser">
+    <End Role="BusinessUser" Type="Self.BusinessUser" Multiplicity="0..1" />
+    <End Role="Notifications" Type="Self.Notifications" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BusinessUser">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Notifications">
+        <PropertyRef Name="Business_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Notifications_VanLangUser">
+    <End Role="VanLangUser" Type="Self.VanLangUser" Multiplicity="0..1" />
+    <End Role="Notifications" Type="Self.Notifications" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="VanLangUser">
+        <PropertyRef Name="Email" />
+      </Principal>
+      <Dependent Role="Notifications">
+        <PropertyRef Name="Mentor_Email" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -554,6 +590,7 @@
     <EntitySet Name="Trainee" EntityType="Self.Trainee" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="VanLangUser" EntityType="Self.VanLangUser" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="YearStudy" EntityType="Self.YearStudy" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Notifications" EntityType="Self.Notifications" Schema="fit89398_thanhlong" store:Type="Tables" />
     <AssociationSet Name="FK_BusinessCooperationCategories_BusinessUser" Association="Self.FK_BusinessCooperationCategories_BusinessUser">
       <End Role="BusinessUser" EntitySet="BusinessUser" />
       <End Role="BusinessCooperationCategories" EntitySet="BusinessCooperationCategories" />
@@ -589,6 +626,14 @@
     <AssociationSet Name="FK_MOU_BusinessUser" Association="Self.FK_MOU_BusinessUser">
       <End Role="BusinessUser" EntitySet="BusinessUser" />
       <End Role="MOU" EntitySet="MOU" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Notifications_BusinessUser" Association="Self.FK_Notifications_BusinessUser">
+      <End Role="BusinessUser" EntitySet="BusinessUser" />
+      <End Role="Notifications" EntitySet="Notifications" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Notifications_VanLangUser" Association="Self.FK_Notifications_VanLangUser">
+      <End Role="VanLangUser" EntitySet="VanLangUser" />
+      <End Role="Notifications" EntitySet="Notifications" />
     </AssociationSet>
     <AssociationSet Name="FK_Post_BusinessUser" Association="Self.FK_Post_BusinessUser">
       <End Role="BusinessUser" EntitySet="BusinessUser" />

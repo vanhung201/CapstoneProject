@@ -117,6 +117,7 @@ namespace BusinessConnectManagement.Controllers
         [HttpPost]
         public ActionResult Edit(InternshipResult internshipResult)
         {
+            Notification notify = new Notification();
             if (ModelState.IsValid)
             {
                 var registration = db.Registrations.Where(x => x.InternshipResult_ID == internshipResult.ID).FirstOrDefault();
@@ -239,7 +240,12 @@ namespace BusinessConnectManagement.Controllers
                         return RedirectToAction("Index");
                     }
                 }
-              
+                notify.Business_ID = internshipResult.Business_ID;
+                notify.Title = "Thông Báo";
+                notify.Message = "Có sinh viên xác nhận thực tập";
+                notify.IsRead = false;
+                notify.Date = (DateTime.Now).ToString();
+                db.Notifications.Add(notify);
                 db.SaveChanges();
                 TempData["message"] = "Xác nhận thực tập thành công.";
                 TempData["messageType"] = "success";
