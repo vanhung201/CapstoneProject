@@ -305,9 +305,6 @@
     <Compile Include="Models\Status.cs">
       <DependentUpon>BCMModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sysdiagram.cs">
-      <DependentUpon>BCMModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Trainee.cs">
       <DependentUpon>BCMModel.tt</DependentUpon>
     </Compile>

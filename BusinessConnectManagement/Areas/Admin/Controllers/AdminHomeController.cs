@@ -162,6 +162,10 @@ namespace BusinessConnectManagement.Areas.Admin.Controllers
                     .DistinctBy(x => x)
                     .Count();
             var business = db.BusinessUsers.Where(x => x.Semester_ID == selectedSemesterId).Count();
+            var businessReg = db.Registrations.Where(x => x.Semester_ID == selectedSemesterId).Select(x => x.BusinessUser.BusinessName).DistinctBy(x=>x).ToList();
+            var businessName = db.BusinessUsers.Where(x => x.Semester_ID == selectedSemesterId).Select(x => x.BusinessName).DistinctBy(x=>x).ToList();
+            var buID = db.BusinessUsers.Select(x => x.ID).ToArray();
+            var passStudent = buID.Select(buId => db.Registrations.Count(x => x.Business_ID == buId && x.StatusInternview == "Đậu Phỏng Vấn" && x.Semester_ID == selectedSemesterId)).DistinctBy(x => x).ToArray();
             var businessList = db.BusinessUsers.Where(x => x.Semester_ID == selectedSemesterId)
                 .Select(x => new
                 {
@@ -182,6 +186,9 @@ namespace BusinessConnectManagement.Areas.Admin.Controllers
                 mentor = mentor,
                 business = business,
                 businessList = businessList,
+                businessReg = businessReg,
+                businessName = businessName,
+                passStudent = passStudent
             }, JsonRequestBehavior.AllowGet);
         }
 
@@ -189,9 +196,17 @@ namespace BusinessConnectManagement.Areas.Admin.Controllers
         {
             var posProvider = db.PostInternshipTopics
                 .Where(x => x.Business_ID == selectedBusinessId)
-                .Select(x => new { position = x.InternshipTopic.InternshipTopicName })
-                .DistinctBy(x => x).ToArray();
-            var posCount = posProvider.Select(pp => db.InternshipTopics.Count(x => x.InternshipTopicName == pp.position)).ToArray();
+                .Select(x => new { position = x.InternshipTopic.InternshipTopicName, id = x.InternshipTopic_ID })
+                .DistinctBy(x => x).ToList();
+
+            var posCount = new List<int>();
+            foreach (var pos in posProvider)
+            {
+                int totalCount = db.PostInternshipTopics
+                .Where(x => x.Business_ID == selectedBusinessId && x.InternshipTopic_ID == pos.id)
+                .Sum(x => x.Quantity) ?? 0;
+                posCount.Add(totalCount);
+            }
 
             return Json(new { posProvider = posProvider, posCount = posCount }, JsonRequestBehavior.AllowGet);
         }

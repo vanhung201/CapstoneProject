@@ -8,7 +8,7 @@
     string FullName = "";
     string ControllerName = "";
     string Area = "";
-
+    int count = 0;
     if (Role == "Admin")
     {
         ControllerName = "AdminHome";
@@ -33,7 +33,25 @@
     {
         FullName = query.FullName;
     }
-}
+    if(query.Role == "Admin" || query.Role == "Faculty")
+    {
+        ViewBag.Notifications = db.Notifications.Where(x => x.Mentor_Email == null && x.Business_ID == null).ToList();
+        count = db.Notifications.Where(x => x.Mentor_Email == null && x.Business_ID == null && x.IsRead == false).Count();
+    }
+    else if(query.Role == "Mentor")
+    {
+        ViewBag.Notifications = db.Notifications.Where(x => x.Mentor_Email == query.Email).ToList();
+        count = db.Notifications.Where(x => x.Mentor_Email == query.Email && x.IsRead == false).Count();
+
+    }
+    else
+    {
+        int BusinessID = Convert.ToInt16(Session["BusinessID"]);
+        ViewBag.Notifications = db.Notifications.Where(x => x.Business_ID == BusinessID).ToList();
+        count = db.Notifications.Where(x => x.Business_ID == BusinessID && x.IsRead == false).Count();
+
+    }
+    }
 
 <!DOCTYPE html>
 <html lang="en">
@@ -158,6 +176,14 @@
                                 <span class="menu-text">Sinh Viên Hướng Dẫn</span>
                             </a>
                             <span class="menu-tooltip">Sinh Viên Hướng Dẫn</span>
+                        </li>
+
+                        <li class="menu-item">
+                            <a class="menu-feature" id="send-mail">
+                                <i class="menu-icon fal fa-mail-bulk" id=""></i>
+                                <span class="menu-text">Gửi Mail</span>
+                            </a>
+                            <span class="menu-tooltip">Gửi Mail</span>
                         </li>
 
                         <li class="menu-item">
@@ -291,6 +317,39 @@
         <div class="content">
             <nav class="nav">
                 <div class="nav-wrap">
+                    <div class="notification">
+                        <a href="#">
+                            <div class="notBtn" href="#">
+                                <!--Number supports double digets and automaticly hides itself when there is nothing between divs -->
+                                    @if(count != 0)
+                                    {
+                                <div class="number" id="numNoti">
+                                        @count
+                                </div>
+                                    }
+                                <i class="fas fa-bell bell-icon"></i>
+                                <div class="box">
+                                    <div class="display">
+                                        <div class="cont">
+                                            <!-- Fold this div and try deleting evrything inbetween -->
+                                                @foreach (var item in ViewBag.Notifications)
+                                                {
+                                            <div class="sec new">
+                                                    <a href="https://codepen.io/Golez/">
+                                                        <div class="profCont">
+                                                            <img class="profile" src="https://c1.staticflickr.com/5/4007/4626436851_5629a97f30_b.jpg">
+                                                        </div>
+                                                        <div class="txt">@item.Message</div>
+                                                        <div class="txt sub">@item.Date</div>
+                                                    </a>
+                                            </div>
+                                                }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
                     <span class="nav-role">@FullName</span>
                     <div class="nav-avatar">
                         <img src="~/assets/images/avatarAdmin.png"
@@ -308,6 +367,25 @@
 
         </div>
     </div>
+    <form id="form-mail" method="post" action="@Url.Action("SendMail", "AdminHome", new { area = "Admin" })" class="form" enctype="multipart/form-data">
+    <div class="form-container">
+        <h1 class="list-heading">Gửi Mail</h1>
+        <div class="form-group">
+            <label for="address" class="form-label">Nội Dung</label>
+            <textarea class="" name="content" id="mail-editor" autocomplete="off"></textarea>
+        </div>
+        <div class="form-group">
+            <a class="btn btn--cancel">
+                Hủy
+            </a>
+            <button class="btn btn--confirm" type="submit" id="btn--add">
+                Xác Nhận
+            </button>
+        </div>
+
+
+    </div>
+</form>
     <div id="icon">
         <i class="fal fa-bars"></i>
     </div>
@@ -315,81 +393,117 @@
         <a href="#wrap" class="moveTop-link"><i class="fal fa-arrow-up"></i><a>
     </div>
 
+    <script type="text/javascript" src="@Url.Content("~/assets/js/ckeditor/ckeditor.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/assets/js/ckfinder/ckfinder.js")"></script>
+    <script src="~/assets/js/index.js"></script>
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/chosen.jquery.js"></script>
+    <script src="~/assets/js/datatable/dataTable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<script src="~/assets/js/index.js"></script>
-<script src="~/Scripts/jquery-3.4.1.js"></script>
-<script src="~/Scripts/jquery.validate.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-<script src="~/Scripts/chosen.jquery.js"></script>
-<script src="~/assets/js/datatable/dataTable.min.js"></script>
-<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+    <script>
+        $('#send-mail').on('click', function (e) {
+            e.preventDefault();
+            $('#form-mail').addClass('is-appear');
+        })
+        $('.btn--cancel').on('click', function (e) {
+            $('#form-mail').removeClass('is-appear');
+        })
 
-<script>
+         var editor = CKEDITOR.instances['editor1'];
+	 	    if (editor) { editor.destroy(true); }
+		    CKEDITOR.replace('mail-editor', {
+		        enterMode: CKEDITOR.ENTER_BR,
+		    });
+        CKFinder.setupCKEditor(null, '@Url.Content("~/ckfinder")');
 
-    $(function () {
-        $("#table_id_filter").append($("#filterEvent")).clone();
-    });
-    let formAddCr = document.getElementById("addFormCr");
-    let formAdd = document.getElementById("addForm");
-    let formImport = document.getElementById("importForm");
-    let formDowload = document.getElementById("dowloadForm");
-    let formUpdate = document.getElementById("updateForm");
-    let formDelete = document.getElementById("deleteForm");
-    let icon = document.querySelector(".form-icon");
-    let isHide = "is-hide";
-    let isAppear = "is-appear";
-    $(".btn--import").on("click", function () {
-        formImport.classList.add(isAppear);
-    });
-    $(".btn--dowload").on("click", function () {
-        formDowload.classList.add(isAppear);
-    });
-    $(".btn--create").on("click", function () {
-        formAdd.classList.add(isAppear);
-    });
-
-    $("#btn--create").on("click", function () {
-        formAddCr.classList.add(isAppear);
-    });
-
-    $(".form-icon").on("click", function () {
-        formDelete.classList.remove(isAppear);
-    });
-
-    $(".form-icon").on("click", function () {
-        formUpdate.classList.remove(isAppear);
-    });
-
-    $(".form-icon").on("click", function () {
-        formAdd.classList.remove(isAppear);
-    });
-
-    $(function () {
-        $("#ddlBussines_ID").chosen();
-
-        $(".chosen-select").chosen();
-    });
-     $(function () {
-         const toast = document.querySelector(".toast");
-         setTimeout(() => {
-             toast.remove();
-         }, 3000);
-
-     })
-    function remove() {
-        let toast = document.querySelector(".toast");
-        document.querySelector(".toast-right").addEventListener("click", () => {
-            toast.remove();
+        $(function () {
+            $("#table_id_filter").append($("#filterEvent")).clone();
+        });
+        $(".notBtn").hover(function () {
+            const url = "@Url.Action("ChangeNotification","AdminHome")"
+            $.ajax({
+                url: url,
+                success: function (res) {
+                    $("#numNoti").text("");
+                }
+            })
+        })
+        let formAddCr = document.getElementById("addFormCr");
+        let formAdd = document.getElementById("addForm");
+        let formImport = document.getElementById("importForm");
+        let formDowload = document.getElementById("dowloadForm");
+        let formUpdate = document.getElementById("updateForm");
+        let formDelete = document.getElementById("deleteForm");
+        let icon = document.querySelector(".form-icon");
+        let isHide = "is-hide";
+        let isAppear = "is-appear";
+        $(".btn--import").on("click", function () {
+            formImport.classList.add(isAppear);
+        });
+        $(".btn--dowload").on("click", function () {
+            formDowload.classList.add(isAppear);
+        });
+        $(".btn--create").on("click", function () {
+            formAdd.classList.add(isAppear);
         });
 
-    }
-</script>
-@RenderSection("scripts", required: false)
+        $("#btn--create").on("click", function () {
+            formAddCr.classList.add(isAppear);
+        });
+
+        $(".form-icon").on("click", function () {
+            formDelete.classList.remove(isAppear);
+        });
+
+        $(".form-icon").on("click", function () {
+            formUpdate.classList.remove(isAppear);
+        });
+
+        $(".form-icon").on("click", function () {
+            formAdd.classList.remove(isAppear);
+        });
+
+        $(function () {
+            $("#ddlBussines_ID").chosen();
+
+            $(".chosen-select").chosen();
+        });
+        /*$(function () {
+            const toast = document.querySelector(".toast");
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+
+        })*/
+        function remove() {
+            let toast = document.querySelector(".toast");
+            document.querySelector(".toast-right").addEventListener("click", () => {
+                toast.remove();
+            });
+
+        }
+    </script>
+    <noscript>
+        <style type="text/css">
+            .wrapper {
+                display: none;
+            }
+        </style>
+        <font face="arial">
+            <p class="text-dark">
+                Bạn phải bật JavaScript để sử dụng trang web này. Tuy nhiên, có vẻ như JavaScript đã bị tắt hoặc không được trình duyệt của bạn hỗ trợ. Để sử dụng chế độ xem tiêu chuẩn, hãy bật JavaScript bằng cách thay đổi tùy chọn trình duyệt của bạn, sau đó <a href="">thử lại</a>.
+            </p>
+        </font>
+    </noscript>
+    @RenderSection("scripts", required: false)
 </body>
 
 

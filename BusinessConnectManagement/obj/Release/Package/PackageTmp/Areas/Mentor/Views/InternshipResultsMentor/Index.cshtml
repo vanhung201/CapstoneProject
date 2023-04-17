@@ -4,18 +4,28 @@
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+<style>
+    .boder {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
 
+    .overFlowExport {
+        display: block;
+        width: 372px;
+    }
+</style>
 <section class="list">
     <h1 class="list-heading">DANH SÁCH SINH VIÊN HƯỚNG DẪN</h1>
     @if (TempData != null)
     {
         @Html.Raw(@TempData["AlertMessage"])
     }
-<div class="row">
-    <div class="rg_status"></div>
-    <div class="rg_role" style="left"></div>
-    <label id="nameLabel">Lọc:</label>
-</div>
+    <div class="row">
+        <div class="rg_status"></div>
+        <div class="rg_role" style="left"></div>
+        <label id="nameLabel">Lọc:</label>
+    </div>
     <div class="list-table">
         <div id="filterEvent">
             <div class="btn btn--createe" id="export" style=" z-index: 1; width: 110px; margin-right: 10px;">
@@ -93,16 +103,57 @@
     </div>
 </form>
 @*---------------------------------update-----------------------------*@
-<form class="form" id="updateInternForm" method="post">
-    <div class="form-container--small">
-        <h1 class="form-heading">Đánh giá sinh viên thực tập</h1>
+<form class="form" id="updateInternForm" method="post" style="line-height: 1.5">
+    <div class="form-container">
+        <h1 class="form-heading">Đánh giá sinh viên hướng dẫn</h1>
         <div class="form-group">
-            <label for="Username" class="form-label">Chấm điểm</label>
-            <input class="form-input" id="mentorpoint" name="MentorPoint" type="number" autocomplete="off" />
-        </div>
-        <div class="form-group">
-            <label for="BusinessName" class="form-label">Nhận xét</label>
-            <textarea class="form-input" id="mentorcomment" name="MentorComment" autocomplete="off"></textarea>
+            <div style="word-wrap: break-word;">
+                <table width="100%">
+                    <thead>
+                        <tr style="background-color: #374090">
+                            <th class="boder" width="4%">
+                                #
+                            </th>
+                            <th class="boder" width="48%">Tiêu Chí Đánh Giá</th>
+                            <th class="boder" width="48%">Nhận xét</th>
+                        </tr>
+                    </thead>
+                    <tbody style=" word-wrap: break-word;">
+                        <tr style="background-color: #66c2ff;">
+                            <td class="boder">A</td>
+                            <td class="boder" colspan="2">Nhận xét đánh giá về quá trình thực tập</td>
+                        </tr>
+                        <tr>
+                            <td class="boder">1</td>
+                            <td class="boder">Tinh thần thái độ</td>
+                            <td class="boder"><textarea id="mentorcommentU1" name="MentorComment" class="overFlowExport"></textarea></td>
+                        </tr>
+                        <tr>
+                            <td class="boder">2</td>
+                            <td class="boder">Thực hiện kế hoạch làm việc do GVHD quy định</td>
+                            <td class="boder"><textarea id="mentorcommentU2" name="MentorComment2" class="overFlowExport"></textarea></td>
+                        </tr>
+                        <tr style="background-color: #66c2ff;">
+                            <td class="boder">B</td>
+                            <td class="boder" colspan="2">Nhận xét đánh giá về Báo cáo thực tập</td>
+                        </tr>
+                        <tr>
+                            <td class="boder">1</td>
+                            <td class="boder">Hình thức Báo cáo đã thực hiện</td>
+                            <td class="boder"><textarea id="mentorcommentU3" name="MentorCommentB1" class="overFlowExport"></textarea></td>
+                        </tr>
+                        <tr>
+                            <td class="boder">2</td>
+                            <td class="boder">Nội dung Báo cáo đã thực hiện</td>
+                            <td class="boder"><textarea id="mentorcommentU4" name="MentorCommentB2" class="overFlowExport"></textarea></td>
+                        </tr>
+                        <tr style="text-align: center ;font-size: 12px; font-weight: 700;">
+                            <td class="boder" colspan="2" style="text-align: center ;">Điểm của GVHD<br />(Thang điểm 10)</td>
+                            <td class="boder"> <input class="form-input" id="mentorpoint" name="MentorPoint" type="number" autocomplete="off" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
         <input class="form-input" id="ID" name="ID" autocomplete="off" hidden />
         <input class="form-input" id="Email" name="Student_Email" autocomplete="off" hidden />
@@ -110,7 +161,9 @@
         <input class="form-input" id="mentor_email" name="Mentor_Email" autocomplete="off" hidden />
         <input class="form-input" id="business_id" name="Business_ID" autocomplete="off" hidden />
         <input class="form-input" id="businesspoint" name="BusinessPoint" autocomplete="off" hidden />
+        <input class="form-input" id="businesspoint2" name="BusinessPoint2" autocomplete="off" hidden />
         <input class="form-input" id="businesscomment" name="BusinessComment" autocomplete="off" hidden />
+        <input class="form-input" id="businesscomment2" name="BusinessComment2" autocomplete="off" hidden />
         <input class="form-input" id="position_id" name="InternshipTopic_ID" autocomplete="off" hidden />
         <input class="form-input" id="status" name="Status" autocomplete="off" hidden />
         <div class="form-group">
@@ -123,6 +176,121 @@
 
         </div>
     </div>
+</form>
+
+<form class="form" action="@Url.Action("ExportWord", "InternshipResultsMentor")" id="formExportWord" method="post">
+    <div class="form-container">
+        <div id="Grid">
+            <div style="text-align: center">
+                <span style="font-size: 15px; font-weight: 700;">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</span>
+                <br />
+                <span style=" text-decoration: underline; font-size: 15px; font-weight: 700;">Độc lập – Tự do – Hạnh phúc</span>
+            </div>
+            <br />
+            <div style="text-align: center">
+                <span style="font-size: 18px; font-weight: 700; ">PHIẾU NHẬN XÉT SINH VIÊN</span>
+                <br />
+                <span style="font-size: 16px; font-weight: 700;">CỦA GIẢNG VIÊN HƯỚNG DẪN</span>
+            </div>
+            <br />
+            <div class="form-group">
+                <label class="form-label" style="width: 130px">Họ và tên sinh viên:</label>
+                <span id="nameEx"></span>
+                <br />
+            </div>
+            <div class="form-group" style="line-height: 1.5">
+                <label class="form-label" style="width: 130px">MSSV:</label>
+                <span id="mssvEx"></span>
+                <br />
+            </div>
+            <div class="form-group line" style="line-height: 1.5">
+                <label class="form-label" style="width: 130px">Nghành:</label>
+                <span id="majorEx"></span>
+                <br />
+            </div>
+            <div class="form-group line" style="line-height: 1.5">
+                <label class="form-label" style="width: 130px">Đơn vị thực tập:</label>
+                <span id="businessnameEx"></span>
+                <br />
+            </div>
+            <div class="form-group line">
+                <label class="form-label" style="width: 130px">Giảng viên hướng dẫn:</label>
+                <span id="mentor_emailEx"></span>
+            </div>
+            <br />
+
+            <div style="text-align: center; margin-top: 3%">
+                <span style="font-size: 20px; font-weight: 700; color:red">PHẦN NHẬN XÉT ĐÁNH GIÁ VÀ CHẤM ĐIỂM</span>
+            </div>
+            <br />
+            <div style="word-wrap: break-word;">
+                <table width="100%">
+                    <thead style="color: #ffffff">
+                        <tr style="background-color: #374090">
+                            <th class="boder" width="4%">
+                                #
+                            </th>
+                            <th class="boder" width="48%">Tiêu Chí Đánh Giá</th>
+                            <th class="boder" width="48%">Nhận xét</th>
+                        </tr>
+                    </thead>
+                    <tbody style=" word-wrap: break-word;">
+                        <tr style="background-color: #66c2ff;">
+                            <td class="boder">A</td>
+                            <td class="boder" colspan="2">Nhận xét đánh giá về quá trình thực tập</td>
+                        </tr>
+                        <tr>
+                            <td class="boder">1</td>
+                            <td class="boder">Tinh thần thái độ</td>
+                            <td class="boder"><span id="mentorcomment1" class="overFlowExport"></span></td>
+                        </tr>
+                        <tr>
+                            <td class="boder">2</td>
+                            <td class="boder">Thực hiện kế hoạch làm việc do GVHD quy định</td>
+                            <td class="boder"><span id="mentorcomment2" class="overFlowExport"></span></td>
+                        </tr>
+                        <tr style="background-color: #66c2ff;">
+                            <td class="boder">B</td>
+                            <td class="boder" colspan="2">Nhận xét đánh giá về Báo cáo thực tập</td>
+                        </tr>
+                        <tr>
+                            <td class="boder">1</td>
+                            <td class="boder">Hình thức Báo cáo đã thực hiện</td>
+                            <td class="boder"><span id="mentorcomment3" class="overFlowExport"></span></td>
+                        </tr>
+                        <tr>
+                            <td class="boder">2</td>
+                            <td class="boder">Nội dung Báo cáo đã thực hiện</td>
+                            <td class="boder"><span id="mentorcomment4" class="overFlowExport"></span></td>
+                        </tr>
+                        <tr style="text-align: center ;font-size: 15px; font-weight: 700;">
+                            <td class="boder" colspan="2" style="text-align: center ;">Điểm của GVHD<br />(Thang điểm 10)</td>
+                            <td class="boder"><span id="mentorpointEX"></span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br />
+            <div style=" text-align: right;">
+                <span>TP. Hồ Chí Minh, ngày...tháng...năm 2023</span>
+            </div>
+            <div style=" text-align: right; margin-right: 53px">
+                <b style="font-size: 15px; font-weight: 700; ">Giảng viên hướng dẫn</b>
+                <br />
+                <i style=" font-style: italic;">(Ký và ghi rõ họ và tên)</i>
+            </div>
+        </div>
+        <div class="form-group">
+            <input class="form-input" name="GridHtml" autocomplete="off" hidden />
+            <a class="btn btn--cancel">
+                Hủy
+            </a>
+            <button class="btn btn--confirm" id="btn--submitExport" type="submit">
+                Export
+            </button>
+        </div>
+    </div>
+
 </form>
 
 <form action="@Url.Action("ExportToExcel", "InternshipResultsMentor")" class="form" id="export_form" method="post">
@@ -184,11 +352,21 @@
                              }
                          }
                      },
-                     { data: "semester_id" },
-                     
+                     { data: "semester_id", visible: false },
+
                     {
                         data: "id",
                         render: function (t, e, a) {
+                            const getBtn = (a.coment != null) ?
+                                `
+                                <a class="exportWord" href="@Url.Action("Details/", "InternshipResultsMentor")${t}">
+                                        <div class="btn btn--detail">
+                                          <i class="btn-icon btn-icon--detail fa fa-download"></i>
+                                        </div>
+                                </a>`
+                                :
+                                `
+                                `
                             return (
                                 `
                                     <a href="@Url.Action("Details/", "InternshipResultsMentor")${t}" id="business_detail" class="business_detail">
@@ -199,8 +377,9 @@
                                     <a href="@Url.Action("Details/", "InternshipResultsMentor")${t}" id="business_detail" class="business_update">
                                          <div class="btn btn--update">
                                     <i class="btn-icon btn-icon--edit fal fa-edit"></i>
-                                </div>
+                                    </div>
                                     </a>
+                                    ${getBtn}
                                 `
                             );
                         },
@@ -232,11 +411,11 @@
 
                          }),
                          this.api()
-                             .columns(3)
+                             .columns(5)
                              .every(function () {
                                  var t = this,
                                      e = $(
-                                         '<select id="UserType2" style="margin-right: 8px;border: 1px solid #aaa;border-radius: 3px;padding: 5px;background-color: transparent; margin-left: 50px;" class="form-select text-capitalize mb-md-0 mb-2xx"><option value=""> ---- Chọn doanh nghiệp để lọc ---- </option></select>'
+                                         '<select id="UserType2" style="margin-right: 8px;border: 1px solid #aaa;border-radius: 3px;padding: 5px;background-color: transparent; margin-left: 25px;" class="form-select text-capitalize mb-md-0 mb-2xx"><option value=""> Chọn trạng thái để lọc </option></select>'
                                      )
                                          .prependTo("#table_listData_filter")
                                          .on("change", function () {
@@ -254,7 +433,7 @@
                                              );
                                      })
                              });
-                 }           
+                 }
             })
             )
             dataTable.on("draw.dt", function () {
@@ -311,15 +490,54 @@
                     $('#sem_id').val(res[0].sem_id)
                     $('#mentor_email').val(res[0].mentor_email)
                     $('#mentorpoint').val(res[0].mentorpoint)
-                    $('#mentorcomment').val(res[0].mentorcomment)
+                    $('#mentorcommentU1').val(res[0].mentorcomment)
+                    $('#mentorcommentU2').val(res[0].mentorcomment2)
+                    $('#mentorcommentU3').val(res[0].mentorcomment3)
+                    $('#mentorcommentU4').val(res[0].mentorcomment4)
                     $('#business_id').val(res[0].business_id)
                     $('#businesspoint').val(res[0].businesspoint)
+                    $('#businesspoint2').val(res[0].businesspoint2)
                     $('#businesscomment').val(res[0].businesscomment)
+                    $('#businesscomment2').val(res[0].businesscomment2)
                     $('#position_id').val(res[0].position_id)
                     $('#status').val(res[0].status)
                     $('#updateInternForm').attr('action', `${actionUrl}`)
                 }
             })
+        })
+
+        $('#table_listData').on('click', '.exportWord', function (e) {
+            e.preventDefault()
+            const form = document.getElementById('formExportWord');
+            form.classList.add('is-appear');
+            const url = $(this).attr('href');
+            $.ajax({
+                url: url,
+                type: "get",
+                dataType: 'json',
+                success: function (res) {
+                    console.log(res)
+                    const actionUrl = `@Url.Action("Edit", "InternshipResultsMentor")` + `/${res[0].id}`
+                    $('#nameEx').text(res[0].name)
+                    $('#mssvEx').text(res[0].mssv)
+                    $('#majorEx').text(res[0].major)
+                    $('#businessnameEx').text(res[0].businessname)
+                    $('#mentor_emailEx').text(res[0].mentor_email)
+                    $('#mentorpointEX').text(res[0].mentorpoint)
+                    $('#mentorcomment1').text(res[0].mentorcomment)
+                    $('#mentorcomment2').text(res[0].mentorcomment2)
+                    $('#mentorcomment3').text(res[0].mentorcomment3)
+                    $('#mentorcomment4').text(res[0].mentorcomment4)
+                }
+            })
+        })
+        $(function () {
+            $("#btn--submitExport").click(function () {
+                $("input[name='GridHtml']").val($("#Grid").html());
+            })
+        })
+        $('.btn--cancel').on('click', function () {
+            $('#formExportWord').removeClass('is-appear')
         })
         $('#btn--cancel').on('click', function () {
             $('#updateForm').removeClass('is-appear')
@@ -388,8 +606,6 @@
       },
     });
   });
-
-
 });
         $('#export').on('click', function () {
             $('#year').trigger('change');

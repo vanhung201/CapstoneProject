@@ -21,8 +21,5 @@ namespace BusinessConnectManagement.Models
         public string Message { get; set; }
         public string Date { get; set; }
         public Nullable<bool> IsRead { get; set; }
-    
-        public virtual BusinessUser BusinessUser { get; set; }
-        public virtual VanLangUser VanLangUser { get; set; }
     }
 }

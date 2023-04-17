@@ -81,8 +81,8 @@
                                 <li><a href="@Url.Action("Information", "Account")">Thông Tin Cá Nhân</a></li>
                                 @if (isStudent)
                                 {
-                                <li><a href="@Url.Action("listReg","Registration")">Danh Sách Ứng Tuyển</a></li>
-                                <li><a href="@Url.Action("Index","InternshipResults")">Kết Quả Thực Tập</a></li>
+                                    <li><a href="@Url.Action("listReg","Registration")">Danh Sách Ứng Tuyển</a></li>
+                                    <li><a href="@Url.Action("Index","InternshipResults")">Kết Quả Thực Tập</a></li>
                                 }
                                 @if (!isStudent)
                                 {
@@ -106,8 +106,8 @@
                                 <li><a href="@Url.Action("SignOut","Account")">Đăng Xuất</a></li>
                             </ul>
                         }
-                                        else
-                                        {
+                        else
+                        {
                             <a href="@Url.Action("Login","Account")" class="btn-login">
                                 Đăng Nhập
                             </a>
@@ -129,7 +129,7 @@
 
                     <nav class="nav__mobile">
                         <div class="img-wrapper">
-                            <img class="nav__mobile-logo" src="~/assets/User/assets/images/logo.png"/>
+                            <img class="nav__mobile-logo" src="~/assets/User/assets/images/logo.png" />
                         </div>
                         <label for="nav-mobile-input" class="nav__mobile-close">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
@@ -212,7 +212,18 @@
     </header>
 
     @RenderBody()
-
+    <noscript>
+        <style type="text/css">
+            .wrapper {
+                display: none;
+            }
+        </style>
+        <font face="arial">
+            <p class="text-dark">
+                Bạn phải bật JavaScript để sử dụng trang web này. Tuy nhiên, có vẻ như JavaScript đã bị tắt hoặc không được trình duyệt của bạn hỗ trợ. Để sử dụng chế độ xem tiêu chuẩn, hãy bật JavaScript bằng cách thay đổi tùy chọn trình duyệt của bạn, sau đó <a href="">thử lại</a>.
+            </p>
+        </font>
+    </noscript>
     @RenderSection("scripts", required: false)
 </body>
 </html>

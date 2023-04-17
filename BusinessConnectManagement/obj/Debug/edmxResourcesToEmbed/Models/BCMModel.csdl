@@ -8,16 +8,15 @@
     <EntitySet Name="InternshipTopics" EntityType="BCMModel.InternshipTopic" />
     <EntitySet Name="Majors" EntityType="BCMModel.Major" />
     <EntitySet Name="MOUs" EntityType="BCMModel.MOU" />
+    <EntitySet Name="Notifications" EntityType="BCMModel.Notification" />
     <EntitySet Name="Posts" EntityType="BCMModel.Post" />
     <EntitySet Name="PostInternshipTopics" EntityType="BCMModel.PostInternshipTopic" />
     <EntitySet Name="Registrations" EntityType="BCMModel.Registration" />
     <EntitySet Name="Semesters" EntityType="BCMModel.Semester" />
     <EntitySet Name="Status" EntityType="BCMModel.Status" />
-    <EntitySet Name="sysdiagrams" EntityType="BCMModel.sysdiagram" />
     <EntitySet Name="Trainees" EntityType="BCMModel.Trainee" />
     <EntitySet Name="VanLangUsers" EntityType="BCMModel.VanLangUser" />
     <EntitySet Name="YearStudies" EntityType="BCMModel.YearStudy" />
-    <EntitySet Name="Notifications" EntityType="BCMModel.Notification" />
     <AssociationSet Name="FK_BusinessCooperationCategories_BusinessUser" Association="BCMModel.FK_BusinessCooperationCategories_BusinessUser">
       <End Role="BusinessUser" EntitySet="BusinessUsers" />
       <End Role="BusinessCooperationCategory" EntitySet="BusinessCooperationCategories" />
@@ -41,10 +40,6 @@
     <AssociationSet Name="FK_MOU_BusinessUser" Association="BCMModel.FK_MOU_BusinessUser">
       <End Role="BusinessUser" EntitySet="BusinessUsers" />
       <End Role="MOU" EntitySet="MOUs" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Notifications_BusinessUser" Association="BCMModel.FK_Notifications_BusinessUser">
-      <End Role="BusinessUser" EntitySet="BusinessUsers" />
-      <End Role="Notification" EntitySet="Notifications" />
     </AssociationSet>
     <AssociationSet Name="FK_Post_BusinessUser" Association="BCMModel.FK_Post_BusinessUser">
       <End Role="BusinessUser" EntitySet="BusinessUsers" />
@@ -138,10 +133,6 @@
       <End Role="VanLangUser" EntitySet="VanLangUsers" />
       <End Role="Trainee" EntitySet="Trainees" />
     </AssociationSet>
-    <AssociationSet Name="FK_Notifications_VanLangUser" Association="BCMModel.FK_Notifications_VanLangUser">
-      <End Role="VanLangUser" EntitySet="VanLangUsers" />
-      <End Role="Notification" EntitySet="Notifications" />
-    </AssociationSet>
   </EntityContainer>
   <EntityType Name="BusinessCooperationCategory">
     <Key>
@@ -178,7 +169,6 @@
     <NavigationProperty Name="Status" Relationship="BCMModel.FK_BusinessUser_Status" FromRole="BusinessUser" ToRole="Status" />
     <NavigationProperty Name="InternshipResults" Relationship="BCMModel.FK_InternshipResult_BusinessUser" FromRole="BusinessUser" ToRole="InternshipResult" />
     <NavigationProperty Name="MOUs" Relationship="BCMModel.FK_MOU_BusinessUser" FromRole="BusinessUser" ToRole="MOU" />
-    <NavigationProperty Name="Notifications" Relationship="BCMModel.FK_Notifications_BusinessUser" FromRole="BusinessUser" ToRole="Notification" />
     <NavigationProperty Name="Posts" Relationship="BCMModel.FK_Post_BusinessUser" FromRole="BusinessUser" ToRole="Post" />
     <NavigationProperty Name="PostInternshipTopics" Relationship="BCMModel.FK_PostInternshipTopic_BusinessUser" FromRole="BusinessUser" ToRole="PostInternshipTopic" />
     <NavigationProperty Name="Registrations" Relationship="BCMModel.FK_Registration_BusinessUser1" FromRole="BusinessUser" ToRole="Registration" />
@@ -252,6 +242,18 @@
     <Property Name="EmailContact" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
     <Property Name="ResponsibleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="BusinessUser" Relationship="BCMModel.FK_MOU_BusinessUser" FromRole="MOU" ToRole="BusinessUser" />
+  </EntityType>
+  <EntityType Name="Notification">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Mentor_Email" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="Business_ID" Type="Int32" />
+    <Property Name="Title" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Message" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Date" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="IsRead" Type="Boolean" />
   </EntityType>
   <EntityType Name="Post">
     <Key>
@@ -340,16 +342,6 @@
     <NavigationProperty Name="BusinessUsers" Relationship="BCMModel.FK_BusinessUser_Status" FromRole="Status" ToRole="BusinessUser" />
     <NavigationProperty Name="VanLangUsers" Relationship="BCMModel.FK_VanLangUser_Status" FromRole="Status" ToRole="VanLangUser" />
   </EntityType>
-  <EntityType Name="sysdiagram">
-    <Key>
-      <PropertyRef Name="diagram_id" />
-    </Key>
-    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-    <Property Name="principal_id" Type="Int32" Nullable="false" />
-    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="version" Type="Int32" />
-    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-  </EntityType>
   <EntityType Name="Trainee">
     <Key>
       <PropertyRef Name="ID" />
@@ -382,7 +374,6 @@
     <NavigationProperty Name="Status" Relationship="BCMModel.FK_VanLangUser_Status" FromRole="VanLangUser" ToRole="Status" />
     <NavigationProperty Name="Trainees" Relationship="BCMModel.FK_Trainee_VanLangUser" FromRole="VanLangUser" ToRole="Trainee" />
     <NavigationProperty Name="Trainees1" Relationship="BCMModel.FK_Trainee_VanLangUserOfStudent" FromRole="VanLangUser" ToRole="Trainee" />
-    <NavigationProperty Name="Notifications" Relationship="BCMModel.FK_Notifications_VanLangUser" FromRole="VanLangUser" ToRole="Notification" />
   </EntityType>
   <EntityType Name="YearStudy">
     <Key>
@@ -391,20 +382,6 @@
     <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="YearStudy1" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="Semesters" Relationship="BCMModel.FK_Semester_YearStudy" FromRole="YearStudy" ToRole="Semester" />
-  </EntityType>
-  <EntityType Name="Notification">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Mentor_Email" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-    <Property Name="Business_ID" Type="Int32" />
-    <Property Name="Title" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-    <Property Name="Message" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-    <Property Name="Date" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-    <Property Name="IsRead" Type="Boolean" />
-    <NavigationProperty Name="BusinessUser" Relationship="BCMModel.FK_Notifications_BusinessUser" FromRole="Notification" ToRole="BusinessUser" />
-    <NavigationProperty Name="VanLangUser" Relationship="BCMModel.FK_Notifications_VanLangUser" FromRole="Notification" ToRole="VanLangUser" />
   </EntityType>
   <Association Name="FK_BusinessCooperationCategories_BusinessUser">
     <End Type="BCMModel.BusinessUser" Role="BusinessUser" Multiplicity="1" />
@@ -474,18 +451,6 @@
         <PropertyRef Name="ID" />
       </Principal>
       <Dependent Role="MOU">
-        <PropertyRef Name="Business_ID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Notifications_BusinessUser">
-    <End Type="BCMModel.BusinessUser" Role="BusinessUser" Multiplicity="0..1" />
-    <End Type="BCMModel.Notification" Role="Notification" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="BusinessUser">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="Notification">
         <PropertyRef Name="Business_ID" />
       </Dependent>
     </ReferentialConstraint>
@@ -763,18 +728,6 @@
       </Principal>
       <Dependent Role="Trainee">
         <PropertyRef Name="Student_Email" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Notifications_VanLangUser">
-    <End Type="BCMModel.VanLangUser" Role="VanLangUser" Multiplicity="0..1" />
-    <End Type="BCMModel.Notification" Role="Notification" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="VanLangUser">
-        <PropertyRef Name="Email" />
-      </Principal>
-      <Dependent Role="Notification">
-        <PropertyRef Name="Mentor_Email" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

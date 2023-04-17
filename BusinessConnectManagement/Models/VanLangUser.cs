@@ -23,7 +23,6 @@ namespace BusinessConnectManagement.Models
             this.Registrations = new HashSet<Registration>();
             this.Trainees = new HashSet<Trainee>();
             this.Trainees1 = new HashSet<Trainee>();
-            this.Notifications = new HashSet<Notification>();
         }
     
         public string Email { get; set; }
@@ -49,7 +48,5 @@ namespace BusinessConnectManagement.Models
         public virtual ICollection<Trainee> Trainees { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Trainee> Trainees1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Notification> Notifications { get; set; }
     }
 }
