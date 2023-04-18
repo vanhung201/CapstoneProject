@@ -200,12 +200,12 @@ namespace BusinessConnectManagement.Areas.Mentor.Controllers
         }
         [HttpPost]
         [ValidateInput(false)]
-        public EmptyResult ExportWord(string GridHtml)
+        public EmptyResult ExportWord(string GridHtml, string MSSV)
         {
             GridHtml = "<style>.line { line-height: 1.5; } .boder {border: 1px solid black; border-collapse: collapse;}</style>" + GridHtml;
             Response.Clear();
             Response.Buffer = true;
-            Response.AddHeader("content-disposition", "attachment; filename=ExcelReport.doc");
+            Response.AddHeader("content-disposition", "attachment; filename="+MSSV+"_Comment.doc");
             Response.Charset = "";
             Response.ContentType = "application/vnd.ms-word";
             Response.Output.Write(GridHtml);

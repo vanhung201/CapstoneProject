@@ -14,6 +14,10 @@ using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using WebGrease.Activities;
 using BusinessConnectManagement.Middleware;
+using Microsoft.Office.Interop.Excel;
+using System.Globalization;
+using System.Text;
+
 namespace BusinessConnectManagement.Areas.Business.Controllers
 {
     [BusinessVerification]
@@ -211,12 +215,18 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
         }
         [HttpPost]
         [ValidateInput(false)]
-        public EmptyResult ExportWord(string GridHtml)
+        public EmptyResult ExportWord(string GridHtml, string fullname)
         {
+            string formattedName = new string(fullname
+                                              .Normalize(NormalizationForm.FormD)
+                                              .Where(c => char.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
+                                              .ToArray())
+                                              .Replace(" ", "");
+                                               formattedName = formattedName.ToLower();
             GridHtml = "<style>.line { line-height: 1.5; } .boder {border: 1px solid black; border-collapse: collapse;}</style>" + GridHtml;
             Response.Clear();
             Response.Buffer = true;
-            Response.AddHeader("content-disposition", "attachment; filename=ExcelReport.doc");
+            Response.AddHeader("content-disposition", "attachment; filename="+ formattedName +"_Comment.doc");
             Response.Charset = "";
             Response.ContentType = "application/vnd.ms-word";
             Response.Output.Write(GridHtml);
