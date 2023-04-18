@@ -32,6 +32,7 @@ namespace BusinessConnectManagement.Controllers
             var isExist = db.Registrations.Any(x => x.Email_VanLang == email && x.Post_ID == post.ID);
             var pp = db.PostInternshipTopics.Where(x => x.Post_ID == registration.Post_ID && x.InternshipTopic_ID == registration.InternshipTopic_ID).FirstOrDefault();
             var count = db.Registrations.Where(x => x.Post_ID == registration.Post_ID && x.InternshipTopic_ID == registration.InternshipTopic_ID).Count();
+            Notification notify = new Notification();
             if (isExist)
             {
                 TempData["message"] = "Bạn đã ứng tuyển cho bài viết này rồi";
@@ -76,8 +77,15 @@ namespace BusinessConnectManagement.Controllers
                             registration.Comment = null;
                             registration.Semester_ID = post.Semester_ID;
                             db.Registrations.Add(registration);
+                            notify.Title = "Thông Báo";
+                            notify.Message = "Có CV Mới Cần Duyệt";
+                            notify.IsRead = false;
+                            notify.Date = (DateTime.Now).ToString();
+                            db.Notifications.Add(notify);
                             db.SaveChanges();
                             scope.Complete();
+
+                            
                             TempData["message"] = "Ứng tuyển thành công";
                             TempData["messageType"] = "success";
                             return RedirectToAction("Details", "Posts", new { id = post.ID });

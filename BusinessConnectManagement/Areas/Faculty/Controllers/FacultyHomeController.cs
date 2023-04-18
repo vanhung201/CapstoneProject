@@ -52,6 +52,10 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                     .DistinctBy(x => x)
                     .Count();
             var business = db.BusinessUsers.Where(x => x.Semester_ID == selectedSemesterId).Count();
+            var businessReg = db.Registrations.Where(x => x.Semester_ID == selectedSemesterId).Select(x => x.BusinessUser.BusinessName).DistinctBy(x => x).ToList();
+            var businessName = db.BusinessUsers.Where(x => x.Semester_ID == selectedSemesterId).Select(x => x.BusinessName).DistinctBy(x => x).ToList();
+            var buID = db.BusinessUsers.Select(x => x.ID).ToArray();
+            var passStudent = buID.Select(buId => db.Registrations.Count(x => x.Business_ID == buId && x.StatusInternview == "Đậu Phỏng Vấn" && x.Semester_ID == selectedSemesterId)).DistinctBy(x => x).ToArray();
             var businessList = db.BusinessUsers.Where(x => x.Semester_ID == selectedSemesterId)
                 .Select(x => new
                 {
@@ -66,12 +70,15 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                 cv_canceled = cv_canceled,
                 sv_failed = sv_failed,
                 sv_passed = sv_passed,
-                sv_practicing = sv_practicing,
+                sv_praticing = sv_practicing,
                 sv_pending = sv_pending,
                 sv_completed = sv_completed,
                 mentor = mentor,
                 business = business,
                 businessList = businessList,
+                businessReg = businessReg,
+                businessName = businessName,
+                passStudent = passStudent
             }, JsonRequestBehavior.AllowGet);
         }
 
@@ -79,11 +86,47 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         {
             var posProvider = db.PostInternshipTopics
                 .Where(x => x.Business_ID == selectedBusinessId)
-                .Select(x => new { position = x.InternshipTopic.InternshipTopicName })
-                .DistinctBy(x => x).ToArray();
-            var posCount = posProvider.Select(pp => db.InternshipTopics.Count(x => x.InternshipTopicName == pp.position)).ToArray();
+                .Select(x => new { position = x.InternshipTopic.InternshipTopicName, id = x.InternshipTopic_ID })
+                .DistinctBy(x => x).ToList();
+
+            var posCount = new List<int>();
+            foreach (var pos in posProvider)
+            {
+                int totalCount = db.PostInternshipTopics
+                .Where(x => x.Business_ID == selectedBusinessId && x.InternshipTopic_ID == pos.id)
+                .Sum(x => x.Quantity) ?? 0;
+                posCount.Add(totalCount);
+            }
 
             return Json(new { posProvider = posProvider, posCount = posCount }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult ChangeNotification()
+        {
+            var query = db.VanLangUsers.FirstOrDefault(x => x.Email == User.Identity.Name);
+            if (query.Role == "Admin" || query.Role == "Faculty")
+            {
+                var noti = db.Notifications.Where(x => x.Mentor_Email == null && x.Business_ID == null).ToList();
+                noti.ForEach(n => n.IsRead = true);
+            }
+            else if (query.Role == "Mentor")
+            {
+                var noti = db.Notifications.Where(x => x.Mentor_Email == query.Email).ToList();
+                noti.ForEach(n => n.IsRead = true);
+            }
+            else if (query.Role == null)
+            {
+                int BusinessID = Convert.ToInt16(Session["BusinessID"]);
+                var noti = db.Notifications.Where(x => x.Business_ID == BusinessID).ToList();
+                noti.ForEach(n => n.IsRead = true);
+            }
+            else
+            {
+                return Json(new { message = "failed" }, JsonRequestBehavior.AllowGet);
+            }
+            db.SaveChanges();
+            return Json(new { message = "successed" }, JsonRequestBehavior.AllowGet);
+
         }
     }
 }

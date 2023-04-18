@@ -8,7 +8,7 @@
     string FullName = "";
     string ControllerName = "";
     string Area = "";
-
+    int count = 0;
     if (Role == "Admin")
     {
         ControllerName = "AdminHome";
@@ -33,7 +33,25 @@
     {
         FullName = query.FullName;
     }
-}
+    if(query.Role == "Admin" || query.Role == "Faculty")
+    {
+        ViewBag.Notifications = db.Notifications.Where(x => x.Mentor_Email == null && x.Business_ID == null).OrderByDescending(x=> x.Date).ToList();
+        count = db.Notifications.Where(x => x.Mentor_Email == null && x.Business_ID == null && x.IsRead == false).Count();
+    }
+    else if(query.Role == "Mentor")
+    {
+        ViewBag.Notifications = db.Notifications.Where(x => x.Mentor_Email == query.Email).OrderByDescending(x => x.Date).ToList();
+        count = db.Notifications.Where(x => x.Mentor_Email == query.Email && x.IsRead == false).Count();
+
+    }
+    else
+    {
+        int BusinessID = Convert.ToInt16(Session["BusinessID"]);
+        ViewBag.Notifications = db.Notifications.Where(x => x.Business_ID == BusinessID).OrderByDescending(x => x.Date).ToList();
+        count = db.Notifications.Where(x => x.Business_ID == BusinessID && x.IsRead == false).Count();
+
+    }
+    }
 
 <!DOCTYPE html>
 <html lang="en">
@@ -299,6 +317,36 @@
         <div class="content">
             <nav class="nav">
                 <div class="nav-wrap">
+                    <div class="notification">
+                        <a href="#">
+                            <div class="notBtn" href="#">
+                                <!--Number supports double digets and automaticly hides itself when there is nothing between divs -->
+                                    @if(count != 0)
+                                    {
+                                <div class="number" id="numNoti">
+                                        @count
+                                </div>
+                                    }
+                                <i class="fas fa-bell bell-icon"></i>
+                                <div class="box">
+                                    <div class="display">
+                                        <div class="cont">
+                                            <!-- Fold this div and try deleting evrything inbetween -->
+                                                @foreach (var item in ViewBag.Notifications)
+                                                {
+                                            <div class="sec new">
+                                                        <div class="txt">@item.Message</div>
+                                                        <div class="txt sub">@item.Date</div>
+                                                    
+                                            </div>
+                                                }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
                     <span class="nav-role">@FullName</span>
                     <div class="nav-avatar">
                         <img src="~/assets/images/avatarAdmin.png"
@@ -376,6 +424,24 @@
         $(function () {
             $("#table_id_filter").append($("#filterEvent")).clone();
         });
+        $(".notBtn").hover(function () {
+            const role = "@query.Role";
+            let url = ""
+            if (role === "Admin") {
+                url = "@Url.Action("ChangeNotification","AdminHome")"
+            } else if (role === "Faculty") {
+                url = "@Url.Action("ChangeNotification","FacultyHome",new {area = "Faculty"})"
+            } else if (role === "Mentor") {
+                url = "@Url.Action("ChangeNotification","MentorHome",new {area = "Mentor"})"
+            }
+            console.log(url);
+            $.ajax({
+                url: url,
+                success: function (res) {
+                    $("#numNoti").text("");
+                }
+            })
+        })
         let formAddCr = document.getElementById("addFormCr");
         let formAdd = document.getElementById("addForm");
         let formImport = document.getElementById("importForm");

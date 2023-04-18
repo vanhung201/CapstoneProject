@@ -8,12 +8,12 @@
     <EntitySet Name="InternshipTopics" EntityType="BCMModel.InternshipTopic" />
     <EntitySet Name="Majors" EntityType="BCMModel.Major" />
     <EntitySet Name="MOUs" EntityType="BCMModel.MOU" />
+    <EntitySet Name="Notifications" EntityType="BCMModel.Notification" />
     <EntitySet Name="Posts" EntityType="BCMModel.Post" />
     <EntitySet Name="PostInternshipTopics" EntityType="BCMModel.PostInternshipTopic" />
     <EntitySet Name="Registrations" EntityType="BCMModel.Registration" />
     <EntitySet Name="Semesters" EntityType="BCMModel.Semester" />
     <EntitySet Name="Status" EntityType="BCMModel.Status" />
-    <EntitySet Name="sysdiagrams" EntityType="BCMModel.sysdiagram" />
     <EntitySet Name="Trainees" EntityType="BCMModel.Trainee" />
     <EntitySet Name="VanLangUsers" EntityType="BCMModel.VanLangUser" />
     <EntitySet Name="YearStudies" EntityType="BCMModel.YearStudy" />
@@ -196,6 +196,11 @@
     <Property Name="BusinessComment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="InternshipTopic_ID" Type="Int32" />
     <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="MentorComment2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="MentorCommentB1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="MentorCommentB2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="BusinessComment2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="BusinessPoint2" Type="Double" />
     <NavigationProperty Name="BusinessUser" Relationship="BCMModel.FK_InternshipResult_BusinessUser" FromRole="InternshipResult" ToRole="BusinessUser" />
     <NavigationProperty Name="InternshipTopic" Relationship="BCMModel.FK_InternshipResult_InternshipTopic" FromRole="InternshipResult" ToRole="InternshipTopic" />
     <NavigationProperty Name="Semester" Relationship="BCMModel.FK_InternshipResult_Semester" FromRole="InternshipResult" ToRole="Semester" />
@@ -210,6 +215,7 @@
     <Property Name="InternshipTopicName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="InternshipTopicGoals" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="InternshipTopicDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ShortName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="InternshipResults" Relationship="BCMModel.FK_InternshipResult_InternshipTopic" FromRole="InternshipTopic" ToRole="InternshipResult" />
     <NavigationProperty Name="PostInternshipTopics" Relationship="BCMModel.FK_PostInternshipTopic_InternshipTopic" FromRole="InternshipTopic" ToRole="PostInternshipTopic" />
     <NavigationProperty Name="Registrations" Relationship="BCMModel.FK_Registration_InternshipTopic" FromRole="InternshipTopic" ToRole="Registration" />
@@ -236,6 +242,18 @@
     <Property Name="EmailContact" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
     <Property Name="ResponsibleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="BusinessUser" Relationship="BCMModel.FK_MOU_BusinessUser" FromRole="MOU" ToRole="BusinessUser" />
+  </EntityType>
+  <EntityType Name="Notification">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Mentor_Email" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="Business_ID" Type="Int32" />
+    <Property Name="Title" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Message" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Date" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="IsRead" Type="Boolean" />
   </EntityType>
   <EntityType Name="Post">
     <Key>
@@ -269,6 +287,7 @@
     <Property Name="Post_ID" Type="Int32" />
     <Property Name="InternshipTopic_ID" Type="Int32" />
     <Property Name="Business_ID" Type="Int32" />
+    <Property Name="Quantity" Type="Int32" />
     <NavigationProperty Name="BusinessUser" Relationship="BCMModel.FK_PostInternshipTopic_BusinessUser" FromRole="PostInternshipTopic" ToRole="BusinessUser" />
     <NavigationProperty Name="InternshipTopic" Relationship="BCMModel.FK_PostInternshipTopic_InternshipTopic" FromRole="PostInternshipTopic" ToRole="InternshipTopic" />
     <NavigationProperty Name="Post" Relationship="BCMModel.FK_PostPosition_Post" FromRole="PostInternshipTopic" ToRole="Post" />
@@ -322,16 +341,6 @@
     <Property Name="Status1" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="BusinessUsers" Relationship="BCMModel.FK_BusinessUser_Status" FromRole="Status" ToRole="BusinessUser" />
     <NavigationProperty Name="VanLangUsers" Relationship="BCMModel.FK_VanLangUser_Status" FromRole="Status" ToRole="VanLangUser" />
-  </EntityType>
-  <EntityType Name="sysdiagram">
-    <Key>
-      <PropertyRef Name="diagram_id" />
-    </Key>
-    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-    <Property Name="principal_id" Type="Int32" Nullable="false" />
-    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="version" Type="Int32" />
-    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
   </EntityType>
   <EntityType Name="Trainee">
     <Key>

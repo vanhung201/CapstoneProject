@@ -1248,3 +1248,9 @@ D:\Captone Project 2022-2023\CaptoneAfterReleas\SendmailForcurent\CapstoneProjec
 D:\Captone Project 2022-2023\CaptoneAfterReleas\SendmailForcurent\CapstoneProject\BusinessConnectManagement\obj\Debug\BusinessConnectManagement.csproj.CopyComplete
 D:\Captone Project 2022-2023\CaptoneAfterReleas\SendmailForcurent\CapstoneProject\BusinessConnectManagement\obj\Debug\BusinessConnectManagement.dll
 D:\Captone Project 2022-2023\CaptoneAfterReleas\SendmailForcurent\CapstoneProject\BusinessConnectManagement\obj\Debug\BusinessConnectManagement.pdb
+C:\Users\LENOVO\source\repos\CapstoneProject\BusinessConnectManagement\bin\Microsoft.AspNet.SignalR.Core.dll
+C:\Users\LENOVO\source\repos\CapstoneProject\BusinessConnectManagement\bin\Microsoft.AspNet.SignalR.SystemWeb.dll
+C:\Users\LENOVO\source\repos\CapstoneProject\BusinessConnectManagement\bin\Microsoft.AspNet.SignalR.Core.pdb
+C:\Users\LENOVO\source\repos\CapstoneProject\BusinessConnectManagement\bin\Microsoft.AspNet.SignalR.Core.xml
+C:\Users\LENOVO\source\repos\CapstoneProject\BusinessConnectManagement\bin\Microsoft.AspNet.SignalR.SystemWeb.pdb
+C:\Users\LENOVO\source\repos\CapstoneProject\BusinessConnectManagement\bin\Microsoft.AspNet.SignalR.SystemWeb.xml

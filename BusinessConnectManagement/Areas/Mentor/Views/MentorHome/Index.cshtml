@@ -29,29 +29,22 @@
         </div>
     </div>
 
-    <ul class="statistic-list">
-        <li class="statistic-item statistic-info">
-            <p class="statistic-item-desc">
-                SV Đang Thực Tập: <span id="sv_practicing">0</span>
-            </p>
-        </li>
-        <li class="statistic-item statistic-done">
-            <p class="statistic-item-desc">
-                SV Thực Tập Xong: <span id="sv_completed">0</span>
-            </p>
-        </li>
-    </ul>
-    <div class="chart">
-        <div class="chart-item" style="width:100%">
-            <div class="chart-heading">
-                Biểu đồ hiển thị số lượng sinh viên
-            </div>
-            <div>
-                <span id="sv_empty"></span>
-            </div>
-            <canvas id="student-pie" width="400" height="400" style="margin:auto"></canvas>
+    <div class="statistic-user">
+        <div class="user" style="width:100%">
+            <h4 class="heading">Thống kê Số lượng người dùng</h4>
+            <ul class="user-list">
+                <li class="user-item user-info">
+                    <p class="user-item-desc">
+                        SV Đang Thực Tập: <span id="sv_practicing">0</span>
+                    </p>
+                </li>
+                <li class="user-item user-done">
+                    <p class="user-item-desc">
+                        SV Thực Tập Xong: <span id="sv_completed">0</span>
+                    </p>
+                </li>
+            </ul>
         </div>
-
     </div>
 </section>
 @section Scripts {

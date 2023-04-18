@@ -151,3 +151,168 @@
 .container input:checked~.checkmark:after {
   display: block;
 }
+
+
+
+header {
+    -moz-box-shadow: 10px 10px 23px 0px rgba(0,0,0,0.1);
+    box-shadow: 10px 10px 23px 0px rgba(0,0,0,0.1);
+    height: 110px;
+    vertical-align: middle;
+}
+
+.icons {
+    display: inline;
+    float: right
+}
+
+.notification {
+    position: relative;
+    display: inline-block;
+}
+
+.number {
+    height: 18px;
+    width: 18px;
+    background-color: #d63031;
+    border-radius: 50%;
+    color: white;
+    text-align: center;
+    position: absolute;
+    top: -6px;
+    left: 10px;
+}
+
+    .number:empty {
+        display: none;
+    }
+
+.notBtn {
+    transition: 0.5s;
+    cursor: pointer
+}
+
+.fas {
+    font-size: 14pt;
+    color: black;
+    margin-right:1rem;
+}
+
+bell-icon{
+
+}
+
+.box {
+    z-index: 1000;
+    width: 400px;
+    height: 0px;
+    max-height:250px;
+    border-radius: 10px;
+    transition: 0.5s;
+    position: absolute;
+    overflow-y: scroll;
+    padding: 0px;
+    left: -300px;
+    margin-top: 5px;
+    background-color: #F4F4F4;
+    -webkit-box-shadow: 10px 10px 23px 0px rgba(0,0,0,0.2);
+    -moz-box-shadow: 10px 10px 23px 0px rgba(0,0,0,0.1);
+    box-shadow: 10px 10px 23px 0px rgba(0,0,0,0.1);
+    cursor: context-menu;
+}
+
+.fas:hover {
+    color: #d63031;
+}
+
+.notBtn:hover > .box {
+    height: 60vh
+}
+
+.content {
+    padding: 20px;
+    color: black;
+    vertical-align: middle;
+    text-align: left;
+}
+
+.gry {
+    background-color: #F4F4F4;
+}
+
+.top {
+    color: black;
+    padding: 10px
+}
+
+.display {
+    position: relative;
+}
+
+.cont {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #F4F4F4;
+}
+
+    .cont:empty {
+        display: none;
+    }
+
+.stick {
+    text-align: center;
+    display: block;
+    font-size: 50pt;
+    padding-top: 70px;
+    padding-left: 80px
+}
+
+    .stick:hover {
+        color: black;
+    }
+
+.cent {
+    text-align: center;
+    display: block;
+}
+
+.sec {
+    padding: 25px 10px;
+    background-color: #F4F4F4;
+    transition: 0.5s;
+}
+
+.profCont {
+    padding-left: 15px;
+}
+
+.profile {
+    -webkit-clip-path: circle(50% at 50% 50%);
+    clip-path: circle(50% at 50% 50%);
+    width: 75px;
+    float: left;
+}
+
+.txt {
+    vertical-align: top;
+    font-size: 1.25rem;
+    padding: 5px 10px 0px 5px;
+}
+
+.sub {
+    font-size: 1rem;
+    color: grey;
+}
+
+.new {
+    border-style: none none solid none;
+    border-color: red;
+}
+
+.sec:hover {
+    background-color: #BFBFBF;
+}
+
+
