@@ -35,19 +35,19 @@
     }
     if(query.Role == "Admin" || query.Role == "Faculty")
     {
-        ViewBag.Notifications = db.Notifications.Where(x => x.Mentor_Email == null && x.Business_ID == null).ToList();
+        ViewBag.Notifications = db.Notifications.Where(x => x.Mentor_Email == null && x.Business_ID == null).OrderByDescending(x=> x.Date).ToList();
         count = db.Notifications.Where(x => x.Mentor_Email == null && x.Business_ID == null && x.IsRead == false).Count();
     }
     else if(query.Role == "Mentor")
     {
-        ViewBag.Notifications = db.Notifications.Where(x => x.Mentor_Email == query.Email).ToList();
+        ViewBag.Notifications = db.Notifications.Where(x => x.Mentor_Email == query.Email).OrderByDescending(x => x.Date).ToList();
         count = db.Notifications.Where(x => x.Mentor_Email == query.Email && x.IsRead == false).Count();
 
     }
     else
     {
         int BusinessID = Convert.ToInt16(Session["BusinessID"]);
-        ViewBag.Notifications = db.Notifications.Where(x => x.Business_ID == BusinessID).ToList();
+        ViewBag.Notifications = db.Notifications.Where(x => x.Business_ID == BusinessID).OrderByDescending(x => x.Date).ToList();
         count = db.Notifications.Where(x => x.Business_ID == BusinessID && x.IsRead == false).Count();
 
     }
@@ -335,13 +335,9 @@
                                                 @foreach (var item in ViewBag.Notifications)
                                                 {
                                             <div class="sec new">
-                                                    <a href="https://codepen.io/Golez/">
-                                                        <div class="profCont">
-                                                            <img class="profile" src="https://c1.staticflickr.com/5/4007/4626436851_5629a97f30_b.jpg">
-                                                        </div>
                                                         <div class="txt">@item.Message</div>
                                                         <div class="txt sub">@item.Date</div>
-                                                    </a>
+                                                    
                                             </div>
                                                 }
                                         </div>
@@ -350,6 +346,7 @@
                             </div>
                         </a>
                     </div>
+
                     <span class="nav-role">@FullName</span>
                     <div class="nav-avatar">
                         <img src="~/assets/images/avatarAdmin.png"
@@ -428,7 +425,16 @@
             $("#table_id_filter").append($("#filterEvent")).clone();
         });
         $(".notBtn").hover(function () {
-            const url = "@Url.Action("ChangeNotification","AdminHome")"
+            const role = "@query.Role";
+            let url = ""
+            if (role === "Admin") {
+                url = "@Url.Action("ChangeNotification","AdminHome")"
+            } else if (role === "Faculty") {
+                url = "@Url.Action("ChangeNotification","FacultyHome",new {area = "Faculty"})"
+            } else if (role === "Mentor") {
+                url = "@Url.Action("ChangeNotification","MentorHome",new {area = "Mentor"})"
+            }
+            console.log(url);
             $.ajax({
                 url: url,
                 success: function (res) {

@@ -292,8 +292,7 @@ header .user {
 }
 
 .slider {
-    background: white;
-    box-shadow: 0 10px 20px -5px rgb(0 0 0 / 13%);
+    background-color: transparent ;
     height: 100px;
     margin: auto;
     overflow: hidden;

@@ -81,6 +81,7 @@ namespace BusinessConnectManagement.Controllers
                             notify.Message = "Có CV Mới Cần Duyệt";
                             notify.IsRead = false;
                             notify.Date = (DateTime.Now).ToString();
+                                notify.Link = Url.Action("Index", "Registration", new { area = "Faculty" });
                             db.Notifications.Add(notify);
                             db.SaveChanges();
                             scope.Complete();

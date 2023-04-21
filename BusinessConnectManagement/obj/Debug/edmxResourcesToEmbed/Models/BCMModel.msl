@@ -98,6 +98,7 @@
     <EntitySetMapping Name="Notifications">
       <EntityTypeMapping TypeName="BCMModel.Notification">
         <MappingFragment StoreEntitySet="Notifications">
+          <ScalarProperty Name="Link" ColumnName="Link" />
           <ScalarProperty Name="IsRead" ColumnName="IsRead" />
           <ScalarProperty Name="Date" ColumnName="Date" />
           <ScalarProperty Name="Message" ColumnName="Message" />
