@@ -335,9 +335,10 @@
                                                 @foreach (var item in ViewBag.Notifications)
                                                 {
                                             <div class="sec new">
+                                                <a href="@item.Link">
                                                         <div class="txt">@item.Message</div>
                                                         <div class="txt sub">@item.Date</div>
-                                                    
+                                                </a>  
                                             </div>
                                                 }
                                         </div>

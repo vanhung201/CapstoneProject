@@ -136,6 +136,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                 notify.Message = "Bạn được phân công hướng dẫn sinh viên thực tập";
                 notify.IsRead = false;
                 notify.Date = (DateTime.Now).ToString();
+                notify.Link = Url.Action("Index", "InternshipResultsMentor", new { area = "Mentor" });
                 db.Notifications.Add(notify);
                 db.SaveChanges();
                 string template = Server.MapPath("~/Areas/Admin/Views/Email/EmailFacultyMentor.cshtml");

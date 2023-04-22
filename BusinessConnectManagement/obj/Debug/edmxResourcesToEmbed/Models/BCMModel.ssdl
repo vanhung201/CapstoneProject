@@ -98,6 +98,7 @@
     <Property Name="Message" Type="nvarchar" MaxLength="250" />
     <Property Name="Date" Type="nvarchar" MaxLength="250" />
     <Property Name="IsRead" Type="bit" />
+    <Property Name="Link" Type="nvarchar" MaxLength="250" />
   </EntityType>
   <EntityType Name="Post">
     <Key>

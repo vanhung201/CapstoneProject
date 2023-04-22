@@ -245,6 +245,7 @@ namespace BusinessConnectManagement.Controllers
                 notify.Message = "Có sinh viên xác nhận thực tập";
                 notify.IsRead = false;
                 notify.Date = (DateTime.Now).ToString();
+                notify.Link = Url.Action("Index", "InternshipResults", new { area = "Business" });
                 db.Notifications.Add(notify);
                 db.SaveChanges();
                 TempData["message"] = "Xác nhận thực tập thành công.";

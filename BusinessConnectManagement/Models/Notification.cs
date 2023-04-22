@@ -21,5 +21,6 @@ namespace BusinessConnectManagement.Models
         public string Message { get; set; }
         public string Date { get; set; }
         public Nullable<bool> IsRead { get; set; }
+        public string Link { get; set; }
     }
 }

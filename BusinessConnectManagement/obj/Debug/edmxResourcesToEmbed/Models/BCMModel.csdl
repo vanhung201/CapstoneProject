@@ -254,6 +254,7 @@
     <Property Name="Message" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="Date" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="IsRead" Type="Boolean" />
+    <Property Name="Link" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="Post">
     <Key>
