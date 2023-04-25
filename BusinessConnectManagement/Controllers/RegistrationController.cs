@@ -40,9 +40,23 @@ namespace BusinessConnectManagement.Controllers
                 return RedirectToAction("Details", "Posts", new { id = post.ID });
 
             }
-            else
+            if(count > 0)
             {
-                
+                if (count == pp.Quantity)
+                {
+                    TempData["message"] = "Quá số lượng đăng ký";
+                    TempData["messageType"] = "error";
+                    return RedirectToAction("Details", "Posts", new { id = post.ID });
+                }
+            }
+            
+                if(registration.InternshipTopic_ID == null)
+            {
+
+                TempData["message"] = "Thiếu Thông Tin Ứng Tuyển";
+                TempData["messageType"] = "error";
+                return RedirectToAction("Details", "Posts", new { id = post.ID });
+            }
                 if (CV != null)
                 {
                     if (Path.GetExtension(CV.FileName).ToLower() != ".pdf")
@@ -53,14 +67,7 @@ namespace BusinessConnectManagement.Controllers
                     }
                     else
                     {
-                        if (count == pp.Quantity)
-                        {
-                            TempData["message"] = "Quá số lượng đăng ký";
-                            TempData["messageType"] = "error";
-                            return RedirectToAction("Details", "Posts", new { id = post.ID });
-                        }
-                        else
-                        {
+                        
                         using (var scope = new TransactionScope())
                         {
                             registration.CV = CV.FileName;
@@ -91,7 +98,7 @@ namespace BusinessConnectManagement.Controllers
                             TempData["messageType"] = "success";
                             return RedirectToAction("Details", "Posts", new { id = post.ID });
                         }
-                        }
+                        
                     }
 
                 }
@@ -102,7 +109,7 @@ namespace BusinessConnectManagement.Controllers
                     return RedirectToAction("Details", "Posts", new { id = post.ID });
                 }
 
-            }
+            
         }
 
         public ActionResult Remove(int id)

@@ -1289,6 +1289,7 @@
     <Content Include="assets\User\assets\images\bg-bread.png" />
     <Content Include="assets\User\assets\images\bg-vanlang.jpg" />
     <Content Include="assets\User\assets\images\bg.jpg" />
+    <Content Include="assets\User\assets\images\clock.jpg" />
     <Content Include="assets\User\assets\images\company.png" />
     <Content Include="assets\User\assets\images\exp.png" />
     <Content Include="assets\User\assets\images\files.png" />

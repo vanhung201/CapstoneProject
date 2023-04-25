@@ -57,7 +57,7 @@
                 </div>
                 <div class="form-group">
                     <label for="comment" class="form-label">Nhận xét của giáo viên</label>
-                    <input list="" name="MentorComment" id="mentorComment" class="form-input" disabled />
+                    <textarea list="" name="MentorComment" id="mentorComment" class="form-input" disabled ></textarea>
                 </div>
                 <div class="form-group">
                     <label for="comment" class="form-label">Trạng thái thực tập</label>
@@ -73,11 +73,11 @@
                 </div>
                 <div class="form-group">
                     <label for="comment" class="form-label">Nhận xét của doanh nghiệp</label>
-                    <input list="" name="BusinessComment" id="businessComment" class="form-input" disabled />
+                    <textarea list="" name="BusinessComment" id="businessComment" class="form-input" disabled ></textarea>
                 </div>
             </div>
             <div class="form-group text-center mt15">
-                <div class="btn btn-error btn--cancel">
+                <div class="btn btn-cancel btn--cancel">
                     Đóng
                 </div>
             </div>
@@ -217,11 +217,11 @@
                     $('#Semester_ID').val(res[0].Semester_ID)
                     $('#Email_Mentor').val(res[0].Email_Mentor)
                     $('#MentorPoint').val(res[0].MentorPoint)
-                    $('#MentorComment').val(res[0].MentorComment)
+                    $('#MentorComment').text(res[0].MentorComment)
                     $('#Business_ID').val(res[0].Business_ID)
                     $('#Businessname').val(res[0].Businessname)
                     $('#BusinessPoint').val(res[0].BusinessPoint)
-                    $('#BusinessComment').val(res[0].BusinessComment)
+                    $('#BusinessComment').text(res[0].BusinessComment)
                     $('#position_id').val(res[0].Position_ID)
                     $('#Status').val(res[0].status)
                     $('#confirmForm').attr('action', `${actionUrl}`)

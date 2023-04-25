@@ -92,6 +92,8 @@
             <div class="columns pt30">
                 @foreach (var item in ViewBag.PostsHot)
                 {
+                    DateTime dueDate = DateTime.Parse(item.DueDate);
+                    string formattedDate = dueDate.ToString("dd/MM/yyyy");
                     <div class="column col-6 col-sm-12 col-md-12 col-xl-6 mb10 wow rollIn" data-wow-delay="0.5s">
                         <a href="@Url.Action("Details", "Posts", new { id = item.ID })">
                             <div class="item d-flex align-middle">
@@ -126,7 +128,7 @@
                                         </span>
                                     </div>
                                     <p class="text-primary bold-6">
-                                        <i>Hạn nộp: @item.DueDate</i>
+                                        <i>Hạn nộp: @formattedDate</i>
                                         <i style="float:right">Lượt ứng tuyển: @item.Registrations.Count</i>
                                     </p>
 
@@ -157,6 +159,9 @@
             <div class="columns pt30">
                 @foreach (var item in Model)
                 {
+
+                    DateTime dueDate = DateTime.Parse(item.DueDate);
+                    string formattedDate = dueDate.ToString("dd/MM/yyyy");
                     <div class="column col-6 col-sm-12 col-md-12 col-xl-6 mb10 wow rollIn" data-wow-delay="0.5s">
                         <a href="@Url.Action("Details", "Posts",  new { id=item.ID })">
                             <div class="item d-flex align-middle">
@@ -191,7 +196,7 @@
                                         </span>
                                     </div>
                                     <p class="text-primary bold-6">
-                                        <i>Hạn nộp: @item.DueDate</i>
+                                        <i>Hạn nộp: @formattedDate</i>
                                         <i style="float:right">Lượt ứng tuyển: @item.Registrations.Count()</i>
                                     </p>
 

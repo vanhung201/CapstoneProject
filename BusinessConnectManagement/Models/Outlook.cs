@@ -27,7 +27,7 @@ namespace BusinessConnectManagement.Models
             try
             {
                 //SMTP client
-                        SmtpClient smtpClient = new SmtpClient("smtp.gmail.com", 25);
+                        SmtpClient smtpClient = new SmtpClient("smtp.gmail.com", 587);
                 smtpClient.UseDefaultCredentials = false;
                 smtpClient.Credentials = new System.Net.NetworkCredential("taikhoan.quantri.sep@gmail.com", "zdkhhtrmxocjjvaw");
 
