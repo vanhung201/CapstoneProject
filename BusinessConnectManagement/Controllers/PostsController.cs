@@ -48,17 +48,40 @@ namespace BusinessConnectManagement.Controllers
             ViewBag.MOU = db.MOUs.ToList();
             return View(posts.ToPagedList(pageNumber, pageSize));
         }
+
+        public ActionResult IndexNew(int? page)
+        {
+            ViewBag.MOUs = db.MOUs.ToList();
+            ViewBag.Major = db.Majors.ToList();
+            if (page == null) page = 1;
+
+            var posts = (from post in db.Posts
+                         select post).OrderByDescending(x => x.ID);
+
+          
+
+            int pageSize = 6;
+
+            int pageNumber = (page ?? 1);
+
+            ViewBag.Posts = posts;
+            ViewBag.CountStudent = db.VanLangUsers.Count();
+            ViewBag.CountPost = db.Posts.Count();
+            ViewBag.CountBusiness = db.BusinessUsers.Count();
+            ViewBag.MOU = db.MOUs.ToList();
+            return View(posts.ToPagedList(pageNumber, pageSize));
+        }
         public ActionResult Search(int? page, string SearchString = "", string Form = "", string Major = "")
         {
-
+            
             ViewBag.SearchString = SearchString;
             ViewBag.Form = Form;
             ViewBag.Majorr = Major;
             ViewBag.Major = db.Majors.ToList();
             var bu = db.Posts.Include(x => x.BusinessUser).Where(s => s.BusinessUser.BusinessName.ToUpper().Contains(Form.ToUpper()));
-            var titles = db.Posts.Include(x => x.BusinessUser).Where(s => s.Title.ToUpper().Contains(SearchString.ToUpper()));
-            var form = db.Posts.Include(x => x.BusinessUser).Where(s => s.Form.ToUpper().Contains(Form.ToUpper()));
-            var posts = db.Posts.Include(p => p.BusinessUser).Include(p => p.Semester).Include(p => p.VanLangUser).Include(p => p.VanLangUser1);
+            var titles = db.Posts.Include(x => x.BusinessUser).Where(s => s.Title.ToUpper().Contains(SearchString.ToUpper())).OrderByDescending(x => x.ID);
+            var form = db.Posts.Include(x => x.BusinessUser).Where(s => s.Form.ToUpper().Contains(Form.ToUpper())).OrderByDescending(x => x.ID);
+            var posts = db.Posts.Include(p => p.BusinessUser).Include(p => p.Semester).Include(p => p.VanLangUser).Include(p => p.VanLangUser1).OrderByDescending(x => x.ID);
             int pageSize = 6;
 
             int pageNumber = (page ?? 1);
@@ -95,7 +118,7 @@ namespace BusinessConnectManagement.Controllers
                     }
                     else
                     {
-                        var tif = db.Posts.Include(x => x.BusinessUser).Where(s => s.Form.ToUpper().Contains(Form.ToUpper()) && s.Title.ToUpper().Contains(SearchString.ToUpper()));
+                        var tif = db.Posts.Include(x => x.BusinessUser).Where(s => s.Form.ToUpper().Contains(Form.ToUpper()) && s.Title.ToUpper().Contains(SearchString.ToUpper())).OrderByDescending(x => x.ID);
                         if (!tif.Any())
                         {
                             TempData["Message"] = "Không có kết quả tìm kiếm với từ khóa: " + SearchString + ", " + Form;
@@ -111,7 +134,7 @@ namespace BusinessConnectManagement.Controllers
                 {
                     if (SearchString != "")
                     {
-                        var getall = db.Posts.Include(x => x.BusinessUser).Where(s => s.Major.Major1.ToUpper().Contains(Major.ToUpper()) && s.Form.ToUpper().Contains(Form.ToUpper()) && s.Title.ToUpper().Contains(SearchString.ToUpper()));
+                        var getall = db.Posts.Include(x => x.BusinessUser).Where(s => s.Major.Major1.ToUpper().Contains(Major.ToUpper()) && s.Form.ToUpper().Contains(Form.ToUpper()) && s.Title.ToUpper().Contains(SearchString.ToUpper())).OrderByDescending(x => x.ID);
                         if (!getall.Any())
                         {
                             TempData["Message"] = "Không có kết quả tìm kiếm với từ khóa: " + Form + ", " + Major + ", " + SearchString;
@@ -121,7 +144,7 @@ namespace BusinessConnectManagement.Controllers
                     }
                     else
                     {
-                        var getall = db.Posts.Include(x => x.BusinessUser).Where(s => s.Major.Major1.ToUpper().Contains(Major.ToUpper()) && s.Form.ToUpper().Contains(Form.ToUpper()));
+                        var getall = db.Posts.Include(x => x.BusinessUser).Where(s => s.Major.Major1.ToUpper().Contains(Major.ToUpper()) && s.Form.ToUpper().Contains(Form.ToUpper())).OrderByDescending(x => x.ID);
                         if (!getall.Any())
                         {
                             TempData["Message"] = "Không có kết quả tìm kiếm với từ khóa: " + Form + ", " + Major;
@@ -134,7 +157,7 @@ namespace BusinessConnectManagement.Controllers
                 {
                     if (SearchString != "")
                     {
-                        var getall = db.Posts.Include(x => x.BusinessUser).Where(s => s.Major.Major1.ToUpper().Contains(Major.ToUpper()) && s.Title.ToUpper().Contains(SearchString.ToUpper()));
+                        var getall = db.Posts.Include(x => x.BusinessUser).Where(s => s.Major.Major1.ToUpper().Contains(Major.ToUpper()) && s.Title.ToUpper().Contains(SearchString.ToUpper())).OrderByDescending(x => x.ID);
                         if (!getall.Any())
                         {
                             TempData["Message"] = "Không có kết quả tìm kiếm với từ khóa: " + SearchString + ", " + Major;
@@ -144,7 +167,7 @@ namespace BusinessConnectManagement.Controllers
                     }
                     else
                     {
-                        var getall = db.Posts.Include(x => x.BusinessUser).Where(s => s.Major.Major1.ToUpper().Contains(Major.ToUpper()));
+                        var getall = db.Posts.Include(x => x.BusinessUser).Where(s => s.Major.Major1.ToUpper().Contains(Major.ToUpper())).OrderByDescending(x => x.ID);
                         if (!getall.Any())
                         {
                             TempData["Message"] = "Không có kết quả tìm kiếm với từ khóa: " + Major;

@@ -278,10 +278,7 @@ namespace BusinessConnectManagement.Areas.Mentor.Controllers
                         ws.Cells["F5"].Value = "Doanh Nghiệp Thực Tập";
                         ws.Cells["G5"].Value = "Vị Trí Thực Tập";
                         ws.Cells["H5"].Value = "Trạng Thái";
-                        ws.Cells["I5"].Value = "Điểm Thực Tập Mentor";
-                        ws.Cells["J5"].Value = "Mentor Nhận Xét";
-                        ws.Cells["K5"].Value = "Điểm Thực Tập Doanh Nghiệp";
-                        ws.Cells["L5"].Value = "Doanh Nghiệp Nhận Xét";
+                       
                         int rowStart = 6;
                         int countSTT = 1;
                         foreach (var item in myTable)
@@ -312,10 +309,7 @@ namespace BusinessConnectManagement.Areas.Mentor.Controllers
                             ws.Cells[string.Format("F{0}", rowStart)].Value = item.BusinessUser.BusinessName;
                             ws.Cells[string.Format("G{0}", rowStart)].Value = item.InternshipTopic.InternshipTopicName;
                             ws.Cells[string.Format("H{0}", rowStart)].Value = item.Status;
-                            ws.Cells[string.Format("I{0}", rowStart)].Value = item.MentorPoint;
-                            ws.Cells[string.Format("J{0}", rowStart)].Value = item.MentorComment;
-                            ws.Cells[string.Format("K{0}", rowStart)].Value = item.BusinessPoint;
-                            ws.Cells[string.Format("L{0}", rowStart)].Value = item.BusinessComment;
+                           
                             rowStart++;
                             countSTT++;
                         }

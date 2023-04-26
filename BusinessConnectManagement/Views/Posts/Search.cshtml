@@ -76,9 +76,9 @@
                                     <div class="content">
                                         <div class="d-flex align-middle justify-between mb-2">
                                             <h3 class="text-h4 bold-6 mb-0 ellipsis"> @item.Title</h3>
-                                            <div class="chip bg-error">
-                                                <small class="bold-6">Nổi bật</small>
-                                            </div>
+                                            @*<div class="chip bg-error">
+                                                <small class="bold-6"></small>
+                                            </div>*@
                                         </div>
                                         <p class="bold-6 text-italic mb-2"> @item.BusinessUser.BusinessName</p>
                                         <div class="desc d-flex align-middle mb-2">
@@ -104,7 +104,11 @@
                                         </div>
                                         <p class="text-primary bold-6">
                                             <i>Hạn nộp: @item.DueDate</i>
-                                            <i style="float:right">Lượt ứng tuyển: @item.Registrations.Count()</i>
+                                            <i style="margin-left:10%">Lượt ứng tuyển: @item.Registrations.Count()</i>
+                                            @{
+                                                var totalQuantity = item.PostInternshipTopics.Where(x => x.Quantity > 0).Sum(x => x.Quantity);
+                                            }
+                                            <i style="float:right">SL còn lại:@totalQuantity</i>
                                         </p>
 
                                     </div>

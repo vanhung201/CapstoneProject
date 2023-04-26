@@ -243,8 +243,20 @@
                                         </span>
                                     </div>
                                     <p class="text-primary bold-6">
-                                        <i>Hạn nộp: @item.DueDate</i>
-                                        <i style="float:right">Lượt ứng tuyển: @item.Registrations.Count</i>
+                                        <i>Hạn nộp: @formattedDate</i>
+
+                                        <i style="margin-left:10%">Lượt ứng tuyển: @item.Registrations.Count</i>
+                                        @{int totalQuantity = 0;}
+
+                                        @foreach (var topic in item.PostInternshipTopics)
+                                        {
+                                            if (topic.Quantity >= 0)
+                                            {
+                                                totalQuantity += topic.Quantity;
+                                            }
+                                        }
+                                        <i style="float:right">SL còn lại: @totalQuantity</i>
+
                                     </p>
 
                                 </div>

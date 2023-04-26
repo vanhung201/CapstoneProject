@@ -1522,6 +1522,7 @@
     <Content Include="Uploads\ExcelTemplate\Business.xlsx" />
     <Content Include="Uploads\ExcelTemplate\Mentor.xlsx" />
     <Content Include="Uploads\ExcelTemplate\Student.xlsx" />
+    <Content Include="Views\Posts\IndexNew.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
