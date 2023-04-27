@@ -24,7 +24,7 @@ namespace BusinessConnectManagement.Controllers
         }
 
         [HttpPost]
-        public ActionResult Apply(Registration registration, HttpPostedFileBase CV)
+        public ActionResult Apply(Registration registration, HttpPostedFileBase CV, PostInternshipTopic postInternshipTopic)
         {
             
             var post = db.Posts.Where(x => x.ID == registration.Post_ID).FirstOrDefault();
@@ -32,6 +32,7 @@ namespace BusinessConnectManagement.Controllers
             var isExist = db.Registrations.Any(x => x.Email_VanLang == email && x.Post_ID == post.ID);
             var pp = db.PostInternshipTopics.Where(x => x.Post_ID == registration.Post_ID && x.InternshipTopic_ID == registration.InternshipTopic_ID).FirstOrDefault();
             var count = db.Registrations.Where(x => x.Post_ID == registration.Post_ID && x.InternshipTopic_ID == registration.InternshipTopic_ID).Count();
+            Notification notify = new Notification();
             if (isExist)
             {
                 TempData["message"] = "Bạn đã ứng tuyển cho bài viết này rồi";
@@ -39,9 +40,23 @@ namespace BusinessConnectManagement.Controllers
                 return RedirectToAction("Details", "Posts", new { id = post.ID });
 
             }
-            else
+            if(count > 0)
             {
-                
+                if (count == pp.Quantity)
+                {
+                    TempData["message"] = "Quá số lượng đăng ký";
+                    TempData["messageType"] = "error";
+                    return RedirectToAction("Details", "Posts", new { id = post.ID });
+                }
+            }
+            
+                if(registration.InternshipTopic_ID == null)
+            {
+
+                TempData["message"] = "Thiếu Thông Tin Ứng Tuyển";
+                TempData["messageType"] = "error";
+                return RedirectToAction("Details", "Posts", new { id = post.ID });
+            }
                 if (CV != null)
                 {
                     if (Path.GetExtension(CV.FileName).ToLower() != ".pdf")
@@ -52,15 +67,15 @@ namespace BusinessConnectManagement.Controllers
                     }
                     else
                     {
-                        if (count == pp.Quantity)
-                        {
-                            TempData["message"] = "Quá số lượng đăng ký";
-                            TempData["messageType"] = "error";
-                            return RedirectToAction("Details", "Posts", new { id = post.ID });
-                        }
-                        else
-                        {
-                        using (var scope = new TransactionScope())
+                    
+                    if (registration.InternshipTopic_ID == pp.InternshipTopic_ID)
+                    {
+                        postInternshipTopic = pp;
+                        postInternshipTopic.Quantity = pp.Quantity - 1;
+                    }
+                    db.Entry(postInternshipTopic).State = EntityState.Modified;
+                   
+                    using (var scope = new TransactionScope())
                         {
                             registration.CV = CV.FileName;
                             var path = Server.MapPath("~/Uploads/CV/");
@@ -76,13 +91,21 @@ namespace BusinessConnectManagement.Controllers
                             registration.Comment = null;
                             registration.Semester_ID = post.Semester_ID;
                             db.Registrations.Add(registration);
+                            notify.Title = "Thông Báo";
+                            notify.Message = "Có CV Mới Cần Duyệt";
+                            notify.IsRead = false;
+                            notify.Date = (DateTime.Now).ToString();
+                                notify.Link = Url.Action("Index", "Registration", new { area = "Faculty" });
+                            db.Notifications.Add(notify);
                             db.SaveChanges();
                             scope.Complete();
+
+                            
                             TempData["message"] = "Ứng tuyển thành công";
                             TempData["messageType"] = "success";
                             return RedirectToAction("Details", "Posts", new { id = post.ID });
                         }
-                        }
+                        
                     }
 
                 }
@@ -93,13 +116,14 @@ namespace BusinessConnectManagement.Controllers
                     return RedirectToAction("Details", "Posts", new { id = post.ID });
                 }
 
-            }
+            
         }
 
-        public ActionResult Remove(int id)
+        public ActionResult Remove(int id, PostInternshipTopic postInternshipTopic)
         {
             Registration registration = db.Registrations.Find(id);
             var regStatus = registration.StatusRegistration;
+            var pp = db.PostInternshipTopics.Where(x => x.Post_ID == registration.Post_ID && x.InternshipTopic_ID == registration.InternshipTopic_ID).FirstOrDefault();
             var post = db.Posts.Where(x => x.ID == registration.Post_ID).FirstOrDefault();
             if (regStatus == "Phê Duyệt")
             {
@@ -110,6 +134,12 @@ namespace BusinessConnectManagement.Controllers
             }
             else
             {
+                if (registration.InternshipTopic_ID == pp.InternshipTopic_ID)
+                {
+                    postInternshipTopic = pp;
+                    postInternshipTopic.Quantity = pp.Quantity + 1;
+                }
+                db.Entry(postInternshipTopic).State = EntityState.Modified;
                 db.Registrations.Remove(registration);
                 db.SaveChanges();
                 TempData["message"] = "Hủy Kết Quả Thành Công";

@@ -40,7 +40,8 @@
                                 <div class="columns pt30">
                                     @foreach (var item in ViewBag.Posts)
                                     {
-
+                                        DateTime dueDate = DateTime.Parse(item.DueDate);
+                                        string formattedDate = dueDate.ToString("dd/MM/yyyy");
                                         <div class="column col-6 col-sm-12 col-md-12 col-xl-6 mb10">
                                             <a href="@Url.Action("Details", "Posts",  new { id=item.ID })">
                                                 <div class="item d-flex align-middle">
@@ -75,8 +76,20 @@
                                                             </span>
                                                         </div>
                                                         <p class="text-primary bold-6">
-                                                            <i>Hạn nộp: @item.DueDate</i>
-                                                            <i style="float:right">Lượt ứng tuyển: @item.Registrations.Count</i>
+                                                            <i>Hạn nộp: @formattedDate</i>
+
+                                                           
+                                                            @{int totalQuantity = 0;}
+
+                                                            @foreach (var topic in item.PostInternshipTopics)
+                                                            {
+                                                                if (topic.Quantity >= 0)
+                                                                {
+                                                                    totalQuantity += topic.Quantity;
+                                                                }
+                                                            }
+                                                        <i style="float:right"> Lượt ứng tuyển: @item.Registrations.Count<span> - </span>  SL còn lại: @totalQuantity</i>
+
                                                         </p>
 
                                                     </div>

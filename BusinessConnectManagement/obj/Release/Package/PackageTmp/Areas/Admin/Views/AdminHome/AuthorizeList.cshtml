@@ -12,39 +12,39 @@
         @Html.Raw(@TempData["AlertMessage"])
     }
 
-<div class="list-table">
-    <div id="filterEvent">
-        <a>
-            <div class="btn btn--create" style=" z-index: 1; width: 110px; margin-right: 130px;">
-                <span class="btn-text btn--dowload">Excel Mẫu</span>
+    <div class="list-table">
+        <div id="filterEvent">
+            <a>
+                <div class="btn btn--create" style=" z-index: 1; width: 110px; margin-right: 130px;">
+                    <span class="btn-text btn--dowload">Excel Mẫu</span>
 
-            </div>
-            <div class="btn btn--create" style=" z-index: 1; width: 110px; margin-right: 10px;">
-                <span class="btn-text btn--ìmport">Import Excel</span>
+                </div>
+                <div class="btn btn--create" style=" z-index: 1; width: 110px; margin-right: 10px;">
+                    <span class="btn-text btn--import">Import Excel</span>
 
-            </div>
-        </a>
+                </div>
+            </a>
+        </div>
+        <div class="rg_status"></div>
+        <div class="rg_role" style="left"></div>
+        <label id="nameLabel">Lọc:</label>
+        <table id="table_listData" class="display">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Email</th>
+                    <th>Tên</th>
+                    <th>SĐT</th>
+                    <th>Chức vụ</th>
+                    <th>Trạng thái</th>
+                    <th>Chức năng</th>
+
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
     </div>
-    <div class="rg_status"></div>
-    <div class="rg_role" style="left"></div>
-    <label id="nameLabel">Lọc:</label>
-    <table id="table_listData" class="display">
-        <thead>
-            <tr>
-                <th>STT</th>
-                <th>Email</th>
-                <th>Tên</th>
-                <th>SĐT</th>
-                <th>Chức vụ</th>
-                <th>Trạng thái</th>
-                <th>Chức năng</th>
-
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-</div>
 </section>
 
 @*-------------------Excel Mẫu -------------------------------*@
@@ -54,7 +54,7 @@
         <div class="row">
             <div class="column">
                 <div class="form-group">
-                  <label class="form-label">Student</label>
+                    <label class="form-label">Student</label>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Mentor</label>
@@ -62,17 +62,17 @@
             </div>
             <div class="column">
                 <div class="form-group">
-                 <a href="@Url.Action("DownloadFile", "AdminHome", new { filePath = "Student.xlsx" })">Student.xlsx</a>
+                    <a href="@Url.Action("DownloadFile", "AdminHome", new { filePath = "Student.xlsx" })">Student.xlsx</a>
                 </div>
                 <div class="form-group">
                     <a href="@Url.Action("DownloadFile", "AdminHome", new { filePath = "Mentor.xlsx" })">Mentor.xlsx</a>
                 </div>
             </div>
         </div>
-       
+
 
         <div class="form-group">
-          
+
             <a class="btn btn--confirm">Xác Nhận</a>
 
         </div>
@@ -87,12 +87,12 @@
             <input type="file" name="postFile" id="excelFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" onchange="checkInputExcel(this)" required class="form-input" />
             <span class="text-danger" id="cv_validation" style="color:red;"></span>
         </div>
-           
-            <div class="form-group">
-                <a class="btn btn--cancel">Hủy</a>
-                <button type="submit" id="submit_edit" class="btn btn--confirm">Xác Nhận</button>
-            </div>
+
+        <div class="form-group">
+            <a class="btn btn--cancel">Hủy</a>
+            <button type="submit" id="submit_edit" class="btn btn--confirm">Xác Nhận</button>
         </div>
+    </div>
 
 </form>
 @*----------------------------------Update---------------------*@
@@ -104,51 +104,51 @@
             <input id="student" name="Student_ID" class="form-input" autocomplete="off" hidden />
             <div class="form-group">
                 <label for="emailVLU" class="form-label">Email</label>
-                <input id="email" name="Email" class="form-input" autocomplete="off" hidden/>
-                <input id="email2"  class="form-input" autocomplete="off" disabled/>
+                <input id="email" name="Email" class="form-input" autocomplete="off" hidden />
+                <input id="email2" class="form-input" autocomplete="off" disabled />
             </div>
             <div class="form-group">
                 <label for="FullName" class="form-label">Họ và Tên</label>
                 <input id="username" name="FullName" class="form-input" autocomplete="off" required />
             </div>
-           
-                <div class="form-group">
-                    <label for="Major_ID" class="form-label">Chuyên Nghành</label>
-                    <select name="Major_ID" id="majorr" class="form-input">
-                        <option value="1">Công nghệ phần mềm</option>
-                        <option value="2">Công nghệ dữ liệu</option>
-                        <option value="3">Tin học quản trị</option>
-                        <option value="4">An ninh Mạng</option>
-                        <option value="5">Hệ thống Thông tin</option>
-                        <option value="6">Kỹ thuật phần mềm</option>
-                    </select>
-                </div>
-           
+
+            <div class="form-group">
+                <label for="Major_ID" class="form-label">Chuyên Nghành</label>
+                <select name="Major_ID" id="majorr" class="form-input">
+                    <option value="1">Công nghệ phần mềm</option>
+                    <option value="2">Công nghệ dữ liệu</option>
+                    <option value="3">Tin học quản trị</option>
+                    <option value="4">An ninh Mạng</option>
+                    <option value="5">Hệ thống Thông tin</option>
+                    <option value="6">Kỹ thuật phần mềm</option>
+                </select>
+            </div>
+
             <div class="form-group">
                 <label for="" class="form-label">SĐT </label>
                 <input id="phone" name="Mobile" class="form-input" autocomplete="off" required />
             </div>
-          
-                <div class="form-group">
-                    <label for="Role" class="form-label">Vai trò </label>
-                    <select name="Role" id="role" class="form-input">
-                        <option value="Admin">Admin</option>
-                        <option value="Faculty">Faculty</option>
-                        <option value="Mentor">Mentor</option>
-                        <option value="Student">Student</option>
-                    </select>
-                </div>
-            
 
-          
-                <div class="form-group">
-                    <label for="Status_ID" class="form-label">Trạng thái</label>
-                    <select name="Status_ID" id="status" class="form-input">
-                        <option value="1">Đang Hoạt Động</option>
-                        <option value="2">Khóa</option>
-                    </select>
-                </div>
-            
+            <div class="form-group">
+                <label for="Role" class="form-label">Vai trò </label>
+                <select name="Role" id="role" class="form-input">
+                    <option value="Admin">Admin</option>
+                    <option value="Faculty">Faculty</option>
+                    <option value="Mentor">Mentor</option>
+                    <option value="Student">Student</option>
+                </select>
+            </div>
+
+
+
+            <div class="form-group">
+                <label for="Status_ID" class="form-label">Trạng thái</label>
+                <select name="Status_ID" id="status" class="form-input">
+                    <option value="1">Đang Hoạt Động</option>
+                    <option value="2">Khóa</option>
+                </select>
+            </div>
+
             <div class="form-group">
                 <a class="btn btn--cancel">Hủy</a>
                 <button type="submit" id="submit_edit" class="btn btn--confirm">Xác Nhận</button>
@@ -156,7 +156,7 @@
             </div>
         </div>
     </div>
-    
+
 </form>
 @section Scripts {
     <script type="text/javascript">
@@ -316,11 +316,14 @@
         $('.btn--cancel').on('click', function () {
             $('#importForm').removeClass('is-appear')
         })
-       
+
         $('.btn--confirm').on('click', function () {
             $('#dowloadForm').removeClass('is-appear')
         })
-        
+
+        $('#btn--cancel').on('click', function () {
+            $('#importAlert').removeClass('is-appear')
+        })
 
         function checkInputExcel(input) {
             if (input.files && input.files[0]) {
@@ -364,7 +367,7 @@
                     required: true,
                     minlength: 3,
                     blank: true
-                    
+
                 },
                 Mobile: {
                     required: true,
@@ -394,7 +397,7 @@
                 }
             }
         });
-        
+
     </script>
 }
 

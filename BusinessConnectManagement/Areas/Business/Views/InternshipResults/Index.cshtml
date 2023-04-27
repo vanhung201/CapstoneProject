@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<BusinessConnectManagement.Models.InternshipResult>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Doanh Nghiệp - Thực Tập";
     Layout = "~/Areas/Business/Views/Shared/_Layout.cshtml";
 }
 <style>
@@ -156,7 +156,7 @@
 <form class="form" action="@Url.Action("ExportWord", "InternshipResults")" id="formExportWord" method="post">
     <div class="form-container">
         <div id="Grid">
-            <div style="text-align: center">
+            <div style="text-align: center" hidden>
                 <span style="font-size: 15px; font-weight: 700;">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</span>
                 <br />
                 <span style=" text-decoration: underline; font-size: 15px; font-weight: 700;">Độc lập – Tự do – Hạnh phúc</span>
@@ -233,7 +233,7 @@
                 </table>
             </div>
             <br />
-            <div style="font-size: 15px; font-weight: 700; font-style:italic">
+            <div style="font-size: 15px; font-weight: 700; font-style:italic" hidden>
                 <span>
                     Đánh giá chung sau khi thực tập:
                 </span>
@@ -245,8 +245,8 @@
                     ......................................................................................................................................................................
                 </span>
             </div>
-            <div style=" display: flex; justify-content: space-between;">
-                <table style="width:100%">
+            <div style=" display: flex; justify-content: space-between;" >
+                <table style="width:100%" hidden>
 
                     <tr style="width:40%">
                         <td>
@@ -279,6 +279,7 @@
         </div>
         <div class="form-group">
             <input class="form-input" name="GridHtml" autocomplete="off" hidden />
+            <input class="form-input" name="fullname" id="nameExGet" autocomplete="off" hidden />
             <a class="btn btn--cancel">
                 Hủy
             </a>
@@ -544,10 +545,9 @@
                 success: function (res) {
                     console.log(res)
                     $('#nameEx').text(res[0].FullName)
-
+                    $('#nameExGet').val(res[0].FullName)
                     $('#businessnameEx').text(res[0].BusinessName)
                     $('#addressEx').text(res[0].Address)
-
                     $('#businessPointEx').text(res[0].BusinessPoint)
                     $('#businessPointEx2').text(res[0].BusinessPoint2)
                     $('#businessCommentEx').text(res[0].BusinessComment)

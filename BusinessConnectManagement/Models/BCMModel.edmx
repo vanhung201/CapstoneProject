@@ -92,6 +92,19 @@
           <Property Name="EmailContact" Type="varchar" MaxLength="150" />
           <Property Name="ResponsibleName" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="Notifications">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Mentor_Email" Type="varchar" MaxLength="250" />
+          <Property Name="Business_ID" Type="int" />
+          <Property Name="Title" Type="nvarchar" MaxLength="250" />
+          <Property Name="Message" Type="nvarchar" MaxLength="250" />
+          <Property Name="Date" Type="nvarchar" MaxLength="250" />
+          <Property Name="IsRead" Type="bit" />
+          <Property Name="Link" Type="nvarchar" MaxLength="250" />
+        </EntityType>
         <EntityType Name="Post">
           <Key>
             <PropertyRef Name="ID" />
@@ -154,16 +167,6 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Status" Type="nvarchar" MaxLength="30" />
-        </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="Trainee">
           <Key>
@@ -550,12 +553,12 @@
           <EntitySet Name="InternshipTopic" EntityType="Self.InternshipTopic" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Major" EntityType="Self.Major" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MOU" EntityType="Self.MOU" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Notifications" EntityType="Self.Notifications" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Post" EntityType="Self.Post" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PostInternshipTopic" EntityType="Self.PostInternshipTopic" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Registration" EntityType="Self.Registration" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Semester" EntityType="Self.Semester" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Trainee" EntityType="Self.Trainee" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VanLangUser" EntityType="Self.VanLangUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="YearStudy" EntityType="Self.YearStudy" Schema="dbo" store:Type="Tables" />
@@ -688,12 +691,12 @@
           <EntitySet Name="InternshipTopics" EntityType="BCMModel.InternshipTopic" />
           <EntitySet Name="Majors" EntityType="BCMModel.Major" />
           <EntitySet Name="MOUs" EntityType="BCMModel.MOU" />
+          <EntitySet Name="Notifications" EntityType="BCMModel.Notification" />
           <EntitySet Name="Posts" EntityType="BCMModel.Post" />
           <EntitySet Name="PostInternshipTopics" EntityType="BCMModel.PostInternshipTopic" />
           <EntitySet Name="Registrations" EntityType="BCMModel.Registration" />
           <EntitySet Name="Semesters" EntityType="BCMModel.Semester" />
           <EntitySet Name="Status" EntityType="BCMModel.Status" />
-          <EntitySet Name="sysdiagrams" EntityType="BCMModel.sysdiagram" />
           <EntitySet Name="Trainees" EntityType="BCMModel.Trainee" />
           <EntitySet Name="VanLangUsers" EntityType="BCMModel.VanLangUser" />
           <EntitySet Name="YearStudies" EntityType="BCMModel.YearStudy" />
@@ -923,6 +926,19 @@
           <Property Name="ResponsibleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="BusinessUser" Relationship="BCMModel.FK_MOU_BusinessUser" FromRole="MOU" ToRole="BusinessUser" />
         </EntityType>
+        <EntityType Name="Notification">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Mentor_Email" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Business_ID" Type="Int32" />
+          <Property Name="Title" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Message" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="IsRead" Type="Boolean" />
+          <Property Name="Link" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="Post">
           <Key>
             <PropertyRef Name="ID" />
@@ -1009,16 +1025,6 @@
           <Property Name="Status1" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="BusinessUsers" Relationship="BCMModel.FK_BusinessUser_Status" FromRole="Status" ToRole="BusinessUser" />
           <NavigationProperty Name="VanLangUsers" Relationship="BCMModel.FK_VanLangUser_Status" FromRole="Status" ToRole="VanLangUser" />
-        </EntityType>
-        <EntityType Name="sysdiagram">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="Trainee">
           <Key>
@@ -1509,6 +1515,20 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Notifications">
+            <EntityTypeMapping TypeName="BCMModel.Notification">
+              <MappingFragment StoreEntitySet="Notifications">
+                <ScalarProperty Name="Link" ColumnName="Link" />
+                <ScalarProperty Name="IsRead" ColumnName="IsRead" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Business_ID" ColumnName="Business_ID" />
+                <ScalarProperty Name="Mentor_Email" ColumnName="Mentor_Email" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Posts">
             <EntityTypeMapping TypeName="BCMModel.Post">
               <MappingFragment StoreEntitySet="Post">
@@ -1574,17 +1594,6 @@
               <MappingFragment StoreEntitySet="Status">
                 <ScalarProperty Name="Status1" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="BCMModel.sysdiagram">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="definition" ColumnName="definition" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

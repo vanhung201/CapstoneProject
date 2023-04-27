@@ -74,6 +74,12 @@
     <Reference Include="Microsoft.AspNet.Identity.Owin, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.AspNet.Identity.Owin.2.2.3\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.4.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNet.SignalR.Core.2.4.3\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.4.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNet.SignalR.SystemWeb.2.4.3\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.IO.RecyclableMemoryStream, Version=1.4.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.IO.RecyclableMemoryStream.1.4.1\lib\net46\Microsoft.IO.RecyclableMemoryStream.dll</HintPath>
@@ -280,6 +286,9 @@
     <Compile Include="Models\MOU.cs">
       <DependentUpon>BCMModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Notification.cs">
+      <DependentUpon>BCMModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Outlook.cs" />
     <Compile Include="Models\Post.cs">
       <DependentUpon>BCMModel.tt</DependentUpon>
@@ -294,9 +303,6 @@
       <DependentUpon>BCMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Status.cs">
-      <DependentUpon>BCMModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>BCMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Trainee.cs">
@@ -1283,6 +1289,7 @@
     <Content Include="assets\User\assets\images\bg-bread.png" />
     <Content Include="assets\User\assets\images\bg-vanlang.jpg" />
     <Content Include="assets\User\assets\images\bg.jpg" />
+    <Content Include="assets\User\assets\images\clock.jpg" />
     <Content Include="assets\User\assets\images\company.png" />
     <Content Include="assets\User\assets\images\exp.png" />
     <Content Include="assets\User\assets\images\files.png" />
@@ -1324,6 +1331,8 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\chosen.jquery.js" />
     <Content Include="Scripts\chosen.jquery.min.js" />
+    <Content Include="Scripts\jquery.signalR-2.4.3.js" />
+    <Content Include="Scripts\jquery.signalR-2.4.3.min.js" />
     <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\toastr.min.js" />
     <Content Include="Uploads\Images\alila.png" />
@@ -1459,6 +1468,7 @@
     <Content Include="Areas\Admin\Views\Email\EmailFacultyMentor.cshtml" />
     <Content Include="Areas\Admin\Views\Email\EmailMentor.cshtml" />
     <Content Include="Areas\Admin\Views\Email\EmailUpdateAccount.cshtml" />
+    <Content Include="Areas\Admin\Views\Email\EmailNotify.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FTPProfile1.pubxml" />
@@ -1512,6 +1522,7 @@
     <Content Include="Uploads\ExcelTemplate\Business.xlsx" />
     <Content Include="Uploads\ExcelTemplate\Mentor.xlsx" />
     <Content Include="Uploads\ExcelTemplate\Student.xlsx" />
+    <Content Include="Views\Posts\IndexNew.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -244,3 +244,9 @@ C:\Users\LENOVO\Source\Repos\CapstoneProject\BusinessConnectManagement\obj\Relea
 C:\Users\LENOVO\Source\Repos\CapstoneProject\BusinessConnectManagement\obj\Release\BusinessConnectManagement.csproj.CopyComplete
 C:\Users\LENOVO\Source\Repos\CapstoneProject\BusinessConnectManagement\obj\Release\BusinessConnectManagement.dll
 C:\Users\LENOVO\Source\Repos\CapstoneProject\BusinessConnectManagement\obj\Release\BusinessConnectManagement.pdb
+C:\Users\LENOVO\source\repos\CapstoneProject\BusinessConnectManagement\bin\Microsoft.AspNet.SignalR.Core.dll
+C:\Users\LENOVO\source\repos\CapstoneProject\BusinessConnectManagement\bin\Microsoft.AspNet.SignalR.SystemWeb.dll
+C:\Users\LENOVO\source\repos\CapstoneProject\BusinessConnectManagement\bin\Microsoft.AspNet.SignalR.Core.pdb
+C:\Users\LENOVO\source\repos\CapstoneProject\BusinessConnectManagement\bin\Microsoft.AspNet.SignalR.Core.xml
+C:\Users\LENOVO\source\repos\CapstoneProject\BusinessConnectManagement\bin\Microsoft.AspNet.SignalR.SystemWeb.pdb
+C:\Users\LENOVO\source\repos\CapstoneProject\BusinessConnectManagement\bin\Microsoft.AspNet.SignalR.SystemWeb.xml

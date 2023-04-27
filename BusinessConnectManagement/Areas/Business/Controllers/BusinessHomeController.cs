@@ -58,5 +58,15 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
                 sv_completed = sv_completed,
             }, JsonRequestBehavior.AllowGet);
         }
+        public ActionResult ChangeNotification()
+        {
+            
+            int BusinessID = Convert.ToInt16(Session["BusinessID"]);
+            var noti = db.Notifications.Where(x => x.Business_ID == BusinessID).ToList();
+            noti.ForEach(n => n.IsRead = true);
+            db.SaveChanges();
+            return Json(new { message = "successed" }, JsonRequestBehavior.AllowGet);
+
+        }
     }
 }

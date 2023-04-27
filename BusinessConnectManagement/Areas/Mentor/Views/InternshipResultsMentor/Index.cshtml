@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<BusinessConnectManagement.Models.InternshipResult>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Quản Lý - Hướng Dẫn";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 <style>
@@ -103,7 +103,7 @@
     </div>
 </form>
 @*---------------------------------update-----------------------------*@
-<form class="form" id="updateInternForm" method="post" style="line-height: 1.5">
+<form class="form" id="updateInternForm" method="post" >
     <div class="form-container">
         <h1 class="form-heading">Đánh giá sinh viên hướng dẫn</h1>
         <div class="form-group">
@@ -178,10 +178,10 @@
     </div>
 </form>
 
-<form class="form" action="@Url.Action("ExportWord", "InternshipResultsMentor")" id="formExportWord" method="post">
+<form class="form" action="@Url.Action("ExportWord", "InternshipResultsMentor")" id="formExportWord" method="post" style="line-height: 1.5; z-index:99">
     <div class="form-container">
         <div id="Grid">
-            <div style="text-align: center">
+            <div style="text-align: center" hidden>
                 <span style="font-size: 15px; font-weight: 700;">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</span>
                 <br />
                 <span style=" text-decoration: underline; font-size: 15px; font-weight: 700;">Độc lập – Tự do – Hạnh phúc</span>
@@ -271,10 +271,10 @@
                 </table>
             </div>
             <br />
-            <div style=" text-align: right;">
+            <div style=" text-align: right;" hidden>
                 <span>TP. Hồ Chí Minh, ngày...tháng...năm 2023</span>
             </div>
-            <div style=" text-align: right; margin-right: 53px">
+            <div style=" text-align: right; margin-right: 53px" hidden>
                 <b style="font-size: 15px; font-weight: 700; ">Giảng viên hướng dẫn</b>
                 <br />
                 <i style=" font-style: italic;">(Ký và ghi rõ họ và tên)</i>
@@ -282,6 +282,8 @@
         </div>
         <div class="form-group">
             <input class="form-input" name="GridHtml" autocomplete="off" hidden />
+            <input class="form-input" name="MSSV" id="mssvExGet" autocomplete="off" hidden/>
+            
             <a class="btn btn--cancel">
                 Hủy
             </a>
@@ -520,6 +522,7 @@
                     const actionUrl = `@Url.Action("Edit", "InternshipResultsMentor")` + `/${res[0].id}`
                     $('#nameEx').text(res[0].name)
                     $('#mssvEx').text(res[0].mssv)
+                    $('#mssvExGet').val(res[0].mssv)
                     $('#majorEx').text(res[0].major)
                     $('#businessnameEx').text(res[0].businessname)
                     $('#mentor_emailEx').text(res[0].mentor_email)

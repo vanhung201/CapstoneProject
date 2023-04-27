@@ -16,13 +16,14 @@ namespace BusinessConnectManagement.Controllers
         // GET: Home
         public ActionResult Index(int? page)
         {
+          
             ViewBag.MOUs = db.MOUs.ToList();
             ViewBag.Major = db.Majors.ToList();
             if (page == null) page = 1;
 
             var posts = (from post in db.Posts
                          select post).OrderByDescending(x => x.ID);
-
+           /* var totalQuantity = posts.Where(x => x.Quantity > 0).Sum(x => x.Quantity);*/
 
             int pageSize = 6;
             int pageNumber = (page ?? 1);
@@ -30,6 +31,7 @@ namespace BusinessConnectManagement.Controllers
             ViewBag.Posts = posts;
             ViewBag.CountStudent = db.VanLangUsers.Count();
             ViewBag.CountPost = db.Posts.Count();
+           
             ViewBag.CountBusiness = db.BusinessUsers.Count();
             ViewBag.MOU = db.MOUs.ToList();
             var getReID = db.Posts.FirstOrDefault();
