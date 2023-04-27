@@ -41,40 +41,70 @@
     @*-------------------confirm---------------------*@
     <form class="form" id="updateForm" method="post">
         <div class="form-container">
-            <h1 class="form-heading">Kết Quả Thực Tập</h1>
+            <h1 class="form-heading" >Kết Quả Thực Tập</h1>
             <div class="row">
+                <div class="form-group">
+                    <label for="comment" class="form-label">Doanh nghiệp thực tập</label>
+                    <input list="" name="Businessname" id="businessname" class="form-input" disabled />
+                </div>
                 <div class="form-group">
                     <label for="comment" class="form-label">Vị trí thực tập</label>
                     <input name="Position" id="Position" class="form-input" autocomplete="off" disabled />
-                </div>
-                <div class="form-group">
-                    <label for="comment" class="form-label">Email giáo viên</label>
-                    <input name="Email_Mentor" id="email" class="form-input" autocomplete="off" disabled />
-                </div>
-                <div class="form-group">
-                    <label for="comment" class="form-label">Điểm giáo viên</label>
-                    <input list="" name="MentorPoint" id="mentorPoint" class="form-input" disabled />
-                </div>
-                <div class="form-group">
-                    <label for="comment" class="form-label">Nhận xét của giáo viên</label>
-                    <textarea list="" name="MentorComment" id="mentorComment" class="form-input" disabled ></textarea>
                 </div>
                 <div class="form-group">
                     <label for="comment" class="form-label">Trạng thái thực tập</label>
                     <input list="" name="Status" id="status" class="form-input" disabled />
                 </div>
                 <div class="form-group">
-                    <label for="comment" class="form-label">Tên doanh nghiệp</label>
-                    <input list="" name="Businessname" id="businessname" class="form-input" disabled />
+                    <label for="comment" class="form-label">Email giáo viên</label>
+                    <input name="Email_Mentor" id="email" class="form-input" autocomplete="off" disabled />
                 </div>
                 <div class="form-group">
-                    <label for="comment" class="form-label">Điểm doanh nghiệp</label>
+                    <label for="comment" class="form-label" style="text-align:center">---------- Nhận xét của giáo viên ----------</label>
+
+                </div>
+                <div class="form-group">
+                    <label for="comment" class="form-label">Tinh thần thái độ</label>
+                    <textarea list="" name="MentorComment" id="mentorComment" class="form-input" disabled></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="comment" class="form-label">Thực hiện kế hoạch làm việc do GVHD quy định</label>
+                    <textarea list="" name="MentorComment" id="mentorComment2" class="form-input" disabled></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="comment" class="form-label">Hình thức Báo cáo đã thực hiện</label>
+                    <textarea list="" name="MentorComment" id="mentorComment3" class="form-input" disabled></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="comment" class="form-label">Nội dung Báo cáo đã thực hiện</label>
+                    <textarea list="" name="MentorComment" id="mentorComment4" class="form-input" disabled></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="comment" class="form-label">Điểm của GVHD</label>
+                    <input list="" name="MentorPoint" id="mentorPoint" class="form-input" disabled />
+                </div>
+
+                <div class="form-group">
+                    <label for="comment" class="form-label" style="text-align:center">---------- Nhận xét của doanh nghiệp ----------</label>
+                   
+                </div>
+                <div class="form-group">
+                    <label for="comment" class="form-label">Về ý thức tổ chức kỷ luật, thái độ</label>
+                    <textarea list="" name="BusinessComment" id="businessComment" class="form-input" disabled></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="comment" class="form-label">Điểm</label>
                     <input list="" name="BusinessPoint" id="businessPoint" class="form-input" disabled />
                 </div>
                 <div class="form-group">
-                    <label for="comment" class="form-label">Nhận xét của doanh nghiệp</label>
-                    <textarea list="" name="BusinessComment" id="businessComment" class="form-input" disabled ></textarea>
+                    <label for="comment" class="form-label">Về kỹ năng (giao tiếp, quan hệ, học tập, làm việc)</label>
+                    <textarea list="" name="BusinessComment" id="businessComment2" class="form-input" disabled></textarea>
                 </div>
+                <div class="form-group">
+                    <label for="comment" class="form-label">Điểm</label>
+                    <input list="" name="BusinessPoint" id="businessPoint2" class="form-input" disabled />
+                </div>
+
             </div>
             <div class="form-group text-center mt15">
                 <div class="btn btn-cancel btn--cancel">
@@ -191,10 +221,16 @@
                     $('#email_Mentor').val(res[0].Email_Mentor)
                     $('#mentorPoint').val(res[0].MentorPoint)
                     $('#mentorComment').val(res[0].MentorComment)
+                    $('#mentorComment2').val(res[0].MentorComment2)
+                    $('#mentorComment3').val(res[0].MentorComment3)
+                    $('#mentorComment4').val(res[0].MentorComment4)
                     $('#business_ID').val(res[0].Business_ID)
                     $('#businessname').val(res[0].Businessname)
                     $('#businessPoint').val(res[0].BusinessPoint)
+                    $('#businessPoint2').val(res[0].BusinessPoint2)
                     $('#businessComment').val(res[0].BusinessComment)
+                    $('#businessComment2').val(res[0].BusinessComment2)
+
                     $('#Position').val(res[0].Position)
                     $('#status').val(res[0].status)
                 }

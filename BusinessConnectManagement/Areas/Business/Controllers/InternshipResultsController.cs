@@ -298,8 +298,7 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
                         ws.Cells["E5"].Value = "Email VLU";
                         ws.Cells["F5"].Value = "Vị Trí Thực Tập";
                         ws.Cells["G5"].Value = "Trạng Thái";
-                        ws.Cells["H5"].Value = "Điểm Thực Tập";
-                        ws.Cells["I5"].Value = "Nhận Xét";
+                       
                         int rowStart = 6;
                         int countSTT = 1;
                         foreach (var item in myTable)
@@ -329,8 +328,7 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
                             ws.Cells[string.Format("E{0}", rowStart)].Value = item.Student_Email;
                             ws.Cells[string.Format("F{0}", rowStart)].Value = item.InternshipTopic.InternshipTopicName;
                             ws.Cells[string.Format("G{0}", rowStart)].Value = item.Status;
-                            ws.Cells[string.Format("H{0}", rowStart)].Value = item.BusinessPoint;
-                            ws.Cells[string.Format("I{0}", rowStart)].Value = item.BusinessComment;
+                          
                             rowStart++;
                             countSTT++;
                         }

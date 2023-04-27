@@ -24,7 +24,7 @@ namespace BusinessConnectManagement.Controllers
         }
 
         [HttpPost]
-        public ActionResult Apply(Registration registration, HttpPostedFileBase CV)
+        public ActionResult Apply(Registration registration, HttpPostedFileBase CV, PostInternshipTopic postInternshipTopic)
         {
             
             var post = db.Posts.Where(x => x.ID == registration.Post_ID).FirstOrDefault();
@@ -67,8 +67,15 @@ namespace BusinessConnectManagement.Controllers
                     }
                     else
                     {
-                        
-                        using (var scope = new TransactionScope())
+                    
+                    if (registration.InternshipTopic_ID == pp.InternshipTopic_ID)
+                    {
+                        postInternshipTopic = pp;
+                        postInternshipTopic.Quantity = pp.Quantity - 1;
+                    }
+                    db.Entry(postInternshipTopic).State = EntityState.Modified;
+                   
+                    using (var scope = new TransactionScope())
                         {
                             registration.CV = CV.FileName;
                             var path = Server.MapPath("~/Uploads/CV/");
@@ -112,10 +119,11 @@ namespace BusinessConnectManagement.Controllers
             
         }
 
-        public ActionResult Remove(int id)
+        public ActionResult Remove(int id, PostInternshipTopic postInternshipTopic)
         {
             Registration registration = db.Registrations.Find(id);
             var regStatus = registration.StatusRegistration;
+            var pp = db.PostInternshipTopics.Where(x => x.Post_ID == registration.Post_ID && x.InternshipTopic_ID == registration.InternshipTopic_ID).FirstOrDefault();
             var post = db.Posts.Where(x => x.ID == registration.Post_ID).FirstOrDefault();
             if (regStatus == "Phê Duyệt")
             {
@@ -126,6 +134,12 @@ namespace BusinessConnectManagement.Controllers
             }
             else
             {
+                if (registration.InternshipTopic_ID == pp.InternshipTopic_ID)
+                {
+                    postInternshipTopic = pp;
+                    postInternshipTopic.Quantity = pp.Quantity + 1;
+                }
+                db.Entry(postInternshipTopic).State = EntityState.Modified;
                 db.Registrations.Remove(registration);
                 db.SaveChanges();
                 TempData["message"] = "Hủy Kết Quả Thành Công";

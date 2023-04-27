@@ -56,6 +56,13 @@ namespace BusinessConnectManagement
             );
 
             routes.MapRoute(
+                name: "User Post List New",
+                url: "tin-tuyen-dung-moi",
+                defaults: new { controller = "Posts", action = "IndexNew", id = UrlParameter.Optional },
+                namespaces: new[] { "BusinessConnectManagement.Controllers" }
+            );
+
+            routes.MapRoute(
                 name: "User Post Details",
                 url: "chi-tiet-tin-tuyen-dung-{id}",
                 defaults: new { controller = "Posts", action = "Details", id = UrlParameter.Optional },
