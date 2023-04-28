@@ -43,6 +43,7 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
                             join emailVL in db.VanLangUsers on re.Email_VanLang equals emailVL.Email into emails
                             join intern in db.InternshipTopics on re.InternshipTopic_ID equals intern.ID into interns
                             where re.Business_ID == BusinessID && re.StatusRegistration == "Phê duyệt"
+                            orderby re.StatusInternview == "Chờ Phỏng Vấn" descending
                             select new
 
                             {

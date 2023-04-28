@@ -227,6 +227,7 @@
     <Compile Include="Areas\Faculty\Controllers\AppointmentMentorController.cs" />
     <Compile Include="Areas\Faculty\Controllers\BusinessCooperationCategoriesController.cs" />
     <Compile Include="Areas\Faculty\Controllers\BusinessUsersController.cs" />
+    <Compile Include="Areas\Faculty\Controllers\ContactsController.cs" />
     <Compile Include="Areas\Faculty\Controllers\CooperationCategoriesController.cs" />
     <Compile Include="Areas\Faculty\Controllers\FacultyHomeController.cs" />
     <Compile Include="Areas\Faculty\Controllers\MOUsController.cs" />
@@ -239,6 +240,7 @@
     <Compile Include="Areas\Mentor\Controllers\MentorHomeController.cs" />
     <Compile Include="Areas\Mentor\MentorAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ContactController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InternshipResultsController.cs" />
@@ -269,6 +271,9 @@
       <DependentUpon>BCMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\BusinessUser.cs">
+      <DependentUpon>BCMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Contact.cs">
       <DependentUpon>BCMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CooperationCategory.cs">
@@ -303,6 +308,9 @@
       <DependentUpon>BCMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Status.cs">
+      <DependentUpon>BCMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>BCMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Trainee.cs">
@@ -1469,6 +1477,11 @@
     <Content Include="Areas\Admin\Views\Email\EmailMentor.cshtml" />
     <Content Include="Areas\Admin\Views\Email\EmailUpdateAccount.cshtml" />
     <Content Include="Areas\Admin\Views\Email\EmailNotify.cshtml" />
+    <Content Include="Areas\Faculty\Views\Contacts\Create.cshtml" />
+    <Content Include="Areas\Faculty\Views\Contacts\Delete.cshtml" />
+    <Content Include="Areas\Faculty\Views\Contacts\Details.cshtml" />
+    <Content Include="Areas\Faculty\Views\Contacts\Edit.cshtml" />
+    <Content Include="Areas\Faculty\Views\Contacts\Index.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FTPProfile1.pubxml" />
@@ -1525,6 +1538,11 @@
     <Content Include="Views\Posts\IndexNew.cshtml" />
     <Content Include="Uploads\Import\Mentor.xlsx" />
     <Content Include="Uploads\Import\Student.xlsx" />
+    <Content Include="Views\Contact\Create.cshtml" />
+    <Content Include="Views\Contact\Delete.cshtml" />
+    <Content Include="Views\Contact\Details.cshtml" />
+    <Content Include="Views\Contact\Edit.cshtml" />
+    <Content Include="Views\Contact\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

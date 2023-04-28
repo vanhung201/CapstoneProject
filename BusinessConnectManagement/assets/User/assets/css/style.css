@@ -219,3 +219,6 @@ header {
 .flex-wrap {
     flex-wrap: wrap !important;
 }
+.error{
+    color: red;
+}
