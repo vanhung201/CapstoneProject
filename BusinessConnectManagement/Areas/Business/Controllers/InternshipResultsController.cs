@@ -39,6 +39,7 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
             int BusinessID = Convert.ToInt16(Session["BusinessID"]);
             var dataList = from internR in db.InternshipResults
                            where internR.Business_ID == BusinessID
+                           orderby internR.Status == "Chờ Xác Nhận" descending
                            select new
                            {
                                id = internR.ID,
