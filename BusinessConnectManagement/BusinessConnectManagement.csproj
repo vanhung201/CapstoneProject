@@ -1523,6 +1523,8 @@
     <Content Include="Uploads\ExcelTemplate\Mentor.xlsx" />
     <Content Include="Uploads\ExcelTemplate\Student.xlsx" />
     <Content Include="Views\Posts\IndexNew.cshtml" />
+    <Content Include="Uploads\Import\Mentor.xlsx" />
+    <Content Include="Uploads\Import\Student.xlsx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1531,7 +1533,6 @@
     <Folder Include="Areas\Faculty\Data\" />
     <Folder Include="Areas\Mentor\Data\" />
     <Folder Include="assets\js\ckfinder\userfiles\" />
-    <Folder Include="Uploads\Import\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
