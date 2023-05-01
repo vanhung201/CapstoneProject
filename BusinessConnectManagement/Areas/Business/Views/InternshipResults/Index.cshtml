@@ -375,7 +375,9 @@
                     {
                         data: "id",
                         render: function (t, e, a) {
-                             const getBtn = (a.status == "Đang Thực Tập") ?
+                            console.log(a);
+
+                            const getBtn = (a.status == "Đang Thực Tập" && a.mentor_email != null) ?
                                 `
                                 </a>
                                 <a href="@Url.Action("Details", "InternshipResults")/${t}" id="business_detail" class="business_detail">

@@ -3,6 +3,7 @@
   <EntityContainer Name="BCMEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="BusinessCooperationCategories" EntityType="BCMModel.BusinessCooperationCategory" />
     <EntitySet Name="BusinessUsers" EntityType="BCMModel.BusinessUser" />
+    <EntitySet Name="Contacts" EntityType="BCMModel.Contact" />
     <EntitySet Name="CooperationCategories" EntityType="BCMModel.CooperationCategory" />
     <EntitySet Name="InternshipResults" EntityType="BCMModel.InternshipResult" />
     <EntitySet Name="InternshipTopics" EntityType="BCMModel.InternshipTopic" />
@@ -14,6 +15,7 @@
     <EntitySet Name="Registrations" EntityType="BCMModel.Registration" />
     <EntitySet Name="Semesters" EntityType="BCMModel.Semester" />
     <EntitySet Name="Status" EntityType="BCMModel.Status" />
+    <EntitySet Name="sysdiagrams" EntityType="BCMModel.sysdiagram" />
     <EntitySet Name="Trainees" EntityType="BCMModel.Trainee" />
     <EntitySet Name="VanLangUsers" EntityType="BCMModel.VanLangUser" />
     <EntitySet Name="YearStudies" EntityType="BCMModel.YearStudy" />
@@ -173,6 +175,16 @@
     <NavigationProperty Name="PostInternshipTopics" Relationship="BCMModel.FK_PostInternshipTopic_BusinessUser" FromRole="BusinessUser" ToRole="PostInternshipTopic" />
     <NavigationProperty Name="Registrations" Relationship="BCMModel.FK_Registration_BusinessUser1" FromRole="BusinessUser" ToRole="Registration" />
   </EntityType>
+  <EntityType Name="Contact">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FullName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Mobile" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
   <EntityType Name="CooperationCategory">
     <Key>
       <PropertyRef Name="ID" />
@@ -254,6 +266,7 @@
     <Property Name="Message" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="Date" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="IsRead" Type="Boolean" />
+    <Property Name="Link" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="Post">
     <Key>
@@ -341,6 +354,16 @@
     <Property Name="Status1" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="BusinessUsers" Relationship="BCMModel.FK_BusinessUser_Status" FromRole="Status" ToRole="BusinessUser" />
     <NavigationProperty Name="VanLangUsers" Relationship="BCMModel.FK_VanLangUser_Status" FromRole="Status" ToRole="VanLangUser" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
   </EntityType>
   <EntityType Name="Trainee">
     <Key>

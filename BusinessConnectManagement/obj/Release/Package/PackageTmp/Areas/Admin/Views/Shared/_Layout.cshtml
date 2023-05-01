@@ -185,7 +185,13 @@
                             </a>
                             <span class="menu-tooltip">Gửi Mail</span>
                         </li>
-
+                        <li class="menu-item">
+                            <a href="@Url.Action("Index", "Contacts",new { area = "Faculty" })" class="menu-feature">
+                                <i class="menu-icon fal fa-id-card"></i>
+                                <span class="menu-text">Liên Hệ</span>
+                            </a>
+                            <span class="menu-tooltip">Liên Hệ</span>
+                        </li>
                         <li class="menu-item">
                             <a href="@Url.Action("Index", "Home",new { area = "" })" class="menu-feature">
                                 <i class="menu-icon fal fa-home"></i>
@@ -273,6 +279,13 @@
                             <span class="menu-tooltip">Sinh Viên Hướng Dẫn</span>
                         </li>
                         <li class="menu-item">
+                            <a href="@Url.Action("Index", "Contacts",new { area = "Faculty" })" class="menu-feature">
+                                <i class="menu-icon fal fa-id-card"></i>
+                                <span class="menu-text">Liên Hệ</span>
+                            </a>
+                            <span class="menu-tooltip">Liên Hệ</span>
+                        </li>
+                        <li class="menu-item">
                             <a href="@Url.Action("Index", "Home",new { area = "" })" class="menu-feature">
                                 <i class="menu-icon fal fa-home"></i>
                                 <span class="menu-text">Trở Về Trang Chủ</span>
@@ -335,9 +348,10 @@
                                                 @foreach (var item in ViewBag.Notifications)
                                                 {
                                             <div class="sec new">
+                                                <a href="@item.Link">
                                                         <div class="txt">@item.Message</div>
                                                         <div class="txt sub">@item.Date</div>
-                                                    
+                                                </a>  
                                             </div>
                                                 }
                                         </div>

@@ -29,6 +29,16 @@
     <Property Name="EmailContact" Type="varchar" MaxLength="150" />
     <Property Name="Semester_ID" Type="int" />
   </EntityType>
+  <EntityType Name="Contact">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FullName" Type="nvarchar" MaxLength="50" />
+    <Property Name="Mobile" Type="nvarchar" MaxLength="50" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" />
+    <Property Name="Note" Type="nvarchar(max)" />
+  </EntityType>
   <EntityType Name="CooperationCategories">
     <Key>
       <PropertyRef Name="ID" />
@@ -98,6 +108,7 @@
     <Property Name="Message" Type="nvarchar" MaxLength="250" />
     <Property Name="Date" Type="nvarchar" MaxLength="250" />
     <Property Name="IsRead" Type="bit" />
+    <Property Name="Link" Type="nvarchar" MaxLength="250" />
   </EntityType>
   <EntityType Name="Post">
     <Key>
@@ -161,6 +172,16 @@
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Status" Type="nvarchar" MaxLength="30" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
   </EntityType>
   <EntityType Name="Trainee">
     <Key>
@@ -542,6 +563,7 @@
   <EntityContainer Name="BCMModelStoreContainer">
     <EntitySet Name="BusinessCooperationCategories" EntityType="Self.BusinessCooperationCategories" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="BusinessUser" EntityType="Self.BusinessUser" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Contact" EntityType="Self.Contact" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CooperationCategories" EntityType="Self.CooperationCategories" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="InternshipResult" EntityType="Self.InternshipResult" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="InternshipTopic" EntityType="Self.InternshipTopic" Schema="dbo" store:Type="Tables" />
@@ -553,6 +575,7 @@
     <EntitySet Name="Registration" EntityType="Self.Registration" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Semester" EntityType="Self.Semester" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Trainee" EntityType="Self.Trainee" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="VanLangUser" EntityType="Self.VanLangUser" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="YearStudy" EntityType="Self.YearStudy" Schema="dbo" store:Type="Tables" />
