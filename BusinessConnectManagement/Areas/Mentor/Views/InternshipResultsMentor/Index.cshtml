@@ -328,11 +328,12 @@
 
     <script type="text/javascript">
         $(function () {
-          var url = "@Url.Action("listDataIntern", "InternshipResultsMentor")"
+          var url = "@Url.Action("getDataList", "InternshipResultsMentor")"
+            console.log(url);
             "use strict";
              (dataTable = $("#table_listData").DataTable({
-                ajax: {
-                     url: '/InternshipResultsMentor/getDataList',
+                 ajax: {
+                     url: url,
                     type: "GET",
                     dataType: "json",
                      dataSrc: ""

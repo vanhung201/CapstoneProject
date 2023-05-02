@@ -50,6 +50,7 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
                                position = internR.InternshipTopic.InternshipTopicName,
                                semester = internR.Semester.Semester1,
                                businesscomment = internR.BusinessComment,
+                               mentor_email = internR.Mentor_Email
                            };
             return Json(dataList, JsonRequestBehavior.AllowGet);
         }

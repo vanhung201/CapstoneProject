@@ -194,7 +194,6 @@ header {
 
 .fas {
     font-size: 14pt;
-    color: black;
     margin-right:1rem;
 }
 
@@ -222,7 +221,7 @@ bell-icon{
 }
 
 .fas:hover {
-    color: #d63031;
+    color: var(--primary-color);
 }
 
 .notBtn:hover > .box {
