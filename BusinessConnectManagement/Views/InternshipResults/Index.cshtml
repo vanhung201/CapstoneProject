@@ -20,6 +20,10 @@
         display: block;
         width: 372px;
     }
+    .overFlowExportBu {
+        display: block;
+        width: 340px;
+    }
 </style>
 <main>
     <div id="bg-bread">
@@ -198,7 +202,7 @@
                     <br />
 
                     <div style="text-align: center; margin-top: 3%">
-                        <span style="font-size: 20px; font-weight: 700; color:red">PHẦN NHẬN XÉT ĐÁNH GIÁ VÀ CHẤM ĐIỂM</span>
+                        <span style="font-size: 20px; font-weight: 700; color:red">PHẦN NHẬN XÉT ĐÁNH GIÁ VÀ CHẤM ĐIỂM CỦA GVHD</span>
                     </div>
                     <br />
                     <div style="word-wrap: break-word;">
@@ -257,6 +261,39 @@
                         <br />
                         <i style=" font-style: italic;">(Ký và ghi rõ họ và tên)</i>
                     </div>
+                </div>
+                <div style="text-align: center; margin-top: 3%">
+                    <span style="font-size: 20px; font-weight: 700; color:red">PHẦN NHẬN XÉT ĐÁNH GIÁ VÀ CHẤM ĐIỂM CỦA DOANH NGHIỆP</span>
+                </div>
+                <br />
+                <div style="word-wrap: break-word;">
+                    <table width="100%">
+                        <thead style="color: #ffffff">
+                            <tr style="background-color: #374090">
+                                <th class="boder" style="width:4%">
+                                    #
+                                </th>
+                                <th class="boder" style="width:30%">Tiêu Chí Đánh Giá</th>
+                                <th class="boder" style="width:48%">Nhận xét</th>
+                                <th class="boder" style="width:18%">Điểm<br /><span style="font-size: 12px">(Thang điểm 10)</span></th>
+                            </tr>
+                        </thead>
+                        <tbody style=" word-wrap: break-word;">
+
+                            <tr class="boderTr">
+                                <td class="boder" style="width:4%">1</td>
+                                <td class="boder" style="width:30%">Về ý thức tổ chức kỷ luật, thái độ</td>
+                                <td class="boder" style="width:48%"><span id="businesscomment" class="overFlowExportBu"></span></td>
+                                <td class="boder" style="width:18%; text-align:center"><span id="businesspoint"></span></td>
+                            </tr>
+                            <tr class="boderTr">
+                                <td class="boder" style="width:4%">2</td>
+                                <td class="boder" style="width:30%">Về kỹ năng (giao tiếp, quan hệ, học tập, làm việc)</td>
+                                <td class="boder" style="width:48%"><span id="businesscomment2" class="overFlowExportBu"></span></td>
+                                <td class="boder" style="width: 18%; text-align: center"><span id="businesspoint2"></span></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
             <div class="form-group text-center mt15">
@@ -422,6 +459,14 @@
                     $('#mentorcomment2').text(res[0].mentorcomment2)
                     $('#mentorcomment3').text(res[0].mentorcomment3)
                     $('#mentorcomment4').text(res[0].mentorcomment4)
+                    $('#businesspoint').text(res[0].businesspoint)
+                    $('#businesspoint2').text(res[0].businesspoint2)
+                    $('#businesscomment').text(res[0].businesscomment)
+                    $('#businesscomment2').text(res[0].businesscomment2)
+                   
+
+
+
                 }
             })
         })
