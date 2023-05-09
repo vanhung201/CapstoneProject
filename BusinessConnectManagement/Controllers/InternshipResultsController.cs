@@ -50,10 +50,15 @@ namespace BusinessConnectManagement.Controllers
                                Email_Mentor = intern.Mentor_Email,
                                MentorPoint= intern.MentorPoint,
                                MentorComment = intern.MentorComment,
+                               MentorComment2 = intern.MentorComment2,
+                               MentorComment3 = intern.MentorCommentB1,
+                               MentorComment4 = intern.MentorCommentB2,
                                Business_ID = intern.Business_ID,
                                Businessname = intern.BusinessUser.BusinessName,
                                BusinessPoint = intern.BusinessPoint,
+                               BusinessPoint2 = intern.BusinessPoint2,
                                BusinessComment = intern.BusinessComment,
+                               BusinessComment2 = intern.BusinessComment2,
                                Position_ID = intern.InternshipTopic_ID,
                                Position = intern.InternshipTopic.InternshipTopicName,
                                status = intern.Status
@@ -117,6 +122,7 @@ namespace BusinessConnectManagement.Controllers
         [HttpPost]
         public ActionResult Edit(InternshipResult internshipResult)
         {
+            Notification notify = new Notification();
             if (ModelState.IsValid)
             {
                 var registration = db.Registrations.Where(x => x.InternshipResult_ID == internshipResult.ID).FirstOrDefault();
@@ -239,7 +245,13 @@ namespace BusinessConnectManagement.Controllers
                         return RedirectToAction("Index");
                     }
                 }
-              
+                notify.Business_ID = internshipResult.Business_ID;
+                notify.Title = "Thông Báo";
+                notify.Message = "Có sinh viên xác nhận thực tập";
+                notify.IsRead = false;
+                notify.Date = (DateTime.Now).ToString();
+                notify.Link = Url.Action("Index", "InternshipResults", new { area = "Business" });
+                db.Notifications.Add(notify);
                 db.SaveChanges();
                 TempData["message"] = "Xác nhận thực tập thành công.";
                 TempData["messageType"] = "success";

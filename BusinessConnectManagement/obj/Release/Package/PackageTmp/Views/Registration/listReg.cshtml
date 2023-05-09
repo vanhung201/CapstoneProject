@@ -19,14 +19,14 @@
 
     <section class="mt30">
         <div class="container mb30">
-            <table id="table1" class="display">
+            <table id="table1" class="display" width="100%">
                 <thead>
                     <tr>
                         <th class="text-center">STT</th>
                         <th class="text-center">Tên Doanh Nghiệp</th>
                         <th class="text-center">Vị Trí</th>
                         <th class="text-center">Trạng Thái</th>
-                        <th class="text-center">Thông Tin</th>
+                        <th class="text-center" width="40%">Thông Tin</th>
                     </tr>
                 </thead>
             </table>
@@ -35,48 +35,39 @@
 
     <form class="form" id="updateForm" method="post">
         <div class="form-container">
-            <h1 class="form-heading">Thông Tin Ứng Tuyển</h1>
+            <h1 class="form-heading mb15">Thông Tin Ứng Tuyển</h1>
             <div class="row">
-                <div class="columnn">
-
-                    <div class="form-group">
-                        <label for="comment" class="form-label">Email</label>
-                        <input name="Email_Mentor" id="Email" class="form-input" autocomplete="off" disabled />
-                    </div>
-                    <div class="form-group">
-                        <label for="comment" class="form-label">Tên doanh nghiệp</label>
-                        <input list="" name="Businessname" id="BusinessName" class="form-input" disabled />
-                    </div>
-
-                    <div class="form-group">
-                        <label for="comment" class="form-label">Trạng thái</label>
-                        <input list="" name="MentorComment" id="status" class="form-input" disabled />
-                    </div>
+                <div class="form-group">
+                    <label for="comment" class="form-label">Họ và tên</label>
+                    <input list="" name="MentorPoint" id="FullName" class="form-input" disabled />
                 </div>
-                <div class="columnn">
-                    <div class="form-group">
-                        <label for="comment" class="form-label">Họ và tên</label>
-                        <input list="" name="MentorPoint" id="FullName" class="form-input" disabled />
-                    </div>
-                    <div class="form-group">
-                        <label for="comment" class="form-label">Vị trí thực tập</label>
-                        <input name="Position" id="PositionName" class="form-input" autocomplete="off" disabled />
-                    </div>
-                    <div class="form-group">
-                        <label for="comment" class="form-label">CV</label>
-                        <input list="" name="CV" id="CV" class="form-input" disabled />
-                    </div>
-                    <div class="form-group">
-                        <label for="comment" class="form-label">Nhận xét</label>
-                        <input list="" name="BusinessComment" id="Comment" class="form-input" disabled />
-                    </div>
+                <div class="form-group">
+                    <label for="comment" class="form-label">Email</label>
+                    <input name="Email_Mentor" id="Email" class="form-input" autocomplete="off" disabled />
+                </div>
+                <div class="form-group">
+                    <label for="comment" class="form-label">Tên doanh nghiệp</label>
+                    <input list="" name="Businessname" id="BusinessName" class="form-input" disabled />
+                </div>
+                <div class="form-group">
+                    <label for="comment" class="form-label">Trạng thái</label>
+                    <input list="" name="MentorComment" id="status" class="form-input" disabled />
+                </div>
+                <div class="form-group">
+                    <label for="comment" class="form-label">Vị trí thực tập</label>
+                    <input name="Position" id="PositionName" class="form-input" autocomplete="off" disabled />
+                </div>
+                <div class="form-group">
+                    <label for="comment" class="form-label">CV</label>
+                    <input list="" name="CV" id="CV" class="form-input" disabled />
+                </div>
+                <div class="form-group">
+                    <label for="comment" class="form-label">Nhận xét</label>
+                    <input list="" name="BusinessComment" id="Comment" class="form-input" disabled />
                 </div>
             </div>
-            <div class="form-group">
-                <a class="btn btn--cancel">
-                    Hủy
-                </a>
-                <a class="btn btn--confirm" id="btn--cancel">
+            <div class="form-group mt15 text-center">
+                <a class="btn btn--confirm btn-submit text-white" id="btn--cancel">
                     Xác Nhận
                 </a>
             </div>
@@ -112,7 +103,7 @@
                                 `
                                 <a href="@Url.Action("getRegistrationData", "Registration")/${t}" id="business_detail" class="business_detail">
                                 <div class="btn btn-update">
-                                    <span class="btn-text">Xem Chi Tiết</span>
+                                     <i class="btn-icon btn-icon--detail fal fa-info-circle"></i>
                                 </div>
                                 </a>
     `

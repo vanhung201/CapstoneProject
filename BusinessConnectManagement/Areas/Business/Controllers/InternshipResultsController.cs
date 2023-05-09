@@ -14,6 +14,10 @@ using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using WebGrease.Activities;
 using BusinessConnectManagement.Middleware;
+using Microsoft.Office.Interop.Excel;
+using System.Globalization;
+using System.Text;
+
 namespace BusinessConnectManagement.Areas.Business.Controllers
 {
     [BusinessVerification]
@@ -35,6 +39,7 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
             int BusinessID = Convert.ToInt16(Session["BusinessID"]);
             var dataList = from internR in db.InternshipResults
                            where internR.Business_ID == BusinessID
+                           orderby internR.Status == "Chờ Xác Nhận" ? 0 : internR.Status == "Đang Thực Tập" ? 1 : 2
                            select new
                            {
                                id = internR.ID,
@@ -45,6 +50,7 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
                                position = internR.InternshipTopic.InternshipTopicName,
                                semester = internR.Semester.Semester1,
                                businesscomment = internR.BusinessComment,
+                               mentor_email = internR.Mentor_Email
                            };
             return Json(dataList, JsonRequestBehavior.AllowGet);
         }
@@ -211,12 +217,18 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
         }
         [HttpPost]
         [ValidateInput(false)]
-        public EmptyResult ExportWord(string GridHtml)
+        public EmptyResult ExportWord(string GridHtml, string fullname)
         {
+            string formattedName = new string(fullname
+                                              .Normalize(NormalizationForm.FormD)
+                                              .Where(c => char.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
+                                              .ToArray())
+                                              .Replace(" ", "");
+                                               formattedName = formattedName.ToLower();
             GridHtml = "<style>.line { line-height: 1.5; } .boder {border: 1px solid black; border-collapse: collapse;}</style>" + GridHtml;
             Response.Clear();
             Response.Buffer = true;
-            Response.AddHeader("content-disposition", "attachment; filename=ExcelReport.doc");
+            Response.AddHeader("content-disposition", "attachment; filename="+ formattedName +"_Comment.doc");
             Response.Charset = "";
             Response.ContentType = "application/vnd.ms-word";
             Response.Output.Write(GridHtml);
@@ -288,8 +300,7 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
                         ws.Cells["E5"].Value = "Email VLU";
                         ws.Cells["F5"].Value = "Vị Trí Thực Tập";
                         ws.Cells["G5"].Value = "Trạng Thái";
-                        ws.Cells["H5"].Value = "Điểm Thực Tập";
-                        ws.Cells["I5"].Value = "Nhận Xét";
+                       
                         int rowStart = 6;
                         int countSTT = 1;
                         foreach (var item in myTable)
@@ -319,8 +330,7 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
                             ws.Cells[string.Format("E{0}", rowStart)].Value = item.Student_Email;
                             ws.Cells[string.Format("F{0}", rowStart)].Value = item.InternshipTopic.InternshipTopicName;
                             ws.Cells[string.Format("G{0}", rowStart)].Value = item.Status;
-                            ws.Cells[string.Format("H{0}", rowStart)].Value = item.BusinessPoint;
-                            ws.Cells[string.Format("I{0}", rowStart)].Value = item.BusinessComment;
+                          
                             rowStart++;
                             countSTT++;
                         }

@@ -24,7 +24,7 @@
 }
 
 @{
-    ViewBag.Title = "Trang quản lý - BCM";
+    ViewBag.Title = "Quản Lý - Trang Chủ";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 <section id="statistic">
@@ -45,148 +45,124 @@
         </div>
     </div>
 
-    <ul class="statistic-list">
-        <li class="statistic-item statistic-error">
-            <p class="statistic-item-desc">
-                Khoa CNTT: <span>@facultyNumber</span>
-            </p>
-        </li>
-        <li class="statistic-item statistic-warning">
-            <p class="statistic-item-desc">
-                Giảng Viên Hướng Dẫn: <span id="mentor">0</span>
-            </p>
-        </li>
-        <li class="statistic-item statistic-info">
-            <p class="statistic-item-desc">
-                Sinh Viên: <span id="student">@studentNumber</span>
-            </p>
-        </li>
-    </ul>
-    <div class="chart">
-        <div class="chart-item">
-            <div class="chart-heading">
-                Biểu đồ hiển thị số lượng người dùng
-            </div>
-            <canvas id="pie-chart1" width="400" height="400" style="margin:auto"></canvas>
+    <div class="statistic-user">
+        <div class="user">
+            <h4 class="heading">Thống kê Số lượng người dùng</h4>
+            <ul class="user-list">
+                <li class="user-item user-error">
+                    <p class="user-item-desc">
+                        Khoa CNTT:
+                        <span>@facultyNumber</span>
+                    </p>
+                </li>
+                <li class="user-item user-warning">
+                    <p class="user-item-desc">
+                        Giảng Viên Hướng Dẫn:
+                        <span id="mentor">@mentorNumber</span>
+                    </p>
+                </li>
+                <li class="user-item user-info">
+                    <p class="user-item-desc">
+                        Sinh Viên:
+                        <span id="student">@studentNumber</span>
+                    </p>
+                </li>
+            </ul>
         </div>
-        <div class="chart-item">
-            <div class="chart-heading">
-                Biểu đồ hiển thị trạng thái người dùng
-            </div>
-            <canvas id="pie-chart2" width="400" height="400" style="margin:auto"></canvas>
-        </div>
-    </div>
-    <ul class="statistic-list">
-        <li class="statistic-item statistic-warning">
-            <p class="statistic-item-desc">
-                CV Chờ Duyệt: <span id="cv_pending">0</span>
-            </p>
-        </li>
-        <li class="statistic-item statistic-success">
-            <p class="statistic-item-desc">
-                CV Phê Duyệt: <span id="cv_accepted">0</span>
-            </p>
-        </li>
-        <li class="statistic-item statistic-error">
-            <p class="statistic-item-desc">
-                CV Hủy Duyệt: <span id="cv_failed">0</span>
-            </p>
-        </li>
-        <li class="statistic-item statistic-done">
-            <p class="statistic-item-desc">
-                CV Không Duyệt: <span id="cv_canceled">0</span>
-            </p>
-        </li>
-    </ul>
-    <div class="chart">
-        <div class="chart-item" style="width:100%">
-            <div class="chart-heading">
-                Biểu đồ hiển thị số lượng CV
-            </div>
-            <div>
-                <span id="cv_empty"></span>
-            </div>
-            <canvas id="CV-count" width="400" height="400" style="margin:auto"></canvas>
+        <div class="user">
+            <h4 class="heading">Thống kê trạng thái người dùng</h4>
+            <ul class="user-list">
+                <li class="user-item user-active">
+                    <p class="user-item-desc">
+                        Đang hoạt động:
+                        <span>@userActiveNumber</span>
+                    </p>
+                </li>
+                <li class="user-item user-block">
+                    <p class="user-item-desc">
+                        Bị khóa:
+                        <span id="mentor">@userBlockedNumber</span>
+                    </p>
+                </li>
+            </ul>
         </div>
     </div>
-    <ul class="statistic-list">
-        <li class="statistic-item statistic-success">
-            <p class="statistic-item-desc">
-                SV Đậu Phỏng Vấn: <span id="sv_passed">0</span>
-            </p>
-        </li>
-        <li class="statistic-item statistic-error">
-            <p class="statistic-item-desc">
-                SV Rớt Phỏng Vấn: <span id="sv_failed">0</span>
-            </p>
-        </li>
-        <li class="statistic-item statistic-info">
-            <p class="statistic-item-desc">
-                SV Đang Thực Tập: <span id="sv_practicing">0</span>
-            </p>
-        </li>
-        <li class="statistic-item statistic-warning">
-            <p class="statistic-item-desc">
-                SV Chờ Xác Nhận: <span id="sv_pending">0</span>
-            </p>
-        </li>
-        <li class="statistic-item statistic-done">
-            <p class="statistic-item-desc">
-                SV Thực Tập Xong: <span id="sv_completed">0</span>
-            </p>
-        </li>
-    </ul>
-    <div class="chart">
-        <div class="chart-item" style="width:100%">
-            <div class="chart-heading">
-                Biểu đồ hiển thị số lượng người dùng
+
+    <div class="statistic-job">
+        <div class="cv">
+            <h4 class="heading">Thống kê CV xin việc</h4>
+            <div class="chart">
+                <div class="chart-item" style="width:100%">
+                    <div>
+                        <span id="cv_empty"></span>
+                    </div>
+                    <canvas id="CV-count" width="400" height="400" style="margin:auto"></canvas>
+                </div>
             </div>
-            <div>
-                <span id="sv_empty"></span>
-            </div>
-            <canvas id="student-pie" width="400" height="400" style="margin:auto"></canvas>
         </div>
 
+        <div class="interview">
+            <h4 class="heading">Thống kê SV phỏng vấn</h4>
+            <div class="chart">
+                <div class="chart-item" style="width:100%">
+                    <div>
+                        <span id="sv_empty"></span>
+                    </div>
+                    <canvas id="student-pie" width="400" height="400" style="margin:auto"></canvas>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="chart">
-        <div class="dashboard-item" style="width:100%">
 
-            <h3>Thống kê Số Lượng Sinh Viên Đậu Phỏng Vấn</h3>
-            <canvas id="pie-chart3" width="1000" height="400" style="margin:auto"></canvas>
+    <div class="intern">
+        <h4 class="heading">Thống kê Số Lượng Sinh Viên Đậu Phỏng Vấn</h4>
+        <div class="chart">
+            <div class="chart-item" style="width:100%">
+                <canvas id="pie-chart3" width="900" height="400" style="margin:auto"></canvas>
+            </div>
         </div>
     </div>
-    <ul class="statistic-list">
-        <li class="statistic-item statistic-success">
-            <p class="statistic-item-desc">
-                Doanh Nghiệp: <span id="business">0</span>
-            </p>
-        </li>
-        <li class="statistic-item statistic-error">
-            <p class="statistic-item-desc">
-                DN Đã Ký Kết MOU: <span id="">@buSignedMOU</span>
-            </p>
-        </li>
-    </ul>
-    <div class="chart">
-        <div class="chart-item" style="width:100%">
-            <div class="chart-wrap">
-                <label for="select-business" class="chart-label">Lọc doanh nghiệp:</label>
-                <select name="" id="select-business" class="chart-select">
-                </select>
+
+    <div class="statistic-business">
+        <h4 class="heading">Thống kê Doanh nghiệp</h4>
+        <ul class="business-list">
+            <li class="business-item business-success">
+                <p class="business-item-desc">
+                    Doanh Nghiệp:
+                    <span id="business">0</span>
+                </p>
+            </li>
+            <li class="business-item business-error">
+                <p class="business-item-desc">
+                    DN Đã Ký Kết MOU:
+                    <span id="">@buSignedMOU</span>
+                </p>
+            </li>
+        </ul>
+        <div class="business-sign">
+            <div class="chart">
+                <div class="chart-item" style="width:100%">
+                    <div class="chart-wrap">
+                        <label for="select-business" class="chart-label">Lọc doanh nghiệp:</label>
+                        <select name="" id="select-business" class="chart-select">
+                        </select>
+                    </div>
+                    <div>
+                        <span id="bussiness_empty"></span>
+                    </div>
+                    <canvas id="chart-business" width="900" height="400" style="margin:auto"></canvas>
+                </div>
             </div>
-            <div>
-                <span id="bussiness_empty"></span>
-            </div>
-            <canvas id="chart-business" width="400" height="400" style="margin:auto"></canvas>
         </div>
     </div>
+
 </section>
 
 <script>
     // Chart Business
     var business = document.getElementById("chart-business").getContext("2d");
     var myBusiness = new Chart(business, {
-        type: "pie",
+        type: "bar",
         data: {
             labels: [
 
@@ -238,6 +214,7 @@
             ],
         },
         options: {
+            indexAxis: 'y',
             responsive: false,
             maintainAspectRatio: false,
             plugins: {
@@ -245,7 +222,7 @@
                     display: true,
                     position: 'bottom',
                     labels: {
-                        color: 'white' // set the font color to white
+                        color: 'black' // set the font color to white
                     }
                 }
             }
@@ -253,83 +230,16 @@
     });
 
     // Chart Interview
-    var interview = document
-        .getElementById("chart-interview")
-        .getContext("2d");
-    var myInterview = new Chart(interview, {
-        type: "pie",
-        data: {
-            labels: [
-            ],
-            datasets: [
-                {
-                    label: "Số sinh viên đậu phỏng vấn",
-                    data: [12, 19, 3, 5],
-                    backgroundColor: [
-                        "rgba(255, 99, 132, 1)",
-                        "rgba(54, 162, 235, 1)",
-                        "rgba(255, 206, 86, 1)",
-                        "rgba(75, 192, 192, 1)",
-                    ],
-                    borderColor: [
-                        "rgba(255, 99, 132, 1)",
-                        "rgba(54, 162, 235, 1)",
-                        "rgba(255, 206, 86, 1)",
-                        "rgba(75, 192, 192, 1)",
-                    ],
-                    borderWidth: 1,
-                },
-            ],
-        },
-        options: {
-            responsive: false,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    position: 'bottom',
-                },
-            },
-        }
-    });
+    
 </script>
 
 
 @section Scripts {
     <script>
-        var chart1=
-        new Chart(document.getElementById("pie-chart1"), {
-            type: "pie",
-            data: {
-                labels: ["BCN Khoa", "Giảng viên hướng dẫn", "Sinh viên"],
-                datasets: [
-                    {
-                        label: `Số lượng`,
-                        backgroundColor: ["#bd362f", "#2f96b4", "#f89406"],
-                        data: [@facultyNumber, @mentorNumber, @studentNumber],
-                    },
-                ],
-            },
-            options: {
-                title: {
-                    display: true,
-                    text: "Pie Chart for role panel",
-                },
-                reponsive: true,
-                plugins: {
-                    legend: {
-                        display: true,
-                        position: 'bottom',
-                        labels: {
-                            color: 'white' // set the font color to white
-                        }
-                    }
-                }
-            },
-        });
 
         var studentPie=
         new Chart(document.getElementById("student-pie"), {
-            type: "pie",
+            type: "bar",
             data: {
                 labels: ["SV Đậu Phỏng Vấn", "SV Rớt Phỏng Vấn", "SV Đang Thực Tập", "SV Chờ Xác Nhận", "SV Thực Tập Xong"],
                 datasets: [
@@ -341,6 +251,7 @@
                 ],
             },
             options: {
+                indexAxis: 'y',
                 title: {
                     display: true,
                     text: "Pie Chart for role panel",
@@ -360,7 +271,7 @@
         //CV chart
          var chart2=
              new Chart(document.getElementById("CV-count"), {
-            type: "pie",
+            type: "bar",
             data: {
                 labels: ["CV Chờ Duyệt", "CV Phê Duyệt", "CV Hủy Duyệt","CV Không Duyệt"],
                 datasets: [
@@ -372,6 +283,7 @@
                 ],
             },
             options: {
+                indexAxis: 'y',
                 title: {
                     display: true,
                     text: "Pie Chart for role panel",
@@ -390,40 +302,11 @@
         });
 
 
-        new Chart(document.getElementById("pie-chart2"), {
-            type: "pie",
-            data: {
-                labels: ["Đang hoạt động", "Bị khóa"],
-                datasets: [
-                    {
-                        label: `Số lượng`,
-                        backgroundColor: ["#38663c", "#e21c34"],
-                        data: [@userActiveNumber, @userBlockedNumber],
-                    },
-                ],
-            },
-            options: {
-                title: {
-                    display: true,
-                    text: "Pie Chart for status panel",
-                },
-                reponsive: true,
-                plugins: {
-                    legend: {
-                        display: true,
-                        position: 'bottom',
-                        labels: {
-                            color: 'white' // set the font color to white
-                        }
-                    }
-                }
-            },
-        });
-
+        var passedChart =
             new Chart(document.getElementById("pie-chart3"), {
             type: "bar",
             data: {
-                labels: @Html.Raw(Json.Encode(bu)),
+                labels: [],
                 datasets: [
                     {
                         label: `Số lượng`,
@@ -432,7 +315,8 @@
                     },
                 ],
             },
-            options: {
+                options: {
+                    indexAxis: 'y',
                 title: {
                     display: true,
                     text: "Pie Chart for status panel",
@@ -485,6 +369,7 @@
             type: 'GET',
             dataType: 'json',
             success: function (res) {
+                console.log(res);
                 semesterSelect.empty();
                 $.each(res, function (index, semester) {
                     var selectedAttr = semester.Status ? 'selected' : '';
@@ -506,6 +391,7 @@
             type: 'GET',
             dataType: 'json',
             success: function (res) {
+                console.log(res);
                 $('#cv_pending').text(res.cv_pending);
                 $('#cv_accepted').text(res.cv_accepted);
                 $('#cv_failed').text(res.cv_failed);
@@ -531,9 +417,9 @@
                 } else {
                     $('#sv_empty').text('');
                 }
-                chart1.data.labels = ['BCN Khoa', 'Sinh Viên', 'Giảng Viên Hướng Dẫn']
-                chart1.data.datasets[0].data = ['@facultyNumber', '@studentNumber', `${res.mentor}`]
-                chart1.update();
+                passedChart.data.labels = res.businessName
+                passedChart.data.datasets[0].data = res.passStudent
+                passedChart.update()
                 chart2.data.datasets[0].data = [`${res.cv_pending}`, `${res.cv_accepted}`, `${res.cv_failed}`, `${res.cv_canceled}`];
                 chart2.update();
                 studentPie.data.datasets[0].data = [`${res.sv_passed}`, `${res.sv_failed}`, `${res.sv_practicing}`, `${res.sv_pending}`, `${res.sv_completed}`];
@@ -552,6 +438,7 @@
                    type: 'get',
                    dataType: 'json',
                    success: function (res) {
+                       console.log(res)
                        if ((res.posProvider).length > 0) {
                            for (let i = 0; i < (res.posProvider).length; i++) {
                                arr.push(res.posProvider[i].position);

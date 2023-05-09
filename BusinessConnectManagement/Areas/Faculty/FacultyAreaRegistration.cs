@@ -48,7 +48,18 @@ namespace BusinessConnectManagement.Areas.Faculty
                 new { controller = "BusinessUsers", action = "Details", id = UrlParameter.Optional },
                 namespaces: new[] { "BusinessConnectManagement.Areas.Faculty.Controllers" }
             );
-
+            context.MapRoute(
+                "AppointmentMentor",
+                "quan-ly/thuc-tap",
+                new { controller = "AppointmentMentor", action = "Index", id = UrlParameter.Optional },
+                namespaces: new[] { "BusinessConnectManagement.Areas.Faculty.Controllers" }
+            );
+            context.MapRoute(
+                "Study Year",
+                "quan-ly/nam-hoc",
+                new { controller = "YearStudies", action = "Index", id = UrlParameter.Optional },
+                namespaces: new[] { "BusinessConnectManagement.Areas.Faculty.Controllers" }
+            );
             context.MapRoute(
                 "Cooperation Categories",
                 "quan-ly/danh-muc-hop-tac",

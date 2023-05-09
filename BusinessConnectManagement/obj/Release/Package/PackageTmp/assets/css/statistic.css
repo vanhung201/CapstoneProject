@@ -1,92 +1,153 @@
 /* STATISTIC */
-#statistic {
+/*#statistic {
   width: 100%;
-  background: linear-gradient(90deg, rgba(2, 0, 36, 0.7), rgba(9, 9, 121, 0.7)),
-    url("../img/homepage.jpg") no-repeat center / cover;
-  color: #fff;
+  background-color: #fff;
   text-align: center;
   border-radius: 0.5rem;
   user-select: none;
   padding: 2rem;
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
-}
+}*/
 
 .filter {
-  display: flex;
-  justify-content: center;
+    width: 100%;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    user-select: none;
 }
 
 .filter-item:not(:first-child) {
-  margin-left: 2rem;
+    margin-left: 2rem;
 }
 
 .filter-label {
-  margin-right: 1rem;
+    margin-right: 1rem;
 }
 
 .filter-select {
-  padding: 1rem;
-  border-radius: 0.5rem;
-  outline: none;
-  cursor: pointer;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    outline: none;
+    cursor: pointer;
 }
 
 .filter-option {
-  padding: 1rem;
+    padding: 1rem;
 }
 
 /* statistic */
-.statistic-list {
-  display: flex;
-  justify-content: space-evenly;
-  margin-top: 2rem;
+.statistic-user, .statistic-job {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.statistic-item {
-  padding: 1.5rem;
-  background-color: #fff;
-  color: #fff;
-  border-radius: 0.5rem;
+.heading {
+    margin-bottom: 1rem;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.6rem;
+    text-transform: capitalize;
 }
 
-.statistic-success {
-    background-color: #51a351;
+.user, .cv, .interview, .intern, .statistic-business {
+    background-color: #fff;
+    margin-top: 3.5rem;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    user-select: none;
 }
 
-.statistic-error {
+    .user:first-child {
+        width: 55%;
+    }
+
+    .user:last-child {
+        width: 40%;
+    }
+
+.cv, .interview {
+    width: 48%;
+}
+
+.intern {
+    width: 100%;
+}
+
+.statistic-business {
+    text-align: center;
+}
+
+.user-list, .business-list {
+    display: flex;
+    justify-content: center;
+}
+
+.user-item, .business-item {
+    padding: 1rem;
+    background-color: #fff;
+    color: #fff;
+    border-radius: 0.5rem;
+    margin-inline: 2rem;
+}
+
+.user-error {
     background-color: #bd362f;
 }
 
-.statistic-info {
+.user-info {
     background-color: #2f96b4;
 }
 
-.statistic-warning {
+.user-warning {
     background-color: #f89406;
 }
 
-.statistic-done {
+.user-done {
     background-color: #5d26c1;
 }
 
+.user-active {
+    background-color: #1E9600;
+}
+
+.user-block {
+    background-color: #ED213A;
+}
+
+.business-success {
+    background-color: #ff5e62;
+}
+
+.business-error {
+    background-color: #0082c8;
+}
+
+.business-sign {
+    margin-top: 1rem;
+}
+
 .chart {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 2rem;
+    display: flex;
+    justify-content: space-between;
 }
 
 .chart-item {
-  width: 45% ;
-  height: 45% ;
-  flex-shrink: 0;
-  color: #fff ;
+    width: 45%;
+    height: 45%;
+    flex-shrink: 0;
 }
 
 .chart-select {
-  padding: 0.5rem;
-  border-radius: 0.5rem;
-  outline: none;
-  cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    outline: none;
+    cursor: pointer;
 }
 
 .chart-heading {

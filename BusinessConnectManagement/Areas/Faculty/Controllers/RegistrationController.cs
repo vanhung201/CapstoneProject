@@ -69,6 +69,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         {
             var post = db.Posts.Where(x => x.ID == registration.Post_ID).First();
             var email = db.VanLangUsers.Where(x=>x.Email == registration.Email_VanLang).First();
+            Notification notify = new Notification();
             if (ModelState.IsValid)
             {
                 /*if (db.Registrations.Any(x => x.Email_VanLang == email.Email && x.StatusInternview == "Đậu"))
@@ -78,6 +79,13 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                 }*/
                 registration.StatusInternview = "Chờ Phỏng Vấn";
                 db.Entry(registration).State = EntityState.Modified;
+                notify.Business_ID = registration.Business_ID;
+                notify.Title = "Thông báo";
+                notify.Message = "Có sinh viên vừa ứng tuyển vào công ty bạn";
+                notify.IsRead = false;
+                notify.Date = (DateTime.Now).ToString();
+                notify.Link = Url.Action("Index", "InternViews", new { area = "Business" });
+                db.Notifications.Add(notify);
                 db.SaveChanges();
                 string template = Server.MapPath("~/Areas/Admin/Views/Email/EmailFacultyCV.cshtml");
                 string emailBody = System.IO.File.ReadAllText(template);

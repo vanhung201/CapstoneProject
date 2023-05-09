@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<BusinessConnectManagement.Models.Registration>
 
 @{
-    ViewBag.Title = "Registration List";
+    ViewBag.Title = "Quản Lý - Ứng Tuyển";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
@@ -20,6 +20,7 @@
             <thead>
                 <tr>
                     <th></th>
+                    <th>ID</th>
                     <th>Họ và Tên</th>
                     <th>Email</th>
                     <th>SĐT</th>
@@ -177,6 +178,7 @@
                 deferRender: !0,
                 columns: [
                     { data: null },
+                    { data: "id", visible: false },
                     { data: "username" },
                     { data: "email" },
                     { data: "phone" },
@@ -232,7 +234,7 @@
                 ],
                 initComplete: function () {
                     this.api()
-                        .columns(6)
+                        .columns(7)
                         .every(function () {
                             var t = this,
                                 e = $(

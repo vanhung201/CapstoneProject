@@ -3,7 +3,7 @@
 @using PagedList.Mvc;
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "BCM - Trang Chủ";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -92,6 +92,8 @@
             <div class="columns pt30">
                 @foreach (var item in ViewBag.PostsHot)
                 {
+                    DateTime dueDate = DateTime.Parse(item.DueDate);
+                    string formattedDate = dueDate.ToString("dd/MM/yyyy");
                     <div class="column col-6 col-sm-12 col-md-12 col-xl-6 mb10 wow rollIn" data-wow-delay="0.5s">
                         <a href="@Url.Action("Details", "Posts", new { id = item.ID })">
                             <div class="item d-flex align-middle">
@@ -126,8 +128,20 @@
                                         </span>
                                     </div>
                                     <p class="text-primary bold-6">
-                                        <i>Hạn nộp: @item.DueDate</i>
-                                        <i style="float:right">Lượt ứng tuyển: @item.Registrations.Count</i>
+                                        <i>Hạn nộp: @formattedDate</i>
+
+                                        <i style="margin-left:10%">Lượt ứng tuyển: @item.Registrations.Count</i>
+                                        @{int totalQuantity = 0;}
+                                            
+                                        @foreach (var topic in item.PostInternshipTopics)
+                                        {
+                                        if (topic.Quantity >= 0)
+                                        {
+                                        totalQuantity += topic.Quantity;
+                                        }
+                                        }
+                                        <i style="float:right">SL còn lại: @totalQuantity</i>
+                                       
                                     </p>
 
                                 </div>
@@ -151,12 +165,15 @@
         <div class="container">
             <div class="title-home">
                 <h3>Công việc mới nhất</h3>
-                <a href="@Url.Action("Index", "Posts")">Xem thêm</a>
+                <a href="@Url.Action("IndexNew", "Posts")">Xem thêm</a>
             </div>
 
             <div class="columns pt30">
                 @foreach (var item in Model)
                 {
+
+                    DateTime dueDate = DateTime.Parse(item.DueDate);
+                    string formattedDate = dueDate.ToString("dd/MM/yyyy");
                     <div class="column col-6 col-sm-12 col-md-12 col-xl-6 mb10 wow rollIn" data-wow-delay="0.5s">
                         <a href="@Url.Action("Details", "Posts",  new { id=item.ID })">
                             <div class="item d-flex align-middle">
@@ -191,8 +208,12 @@
                                         </span>
                                     </div>
                                     <p class="text-primary bold-6">
-                                        <i>Hạn nộp: @item.DueDate</i>
-                                        <i style="float:right">Lượt ứng tuyển: @item.Registrations.Count()</i>
+                                        <i>Hạn nộp: @formattedDate</i>
+                                        <i style="margin-left:10%">Lượt ứng tuyển: @item.Registrations.Count()</i>
+                                        @{
+                                            var totalQuantity = item.PostInternshipTopics.Where(x => x.Quantity > 0).Sum(x => x.Quantity);
+                                        }
+                                        <i style="float:right">SL còn lại: @totalQuantity</i>
                                     </p>
 
                                 </div>
@@ -214,8 +235,8 @@
     </section>
 
     <section id="employer" class="mb30">
-        <div class="container">
-            <div class="title-home mb30">
+        <div class="container" style="background:#fff; padding:20px">
+            <div class="title-home">
                 <h3>Nhà tuyển dụng hàng đầu</h3>
             </div>
 
@@ -260,36 +281,36 @@
                     <input type="checkbox" id="accordion-1" name="accordion-radio" hidden />
                     <label class="accordion-header question" for="accordion-1">
                         <div class="d-flex justify-between align-middle">
-                            <p class="mb-0">Câu hỏi 1</p>
+                            <p class="mb-0">Kết quả thực tập của sinh viên sẽ do ai đánh giá</p>
                             <i class="fas fa-chevron-down"></i>
                         </div>
                     </label>
                     <div class="accordion-body answer">
-
+                        Kết quả thực tập của bạn sẽ do doanh nghiệp và giảng viên hướng dẫn đánh giá.
                     </div>
                 </div>
                 <div class="accordion item">
                     <input type="checkbox" id="accordion-2" name="accordion-checkbox" hidden />
                     <label class="accordion-header question" for="accordion-2">
                         <div class="d-flex justify-between align-middle">
-                            <p class="mb-0">Câu hỏi 2</p>
+                            <p class="mb-0">Sinh viên có được ứng tuyển và phỏng vấn nhiều doanh nghiệp không?</p>
                             <i class="fas fa-chevron-down"></i>
                         </div>
                     </label>
                     <div class="accordion-body answer">
-
+                        Bạn có thể ứng tuyển và phỏng vấn ở nhiều doanh nghiệp nhưng khi bạn xác nhận thực tập ở một doanh nghiệp thì những đơn ứng tuyển còn lại sẽ bị hủy.
                     </div>
                 </div>
                 <div class="accordion item">
                     <input type="checkbox" id="accordion-3" name="accordion-checkbox" hidden />
                     <label class="accordion-header question" for="accordion-3">
                         <div class="d-flex justify-between align-middle">
-                            <p class="mb-0">Câu hỏi 3</p>
+                            <p class="mb-0">Sau khi CV bị từ chối có thể ứng tuyển lại vị trị đó không</p>
                             <i class="fas fa-chevron-down"></i>
                         </div>
                     </label>
                     <div class="accordion-body answer">
-
+                        Sau khi bạn ứng tuyển vào vị trí nhưng CV của bạn bị khoa từ chối thì bạn sẽ mất cơ hội để ứng tuyển lần lại. Do đó hãy đầu tư vào CV của bạn thật kỹ nhé.
                     </div>
                 </div>
                 <div class="accordion item">

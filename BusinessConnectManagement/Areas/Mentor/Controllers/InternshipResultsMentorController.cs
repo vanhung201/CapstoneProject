@@ -34,6 +34,7 @@ namespace BusinessConnectManagement.Areas.Mentor.Controllers
             var email = User.Identity.Name;
             var listDataIntern = (from intern in db.InternshipResults
                             where intern.Mentor_Email == email
+                            orderby intern.Status == "Đang Thực Tập" descending
                             select new
                             {
                                 id = intern.ID,
@@ -200,12 +201,12 @@ namespace BusinessConnectManagement.Areas.Mentor.Controllers
         }
         [HttpPost]
         [ValidateInput(false)]
-        public EmptyResult ExportWord(string GridHtml)
+        public EmptyResult ExportWord(string GridHtml, string MSSV)
         {
             GridHtml = "<style>.line { line-height: 1.5; } .boder {border: 1px solid black; border-collapse: collapse;}</style>" + GridHtml;
             Response.Clear();
             Response.Buffer = true;
-            Response.AddHeader("content-disposition", "attachment; filename=ExcelReport.doc");
+            Response.AddHeader("content-disposition", "attachment; filename="+MSSV+"_Comment.doc");
             Response.Charset = "";
             Response.ContentType = "application/vnd.ms-word";
             Response.Output.Write(GridHtml);
@@ -278,10 +279,7 @@ namespace BusinessConnectManagement.Areas.Mentor.Controllers
                         ws.Cells["F5"].Value = "Doanh Nghiệp Thực Tập";
                         ws.Cells["G5"].Value = "Vị Trí Thực Tập";
                         ws.Cells["H5"].Value = "Trạng Thái";
-                        ws.Cells["I5"].Value = "Điểm Thực Tập Mentor";
-                        ws.Cells["J5"].Value = "Mentor Nhận Xét";
-                        ws.Cells["K5"].Value = "Điểm Thực Tập Doanh Nghiệp";
-                        ws.Cells["L5"].Value = "Doanh Nghiệp Nhận Xét";
+                       
                         int rowStart = 6;
                         int countSTT = 1;
                         foreach (var item in myTable)
@@ -312,10 +310,7 @@ namespace BusinessConnectManagement.Areas.Mentor.Controllers
                             ws.Cells[string.Format("F{0}", rowStart)].Value = item.BusinessUser.BusinessName;
                             ws.Cells[string.Format("G{0}", rowStart)].Value = item.InternshipTopic.InternshipTopicName;
                             ws.Cells[string.Format("H{0}", rowStart)].Value = item.Status;
-                            ws.Cells[string.Format("I{0}", rowStart)].Value = item.MentorPoint;
-                            ws.Cells[string.Format("J{0}", rowStart)].Value = item.MentorComment;
-                            ws.Cells[string.Format("K{0}", rowStart)].Value = item.BusinessPoint;
-                            ws.Cells[string.Format("L{0}", rowStart)].Value = item.BusinessComment;
+                           
                             rowStart++;
                             countSTT++;
                         }

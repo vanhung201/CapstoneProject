@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<BusinessConnectManagement.Models.InternshipResult>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Quản Lý - Thực Tập";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 <section class="list">
@@ -106,17 +106,22 @@
             </select>
         </div>
         <div class="form-group">
-            <input list="" name="ID" id="ID" class="form-input"  hidden/>
+            <input list="" name="ID" id="ID" class="form-input" hidden />
             <input list="" name="Student_Email" id="Student_Email" class="form-input" hidden />
             <input list="" name="Semester_ID" id="Semester_ID" class="form-input" hidden />
-            <input list="" name="MentorPoint" id="MentorPoint" class="form-input"  hidden/>
-            <input list="" name="MentorComment" id="MentorComment" class="form-input"  hidden/>
+            <input list="" name="MentorPoint" id="MentorPoint" class="form-input" hidden />
+            <input list="" name="MentorComment" id="MentorComment" class="form-input" hidden />
             <input list="" name="Business_ID" id="Business_ID" class="form-input" hidden />
-            <input list="" name="BusinessPoint" id="BusinessPoint" class="form-input"  hidden/>
+            <input list="" name="BusinessPoint" id="BusinessPoint" class="form-input" hidden />
+            <input list="" name="BusinessPoint2" id="BusinessPoint2" class="form-input" hidden />
             <input list="" name="BusinessComment" id="BusinessComment" class="form-input" hidden />
-            <input list="" name="StatusInternview" id="interviewStatus" class="form-input"  hidden/>
-            <input list="" name="InternshipTopic_ID" id="InternshipTopic_ID" class="form-input"  hidden/>
-            <input list="" name="Status" id="Status" class="form-input"  hidden/>
+            <input list="" name="BusinessComment2" id="BusinessComment2" class="form-input" hidden />
+            <input list="" name="StatusInternview" id="interviewStatus" class="form-input" hidden />
+            <input list="" name="InternshipTopic_ID" id="InternshipTopic_ID" class="form-input" hidden />
+            <input list="" name="Status" id="Status" class="form-input" hidden />
+            <input list="" name="MentorComment2" id="MentorComment2" class="form-input" hidden />
+            <input list="" name="MentorCommentB1" id="MentorComment3" class="form-input" hidden />
+            <input list="" name="MentorCommentB2" id="MentorComment4" class="form-input" hidden />
         </div>
         <div class="form-group">
             <a class="btn btn--cancel">
@@ -185,10 +190,10 @@
                                 :
                                 `
                                 `
-                           
+
                             return (
                                 `
-                                
+
                                 <a href="@Url.Action("Edit/", "AppointmentMentor")${t}" class="getdetail">
                                  <div class="btn btn--detail">
                                    <i class="btn-icon btn-icon--detail fal fa-info-circle"></i>
@@ -276,9 +281,14 @@
                     $('#Mentor_Email').val(res[0].mentor_email)
                     $('#MentorPoint').val(res[0].mentorpoint)
                     $('#MentorComment').val(res[0].mentorcomment)
+                    $('#MentorComment2').val(res[0].mentorcomment2)
+                    $('#MentorComment3').val(res[0].mentorcomment3)
+                    $('#MentorComment4').val(res[0].mentorcomment4)
                     $('#Business_ID').val(res[0].business_id)
                     $('#BusinessPoint').val(res[0].businesspoint)
+                    $('#BusinessPoint2').val(res[0].businesspoint2)
                     $('#BusinessComment').val(res[0].businesscomment)
+                    $('#BusinessComment2').val(res[0].businesscomment2)
                     $('#InternshipTopic_ID').val(res[0].position_id)
                     $('#Status').val(res[0].status)
                     $('#updateForm').attr('action', `${actionUrl}`)

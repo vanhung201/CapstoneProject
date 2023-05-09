@@ -1,0 +1,199 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="BCMModelStoreContainer" CdmEntityContainer="BCMEntities">
+    <EntitySetMapping Name="BusinessCooperationCategories">
+      <EntityTypeMapping TypeName="BCMModel.BusinessCooperationCategory">
+        <MappingFragment StoreEntitySet="BusinessCooperationCategories">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Business_ID" ColumnName="Business_ID" />
+          <ScalarProperty Name="CooperationCategories_ID" ColumnName="CooperationCategories_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BusinessUsers">
+      <EntityTypeMapping TypeName="BCMModel.BusinessUser">
+        <MappingFragment StoreEntitySet="BusinessUser">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Last_Access" ColumnName="Last_Access" />
+          <ScalarProperty Name="Status_ID" ColumnName="Status_ID" />
+          <ScalarProperty Name="BusinessName" ColumnName="BusinessName" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="BusinessPhone" ColumnName="BusinessPhone" />
+          <ScalarProperty Name="Website" ColumnName="Website" />
+          <ScalarProperty Name="Fanpage" ColumnName="Fanpage" />
+          <ScalarProperty Name="BusinessLogo" ColumnName="BusinessLogo" />
+          <ScalarProperty Name="ContactName" ColumnName="ContactName" />
+          <ScalarProperty Name="ContactPhone_1" ColumnName="ContactPhone_1" />
+          <ScalarProperty Name="ContactPhone_2" ColumnName="ContactPhone_2" />
+          <ScalarProperty Name="EmailContact" ColumnName="EmailContact" />
+          <ScalarProperty Name="Semester_ID" ColumnName="Semester_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CooperationCategories">
+      <EntityTypeMapping TypeName="BCMModel.CooperationCategory">
+        <MappingFragment StoreEntitySet="CooperationCategories">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="CooperationCategoriesName" ColumnName="CooperationCategoriesName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InternshipResults">
+      <EntityTypeMapping TypeName="BCMModel.InternshipResult">
+        <MappingFragment StoreEntitySet="InternshipResult">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Student_Email" ColumnName="Student_Email" />
+          <ScalarProperty Name="Semester_ID" ColumnName="Semester_ID" />
+          <ScalarProperty Name="Mentor_Email" ColumnName="Mentor_Email" />
+          <ScalarProperty Name="MentorPoint" ColumnName="MentorPoint" />
+          <ScalarProperty Name="MentorComment" ColumnName="MentorComment" />
+          <ScalarProperty Name="Business_ID" ColumnName="Business_ID" />
+          <ScalarProperty Name="BusinessPoint" ColumnName="BusinessPoint" />
+          <ScalarProperty Name="BusinessComment" ColumnName="BusinessComment" />
+          <ScalarProperty Name="InternshipTopic_ID" ColumnName="InternshipTopic_ID" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="MentorComment2" ColumnName="MentorComment2" />
+          <ScalarProperty Name="MentorCommentB1" ColumnName="MentorCommentB1" />
+          <ScalarProperty Name="MentorCommentB2" ColumnName="MentorCommentB2" />
+          <ScalarProperty Name="BusinessComment2" ColumnName="BusinessComment2" />
+          <ScalarProperty Name="BusinessPoint2" ColumnName="BusinessPoint2" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InternshipTopics">
+      <EntityTypeMapping TypeName="BCMModel.InternshipTopic">
+        <MappingFragment StoreEntitySet="InternshipTopic">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="InternshipTopicName" ColumnName="InternshipTopicName" />
+          <ScalarProperty Name="InternshipTopicGoals" ColumnName="InternshipTopicGoals" />
+          <ScalarProperty Name="InternshipTopicDescription" ColumnName="InternshipTopicDescription" />
+          <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Majors">
+      <EntityTypeMapping TypeName="BCMModel.Major">
+        <MappingFragment StoreEntitySet="Major">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Major1" ColumnName="Major" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MOUs">
+      <EntityTypeMapping TypeName="BCMModel.MOU">
+        <MappingFragment StoreEntitySet="MOU">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Business_ID" ColumnName="Business_ID" />
+          <ScalarProperty Name="SignDay" ColumnName="SignDay" />
+          <ScalarProperty Name="Signer" ColumnName="Signer" />
+          <ScalarProperty Name="ContactName" ColumnName="ContactName" />
+          <ScalarProperty Name="ContactPhone" ColumnName="ContactPhone" />
+          <ScalarProperty Name="EmailContact" ColumnName="EmailContact" />
+          <ScalarProperty Name="ResponsibleName" ColumnName="ResponsibleName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Posts">
+      <EntityTypeMapping TypeName="BCMModel.Post">
+        <MappingFragment StoreEntitySet="Post">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Email_ID" ColumnName="Email_ID" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="PostDay" ColumnName="PostDay" />
+          <ScalarProperty Name="ModifyDay" ColumnName="ModifyDay" />
+          <ScalarProperty Name="Semester_ID" ColumnName="Semester_ID" />
+          <ScalarProperty Name="Business_ID" ColumnName="Business_ID" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="DueDate" ColumnName="DueDate" />
+          <ScalarProperty Name="Form" ColumnName="Form" />
+          <ScalarProperty Name="Major_ID" ColumnName="Major_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PostInternshipTopics">
+      <EntityTypeMapping TypeName="BCMModel.PostInternshipTopic">
+        <MappingFragment StoreEntitySet="PostInternshipTopic">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Post_ID" ColumnName="Post_ID" />
+          <ScalarProperty Name="InternshipTopic_ID" ColumnName="InternshipTopic_ID" />
+          <ScalarProperty Name="Business_ID" ColumnName="Business_ID" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Registrations">
+      <EntityTypeMapping TypeName="BCMModel.Registration">
+        <MappingFragment StoreEntitySet="Registration">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Email_VanLang" ColumnName="Email_VanLang" />
+          <ScalarProperty Name="Post_ID" ColumnName="Post_ID" />
+          <ScalarProperty Name="Semester_ID" ColumnName="Semester_ID" />
+          <ScalarProperty Name="CV" ColumnName="CV" />
+          <ScalarProperty Name="RegistrationDate" ColumnName="RegistrationDate" />
+          <ScalarProperty Name="RegistrationModify" ColumnName="RegistrationModify" />
+          <ScalarProperty Name="Business_ID" ColumnName="Business_ID" />
+          <ScalarProperty Name="InterviewResult" ColumnName="InterviewResult" />
+          <ScalarProperty Name="InterviewResultComment" ColumnName="InterviewResultComment" />
+          <ScalarProperty Name="StatusInternview" ColumnName="StatusInternview" />
+          <ScalarProperty Name="StatusRegistration" ColumnName="StatusRegistration" />
+          <ScalarProperty Name="Comment" ColumnName="Comment" />
+          <ScalarProperty Name="InternshipTopic_ID" ColumnName="InternshipTopic_ID" />
+          <ScalarProperty Name="InternshipResult_ID" ColumnName="InternshipResult_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Semesters">
+      <EntityTypeMapping TypeName="BCMModel.Semester">
+        <MappingFragment StoreEntitySet="Semester">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="YearStudy_ID" ColumnName="YearStudy_ID" />
+          <ScalarProperty Name="Semester1" ColumnName="Semester" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Status">
+      <EntityTypeMapping TypeName="BCMModel.Status">
+        <MappingFragment StoreEntitySet="Status">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Status1" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Trainees">
+      <EntityTypeMapping TypeName="BCMModel.Trainee">
+        <MappingFragment StoreEntitySet="Trainee">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Mentor_Email" ColumnName="Mentor_Email" />
+          <ScalarProperty Name="Student_Email" ColumnName="Student_Email" />
+          <ScalarProperty Name="Semester_ID" ColumnName="Semester_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VanLangUsers">
+      <EntityTypeMapping TypeName="BCMModel.VanLangUser">
+        <MappingFragment StoreEntitySet="VanLangUser">
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="Student_ID" ColumnName="Student_ID" />
+          <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+          <ScalarProperty Name="Role" ColumnName="Role" />
+          <ScalarProperty Name="Last_Access" ColumnName="Last_Access" />
+          <ScalarProperty Name="Major_ID" ColumnName="Major_ID" />
+          <ScalarProperty Name="Status_ID" ColumnName="Status_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="YearStudies">
+      <EntityTypeMapping TypeName="BCMModel.YearStudy">
+        <MappingFragment StoreEntitySet="YearStudy">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="YearStudy1" ColumnName="YearStudy" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

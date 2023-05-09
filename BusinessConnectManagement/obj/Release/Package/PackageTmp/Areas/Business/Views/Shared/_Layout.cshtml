@@ -1,4 +1,14 @@
-﻿<!DOCTYPE html>
+﻿@using BusinessConnectManagement.Models;
+@{
+    BCMEntities db = new BCMEntities();
+    var count = 0;
+    int BusinessID = Convert.ToInt16(Session["BusinessID"]);
+    ViewBag.Notifications = db.Notifications.Where(x => x.Business_ID == BusinessID).OrderByDescending(x=>x.Date).ToList();
+    count = db.Notifications.Where(x => x.Business_ID == BusinessID && x.IsRead == false).Count();
+
+}
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -59,6 +69,34 @@
         <div class="content">
             <nav class="nav">
                 <div class="nav-wrap">
+                    <div class="notification">
+                        <a href="#">
+                            <div class="notBtn" href="#">
+                                <!--Number supports double digets and automaticly hides itself when there is nothing between divs -->
+                                @if (count != 0)
+                                {
+                                    <div class="number" id="numNoti">
+                                        @count
+                                    </div>
+                                }
+                                <i class="fas fa-bell bell-icon"></i>
+                                <div class="box">
+                                    <div class="display">
+                                        <div class="cont">
+                                            <!-- Fold this div and try deleting evrything inbetween -->
+                                            @foreach (var item in ViewBag.Notifications)
+                                            {
+                                                <div class="sec new">
+                                                        <div class="txt">@item.Message</div>
+                                                        <div class="txt sub">@item.Date</div>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
                     <span class="nav-role">@Session["BusinessName"]</span>
                     <div class="nav-avatar">
                         <img src="~/assets/images/avatarAdmin.png"
@@ -83,8 +121,6 @@
         <a href="#wrap" class="moveTop-link"><i class="fal fa-arrow-up"></i><a>
     </div>
     <section class="footer">&copy; Phần mềm BCM thuộc về khoa CNTT, Trường Đại học Văn Lang</section>
-</body>
-
 
 <script src="~/assets/js/index.js"></script>
 <script src="~/assets/js/admin.js"></script>
@@ -97,7 +133,15 @@
 <script src="~/assets/js/datatable/dataTable.min.js"></script>
 
 <script>
-
+    $(".notBtn").hover(function () {
+            const url = "@Url.Action("ChangeNotification","BusinessHome")"
+            $.ajax({
+                url: url,
+                success: function (res) {
+                    $("#numNoti").text("");
+                }
+            })
+        })
     $(function () {
         $("#table_id_filter").prepend($("#filterEvent")).clone();
     });
@@ -110,13 +154,13 @@
     $(".form-icon").on("click", function () {
         formUpdate.classList.remove(isAppear);
     })
-     $(function () {
-         const toast = document.querySelector(".toast");
-         setTimeout(() => {
-             toast.remove();
-         }, 3000);
+    $(function () {
+        const toast = document.querySelector(".toast");
+        setTimeout(() => {
+            toast.remove();
+        }, 3000);
 
-     });
+    });
     function remove() {
         let toast = document.querySelector(".toast");
         document.querySelector(".toast-right").addEventListener("click", () => {
@@ -130,3 +174,6 @@
 
 </script>
 @RenderSection("scripts", required: false)
+</body>
+
+

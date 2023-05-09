@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OpenIdConnect;
+using Microsoft.IdentityModel.Tokens;
 using Owin;
 
 namespace BusinessConnectManagement
@@ -33,15 +34,22 @@ namespace BusinessConnectManagement
         PostLogoutRedirectUri = postLogoutRedirectUri,
         Notifications = new OpenIdConnectAuthenticationNotifications()
         {
+
             SecurityTokenValidated = (context) =>
             {
                 string name = context.AuthenticationTicket.Identity.FindFirst("preferred_username").Value;
                 context.AuthenticationTicket.Identity.AddClaim(new Claim(ClaimTypes.Name, name, string.Empty));
+
                 return System.Threading.Tasks.Task.FromResult(0);
             }
         },
-    });
-
+        TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidIssuers = new[] { "" }
+        },
+    }) ;
+            
+            app.MapSignalR();
         }
 
         private static string EnsureTrailingSlash(string value)

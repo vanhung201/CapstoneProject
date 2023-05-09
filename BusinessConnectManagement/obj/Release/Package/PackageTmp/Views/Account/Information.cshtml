@@ -1,7 +1,7 @@
 ﻿@model BusinessConnectManagement.Models.VanLangUser
 
 @{
-    ViewBag.Title = "InformationStudent";
+    ViewBag.Title = "BCM - Thông Tin Cá Nhân";
     Layout = "~/Views/Shared/_LayoutHeaderOnly.cshtml";
 }
 <style>
@@ -63,7 +63,15 @@
                             </div>
                             <div class="info-content">
                                 <label for="phoneNumber" class="info-title">Số điện thoại</label>
-                                <p class="info-desc">@Model.Mobile</p>
+                                @if (Model.Mobile == null)
+                                {
+                                    <p class="info-desc">Chưa Cập Nhật</p>
+                                }
+                                else
+                                {
+                                    <p class="info-desc">@Model.Mobile</p>
+
+                                }
                                 <input type="text" name="Mobile" class="info-input" value="@Model.Mobile" id="phoneNumber" />
                             </div>
                         </li>
@@ -76,21 +84,31 @@
                                 </div>
                                 <div class="info-content">
                                     <label for="major" class="info-title">Chuyên ngành</label>
-                                    <p class="info-desc">@Model.Major.Major1</p>
-                                    <select name="Major_ID" id="major" class="info-input">
-                                        @foreach (var item in ViewBag.major)
+                                    @if (Model.Major_ID == null)
+                                    {
+                                        <p class="info-desc">Chưa Cập Nhật</p>
+                                    }
+                                    else
+                                    {
+                                        <p class="info-desc">@Model.Major.Major1</p>
+
+                                    }
+                                <select name="Major_ID" id="major" class="info-input">
+                                    @foreach (var item in ViewBag.major)
+                                    {
+                                        if (Model.Major_ID != null)
                                         {
                                             if (Model.Major.ID == item.ID)
                                             {
                                                 <option value="@item.ID" selected>@item.Major1</option>
                                             }
-                                            else
+                                        }
+                                        else
                                             {
                                                 <option value="@item.ID">@item.Major1</option>
-
                                             }
                                         }
-                                    </select>
+                                </select>
                                 </div>
                             </li>
                         }
@@ -110,7 +128,7 @@
                 <p class="info-role">@Model.Role</p>
             </div>
             <div id="info-edit">
-                <i class="fal fa-edit editIcon" id="editIcon"></i>
+                <i title="Cập Nhật Thông Tin" class="fal fa-edit editIcon" id="editIcon"></i>
             </div>
         </div>
     </div>

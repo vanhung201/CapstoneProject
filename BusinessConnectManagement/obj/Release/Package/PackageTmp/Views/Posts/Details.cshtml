@@ -1,10 +1,12 @@
 ﻿@model BusinessConnectManagement.Models.Post
-
+@using System.Globalization;
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "BCM - Chi Tiết Công Việc";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-<link href="~/assets/User/assets/css/form.css" rel="stylesheet" />
+    <link href="~/assets/User/assets/css/form.css" rel="stylesheet" />
+    DateTime dueDate = DateTime.Parse(Model.DueDate);
+    string formattedDate = dueDate.ToString("dd/MM/yyyy");
 }
 
 @if (TempData["message"] != null)
@@ -30,20 +32,31 @@
                 <div class="text-center mt10 d-inline-flex action-wrapper">
                     @if (ViewBag.isStudent == true)
                     {
+                        DateTime now = DateTime.Now;
+                        DateTime dateTime = Convert.ToDateTime(Model.DueDate);
+
                         if (ViewBag.isRegisted == true)
                         {
                             if (ViewBag.regStatus == "Phê Duyệt")
                             {
 
-                                <label class="btn btn-update">Đơn Ứng Tuyển Đã Được Phê Duyệt</label>
+                                <label class="btn btn-cancel">Đơn Ứng Tuyển Đã Được Phê Duyệt</label>
 
                             }
+                           
                             else
                             {
-                                <form action="@Url.Action("Remove","Registration", new {id = ViewBag.registedID})">
-                                    <button type="submit" class="btn btn-error">Hủy Ứng Tuyển</button>
+                                if(dateTime <= now)
+                                {
+
+                                }
+                                else
+                                {
+                                <form id="remove_form" action="@Url.Action("Remove","Registration", new {id = ViewBag.registedID})">
+                                    <button type="submit" class="btn btn-submit" id="remove">Hủy Ứng Tuyển</button>
                                 </form>
-                                <button class="btn btn-update" id="btn-update" data-href="@Url.Action("getRegistrationData", "Registration", new {id = ViewBag.registedID})">Cập Nhật Thông Tin</button>
+                                <button class="btn btn-cancel" id="btn-cancel" data-href="@Url.Action("getRegistrationData", "Registration", new {id = ViewBag.registedID})">Cập Nhật Thông Tin</button>
+                        }
                             }
                         }
                         else
@@ -52,9 +65,13 @@
                             {
 
                             }
+                            else if (dateTime <= now)
+                            {
+
+                            }
                             else
                             {
-                                <div class="btn btn-error" id="btn-error">
+                                <div class="btn btn-submit" id="btn-error">
                                     Ứng Tuyển
                                 </div>
                             }
@@ -89,6 +106,7 @@
                                     <p>@Model.Form</p>
                                 </div>
                             </div>
+
                             <div class="item d-flex align-middle">
                                 <img src="~/assets/User/assets/images/sex.png" alt="gender">
                                 <div>
@@ -105,7 +123,31 @@
                                     <p>Không yêu cầu</p>
                                 </div>
                             </div>
+                            <div class="item d-flex align-middle">
+                                <img src="~/assets/User/assets/images/clock.jpg" alt="vali">
+                                <div>
+                                    <h5 class="bold-6">Hạn Ứng Tuyển</h5>
+                                    <p>@formattedDate</p>
+                                </div>
+                            </div>
                         </div>
+                    </div>
+                    <h3 class="text-h3 mb15">Vị trí tuyển dụng</h3>
+                    <div class="summary-job columns">
+                        @foreach (var item in ViewBag.Position)
+                        {
+                            if (item.status == true)
+                            {
+                                <div class="column col-6 col-sm-12 col-md-6 col-xl-6">
+                                    <div class="item d-flex align-middle">
+                                        <div>
+                                            <p class="bold-7 mb10">@item.Name</p>
+                                            <p class="bold-7">Số lượng: @item.Quantity<p>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
                     </div>
                     <div class="main-job">
                         <div class="title d-flex align-middle  ">
@@ -170,12 +212,12 @@
                                 <img src="@Url.Content("~/Uploads/Images/" + item.BusinessUser.BusinessLogo)" alt="image-job">
                                 <div class="content">
                                     <div class="d-flex align-middle justify-between mb-2">
-                                        <h3 class="text-h4 bold-6 mb-0 ellipsis">@item.Title</h3>
+                                        <h3 class="text-h4 bold-6 mb-0 ellipsis"> @item.Title</h3>
                                         <div class="chip bg-error">
-                                            <small class="bold-6">Mới Nhất</small>
+                                            <small class="bold-6">Nổi bật</small>
                                         </div>
                                     </div>
-                                    <p class="bold-6 text-italic mb-2">Doanh nghiệp: @item.BusinessUser.BusinessName</p>
+                                    <p class="bold-6 text-italic mb-2"> @item.BusinessUser.BusinessName</p>
                                     <div class="desc d-flex align-middle mb-2">
                                         <span class="mb-0 mr10 text-success">
                                             @if (item.Major_ID != null)
@@ -190,13 +232,30 @@
                                         <span class="mb-0 mr10 text-warning">
                                             <i class="fa-solid fa-tag"></i> @item.Form
                                         </span>
+
+                                    </div>
+                                    <div class="desc d-flex align-middle mb-2">
                                         <span class="mb-0 mr10 text-muted">
                                             <i class="fa-solid fa-location-dot"></i> @item.BusinessUser.Address
                                         </span>
                                     </div>
                                     <p class="text-primary bold-6">
-                                        <i>Hạn nộp: @item.DueDate</i>
+                                        <i>Hạn nộp: @formattedDate</i>
+
+                                        <i style="margin-left:10%">Lượt ứng tuyển: @item.Registrations.Count</i>
+                                        @{int totalQuantity = 0;}
+
+                                        @foreach (var topic in item.PostInternshipTopics)
+                                        {
+                                            if (topic.Quantity >= 0)
+                                            {
+                                                totalQuantity += topic.Quantity;
+                                            }
+                                        }
+                                        <i style="float:right">SL còn lại: @totalQuantity</i>
+
                                     </p>
+
                                 </div>
                             </div>
                         </a>
@@ -230,11 +289,12 @@
                 {
                     if (item.status == true)
                     {
-                        <option id="positionName" value="@item.Id">@item.Name</option>
+                        <option id="positionName" data-id="@Model.ID" value="@item.Id">@item.Name</option>
                     }
                 }
             </select>
             <span class="text-danger" id="position_validation"></span>
+            <span class="text-danger" id="check_quantity"></span>
         </div>
 
         <div class="form-group float-right">
@@ -254,14 +314,14 @@
     <div class="form-container--small">
         <h1 class="form-heading"><span class="text-danger">Xác Nhận Ứng Tuyển</span></h1>
 
-        <span style="position: relative; text-align: center; margin-left: 132px; top: 12px;">Bạn Có Muốn <span class="text-danger">Ứng Tuyển Không</span> ?</span>
+        <span style="text-align: center; display:block; margin-bottom:12px">Bạn Có Muốn <span class="text-danger">Ứng Tuyển Không</span> ?</span>
 
-        <div class="form-group float-right">
-            <div class="btn btn--small btn-error" id="btn_cancel_apply">
+        <div class="form-group text-center">
+            <div class="btn btn--small btn-cancel" id="btn_cancel_apply">
                 <i class="btn-icon btn-icon--cancel fas fa-times"></i>
                 <span class="btn-text btn-text--small">Hủy</span>
             </div>
-            <div class="btn btn--small btn-success" id="btn_confirm_apply">
+            <div class="btn btn--small btn-submit" id="btn_confirm_apply">
                 <i class="btn-icon btn-icon--add fas fa-check"></i>
                 <span class="btn-text btn-text--small">Xác nhận</span>
             </div>
@@ -286,12 +346,12 @@
             <span class="text-danger" id="position_validation1"></span>
         </div>
 
-        <div class="form-group float-right">
-            <div class="btn btn--small btn-error" id="btn_close">
+        <div class="form-group text-center">
+            <div class="btn btn--small btn-cancel" id="btn_close">
                 <i class="btn-icon btn-icon--cancel fas fa-times"></i>
                 <span class="btn-text btn-text--small">Hủy</span>
             </div>
-            <div class="btn btn--small btn-success" id="btn_update_CV">
+            <div class="btn btn--small btn-submit" id="btn_update_CV">
                 <i class="btn-icon btn-icon--add fas fa-check"></i>
                 <span class="btn-text btn-text--small">Xác nhận</span>
             </div>
@@ -300,18 +360,18 @@
 
 </form>
 
-<div class="form" id="confirm_update">
+<div class="form" id="confirm_remove">
     <div class="form-container--small">
         <h1 class="form-heading">Ứng Tuyển</h1>
 
-        <span>Bạn Có Muốn Cập Nhật CV Không ?</span>
+        <span style="text-align: center; display:block; margin-bottom:12px">Bạn Có Muốn Hủy Ứng Tuyển Không ?</span>
 
-        <div class="form-group float-right">
-            <div class="btn btn--small btn-error" id="btn_cancel_update">
+        <div class="form-group text-center">
+            <div class="btn btn--small btn-cancel" id="btn_cancel_remove">
                 <i class="btn-icon btn-icon--cancel fas fa-times"></i>
                 <span class="btn-text btn-text--small">Hủy</span>
             </div>
-            <div class="btn btn--small btn-success" id="btn_confirm_update">
+            <div class="btn btn--small btn-submit" id="btn_confirm_remove">
                 <i class="btn-icon btn-icon--add fas fa-check"></i>
                 <span class="btn-text btn-text--small">Xác nhận</span>
             </div>
@@ -323,6 +383,11 @@
 
 @section Scripts {
     <script>
+        $("#remove").on("click", function (e) {
+            e.preventDefault();
+            $("#confirm_remove").addClass('is-appear');
+
+        })
         $("#btn-error").on("click", function () {
             $('#apply_form').addClass('is-appear');
         })
@@ -345,7 +410,7 @@
             $("#apply_form").removeClass('is-appear');
         })
 
-        $("#btn-update").on("click", function (e) {
+        $("#btn-cancel").on("click", function (e) {
             e.preventDefault();
             $("#update_form").addClass('is-appear');
             var url = $(this).data('href')
@@ -362,21 +427,44 @@
             })
         })
 
+        $("#position").on("change", function () {
+            const post_id = @Model.ID;
+            const position_id = $(this).val();
+            var url = `@Url.Action("CheckQuantity", "Posts")?post_id=${post_id}&&position_id=${position_id}`;
+            console.log(url)
+            $.ajax({
+                url: url,
+                type: 'get',
+                dataType: 'json',
+                success: function (res) {
+                    if (res != "") {
+                        $('#check_quantity').text(res);
+                        $('#btn_apply_CV').addClass('is-hide');
+                    } else {
+                        if ($('#btn_apply_CV').hasClass('is-hide')) {
+                            $('#check_quantity').text(res);
+                            $('#btn_apply_CV').removeClass('is-hide');
+                        }
+                    }
+                }
+            })
+        })
+
         $("#btn_close").on("click", function (e) {
             $("#update_form").removeClass('is-appear');
 
         })
 
         $("#btn_update_CV").on("click", function () {
-            $("#confirm_update").addClass('is-appear');
-        })
-
-        $("#btn_cancel_update").on("click", function () {
-            $("#confirm_update").addClass('is-appear');
-        })
-
-        $("#btn_confirm_update").on("click", function () {
             $("#update_form").submit();
+        })
+
+        $("#btn_cancel_remove").on("click", function () {
+            $("#confirm_remove").removeClass('is-appear');
+        })
+
+        $("#btn_confirm_remove").on("click", function () {
+            $("#remove_form").submit();
         })
 
 

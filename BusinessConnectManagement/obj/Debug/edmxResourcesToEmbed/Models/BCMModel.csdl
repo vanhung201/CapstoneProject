@@ -3,11 +3,13 @@
   <EntityContainer Name="BCMEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="BusinessCooperationCategories" EntityType="BCMModel.BusinessCooperationCategory" />
     <EntitySet Name="BusinessUsers" EntityType="BCMModel.BusinessUser" />
+    <EntitySet Name="Contacts" EntityType="BCMModel.Contact" />
     <EntitySet Name="CooperationCategories" EntityType="BCMModel.CooperationCategory" />
     <EntitySet Name="InternshipResults" EntityType="BCMModel.InternshipResult" />
     <EntitySet Name="InternshipTopics" EntityType="BCMModel.InternshipTopic" />
     <EntitySet Name="Majors" EntityType="BCMModel.Major" />
     <EntitySet Name="MOUs" EntityType="BCMModel.MOU" />
+    <EntitySet Name="Notifications" EntityType="BCMModel.Notification" />
     <EntitySet Name="Posts" EntityType="BCMModel.Post" />
     <EntitySet Name="PostInternshipTopics" EntityType="BCMModel.PostInternshipTopic" />
     <EntitySet Name="Registrations" EntityType="BCMModel.Registration" />
@@ -173,6 +175,16 @@
     <NavigationProperty Name="PostInternshipTopics" Relationship="BCMModel.FK_PostInternshipTopic_BusinessUser" FromRole="BusinessUser" ToRole="PostInternshipTopic" />
     <NavigationProperty Name="Registrations" Relationship="BCMModel.FK_Registration_BusinessUser1" FromRole="BusinessUser" ToRole="Registration" />
   </EntityType>
+  <EntityType Name="Contact">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FullName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Mobile" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
   <EntityType Name="CooperationCategory">
     <Key>
       <PropertyRef Name="ID" />
@@ -242,6 +254,19 @@
     <Property Name="EmailContact" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
     <Property Name="ResponsibleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="BusinessUser" Relationship="BCMModel.FK_MOU_BusinessUser" FromRole="MOU" ToRole="BusinessUser" />
+  </EntityType>
+  <EntityType Name="Notification">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Mentor_Email" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="Business_ID" Type="Int32" />
+    <Property Name="Title" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Message" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Date" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="IsRead" Type="Boolean" />
+    <Property Name="Link" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="Post">
     <Key>

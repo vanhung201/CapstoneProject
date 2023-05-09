@@ -29,6 +29,16 @@
     <Property Name="EmailContact" Type="varchar" MaxLength="150" />
     <Property Name="Semester_ID" Type="int" />
   </EntityType>
+  <EntityType Name="Contact">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FullName" Type="nvarchar" MaxLength="50" />
+    <Property Name="Mobile" Type="nvarchar" MaxLength="50" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" />
+    <Property Name="Note" Type="nvarchar(max)" />
+  </EntityType>
   <EntityType Name="CooperationCategories">
     <Key>
       <PropertyRef Name="ID" />
@@ -51,6 +61,11 @@
     <Property Name="BusinessComment" Type="nvarchar(max)" />
     <Property Name="InternshipTopic_ID" Type="int" />
     <Property Name="Status" Type="nvarchar" MaxLength="50" />
+    <Property Name="MentorComment2" Type="nvarchar(max)" />
+    <Property Name="MentorCommentB1" Type="nvarchar(max)" />
+    <Property Name="MentorCommentB2" Type="nvarchar(max)" />
+    <Property Name="BusinessComment2" Type="nvarchar(max)" />
+    <Property Name="BusinessPoint2" Type="float" />
   </EntityType>
   <EntityType Name="InternshipTopic">
     <Key>
@@ -60,6 +75,7 @@
     <Property Name="InternshipTopicName" Type="nvarchar" MaxLength="200" />
     <Property Name="InternshipTopicGoals" Type="nvarchar(max)" />
     <Property Name="InternshipTopicDescription" Type="nvarchar(max)" />
+    <Property Name="ShortName" Type="nvarchar" MaxLength="200" />
   </EntityType>
   <EntityType Name="Major">
     <Key>
@@ -80,6 +96,19 @@
     <Property Name="ContactPhone" Type="varchar" MaxLength="15" />
     <Property Name="EmailContact" Type="varchar" MaxLength="150" />
     <Property Name="ResponsibleName" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Notifications">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Mentor_Email" Type="varchar" MaxLength="250" />
+    <Property Name="Business_ID" Type="int" />
+    <Property Name="Title" Type="nvarchar" MaxLength="250" />
+    <Property Name="Message" Type="nvarchar" MaxLength="250" />
+    <Property Name="Date" Type="nvarchar" MaxLength="250" />
+    <Property Name="IsRead" Type="bit" />
+    <Property Name="Link" Type="nvarchar" MaxLength="250" />
   </EntityType>
   <EntityType Name="Post">
     <Key>
@@ -106,6 +135,7 @@
     <Property Name="Post_ID" Type="int" />
     <Property Name="InternshipTopic_ID" Type="int" />
     <Property Name="Business_ID" Type="int" />
+    <Property Name="Quantity" Type="int" />
   </EntityType>
   <EntityType Name="Registration">
     <Key>
@@ -533,11 +563,13 @@
   <EntityContainer Name="BCMModelStoreContainer">
     <EntitySet Name="BusinessCooperationCategories" EntityType="Self.BusinessCooperationCategories" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="BusinessUser" EntityType="Self.BusinessUser" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Contact" EntityType="Self.Contact" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CooperationCategories" EntityType="Self.CooperationCategories" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="InternshipResult" EntityType="Self.InternshipResult" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="InternshipTopic" EntityType="Self.InternshipTopic" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Major" EntityType="Self.Major" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="MOU" EntityType="Self.MOU" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Notifications" EntityType="Self.Notifications" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Post" EntityType="Self.Post" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PostInternshipTopic" EntityType="Self.PostInternshipTopic" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Registration" EntityType="Self.Registration" Schema="dbo" store:Type="Tables" />

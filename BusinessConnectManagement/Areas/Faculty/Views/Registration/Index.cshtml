@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<BusinessConnectManagement.Models.Registration>
 
 @{
-    ViewBag.Title = "Registration List";
+    ViewBag.Title = "Quản Lý - Ứng Tuyển";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
@@ -234,7 +234,7 @@
                 ],
                 initComplete: function () {
                     this.api()
-                        .columns(6)
+                        .columns(7)
                         .every(function () {
                             var t = this,
                                 e = $(

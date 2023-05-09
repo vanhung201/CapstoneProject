@@ -27,10 +27,7 @@ namespace BusinessConnectManagement.Controllers
 
                 if (user.Status_ID == 2)
                 {
-                    HttpContext.GetOwinContext().Authentication.SignOut(
-                        OpenIdConnectAuthenticationDefaults.AuthenticationType,
-                        CookieAuthenticationDefaults.AuthenticationType);
-
+                    SignOut();
                     return Redirect("~/quan-ly");
                 }
                 else
@@ -135,7 +132,7 @@ namespace BusinessConnectManagement.Controllers
             HttpContext.GetOwinContext().Authentication.SignOut(
                     OpenIdConnectAuthenticationDefaults.AuthenticationType,
                     CookieAuthenticationDefaults.AuthenticationType);
-
+            
             Response.Redirect("~/trang-dang-nhap");
         }
         [LoginVerification]

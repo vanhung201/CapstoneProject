@@ -47,5 +47,17 @@ namespace BusinessConnectManagement.Areas.Mentor.Controllers
                 sv_completed = sv_completed,
             }, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult ChangeNotification()
+        {
+            var query = db.VanLangUsers.FirstOrDefault(x => x.Email == User.Identity.Name);
+            
+                var noti = db.Notifications.Where(x => x.Mentor_Email == query.Email).ToList();
+                noti.ForEach(n => n.IsRead = true);
+            
+            db.SaveChanges();
+            return Json(new { message = "successed" }, JsonRequestBehavior.AllowGet);
+
+        }
     }
 }

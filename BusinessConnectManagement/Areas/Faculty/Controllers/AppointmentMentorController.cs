@@ -26,6 +26,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         {
             var listData = (from intern in db.InternshipResults
                             where intern.Status != "Hủy Đơn"
+                            orderby intern.Status == "Chờ Xác Nhận" ? 0 : intern.Status == "Đang Thực Tập" ? 1 : 2 
                             select new
                             {
                                 id = intern.ID,
@@ -127,9 +128,17 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         [HttpPost]
         public ActionResult Edit([Bind(Include = "ID,Student_Email,Semester_ID,Mentor_Email,MentorPoint,MentorComment,Business_ID,BusinessPoint,BusinessPoint2,BusinessComment,InternshipTopic_ID,Status,MentorComment2,MentorCommentB1,MentorCommentB2,BusinessComment2")] InternshipResult internshipResult)
         {
+                Notification notify = new Notification();
             if (ModelState.IsValid)
             {
                 db.Entry(internshipResult).State = EntityState.Modified;
+                notify.Mentor_Email = internshipResult.Mentor_Email;
+                notify.Title = "Thông Báo";
+                notify.Message = "Bạn được phân công hướng dẫn sinh viên thực tập";
+                notify.IsRead = false;
+                notify.Date = (DateTime.Now).ToString();
+                notify.Link = Url.Action("Index", "InternshipResultsMentor", new { area = "Mentor" });
+                db.Notifications.Add(notify);
                 db.SaveChanges();
                 string template = Server.MapPath("~/Areas/Admin/Views/Email/EmailFacultyMentor.cshtml");
                 string emailBody = System.IO.File.ReadAllText(template);

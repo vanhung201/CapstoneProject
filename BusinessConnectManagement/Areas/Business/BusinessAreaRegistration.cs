@@ -31,7 +31,21 @@ namespace BusinessConnectManagement.Areas.Business
             context.MapRoute(
                 "Business Home",
                 "doanh-nghiep/trang-chu",
-                new { controller = "Business", action = "Index", id = UrlParameter.Optional },
+                new { controller = "BusinessHome", action = "Index", id = UrlParameter.Optional },
+                namespaces: new[] { "BusinessConnectManagement.Areas.Business.Controllers" }
+            );
+
+            context.MapRoute(
+                "InternViews",
+                "doanh-nghiep/phong-van",
+                new { controller = "InternViews", action = "Index", id = UrlParameter.Optional },
+                namespaces: new[] { "BusinessConnectManagement.Areas.Business.Controllers" }
+            );
+
+            context.MapRoute(
+                "InternshipResults",
+                "doanh-nghiep/thuc-tap",
+                new { controller = "InternshipResults", action = "Index", id = UrlParameter.Optional },
                 namespaces: new[] { "BusinessConnectManagement.Areas.Business.Controllers" }
             );
 
