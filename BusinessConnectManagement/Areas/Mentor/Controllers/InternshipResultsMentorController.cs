@@ -34,6 +34,7 @@ namespace BusinessConnectManagement.Areas.Mentor.Controllers
             var email = User.Identity.Name;
             var listDataIntern = (from intern in db.InternshipResults
                             where intern.Mentor_Email == email
+                            orderby intern.Status == "Đang Thực Tập" descending
                             select new
                             {
                                 id = intern.ID,

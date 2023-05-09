@@ -46,7 +46,7 @@
     </div>
 </section>
 @*--------------------add-----------------------*@
-<form id="addForm" method="post" action="@Url.Action("Create", "Posts")" class="form" enctype="multipart/form-data">
+<form id="addForm" method="post" action="@Url.Action("Create", "Posts")" class="form" enctype="multipart/form-data" onsubmit="return validateForm()">
     <div class="form-container">
         <h1 class="list-heading">Thêm Tin Tuyển Dụng</h1>
         <div class="form-row">
@@ -189,7 +189,7 @@
                
                 <div class="form-group">
                     <label class="form-label">Vị Trí</label>
-                    <select multiple data-placeholder="Chọn vị trí" name="position" class="chosen-select PostI">
+                    <select multiple data-placeholder="Chọn vị trí" name="position" class="chosen-select PostI" required>
                         @foreach (var item in ViewBag.Position)
                         {
                             <option value="@item.ID">@item.InternshipTopicName</option>
@@ -501,10 +501,14 @@
         /*------------------------add-----------------*/
         $('#addForm').validate({
             rules: {
+                
                 Title: {
                     required: true,
                     minlength: 3,
                     blank: true
+                },
+                quantity: {
+                    required: true
                 },
                 DueDate: {
                     required: true
@@ -577,7 +581,14 @@
 
         });
 
-
+        function validateForm() {
+            var selectedOptions = document.getElementById("pos-select").selectedOptions;
+            if (selectedOptions.length < 1) {
+                alert("Vui lòng chọn ít nhất một vị trí.");
+                return false;
+            }
+            return true;
+        }
         function checkDate() {
             var selectedText = document.getElementById('dueDate').value;
             var selectedDate = new Date(selectedText);
@@ -625,7 +636,7 @@
                     console.log(optionValue);
                     var optionName = $(this).data('shortname');
                     var quantityInput = '<label style="margin-bottom:2rem" class="form-label">Số lượng ' + optionName + ': </label>' +
-                        '<input class="form-input" style="margin-bottom:2rem" type="number" name="quantity-' + optionValue + '"/>';
+                        '<input class="form-input" required style="margin-bottom:2rem" type="number" name="quantity-' + optionValue + '"/>';
                     $(quantityInput).appendTo(quantityInputsContainer);
                 });
 

@@ -244,6 +244,11 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
             {
                 Post post = db.Posts.Find(id);
                 db.Posts.Remove(post);
+                var postInterns = db.PostInternshipTopics.Where(x => x.Post_ID == id).ToList();
+                foreach (var postIntern in postInterns)
+                {
+                    db.PostInternshipTopics.Remove(postIntern);
+                }
                 db.SaveChanges();
                 TempData["AlertMessage"] = "<div class=\"toast toast--success\">\r\n     <div class=\"toast-left toast-left--success\">\r\n       <i class=\"fas fa-check-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n       <p class=\"toast-text\">Xóa thành công</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n      <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>\r\n";
                 return RedirectToAction("Index");

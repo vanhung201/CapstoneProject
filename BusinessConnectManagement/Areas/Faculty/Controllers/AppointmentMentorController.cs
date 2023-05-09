@@ -26,6 +26,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         {
             var listData = (from intern in db.InternshipResults
                             where intern.Status != "Hủy Đơn"
+                            orderby intern.Status == "Chờ Xác Nhận" ? 0 : intern.Status == "Đang Thực Tập" ? 1 : 2 
                             select new
                             {
                                 id = intern.ID,
