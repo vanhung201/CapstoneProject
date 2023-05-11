@@ -84,7 +84,8 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
                                Major = internR.VanLangUser.Major.Major1,
                                Position = internR.InternshipTopic.InternshipTopicName,
                                BusinessName = internR.BusinessUser.BusinessName,
-                               Address = internR.BusinessUser.Address
+                               Address = internR.BusinessUser.Address,
+                               
                            };
             return Json(dataList, JsonRequestBehavior.AllowGet);
         }
@@ -143,7 +144,7 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Edit([Bind(Include = "ID,Student_Email,Semester_ID,Mentor_Email,MentorPoint,MentorComment,MentorComment2,MentorCommentB1,MentorCommentB2,Business_ID,BusinessPoint,BusinessPoint2,BusinessComment,BusinessComment2,InternshipTopic_ID,Status")] InternshipResult internshipResult)
+        public ActionResult Edit([Bind(Include = "ID,Student_Email,Semester_ID,Mentor_Email,MentorPoint,MentorComment,MentorComment2,MentorCommentB1,MentorCommentB2,Business_ID,BusinessPoint,BusinessPoint2,BusinessComment,BusinessComment2,InternshipTopic_ID,Status,InternshipResult_ID")] InternshipResult internshipResult)
         {
             if (ModelState.IsValid)
             {

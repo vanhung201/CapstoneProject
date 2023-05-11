@@ -6,10 +6,12 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using BusinessConnectManagement.Middleware;
 using BusinessConnectManagement.Models;
 
 namespace BusinessConnectManagement.Areas.Faculty.Controllers
 {
+    [LoginVerification]
     public class AppointmentMentorController : Controller
     {
         private BCMEntities db = new BCMEntities();
@@ -18,7 +20,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            ViewBag.Mentor = db.VanLangUsers.Where(x => x.Role != "Mentor").ToList();
+            ViewBag.Mentor = db.VanLangUsers.Where(x => x.Role != "Student").ToList();
             var internshipResults = db.InternshipResults.Include(i => i.BusinessUser).Include(i => i.InternshipTopic).Include(i => i.Semester).Include(i => i.VanLangUser);
             return View(internshipResults.ToList());
         }
