@@ -1534,7 +1534,6 @@
     <Content Include="Views\Error\Forbidden.cshtml" />
     <Content Include="Uploads\ExcelTemplate\Business.xlsx" />
     <Content Include="Uploads\ExcelTemplate\Mentor.xlsx" />
-    <Content Include="Uploads\ExcelTemplate\Student.xlsx" />
     <Content Include="Views\Posts\IndexNew.cshtml" />
     <Content Include="Uploads\Import\Mentor.xlsx" />
     <Content Include="Uploads\Import\Student.xlsx" />
@@ -1543,6 +1542,7 @@
     <Content Include="Views\Contact\Details.cshtml" />
     <Content Include="Views\Contact\Edit.cshtml" />
     <Content Include="Views\Contact\Index.cshtml" />
+    <Content Include="Uploads\ExcelTemplate\Student.xlsx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

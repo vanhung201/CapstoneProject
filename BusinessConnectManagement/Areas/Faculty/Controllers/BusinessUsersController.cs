@@ -131,9 +131,9 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (db.BusinessUsers.Where(x => x.BusinessName == businessUser.BusinessName).Any() == true)
+                if (db.BusinessUsers.Where(x => x.BusinessName == businessUser.BusinessName || x.Username == businessUser.Username).Any() == true)
                 {
-                    TempData["AlertMessage"] = "<div class=\"toast toast--error\">\r\n     <div class=\"toast-left toast-left--error\">\r\n       <i class=\"fas fa-times-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n    <p class=\"toast-text\">Tên Doanh Nghiệp Đã Tồn Tại</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n       <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>";
+                    TempData["AlertMessage"] = "<div class=\"toast toast--error\">\r\n     <div class=\"toast-left toast-left--error\">\r\n       <i class=\"fas fa-times-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n    <p class=\"toast-text\">Tên Doanh Nghiệp Hoặc Tên Đăng Nhập Đã Tồn Tại</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n       <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>";
                     return RedirectToAction("Index");
                 }
                 else

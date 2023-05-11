@@ -370,6 +370,17 @@
                                 :
                                 `
                                 `
+
+                            const getBtnStatus = (a.status != "Thực Tập Xong") ?
+                                `
+                                    <a href="@Url.Action("Details/", "InternshipResultsMentor")${t}" id="business_detail" class="business_update">
+                                         <div class="btn btn--update">
+                                    <i class="btn-icon btn-icon--edit fal fa-edit"></i>
+                                    </div>
+                                    </a>`
+                                :
+                                ``
+
                             return (
                                 `
                                     <a href="@Url.Action("Details/", "InternshipResultsMentor")${t}" id="business_detail" class="business_detail">
@@ -377,11 +388,7 @@
                                             <i class="btn-icon btn-icon--detail fal fa-info-circle"></i>
                                         </div>
                                     </a>
-                                    <a href="@Url.Action("Details/", "InternshipResultsMentor")${t}" id="business_detail" class="business_update">
-                                         <div class="btn btn--update">
-                                    <i class="btn-icon btn-icon--edit fal fa-edit"></i>
-                                    </div>
-                                    </a>
+                                    ${getBtnStatus}
                                     ${getBtn}
                                 `
                             );
