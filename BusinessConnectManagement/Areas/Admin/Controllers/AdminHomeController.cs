@@ -78,6 +78,7 @@ namespace BusinessConnectManagement.Areas.Admin.Controllers
                         });
             return Json(list, JsonRequestBehavior.AllowGet);
         }
+
         public ActionResult Edit(string email)
         {
 
