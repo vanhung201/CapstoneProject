@@ -371,7 +371,7 @@
                                 `
                                 `
 
-                            const getBtnStatus = (a.status != "Thực Tập Xong") ?
+                            const getBtnStatus = (a.coment == null) ?
                                 `
                                     <a href="@Url.Action("Details/", "InternshipResultsMentor")${t}" id="business_detail" class="business_update">
                                          <div class="btn btn--update">

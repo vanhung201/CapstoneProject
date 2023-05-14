@@ -35,7 +35,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            ViewBag.Business_ID = db.BusinessUsers.ToList();
+            ViewBag.Business_ID = db.BusinessUsers.Where( x=> x.Status_ID == 1).ToList();
             ViewBag.Position = db.InternshipTopics.ToList();
             ViewBag.Major = db.Majors.ToList();
             var posts = db.Posts.ToList();

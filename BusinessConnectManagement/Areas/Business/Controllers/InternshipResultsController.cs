@@ -38,7 +38,7 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
         {
             int BusinessID = Convert.ToInt16(Session["BusinessID"]);
             var dataList = from internR in db.InternshipResults
-                           where internR.Business_ID == BusinessID
+                           where internR.Business_ID == BusinessID && internR.VanLangUser.Status_ID == 1
                            orderby internR.Status == "Chờ Xác Nhận" ? 0 : internR.Status == "Đang Thực Tập" ? 1 : 2
                            select new
                            {

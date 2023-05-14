@@ -21,7 +21,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
             var mOUs = db.MOUs.Include(m => m.BusinessUser);
           
 
-            ViewBag.Business_ID = db.BusinessUsers.ToList();
+            ViewBag.Business_ID = db.BusinessUsers.Where(x => x.Status_ID == 1).ToList();
             return View(mOUs.ToList());
         }
 
