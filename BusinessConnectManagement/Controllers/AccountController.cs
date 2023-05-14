@@ -27,8 +27,21 @@ namespace BusinessConnectManagement.Controllers
 
                 if (user.Status_ID == 2)
                 {
-                    SignOut();
-                    return Redirect("~/quan-ly");
+                    if (Request.Cookies["ASP.NET_SessionId"] != null)
+                    {
+
+                        HttpCookie httpCookie = Response.Cookies["ASP.NET_SessionId"];
+                        httpCookie.Expires = DateTime.Now.AddDays(-1);
+                        Response.Cookies.Add(httpCookie);
+                    }
+                    if (Request.Cookies[".AspNet.Cookies"] != null)
+                    {
+                        HttpCookie cookie = Response.Cookies[".AspNet.Cookies"];
+                        cookie.Expires = DateTime.Now.AddDays(-1);
+
+                        Response.Cookies.Add(cookie);
+                    }
+                    return View();
                 }
                 else
                 {
@@ -110,8 +123,8 @@ namespace BusinessConnectManagement.Controllers
                 }
                 else
                 {
-                    Session["AccountBlocked"] = true;
-
+                    TempData["message"] = "Tài Khoản Đã Bị Khóa Vui Lòng Liên Hệ Khoa";
+                    TempData["messageType"] = "warning";
                     return RedirectToAction("Login", "Account");
                 }
             }

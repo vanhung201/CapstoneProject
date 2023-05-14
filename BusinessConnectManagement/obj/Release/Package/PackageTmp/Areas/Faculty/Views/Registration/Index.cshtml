@@ -215,6 +215,11 @@
                     {
                         data: "id",
                         render: function (t, e, a) {
+                            const editBtn = (a.status === "Chờ Duyệt") ? `<a href="@Url.Action("Details/", "Registration")${t}" id="business_detail" class="business_detail">
+                                <div class="btn btn--update">
+                                    <i class="btn-icon btn-icon--edit fal fa-edit"></i>
+                                </div>
+                                </a>` : "";
                             return (
                                 `
                                  <a href="@Url.Action("Details/", "Registration")${t}" id="business_getdetail" class="business_getdetail">
@@ -222,11 +227,7 @@
                                     <i class="btn-icon btn-icon--detail fal fa-info-circle"></i>
                                 </div>
                                 </a>
-                                <a href="@Url.Action("Details/", "Registration")${t}" id="business_detail" class="business_detail">
-                                <div class="btn btn--update">
-                                    <i class="btn-icon btn-icon--edit fal fa-edit"></i>
-                                </div>
-                                </a>
+                                ${editBtn}
                                 `
                             );
                         },
