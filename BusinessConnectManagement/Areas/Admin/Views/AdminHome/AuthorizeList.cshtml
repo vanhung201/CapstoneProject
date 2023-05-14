@@ -144,7 +144,7 @@
             <div class="form-group">
                 <label for="Status_ID" class="form-label">Trạng thái</label>
                 <select name="Status_ID" id="status" class="form-input">
-                    <option value="1">Đang Hoạt Động</option>
+                    <option value="1">Đang hoạt động</option>
                     <option value="2">Khóa</option>
                 </select>
             </div>
@@ -275,7 +275,7 @@
                 success: function (res) {
                     console.log(res)
 
-                    const actionUrl = `@Url.Action("Edit", "AdminHome")` + `/${res[0].email}`
+                    const actionUrl = `@Url.Action("Edit", "AdminHome")` + `?email=${res[0].email}`
 
                     $('#email').val(res[0].email)
                     $('#email2').val(res[0].email)
