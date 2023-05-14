@@ -82,52 +82,53 @@
         toastr.@(TempData["messageType"])('@TempData["message"]','Thông Báo');
         </script>
     }
-    <section class="login">
+<section class="login">
 
-        <div class="login-trademark">
-            <img src="~/assets/images/logoVL.png" alt="" class="login-image">
-            <span>Một sản phẩm của khoa CNTT</span>
-        </div>
-        <p class="login-info">
-            Phần mềm<br><span>Quản lý kết nối doanh nghiệp</span>
-        </p>
-        <h2 class="login-heading">Trang dành cho Doanh nghiệp</h2>
-        <div class="login-wrap login-wrap--row">
+    <div class="login-trademark">
+        <img src="~/assets/images/logoVL.png" alt="" class="login-image">
+        <span>Một sản phẩm của khoa CNTT</span>
+    </div>
+    <p class="login-info">
+        Phần mềm<br><span>Quản lý kết nối doanh nghiệp</span>
+    </p>
+    
+    <h2 class="login-heading">Trang dành cho Doanh nghiệp</h2>
+    <div class="login-wrap login-wrap--row">
 
-            <img src="~/assets/images/logoDoanhNghiep.png" alt="" class="login-image">
-            <form action="@Url.Action("Login")" method="post" class="login-form">
-                <h1 class="login-heading">Chào mừng quý doanh nghiệp</h1>
-                <div class="login-group">
-                    <label for="login-username" class="login-label">Tên đăng nhập</label>
-                    <input type="text" name="username" id="login-username" class="login-input" placeholder="Tên đăng nhập" required
-                           autocomplete="off">
-                    @if (Convert.ToBoolean(Session["username-incorrect"]) == true)
-                    {
-                        <span class="login-message login-message--username">Tài khoản không tồn tại !!!</span>
-                    }
-                </div>
-                <div class="login-group">
-                    <label for="login-password" class="login-label">Mật khẩu</label>
-                    <input type="password" name="password" id="login-password" class="login-input" placeholder="Mật khẩu" required>
-                    @if (Convert.ToBoolean(Session["password-incorrect"]) == true)
-                    {
-                        <span class="login-message login-message--password">Mật khẩu không đúng !!!</span>
-                    }
-                </div>
+        <img src="~/assets/images/logoDoanhNghiep.png" alt="" class="login-image">
+        <form action="@Url.Action("Login")" method="post" class="login-form">
+            <h1 class="login-heading">Chào mừng quý doanh nghiệp</h1>
+            <div class="login-group">
+                <label for="login-username" class="login-label">Tên đăng nhập</label>
+                <input type="text" name="username" id="login-username" class="login-input" placeholder="Tên đăng nhập" required
+                       autocomplete="off">
+                @if (Convert.ToBoolean(Session["username-incorrect"]) == true)
+                {
+                    <span class="login-message login-message--username">Tài khoản không tồn tại !!!</span>
+                }
+            </div>
+            <div class="login-group">
+                <label for="login-password" class="login-label">Mật khẩu</label>
+                <input type="password" name="password" id="login-password" class="login-input" placeholder="Mật khẩu" required>
+                @if (Convert.ToBoolean(Session["password-incorrect"]) == true)
+                {
+                    <span class="login-message login-message--password">Mật khẩu không đúng !!!</span>
+                }
+            </div>
 
-                <div class="login-group">
-                    <span class="login-forgot">Quên mật khẩu?</span>
-                    <p class="login-desc" style="display: none;">Xin liên hệ với cô Lý Thị Huyền Châu qua mail: <a href="mailto: chau.lth@vlu.edu.vn">chau.lth@vlu.edu.vn</a></p>
-                </div>
+            <div class="login-group">
+                <span class="login-forgot">Quên mật khẩu?</span>
+                <p class="login-desc" style="display: none;">Xin liên hệ với cô Lý Thị Huyền Châu qua mail: <a href="mailto: chau.lth@vlu.edu.vn">chau.lth@vlu.edu.vn</a></p>
+            </div>
 
-                <div class="login-submit">
-                    <button type="submit" class="login-button">Đăng nhập</button>
-                </div>
+            <div class="login-submit">
+                <button type="submit" class="login-button">Đăng nhập</button>
+            </div>
 
-            </form>
-        </div>
-        <p class="login-more">&#169; 2022 - Bản Quyền Thuộc Khoa CNTT - Trường Đại học Văn Lang</p>
-    </section>
+        </form>
+    </div>
+    <p class="login-more">&#169; 2022 - Bản Quyền Thuộc Khoa CNTT - Trường Đại học Văn Lang</p>
+</section>
 
     @* @if (Convert.ToBoolean(Session["BusinessAccountBlocked"]) == true)
         {

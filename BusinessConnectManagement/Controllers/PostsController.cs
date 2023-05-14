@@ -40,13 +40,14 @@ namespace BusinessConnectManagement.Controllers
             int pageSize = 6;
 
             int pageNumber = (page ?? 1);
-
-            ViewBag.Posts = posts;
+            var filteredPosts = posts.Where(p => p.BusinessUser.Status_ID == 1).OrderByDescending(x => x.Registrations.Count)
+                         .ToPagedList(pageNumber, pageSize);
+            ViewBag.Posts = filteredPosts;
             ViewBag.CountStudent = db.VanLangUsers.Count();
             ViewBag.CountPost = db.Posts.Count();
             ViewBag.CountBusiness = db.BusinessUsers.Count();
             ViewBag.MOU = db.MOUs.ToList();
-            return View(posts.ToPagedList(pageNumber, pageSize));
+            return View(filteredPosts);
         }
 
         public ActionResult IndexNew(int? page)
@@ -58,18 +59,20 @@ namespace BusinessConnectManagement.Controllers
             var posts = (from post in db.Posts
                          select post).OrderByDescending(x => x.ID);
 
-          
 
             int pageSize = 6;
 
             int pageNumber = (page ?? 1);
 
-            ViewBag.Posts = posts;
+            var filteredPosts = posts.Where(p => p.BusinessUser.Status_ID == 1)
+                        .ToPagedList(pageNumber, pageSize);
+
+            ViewBag.Posts = filteredPosts;
             ViewBag.CountStudent = db.VanLangUsers.Count();
             ViewBag.CountPost = db.Posts.Count();
             ViewBag.CountBusiness = db.BusinessUsers.Count();
             ViewBag.MOU = db.MOUs.ToList();
-            return View(posts.ToPagedList(pageNumber, pageSize));
+            return View(filteredPosts);
         }
         public ActionResult Search(int? page, string SearchString = "", string Form = "", string Major = "")
         {

@@ -27,8 +27,12 @@ namespace BusinessConnectManagement.Controllers
 
             int pageSize = 6;
             int pageNumber = (page ?? 1);
-            ViewBag.PostsHot = db.Posts.OrderByDescending(x => x.Registrations.Count).ToPagedList(pageNumber, pageSize);
-            ViewBag.Posts = posts;
+
+            var filteredPosts = posts.Where(p => p.BusinessUser.Status_ID == 1)
+                         .ToPagedList(pageNumber, pageSize);
+            var filteredPostsHot = posts.Where(x => x.BusinessUser.Status_ID == 1).OrderByDescending(x => x.Registrations.Count).ToPagedList(pageNumber, pageSize);
+            ViewBag.PostsHot = filteredPostsHot;
+            ViewBag.Posts = filteredPosts;
             ViewBag.CountStudent = db.VanLangUsers.Count();
             ViewBag.CountPost = db.Posts.Count();
            
@@ -36,7 +40,7 @@ namespace BusinessConnectManagement.Controllers
             ViewBag.MOU = db.MOUs.ToList();
             var getReID = db.Posts.FirstOrDefault();
             ViewBag.Registration = db.Registrations.Where(x => x.Post_ID == getReID.ID).Count();
-            return View(posts.ToPagedList(pageNumber, pageSize));
+            return View(filteredPosts);
         }
         public ActionResult Contact()
         {

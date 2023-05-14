@@ -14,6 +14,7 @@ using BusinessConnectManagement.Middleware;
 using BusinessConnectManagement.Models;
 using OfficeOpenXml.Style;
 using OfficeOpenXml;
+using Microsoft.Office.Interop.Excel;
 
 namespace BusinessConnectManagement.Areas.Business.Controllers
 {
@@ -42,7 +43,7 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
                             join bu in db.BusinessUsers on re.Business_ID equals bu.ID into bus
                             join emailVL in db.VanLangUsers on re.Email_VanLang equals emailVL.Email into emails
                             join intern in db.InternshipTopics on re.InternshipTopic_ID equals intern.ID into interns
-                            where re.Business_ID == BusinessID && re.StatusRegistration == "Phê duyệt"
+                            where re.Business_ID == BusinessID && re.StatusRegistration == "Phê duyệt" && re.VanLangUser.Status_ID == 1
                             orderby re.StatusInternview == "Chờ Phỏng Vấn" descending
                             select new
 

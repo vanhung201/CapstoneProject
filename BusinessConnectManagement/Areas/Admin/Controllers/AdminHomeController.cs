@@ -31,9 +31,12 @@ namespace BusinessConnectManagement.Areas.Admin.Controllers
         }
         public JsonResult getDataList()
         {
+            var email = User.Identity.Name;
             var listData = (from vl in db.VanLangUsers
                             join mj in db.Majors on vl.Major_ID equals mj.ID into major
                             join st in db.Status on vl.Status_ID equals st.ID into status
+                            where vl.Email != email
+                            orderby vl.Role == "Admin" ? 0 : vl.Role == "Faculty" ? 1 : vl.Role == "Mentor" ? 2 : 3
                             select new
                             {
                                 email = vl.Email,

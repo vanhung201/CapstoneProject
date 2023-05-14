@@ -20,15 +20,15 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            ViewBag.Mentor = db.VanLangUsers.Where(x => x.Role != "Student").ToList();
+            ViewBag.Mentor = db.VanLangUsers.Where(x => x.Role != "Student" && x.Status_ID == 1).ToList();
             var internshipResults = db.InternshipResults.Include(i => i.BusinessUser).Include(i => i.InternshipTopic).Include(i => i.Semester).Include(i => i.VanLangUser);
             return View(internshipResults.ToList());
         }
         public JsonResult getDataList()
         {
             var listData = (from intern in db.InternshipResults
-                            where intern.Status != "Hủy Đơn"
-                            orderby intern.Status == "Chờ Xác Nhận" ? 0 : intern.Status == "Đang Thực Tập" ? 1 : 2 
+                            where intern.Status != "Hủy Đơn" && intern.VanLangUser.Status_ID == 1
+                            orderby intern.Status == "Chờ Xác Nhận" ? 0 : intern.Status == "Đang Thực Tập" ? 1 : 2, intern.ID descending
                             select new
                             {
                                 id = intern.ID,
