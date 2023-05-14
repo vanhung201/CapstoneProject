@@ -180,7 +180,7 @@
                     {
                         data: "id",
                         render: function (t, e, a) {
-                            const getBtn = (a.status == "Đang Thực Tập") ?
+                            const getBtn = (a.status == "Đang Thực Tập" && a.mentor == null) ?
                                 `
                                 <a href="@Url.Action("Details/", "AppointmentMentor")${t}" class="getUpdate">
                                 <div class="btn btn--update">

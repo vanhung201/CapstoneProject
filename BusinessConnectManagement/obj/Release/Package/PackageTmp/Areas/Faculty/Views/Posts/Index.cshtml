@@ -636,7 +636,7 @@
                     console.log(optionValue);
                     var optionName = $(this).data('shortname');
                     var quantityInput = '<label style="margin-bottom:2rem" class="form-label">Số lượng ' + optionName + ': </label>' +
-                        '<input class="form-input" required style="margin-bottom:2rem" type="number" name="quantity-' + optionValue + '"/>';
+                        '<input min="1" class="form-input" required style="margin-bottom:2rem" type="number" name="quantity-' + optionValue + '"/>';
                     $(quantityInput).appendTo(quantityInputsContainer);
                 });
 
