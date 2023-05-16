@@ -3,6 +3,22 @@
     BCMEntities db = new BCMEntities();
     var count = 0;
     int BusinessID = Convert.ToInt16(Session["BusinessID"]);
+    var curBusiness = db.BusinessUsers.Where(x => x.ID == BusinessID).FirstOrDefault();
+    if(curBusiness.Status_ID == 2)
+    {
+
+        if (Request.Cookies["ASP.NET_SessionId"] != null)
+        {
+
+            HttpCookie httpCookie = Response.Cookies["ASP.NET_SessionId"];
+            httpCookie.Expires = DateTime.Now.AddDays(-1);
+            Response.Cookies.Add(httpCookie);
+        }
+       
+        TempData["message"] = "Tài khoản của bạn đang bị khóa. Vui lòng liên hệ Khoa CNTT để được hỗ trợ.";
+        TempData["messageType"] = "warning";
+        Response.Redirect("~/doanh-nghiep/dang-nhap");
+    }
     ViewBag.Notifications = db.Notifications.Where(x => x.Business_ID == BusinessID).OrderByDescending(x=>x.Date).ToList();
     count = db.Notifications.Where(x => x.Business_ID == BusinessID && x.IsRead == false).Count();
 
