@@ -173,6 +173,8 @@
     <EntitySetMapping Name="Semesters">
       <EntityTypeMapping TypeName="BCMModel.Semester">
         <MappingFragment StoreEntitySet="Semester">
+          <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+          <ScalarProperty Name="StartDate" ColumnName="StartDate" />
           <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="Semester1" ColumnName="Semester" />
           <ScalarProperty Name="YearStudy_ID" ColumnName="YearStudy_ID" />
@@ -185,17 +187,6 @@
         <MappingFragment StoreEntitySet="Status">
           <ScalarProperty Name="Status1" ColumnName="Status" />
           <ScalarProperty Name="ID" ColumnName="ID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="sysdiagrams">
-      <EntityTypeMapping TypeName="BCMModel.sysdiagram">
-        <MappingFragment StoreEntitySet="sysdiagrams">
-          <ScalarProperty Name="definition" ColumnName="definition" />
-          <ScalarProperty Name="version" ColumnName="version" />
-          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-          <ScalarProperty Name="name" ColumnName="name" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -226,6 +217,9 @@
     <EntitySetMapping Name="YearStudies">
       <EntityTypeMapping TypeName="BCMModel.YearStudy">
         <MappingFragment StoreEntitySet="YearStudy">
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+          <ScalarProperty Name="StartDate" ColumnName="StartDate" />
           <ScalarProperty Name="YearStudy1" ColumnName="YearStudy" />
           <ScalarProperty Name="ID" ColumnName="ID" />
         </MappingFragment>

@@ -85,7 +85,6 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                 notify.Message = "Có sinh viên vừa ứng tuyển vào công ty bạn";
                 notify.IsRead = false;
                 notify.Date = (DateTime.Now).ToString();
-                notify.Link = Url.Action("Index", "InternViews", new { area = "Business" });
                 db.Notifications.Add(notify);
                 db.SaveChanges();
                 string template = Server.MapPath("~/Areas/Admin/Views/Email/EmailFacultyCV.cshtml");

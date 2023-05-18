@@ -59,7 +59,7 @@
     }
     if(query.Role == "Admin" || query.Role == "Faculty")
     {
-        ViewBag.Notifications = db.Notifications.Where(x => x.Mentor_Email == null && x.Business_ID == null).OrderByDescending(x=> x.Date).ToList();
+        ViewBag.Notifications = db.Notifications.Where(x => x.Mentor_Email == null && x.Business_ID == null).OrderByDescending(x=> x.ID).ToList();
         count = db.Notifications.Where(x => x.Mentor_Email == null && x.Business_ID == null && x.IsRead == false).Count();
     }
     else if(query.Role == "Mentor")
@@ -372,7 +372,7 @@
                                                 @foreach (var item in ViewBag.Notifications)
                                                 {
                                             <div class="sec new">
-                                                <a href="@item.Link">
+                                                <a href="#">
                                                         <div class="txt">@item.Message</div>
                                                         <div class="txt sub">@item.Date</div>
                                                 </a>  

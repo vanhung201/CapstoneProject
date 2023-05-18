@@ -50,7 +50,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
        
-        public ActionResult Create([Bind(Include = "ID,YearStudy_ID,Semester1,Status")] Semester semester)
+        public ActionResult Create(Semester semester)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Edit([Bind(Include = "ID,YearStudy_ID,Semester1,Status")] Semester semester, bool status)
+        public ActionResult Edit(Semester semester, bool status)
         {
 
             if (ModelState.IsValid)
