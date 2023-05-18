@@ -170,6 +170,8 @@
           <Property Name="YearStudy_ID" Type="int" />
           <Property Name="Semester" Type="varchar" MaxLength="15" />
           <Property Name="Status" Type="bit" />
+          <Property Name="StartDate" Type="date" />
+          <Property Name="EndDate" Type="date" />
         </EntityType>
         <EntityType Name="Status">
           <Key>
@@ -177,16 +179,6 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Status" Type="nvarchar" MaxLength="30" />
-        </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="Trainee">
           <Key>
@@ -216,6 +208,9 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="YearStudy" Type="varchar" MaxLength="15" />
+          <Property Name="StartDate" Type="date" />
+          <Property Name="EndDate" Type="date" />
+          <Property Name="Status" Type="bit" />
         </EntityType>
         <Association Name="FK_BusinessCooperationCategories_BusinessUser">
           <End Role="BusinessUser" Type="Self.BusinessUser" Multiplicity="1" />
@@ -580,7 +575,6 @@
           <EntitySet Name="Registration" EntityType="Self.Registration" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Semester" EntityType="Self.Semester" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Trainee" EntityType="Self.Trainee" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VanLangUser" EntityType="Self.VanLangUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="YearStudy" EntityType="Self.YearStudy" Schema="dbo" store:Type="Tables" />
@@ -720,7 +714,6 @@
           <EntitySet Name="Registrations" EntityType="BCMModel.Registration" />
           <EntitySet Name="Semesters" EntityType="BCMModel.Semester" />
           <EntitySet Name="Status" EntityType="BCMModel.Status" />
-          <EntitySet Name="sysdiagrams" EntityType="BCMModel.sysdiagram" />
           <EntitySet Name="Trainees" EntityType="BCMModel.Trainee" />
           <EntitySet Name="VanLangUsers" EntityType="BCMModel.VanLangUser" />
           <EntitySet Name="YearStudies" EntityType="BCMModel.YearStudy" />
@@ -1044,6 +1037,8 @@
           <Property Name="YearStudy_ID" Type="Int32" />
           <Property Name="Semester1" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="Status" Type="Boolean" />
+          <Property Name="StartDate" Type="DateTime" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Precision="0" />
           <NavigationProperty Name="BusinessUsers" Relationship="BCMModel.FK_BusinessUser_Semester1" FromRole="Semester" ToRole="BusinessUser" />
           <NavigationProperty Name="InternshipResults" Relationship="BCMModel.FK_InternshipResult_Semester" FromRole="Semester" ToRole="InternshipResult" />
           <NavigationProperty Name="Posts" Relationship="BCMModel.FK_Post_Semester" FromRole="Semester" ToRole="Post" />
@@ -1059,16 +1054,6 @@
           <Property Name="Status1" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="BusinessUsers" Relationship="BCMModel.FK_BusinessUser_Status" FromRole="Status" ToRole="BusinessUser" />
           <NavigationProperty Name="VanLangUsers" Relationship="BCMModel.FK_VanLangUser_Status" FromRole="Status" ToRole="VanLangUser" />
-        </EntityType>
-        <EntityType Name="sysdiagram">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="Trainee">
           <Key>
@@ -1109,6 +1094,9 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="YearStudy1" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="StartDate" Type="DateTime" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Precision="0" />
+          <Property Name="Status" Type="Boolean" />
           <NavigationProperty Name="Semesters" Relationship="BCMModel.FK_Semester_YearStudy" FromRole="YearStudy" ToRole="Semester" />
         </EntityType>
         <Association Name="FK_BusinessCooperationCategories_BusinessUser">
@@ -1637,6 +1625,8 @@
           <EntitySetMapping Name="Semesters">
             <EntityTypeMapping TypeName="BCMModel.Semester">
               <MappingFragment StoreEntitySet="Semester">
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="Semester1" ColumnName="Semester" />
                 <ScalarProperty Name="YearStudy_ID" ColumnName="YearStudy_ID" />
@@ -1649,17 +1639,6 @@
               <MappingFragment StoreEntitySet="Status">
                 <ScalarProperty Name="Status1" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="BCMModel.sysdiagram">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="definition" ColumnName="definition" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1690,6 +1669,9 @@
           <EntitySetMapping Name="YearStudies">
             <EntityTypeMapping TypeName="BCMModel.YearStudy">
               <MappingFragment StoreEntitySet="YearStudy">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
                 <ScalarProperty Name="YearStudy1" ColumnName="YearStudy" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>

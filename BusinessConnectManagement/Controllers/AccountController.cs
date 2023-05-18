@@ -24,7 +24,6 @@ namespace BusinessConnectManagement.Controllers
             if (Request.IsAuthenticated)
             {
                 var user = await db.VanLangUsers.FirstOrDefaultAsync(x => x.Email == User.Identity.Name);
-
                 if (user.Status_ID == 2)
                 {
                     if (Request.Cookies["ASP.NET_SessionId"] != null)

@@ -165,6 +165,8 @@
     <Property Name="YearStudy_ID" Type="int" />
     <Property Name="Semester" Type="varchar" MaxLength="15" />
     <Property Name="Status" Type="bit" />
+    <Property Name="StartDate" Type="date" />
+    <Property Name="EndDate" Type="date" />
   </EntityType>
   <EntityType Name="Status">
     <Key>
@@ -172,16 +174,6 @@
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Status" Type="nvarchar" MaxLength="30" />
-  </EntityType>
-  <EntityType Name="sysdiagrams">
-    <Key>
-      <PropertyRef Name="diagram_id" />
-    </Key>
-    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-    <Property Name="principal_id" Type="int" Nullable="false" />
-    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="version" Type="int" />
-    <Property Name="definition" Type="varbinary(max)" />
   </EntityType>
   <EntityType Name="Trainee">
     <Key>
@@ -211,6 +203,9 @@
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="YearStudy" Type="varchar" MaxLength="15" />
+    <Property Name="StartDate" Type="date" />
+    <Property Name="EndDate" Type="date" />
+    <Property Name="Status" Type="bit" />
   </EntityType>
   <Association Name="FK_BusinessCooperationCategories_BusinessUser">
     <End Role="BusinessUser" Type="Self.BusinessUser" Multiplicity="1" />
@@ -575,7 +570,6 @@
     <EntitySet Name="Registration" EntityType="Self.Registration" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Semester" EntityType="Self.Semester" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Trainee" EntityType="Self.Trainee" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="VanLangUser" EntityType="Self.VanLangUser" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="YearStudy" EntityType="Self.YearStudy" Schema="dbo" store:Type="Tables" />

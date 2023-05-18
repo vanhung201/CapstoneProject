@@ -19,7 +19,7 @@
         TempData["messageType"] = "warning";
         Response.Redirect("~/doanh-nghiep/dang-nhap");
     }
-    ViewBag.Notifications = db.Notifications.Where(x => x.Business_ID == BusinessID).OrderByDescending(x=>x.Date).ToList();
+    ViewBag.Notifications = db.Notifications.Where(x => x.Business_ID == BusinessID).OrderByDescending(x=>x.ID).ToList();
     count = db.Notifications.Where(x => x.Business_ID == BusinessID && x.IsRead == false).Count();
 
 }

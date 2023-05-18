@@ -51,5 +51,94 @@ namespace BusinessConnectManagement.Controllers
         {
             return View();
         }
+
+        public ActionResult ChangeYearStudy()
+        {
+            var curYearStudy = db.YearStudies.Where(x => x.Status == true).FirstOrDefault();
+            var curSemester = db.Semesters.Where(x => x.Status == true).FirstOrDefault();
+            var yearStudies = db.YearStudies.Where(x => x.Status == false && x.StartDate >= DateTime.Now).ToList();
+            var message = "";
+
+            if (curYearStudy.EndDate < DateTime.Now)
+            {
+                var nearestYear = yearStudies.OrderBy(x => Math.Abs((x.StartDate - DateTime.Now)?.TotalDays ?? 0)).FirstOrDefault();
+                if (nearestYear != null)
+                {
+                    var nearestSemester = db.Semesters.Where(x => x.YearStudy_ID == nearestYear.ID).FirstOrDefault();
+                    curYearStudy.Status = false;
+                    db.Entry(curYearStudy).State = EntityState.Modified;
+                    curSemester.Status = false;
+                    db.Entry(curSemester).State = EntityState.Modified;
+                    nearestYear.Status = true; // Set the nearest year's status to true
+                    db.Entry(nearestYear).State = EntityState.Modified;
+                    if(nearestSemester != null)
+                    {
+                        nearestSemester.Status = true;
+                    } else
+                    {
+                        Semester semester = new Semester();
+                        semester.YearStudy_ID = nearestYear.ID;
+                        semester.Semester1 = "Semester";
+                        semester.StartDate = DateTime.Now;
+                        semester.EndDate = DateTime.Now.AddDays(105);
+                        semester.Status = true;
+                        db.Semesters.Add(semester);
+                    }
+                    db.SaveChanges();
+                    message = "Nearest year found: " + nearestYear.YearStudy1;
+                }
+                else
+                {
+                    message = "No year studies found";
+                }
+            }
+            else
+            {
+                message = "nothing change";
+            }
+
+            db.SaveChanges(); // Save the changes to the database
+
+            return Json(message, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult ChangeSemester()
+        {
+            var curYearStudy = db.YearStudies.Where(x => x.Status == true).FirstOrDefault();
+            var curSemester = db.Semesters.Where(x => x.Status == true).FirstOrDefault();
+            var semestersOfYear = db.Semesters.Where(x => x.YearStudy_ID == curYearStudy.ID && x.EndDate >= DateTime.Now).ToList();
+            var message = "";
+            if(curSemester.EndDate < DateTime.Now)
+            {
+                var nearestSemester = semestersOfYear.OrderBy(x => Math.Abs((x.StartDate - DateTime.Now)?.TotalDays ?? 0)).FirstOrDefault();
+                if(nearestSemester != null)
+                {
+                    nearestSemester.Status = true;
+                    db.Entry(nearestSemester).State = EntityState.Modified;
+
+                    curSemester.Status = false;
+                    db.Entry(curSemester).State = EntityState.Modified;
+                    db.SaveChanges();
+                    message = "update current semester";
+                } else
+                {
+                    curSemester.Status = false;
+                    db.Entry(curSemester).State = EntityState.Modified;
+                    Semester semester = new Semester();
+                    semester.YearStudy_ID = curYearStudy.ID;
+                    semester.Semester1 = "Semester";
+                    semester.StartDate = DateTime.Now;
+                    semester.EndDate = DateTime.Now.AddDays(105);
+                    semester.Status = true;
+                    db.Semesters.Add(semester);
+                    db.SaveChanges();
+                    message = "add new semester for current year";
+                }
+            } else
+            {
+                message = "nothing change";
+            }
+            return Json(message, JsonRequestBehavior.AllowGet);
+        }
     }
 }

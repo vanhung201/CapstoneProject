@@ -27,7 +27,7 @@
                     <th>STT</th>
                     <th>Năm Học</th>
                     <th>Học Kỳ</th>
-                    <th width="20%">Chức Năng</th>
+                    <th width="30%">Chức Năng</th>
                 </tr>
             </thead>
             <tbody>
@@ -44,8 +44,38 @@
             <input name="YearStudy1" type="text" class="form-input" id="checkspace2" required>
         </div>
         <div class="form-group">
+            <label for="cooperationName" class="form-label">Ngày Bắt Đầu</label>
+            <input name="StartDate" id="StartDate1" type="date" onchange="checkDate()" class="form-input">
+        </div>
+        <div class="form-group">
+            <label for="cooperationName" class="form-label">Ngày Kết Thúc</label>
+            <input name="EndDate" id="EndDate1" type="date" onchange="checkDate()" class="form-input">
+        </div>
+        <div class="form-group">
             <a class="btn btn--cancel">Hủy</a>
             <button type="submit" class="btn btn--confirm">Xác Nhận</button>
+        </div>
+    </div>
+</form>
+
+@*---------------modifyyearnow--------------*@
+<form action="@Url.Action("Update", "YearStudies")" class="form" id="confirmForm" method="post">
+    <div class="form-container--small">
+        <h1 class="form-heading">Điều Chỉnh Năm Học Hiện Tại</h1>
+        <div class="form-group">
+            <input name="ID" id="id" hidden />
+            <input name="YearStudy1" class="form-input" id="name" hidden />
+            <input name="Status" value="true" hidden />
+            <span>
+                Bạn chắc chắn muốn đặt<strong name="name" style="font-weight: bold; color: #ce1b28;"> Học Kỳ </strong><strong name="name" id="namedele" style="font-weight: bold; color: #ce1b28;"></strong>
+                là năm học hiện tại không?
+            </span>
+        </div>
+        <div class="form-group">
+            <a class="btn btn--cancel">Hủy</a>
+            <button class="btn btn--confirm" id="btn--update" type="submit">
+                Xác Nhận
+            </button>
         </div>
     </div>
 </form>
@@ -62,6 +92,14 @@
             <input type="text" name="YearStudy1" class="form-input" id="YearStudy" required>
         </div>
         <div class="form-group">
+            <label for="cooperationName" class="form-label">Ngày Bắt Đầu</label>
+            <input name="StartDate" id="StartDate" type="date" onchange="checkDate()" class="form-input">
+        </div>
+        <div class="form-group">
+            <label for="cooperationName" class="form-label">Ngày Kết Thúc</label>
+            <input name="EndDate" id="EndDate" type="date" onchange="checkDate()" class="form-input">
+        </div>
+        <div class="form-group">
             <a class="btn btn--cancel">Hủy</a>
             <button class="btn btn--confirm" id="btn--update" type="submit">
                 Xác Nhận
@@ -70,15 +108,27 @@
     </div>
 </form>
 
+
 @*-------------delete------------*@
 
 @section Scripts {
     <script type="text/javascript">
+
+        function loadEdit(id, name) {
+            let formUpdate = document.getElementById("confirmForm");
+            formUpdate.classList.add('is-appear')
+            document.getElementById('name').value = name;
+            document.getElementById('id').value = id;
+            $('#namedele').text(name)
+
+        }
+
         $('#btn--update').on('click', function () {
             $('#updateForm').submit()
         })
         $('.btn--cancel').on('click', function () {
             $('#addForm').removeClass('is-appear')
+            $('#confirmForm').removeClass('is-appear')
         })
          $(function () {
         var url = "@Url.Action("getDataList", "YearStudies")"
@@ -92,6 +142,9 @@
             },
                  deferRender: !0,
                  "order": [[1, "desc"]],
+                 "columnDefs": [
+                     { "width": "10%", "target": 2 }
+                 ],
                 columns: [
                     { data: null },
                     { data: "name" },
@@ -111,14 +164,47 @@
                     },
                     {
                             data: "id",
-                            render: function (t, e, a) {
+                        render: function (t, e, a) {
+                            var dateString = `${a.startDate}`;
+                            var timestamp = parseInt(dateString.replace(/[^0-9]/g, ""));
+                            var date = new Date(timestamp);
+
+                            var timeZone = "Asia/Ho_Chi_Minh";
+
+                            // Options for formatting the date and time
+                            var options = {
+                                timeZone: timeZone,
+                                year: 'numeric',
+                                month: '2-digit',
+                                day: '2-digit',
+                                hour: '2-digit',
+                                minute: '2-digit',
+                                second: '2-digit'
+                            };
+                            var formattedEndDate = date.toLocaleString('en-US', options);
+                            var now = new Date(); // Current date and time
+                            var formattedNow = now.toLocaleString('en-US', options);
+                            const sttBtn = (a.status == true) ? ` <a href="#" style="margin-left: 10px">
+                                    <div class="btn btn--confirm" style=" width: 200px">
+                                        Năm Học Hiện Tại
+                                    </div>
+                                </a>` : (formattedEndDate > formattedNow) ?
+                                `
+                                <a onclick="loadEdit('${a.id}','${a.name}')" style="margin-left: 10px">
+                                    <div class="btn btn--update" style=" width: 300px; position: absolute;">
+                                        Đặt Làm Năm Học Hiện Tại
+                                    </div>
+                                </a>
+                                ` : "";
                                 return (
                                     `
                                     <a href="@Url.Action("Edit", "YearStudies")/${t}" class="business_update">
-                                        <div class="btn btn--update">
+                                        <div class="btn btn--update" title="Cập Nhật">
                                             <i class="btn-icon btn-icon--edit fal fa-edit"></i>
                                         </div>
-                                    </a>`
+                                    </a>
+                                    ${sttBtn}
+                                    `
                                 );
                             },
                     },
@@ -152,10 +238,27 @@
                     $('#ID').val(res[0].id)
                     $('#YearStudy').val(res[0].name)
                     $('#updateForm').attr('action', `${actionUrl}`)
+                    $('#StartDate').val(res[0].startDate);
+                    $('#EndDate').val(res[0].endDate);
                 }
 
             })
         })
+        function extractDate(dateString) {
+            var timeZone = "Asia/Ho_Chi_Minh";
+            // Options for formatting the date and time
+            var options = {
+                timeZone: timeZone,
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            };
+            var timestamp = parseInt(dateString.replace(/[^0-9]/g, ""));
+            return new Date(timestamp).toLocaleString('en-US', options);
+        }
         /*---------------delete------------*/
         function loadDeleteUser(id) {
             let formDelete = document.getElementById("deleteForm");
@@ -201,7 +304,7 @@
             $("#addForm input, #addForm input").on("change", function () {
                 $(this).removeClass("error");
             });
-            
+
             /*--------------------------update---------------*/
             $("#updateForm").validate();
             // cái này là on blur nè
@@ -240,6 +343,24 @@
                 }
             }
         });
+
+        function checkDate() {
+            var dateInputs = document.querySelectorAll('input[type="date"]');
+            var now = Date.now();
+
+            for (var i = 0; i < dateInputs.length; i++) {
+                var selectedText = dateInputs[i].value;
+                var selectedDate = new Date(selectedText);
+
+                if (selectedDate <= now) {
+                    dateInputs[i].value = "dd/mm/yyyy";
+                    alert("Vui lòng không chọn những ngày trước.");
+                    return false;
+                }
+            }
+
+            return true;
+        }
 
     </script>
 }
