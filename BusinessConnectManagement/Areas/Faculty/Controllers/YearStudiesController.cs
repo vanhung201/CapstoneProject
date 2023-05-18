@@ -96,6 +96,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                                       name = sem.YearStudy1,
                                       startDate = sem.StartDate,
                                       endDate = sem.EndDate,
+                                      status = sem.Status
                                   };
 
             var formattedList = getListSemester.ToList().Select(sem => new
@@ -104,6 +105,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
                 name = sem.name,
                 startDate = ((DateTime)sem.startDate).ToString("yyyy-MM-dd"), // Convert to desired date format
                 endDate = ((DateTime)sem.endDate).ToString("yyyy-MM-dd"), // Convert to desired date format
+                status = sem.status
             });
 
             return Json(formattedList, JsonRequestBehavior.AllowGet);
@@ -113,11 +115,11 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Edit([Bind(Include = "ID,YearStudy1")] YearStudy yearStudy)
+        public ActionResult Edit([Bind(Include = "ID,YearStudy1, StartDate, EndDate, Status")] YearStudy yearStudy)
         {
             if (ModelState.IsValid)
             {
-                if(db.YearStudies.Any(x=> x.YearStudy1 == yearStudy.YearStudy1) == true)
+                if(db.YearStudies.Any(x=> x.ID != yearStudy.ID && x.YearStudy1 == yearStudy.YearStudy1) == true)
                 {
                     TempData["AlertMessage"] = "<div class=\"toast toast--error\">\r\n     <div class=\"toast-left toast-left--error\">\r\n       <i class=\"fas fa-check-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n       <p class=\"toast-text\">Đã tồn tại năm học.</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n      <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>\r\n";
 

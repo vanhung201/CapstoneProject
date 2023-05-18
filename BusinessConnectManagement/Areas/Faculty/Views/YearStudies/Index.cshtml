@@ -66,6 +66,8 @@
             <input name="ID" id="id" hidden />
             <input name="YearStudy1" class="form-input" id="name" hidden />
             <input name="Status" value="true" hidden />
+            <input name="StartDate" id="startdate" hidden />
+            <input name="EndDate"  id="enddate"  hidden/>
             <span>
                 Bạn chắc chắn muốn đặt<strong name="name" style="font-weight: bold; color: #ce1b28;"> Học Kỳ </strong><strong name="name" id="namedele" style="font-weight: bold; color: #ce1b28;"></strong>
                 là năm học hiện tại không?
@@ -89,6 +91,7 @@
         <div class="form-group">
             <label for="cooperationName" class="form-label">Năm Học</label>
             <input name="ID" id="ID" hidden />
+            <input name="Status" id="Status" hidden />
             <input type="text" name="YearStudy1" class="form-input" id="YearStudy" required>
         </div>
         <div class="form-group">
@@ -114,11 +117,13 @@
 @section Scripts {
     <script type="text/javascript">
 
-        function loadEdit(id, name) {
+        function loadEdit(id, name, startdate, enddate) {
             let formUpdate = document.getElementById("confirmForm");
             formUpdate.classList.add('is-appear')
             document.getElementById('name').value = name;
             document.getElementById('id').value = id;
+            document.getElementById('startdate').value = startdate;
+            document.getElementById('enddate').value = enddate;
             $('#namedele').text(name)
 
         }
@@ -168,7 +173,8 @@
                             var dateString = `${a.startDate}`;
                             var timestamp = parseInt(dateString.replace(/[^0-9]/g, ""));
                             var date = new Date(timestamp);
-
+                            var startdate = convertDate(a.startDate)
+                            var enddate = convertDate(a.endDate)
                             var timeZone = "Asia/Ho_Chi_Minh";
 
                             // Options for formatting the date and time
@@ -190,7 +196,7 @@
                                     </div>
                                 </a>` : (formattedEndDate > formattedNow) ?
                                 `
-                                <a onclick="loadEdit('${a.id}','${a.name}')" style="margin-left: 10px">
+                                <a onclick="loadEdit('${a.id}','${a.name}','${startdate}','${enddate}' )" style="margin-left: 10px">
                                     <div class="btn btn--update" style=" width: 300px; position: absolute;">
                                         Đặt Làm Năm Học Hiện Tại
                                     </div>
@@ -221,7 +227,15 @@
          });
 
 
-
+        function convertDate(dateString) {
+            const timestamp = parseInt(dateString.match(/\d+/)[0]);
+            const date = new Date(timestamp);
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const formattedDate = `${year}-${month}-${day}`;
+            return formattedDate;
+        }
         /*---------------------------update------------------------*/
         $('#table_listData').on('click', '.business_update', function (e) {
             e.preventDefault()
@@ -240,6 +254,8 @@
                     $('#updateForm').attr('action', `${actionUrl}`)
                     $('#StartDate').val(res[0].startDate);
                     $('#EndDate').val(res[0].endDate);
+                    $('#Status').val(res[0].status);
+                    
                 }
 
             })
