@@ -1,7 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\BusinessConnectManagement"
   ],
-  "SelectedNode": "\\BusinessConnectManagement.sln",
+  "SelectedNode": "\\BusinessConnectManagement\\BusinessConnectManagement.sln",
   "PreviewInSolutionExplorer": false
 }
