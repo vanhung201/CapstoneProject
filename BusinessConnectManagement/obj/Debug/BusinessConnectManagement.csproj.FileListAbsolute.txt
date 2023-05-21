@@ -2187,8 +2187,8 @@ C:\Users\minh.187pm13970\CapstoneProject\BusinessConnectManagement\bin\System.Id
 C:\Users\minh.187pm13970\CapstoneProject\BusinessConnectManagement\bin\Microsoft.IdentityModel.Protocol.Extensions.xml
 C:\Users\minh.187pm13970\CapstoneProject\BusinessConnectManagement\bin\Microsoft.Owin.Security.OpenIdConnect.xml
 C:\Users\minh.187pm13970\CapstoneProject\BusinessConnectManagement\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-C:\Users\minh.187pm13970\CapstoneProject\BusinessConnectManagement\obj\Debug\BusinessConnectManagement.csproj.AssemblyReference.cache
 C:\Users\minh.187pm13970\CapstoneProject\BusinessConnectManagement\obj\Debug\BusinessConnectManagement.csproj.CoreCompileInputs.cache
 C:\Users\minh.187pm13970\CapstoneProject\BusinessConnectManagement\obj\Debug\BusinessConnectManagement.csproj.CopyComplete
 C:\Users\minh.187pm13970\CapstoneProject\BusinessConnectManagement\obj\Debug\BusinessConnectManagement.dll
 C:\Users\minh.187pm13970\CapstoneProject\BusinessConnectManagement\obj\Debug\BusinessConnectManagement.pdb
+C:\Users\minh.187pm13970\CapstoneProject\BusinessConnectManagement\obj\Debug\BusinessConnectManagement.csproj.AssemblyReference.cache

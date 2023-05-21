@@ -65,7 +65,7 @@
     border-radius: inherit;
 }
 
-.btn:hover {
+.btn:hover .btn-icon {
     opacity: 0.8;
 }
 
@@ -73,16 +73,16 @@
     padding: 0.5rem;
 }
 
-    .btn--create .btn-icon,
-    .btn--create .btn-text {
-        opacity: 1;
-        visibility: visible;
-        width: auto;
-    }
+.btn--create .btn-icon,
+.btn--create .btn-text {
+    opacity: 1;
+    visibility: visible;
+    width: auto;
+}
 
-    .btn--create .btn-text {
-        margin-left: 0.5rem;
-    }
+.btn--create .btn-text {
+    margin-left: 0.5rem;
+}
 
 .btn--add,
 .btn--create {
@@ -134,4 +134,25 @@
 .button-wrapper {
     margin: 0 auto;
     float: right;
+}
+
+
+/* Btn ToolTip*/
+.btn-tooltip {
+    display: none;
+    position: absolute;
+    width: 8rem;
+    top: -3rem;
+    line-height: 1.8;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    border-radius: 0.5rem;
+    background-color: #86A8E7;
+    z-index: 99;
+}
+
+.btn:hover .btn-tooltip {
+    display: block;
+    opacity: 1 !important;
 }

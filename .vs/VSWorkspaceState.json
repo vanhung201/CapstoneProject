@@ -1,7 +1,11 @@
 {
   "ExpandedNodes": [
     "",
-    "\\BusinessConnectManagement"
+    "\\BusinessConnectManagement",
+    "\\BusinessConnectManagement\\Areas",
+    "\\BusinessConnectManagement\\Areas\\Admin",
+    "\\BusinessConnectManagement\\Areas\\Admin\\Views",
+    "\\BusinessConnectManagement\\Areas\\Admin\\Views\\AdminHome"
   ],
   "SelectedNode": "\\BusinessConnectManagement\\BusinessConnectManagement.sln",
   "PreviewInSolutionExplorer": false
