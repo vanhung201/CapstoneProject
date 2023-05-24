@@ -26,16 +26,19 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         // GET: Faculty/Semesters/Details/5
         public ActionResult Details(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Semester semester = db.Semesters.Find(id);
-            if (semester == null)
-            {
-                return HttpNotFound();
-            }
-            return View(semester);
+            var getListSemester = from sem in db.Semesters
+                                  where sem.ID == id
+                                  select new
+                                  
+                                  {
+                                      id = sem.ID,
+                                      year_id = sem.YearStudy_ID,
+                                      name = sem.Semester1,
+                                      startDate = sem.StartDate,
+                                      endDate = sem.EndDate,
+                                      status = sem.Status,
+                                  };
+            return Json(getListSemester, JsonRequestBehavior.AllowGet);
         }
 
         // GET: Faculty/Semesters/Create
@@ -50,7 +53,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
        
-        public ActionResult Create(Semester semester)
+        public ActionResult Create([Bind(Include = "ID,YearStudy_ID,Semester1,Status, StartDate, EndDate")] Semester semester)
         {
             if (ModelState.IsValid)
             {
@@ -131,7 +134,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
             return View(semester);
         }
         [HttpPost]
-        public ActionResult Update([Bind(Include = "ID,YearStudy_ID,Semester1,Status")] Semester semester)
+        public ActionResult Update([Bind(Include = "ID,YearStudy_ID,Semester1,Status, StartDate, EndDate")] Semester semester)
         {
             if (ModelState.IsValid)
             {
