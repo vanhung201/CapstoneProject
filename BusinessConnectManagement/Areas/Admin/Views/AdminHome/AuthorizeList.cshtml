@@ -27,7 +27,7 @@
         </div>
         <div class="rg_status"></div>
         <div class="rg_role" style="left"></div>
-        <label id="nameLabel">Lọc:</label>
+        @*<label id="nameLabel">Lọc:</label>*@
         <table id="table_listData" class="display">
             <thead>
                 <tr>
@@ -38,7 +38,6 @@
                     <th>Chức vụ</th>
                     <th>Trạng thái</th>
                     <th>Chức năng</th>
-
                 </tr>
             </thead>
             <tbody>
@@ -72,9 +71,7 @@
 
 
         <div class="form-group">
-
             <a class="btn btn--confirm">Xác Nhận</a>
-
         </div>
     </div>
 
@@ -197,6 +194,7 @@
                                 `
                                 <a href="@Url.Action("Details", "AdminHome")?email=${t}" id="business_detail" class="business_detail">
                                 <div class="btn btn--update" style="transform: translateX(100%);">
+                                    <span class="btn-tooltip">Cập nhật</span>
                                     <i class="btn-icon btn-icon--edit fal fa-edit"></i>
                                 </div>
                                 </a>
@@ -212,7 +210,7 @@
                         .every(function () {
                             var t = this,
                                 e = $(
-                                    '<select id="UserType1" style="margin-right: 8px;border: 1px solid #aaa;border-radius: 3px;padding: 5px;background-color: transparent; margin-left: 3px;" class="form-select text-capitalize mb-md-0 mb-2xx"><option value=""> Chọn trạng thái để lọc </option></select>'
+                                    '<select id="UserType1" style="margin-inline: -10rem;border: 1px solid #aaa;border-radius: 3px;padding: 5px;background-color: transparent;" class="form-select text-capitalize mb-md-0 mb-2xx"><option value=""> Chọn trạng thái để lọc </option></select>'
                                 )
                                     .prependTo("#table_listData_filter")
                                     .on("change", function () {
@@ -236,7 +234,7 @@
                         .every(function () {
                             var t = this,
                                 e = $(
-                                    '<select id="UserType2" style="margin-right: 8px;border: 1px solid #aaa;border-radius: 3px;padding: 5px;background-color: transparent; margin-left: 3px;" class="form-select text-capitalize mb-md-0 mb-2xx"><option value=""> Chọn chức vụ để lọc </option></select>'
+                                    '<select id="UserType2" style="margin-inline: 1rem;border: 1px solid #aaa;border-radius: 3px;padding: 5px;background-color: transparent;" class="form-select text-capitalize mb-md-0 mb-2xx"><option value=""> Chọn chức vụ để lọc </option></select>'
                                 )
                                     .prependTo("#table_listData_filter")
                                     .on("change", function () {
@@ -397,7 +395,6 @@
                 }
             }
         });
-
     </script>
 }
 
