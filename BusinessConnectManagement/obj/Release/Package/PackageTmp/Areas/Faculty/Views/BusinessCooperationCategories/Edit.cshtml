@@ -1,0 +1,82 @@
+﻿@model BusinessConnectManagement.Models.BusinessUser
+
+@{
+    ViewBag.Title = "Update Cooperation Activity";
+    Layout = "~/Areas/Faculty/Views/Shared/_Layout.cshtml";
+}
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+<section class="list">
+    <form id="createBusiness" action="@Url.Action("Edit","BusinessCooperationCategories", new {id = Model.ID})" method="post" enctype="multipart/form-data">
+        <h1 class="list-heading">Chỉnh Sửa Hoạt Động</h1>
+        <div class="grid wide">
+            <div class="tab-content">
+                <div class="row">
+                    @Html.HiddenFor(model => model.ID)
+                    <div class="col l-6">
+                        <div class="form-group">
+                            <label class="form-label">Tên Doanh nghiệp</label>
+                            <input name="Business_ID" value="@Model.BusinessName" class="form-input" autocomplete="off" disabled />
+                            @Html.HiddenFor(model => model.BusinessName)
+                        </div>
+                    </div>
+
+                    <div class="col l-6">
+                        <div class="form-group">
+                            <input id="CoopId" type="text" value="" name="ArrCoopId" hidden />
+                            <label for="cooperation" class="form-label">Loại Hợp Tác</label>
+                            <div class="checkbox-wrapper" id="checkBoxCoop">
+                                @foreach (var item in ViewBag.CooperationCategoriesDetail)
+                                {
+                                    <label class="container">
+                                        @item.name
+                                        @if (item.status)
+                                        {
+                                            <input type="checkbox" value="@item.value" checked="checked">
+                                            <span class="checkmark"></span>
+                                        }
+                                        else
+                                        {
+                                            <input type="checkbox" value="@item.value">
+                                            <span class="checkmark"></span>
+                                        }
+                                    </label>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    @Html.HiddenFor(model => model.Username)
+                    @Html.HiddenFor(model => model.Password)
+                    @Html.HiddenFor(model => model.Status_ID)
+                    @Html.HiddenFor(model => model.Last_Access)
+                    @Html.HiddenFor(model => model.Address)
+                    @Html.HiddenFor(model => model.BusinessPhone)
+                    @Html.HiddenFor(model => model.Website)
+                    @Html.HiddenFor(model => model.Fanpage)
+                    @Html.HiddenFor(model => model.ContactName)
+                    @Html.HiddenFor(model => model.ContactPhone_1)
+                    @Html.HiddenFor(model => model.ContactPhone_2)
+                    @Html.HiddenFor(model => model.EmailContact)
+                    @Html.HiddenFor(model => model.BusinessLogo)
+
+                </div>
+            </div>
+            <div class="button-wrapper">
+                <a class="btn btn-action btn--detail" href="@Url.Action("Index", "BusinessCooperationCategories")">Trở Về</a>
+                <button class="btn btn-action btn--add" onclick="getValueCheckBoxAndSubmit()" type="submit">Lưu Thay Đổi</button>
+            </div>
+        </div>
+    </form>
+</section>
+@section Scripts {
+    <script type="text/javascript">
+        function getValueCheckBoxAndSubmit() {
+            let arrayCheckbox = "";
+            var allCheckBox = document.querySelectorAll("#checkBoxCoop > .container > input[type='checkbox']:checked");
+            for (let i = 0; i < allCheckBox.length; i++) {
+                arrayCheckbox += allCheckBox[i].value + ",";
+            }
+            $("#CoopId").val(arrayCheckbox);
+            $("#createBusiness").save();
+        }
+    </script>
+}

@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link type="text/css" rel="stylesheet" href="~/assets/css/ErrorPageCSS.css" />
+    <link rel="shortcut icon" href="~/assets/images/favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+    <div id="notfound">
+        <div class="notfound">
+            <div>
+                <div class="notfound-404">
+                    <h1>!</h1>
+                </div>
+                <h2>Error<br>@ViewBag.ErrorName</h2>
+            </div>
+            <p>
+                @if (ViewBag.ErrorName == "404")
+                {
+                    @ViewBag.ErrorContent <a href="@Url.Action("Index", "Home")">Quay lại Trang chủ</a>
+                }
+                else if (ViewBag.ErrorName == "500")
+                {
+                    @ViewBag.ErrorContent <a href="@Url.Action("Index", "Home")">Quay lại Trang chủ</a>
+                }
+                else if (ViewBag.ErrorName == "403")
+                {
+                    @ViewBag.ErrorContent <a href="@Url.Action("ClearSession", "Error")">Vui Lòng Bấm Vào Đây</a>
+                }
+
+            </p>
+        </div>
+    </div>
+
+    @RenderBody()
+
+</body>
+
+</html>

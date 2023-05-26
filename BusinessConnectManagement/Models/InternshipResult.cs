@@ -14,19 +14,34 @@ namespace BusinessConnectManagement.Models
     
     public partial class InternshipResult
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public InternshipResult()
+        {
+            this.Registrations = new HashSet<Registration>();
+        }
+    
         public int ID { get; set; }
         public string Student_Email { get; set; }
         public Nullable<int> Semester_ID { get; set; }
         public string Mentor_Email { get; set; }
         public Nullable<double> MentorPoint { get; set; }
         public string MentorComment { get; set; }
-        public string Business_ID { get; set; }
+        public int Business_ID { get; set; }
         public Nullable<double> BusinessPoint { get; set; }
         public string BusinessComment { get; set; }
+        public Nullable<int> InternshipTopic_ID { get; set; }
+        public string Status { get; set; }
+        public string MentorComment2 { get; set; }
+        public string MentorCommentB1 { get; set; }
+        public string MentorCommentB2 { get; set; }
+        public string BusinessComment2 { get; set; }
+        public Nullable<double> BusinessPoint2 { get; set; }
     
         public virtual BusinessUser BusinessUser { get; set; }
+        public virtual InternshipTopic InternshipTopic { get; set; }
         public virtual Semester Semester { get; set; }
         public virtual VanLangUser VanLangUser { get; set; }
-        public virtual VanLangUser VanLangUser1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Registration> Registrations { get; set; }
     }
 }

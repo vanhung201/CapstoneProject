@@ -15,10 +15,45 @@ namespace BusinessConnectManagement.Areas.Business
         public override void RegisterArea(AreaRegistrationContext context) 
         {
             context.MapRoute(
+                "Business Login",
+                "doanh-nghiep/dang-nhap",
+                new { controller = "Auth", action = "Login", id = UrlParameter.Optional },
+                namespaces: new[] { "BusinessConnectManagement.Areas.Business.Controllers" }
+            );
+
+            context.MapRoute(
+               "Business Logout",
+               "doanh-nghiep/dang-xuat",
+               new { controller = "Auth", action = "Logout", id = UrlParameter.Optional },
+               namespaces: new[] { "BusinessConnectManagement.Areas.Business.Controllers" }
+           );
+
+            context.MapRoute(
+                "Business Home",
+                "doanh-nghiep/trang-chu",
+                new { controller = "BusinessHome", action = "Index", id = UrlParameter.Optional },
+                namespaces: new[] { "BusinessConnectManagement.Areas.Business.Controllers" }
+            );
+
+            context.MapRoute(
+                "InternViews",
+                "doanh-nghiep/phong-van",
+                new { controller = "InternViews", action = "Index", id = UrlParameter.Optional },
+                namespaces: new[] { "BusinessConnectManagement.Areas.Business.Controllers" }
+            );
+
+            context.MapRoute(
+                "InternshipResults",
+                "doanh-nghiep/thuc-tap",
+                new { controller = "InternshipResults", action = "Index", id = UrlParameter.Optional },
+                namespaces: new[] { "BusinessConnectManagement.Areas.Business.Controllers" }
+            );
+
+            context.MapRoute(
                 "Business_default",
                 "Business/{controller}/{action}/{id}",
                 new { action = "Index", id = UrlParameter.Optional },
-                new[] { "BusinessConnectManagement.Areas.Business.Controllers" }
+                namespaces: new[] { "BusinessConnectManagement.Areas.Business.Controllers" }
             );
         }
     }

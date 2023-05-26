@@ -1,0 +1,144 @@
+﻿@model IEnumerable<BusinessConnectManagement.Models.Contact>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<section class="list">
+    <h1 class="list-heading">Danh sách liên hệ</h1>
+    <table id="table_test" class="display">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>ID</th>
+                <th>Họ và tên</th>
+                <th>SĐT</th>
+                <th>Email</th>
+                <th>Ghi chú</th>
+                <th>Chức năng</th>
+
+            </tr>
+        </thead>
+    </table>
+</section>
+<form id="form_detail" method="post" action="" class="form" enctype="multipart/form-data">
+    <div class="form-container--small">
+        <h1 class="list-heading">Thông tin ghi chú</h1>
+
+        <div class="form-group">
+            <label class="form-label">Họ và tên</label>
+            <input list="" id="FullName" class="form-input" value=""
+                   autocomplete="off" disabled />
+
+        </div>
+        <div class="form-group">
+            <label class="form-label">Số điện thoại</label>
+            <input list="" name="ModifyDay" id="Mobile" class="form-input" value=""
+                   autocomplete="off" disabled />
+        </div>
+        <div class="form-group">
+            <label class="form-label">Email</label>
+            <input list="" name="DueDate" id="Email" class="form-input" value="" disabled />
+        </div>
+
+        <div class="form-group">
+            <label for="address" class="form-label">Ghi chú</label>
+            <textarea class="form-input" id="Note" autocomplete="off" style="height:150px" disabled></textarea>
+        </div>
+
+        <div class="form-group">
+
+            <a class="btn btn--confirm" id="btn--cancel">
+                Xác Nhận
+            </a>
+        </div>
+
+
+    </div>
+</form>
+@section Scripts{
+    <script>
+         $(function () {
+        var url = "@Url.Action("getData", "Contacts")"
+        "use strict";
+             (dataTable = $("#table_test").DataTable({
+            ajax: {
+                url: url,
+                type: "GET",
+                dataType: "json",
+                dataSrc: "",
+
+            },
+            deferRender: !0,
+            "order": [[1, "desc"]],
+            "columnDefs": [
+                {"width": "10%", "target": 2}
+                ],
+            columns: [
+                { data: null },
+                { data: "id", visible: false },
+                { data: "fullname"},
+                { data: "mobile" , },
+                { data: "email" },
+                {
+                    data: "note",
+                    render: function (data) {
+                        return '<span class="overFlow">' + data + '</span>'
+                    }
+},
+                {
+                        data: "id",
+                        render: function (t, e, a) {
+                            return (
+                                `
+                                <a href="@Url.Action("Details/", "Contacts")${t}" id="business_detail" class="business_detail">
+                                <div class="btn btn--detail" title="Cập Nhật">
+                                    <span class="btn-tooltip" style="width: 12rem;">Xem chi tiết</span>
+                                    <i class="btn-icon btn-icon--detail fal fa-info-circle"></i>
+                                </div>
+                                </a>
+                                `
+                            );
+                        },
+                    },
+            ],
+
+        }))
+        dataTable.on("draw.dt", function () {
+            dataTable.column(0, { search: "applied", order: "applied" }).nodes().each(function (cell, i) {
+                cell.innerHTML = i + 1;
+            });
+        });
+        // Create Index column datatable
+
+
+         });
+
+         $('#table_test').on('click', '.business_detail', function (e) {
+            e.preventDefault()
+            const form = document.getElementById('form_detail');
+        form.classList.add('is-appear');
+            const url = $(this).attr('href');
+            $.ajax({
+                url: url,
+                type: "get",
+                dataType: 'json',
+                success: function (res) {
+                    console.log(res)
+
+                    $('#ID').val(res[0].id)
+                    $('#FullName').val(res[0].fullname)
+                    $('#Mobile').val(res[0].mobile)
+                    $('#Email').val(res[0].email)
+                    $('#Note').val(res[0].note)
+
+
+                }
+            })
+         })
+        $('#btn--cancel').on('click', function () {
+            $('#form_detail').removeClass('is-appear')
+        })
+    </script>
+}

@@ -1,42 +1,769 @@
 ﻿@model IEnumerable<BusinessConnectManagement.Models.BusinessUser>
 
 @{
-    ViewBag.Title = "Business User";
-    Layout = "~/Areas/Faculty/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Quản Lý - Doanh Nghiệp";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
 <section class="list">
     <h1 class="list-heading">Danh sách Doanh nghiệp</h1>
+    @if (TempData != null)
+    {
+
+        @Html.Raw(@TempData["AlertMessage"])
+
+    }
     <div class="list-table">
         <div id="filterEvent">
-            <a class="btn btn-action btn--create mr-1" href=@Url.Action("Create", "BusinessUsers")>Thêm</a>
+            <a>
+                <div class="btn btn--detail" style=" margin-left: 742px; width: 9rem;">
+                    <span class="btn-text btn--dowload">Excel Mẫu</span>
+                </div>
+                <div class="btn btn--createe" id="btn--import" style="margin-right: 88px">
+                    <span class="btn-text btn--import">Import</span>
+                </div>
+                <div class="btn btn--create" id="btn--create">
+                    <span class="btn-text ">Thêm</span>
+                </div>
+            </a>
+
         </div>
-        <table id="table_id" class="display">
+        
+            <div class="bu_status"></div>
+            <label id="nameLabel1">Lọc:</label>
+        
+        <table id="table_test" class="display">
             <thead>
                 <tr>
+                    <th>STT</th>
+                    <th>ID</th>
+                    <th>Tên Đăng Nhập</th>
                     <th>Tên Doanh Nghiệp</th>
                     <th>Email</th>
-                    <th>Địa Chỉ</th>
+                    <th>Người Liên Hệ</th>
                     <th>Số Điện Thoại</th>
-
-                    <th></th>
+                    <th>Trạng Thái</th>
+                    <th width="10%">Chức năng</th>
                 </tr>
             </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>@item.BusinessName</td>
-                        <td>@item.EmailContact</td>
-                        <td>@item.Address</td>
-                        <td><a href="#">@item.BusinessPhone</a></td>
-
-                        <td class="text-center">
-                            <a href="@Url.Action("Details", "BusinessUsers", new { id = item.Business_ID})" class="btn btn-action btn--detail">Xem chi tiết</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
         </table>
     </div>
 </section>
+@*-------------------Excel Mẫu -------------------------------*@
+<form class="form" id="dowloadForm" method="post" enctype="multipart/form-data">
+    <div class="form-container--small">
+        <h1 class="form-heading">Excel Mẫu</h1>
+        <div class="row">
+            <div class="column">
+                <div class="form-group">
+                    <label class="form-label">Doanh Nghiệp</label>
+                </div>
+
+            </div>
+            <div class="column">
+                <div class="form-group">
+                    <a href="@Url.Action("DownloadFile", "BusinessUsers", new { filePath = "Business.xlsx" })">Business.xlsx</a>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="form-group">
+
+            <a class="btn btn--confirm">Xác Nhận</a>
+
+        </div>
+    </div>
+
+</form>
+@*--------------------------Import-------------------------------*@
+<form class="form" action="@Url.Action("ImportData", "BusinessUsers")" id="importForm" method="post" enctype="multipart/form-data">
+    <div class="form-container--small">
+        <h1 class="form-heading">Import Excel</h1>
+        <div class="form-group">
+            <input type="file" name="postFile" id="excelFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" onchange="checkInputExcel(this)" required class="form-input" />
+            <span class="text-danger" id="cv_validation" style="color:red;"></span>
+        </div>
+
+        <div class="form-group">
+            <a class="btn btn--cancel">Hủy</a>
+            <button type="submit" id="submit_edit" class="btn btn--confirm">Xác Nhận</button>
+        </div>
+    </div>
+
+</form>
+@*--------------------------add--------------------------*@
+<form action="@Url.Action("Create", "BusinessUsers")" class="form" id="addForm" method="post" enctype="multipart/form-data">
+    <div class="form-container">
+        <h1 class="form-heading">Thêm Doanh nghiệp</h1>
+        <div class="form-row">
+            <div class="form-column">
+                <div class="form-group">
+                    <label for="Username" class="form-label">Tên Đăng Nhập</label>
+                    <input name="Username" class="form-input" autocomplete="off" />
+                </div>
+                <div class="form-group">
+                    <label for="BusinessName" class="form-label">Tên Doanh nghiệp</label>
+                    <input name="BusinessName" class="form-input" autocomplete="off" />
+                </div>
+
+                <div class="form-group">
+                    <label for="Address" class="form-label">Địa Chỉ</label>
+                    <input type="text" name="Address" class="form-input" autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label for="Website" class="form-label">Website</label>
+                    <input type="text" name="Website" class="form-input" autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label for="ContactName" class="form-label">Người liên hệ</label>
+                    <input type="text" name="ContactName" class="form-input" autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label for="EmailContact" class="form-label">Email Liên Hệ</label>
+                    <input type="text" name="EmailContact" class="form-input" autocomplete="off">
+                </div>
+                <div class="form-group">
+
+                </div>
+                <div class="form-group">
+
+                </div>
+            </div>
+            <div class="form-column">
+                <div class="form-group">
+                    <label for="Password" class="form-label">Mật khẩu</label>
+                    <input type="password" name="Password" class="form-input" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label for="status" class="form-label">Trạng thái</label>
+                    <select name="Status_ID" class="form-input">
+                        <option value="1">Đang hoạt động</option>
+                        <option value="2">Bị khóa</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="BusinessPhone" class="form-label">Số điện thoại</label>
+                    <input type="text" name="BusinessPhone" class="form-input" autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label for="Fanpage" class="form-label">Fanpage</label>
+                    <input type="text" name="Fanpage" class="form-input" autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label for="ContactPhone_1" class="form-label">SĐT Người liên hệ 1</label>
+                    <input type="text" name="ContactPhone_1" class="form-input" autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label for="ContactPhone_2" class="form-label">SĐT Người liên hệ 2</label>
+                    <input type="text" name="ContactPhone_2" class="form-input" autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label for="logo" class="form-label">Logo</label>
+                    <input type="file" name="logo" accept="image/*" onchange="loadFile2(event)" id="logo" class="form-input"
+                           autocomplete="off">
+                    <script>
+                        var loadFile2 = function (event) {
+                            var output = document.getElementById('output');
+                            output.src = URL.createObjectURL(event.target.files[0]);
+                            output.onload = function () {
+                                URL.revokeObjectURL(output.src); // free memory
+                                output.style.display = 'block';
+                            }
+                            var fup = document.getElementById('logo');
+                            var fileName = fup.value;
+                            var ext = fileName.substring(fileName.lastIndexOf('.') + 1);
+                            if (fileName == '' || ext == "gif" || ext == "GIF" || ext == "PNG" || ext == "png" || ext == "jpg" || ext == "JPG" || ext == "bmp" || ext == "BMP") {
+                                const fileSize = input.files[0].size / 1024 / 1024; // in MiB
+                                var fup = document.getElementById('logo');
+                                if (fileSize < 2) {
+                                    return true;
+                                } else {
+                                    // Proceed further
+                                    alert('Dung lượng hình ảnh không vượt quá 2MiB');
+                                    fup.value = '';
+                                    return false;
+                                }
+                                return true;
+                            }
+                            else {
+                                fup.value = '';
+                                alert("Chỉ được tải lên hình ảnh dạng PNG, JPG, GIF và BMP");
+                                return false;
+                            }
+                        };
+                    </script>
+                </div>
+                <img id="output" class="output" scr="" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <a class="btn btn--cancel">
+                Hủy
+            </a>
+            <button class="btn btn--confirm" id="submitadd">
+                Xác Nhận
+            </button>
+        </div>
+    </div>
+</form>
+@*------------------------update------------------------*@
+<form action="" class="form" id="form_detail" method="post" enctype="multipart/form-data">
+    <div class="form-container">
+        <h1 class="form-heading">Cập Nhật Doanh nghiệp</h1>
+        <input type="hidden" id="ID" name="ID" />
+        <div class="form-row">
+            <div class="form-column">
+                <div class="form-group">
+                    <label for="Username" class="form-label">Tên Đăng Nhập</label>
+                    <input name="Username" id="Username" class="form-input" autocomplete="off" />
+                </div>
+                <div class="form-group">
+                    <label for="BusinessName" class="form-label">Tên Doanh nghiệp</label>
+                    <input name="BusinessName" id="BusinessName" class="form-input" autocomplete="off" />
+                </div>
+
+                <div class="form-group">
+                    <label for="Address" class="form-label">Địa Chỉ</label>
+                    <input type="text" name="Address" id="Address" class="form-input" autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label for="Website" class="form-label">Website</label>
+                    <input type="text" name="Website" id="Website" class="form-input" autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label for="ContactName" class="form-label">Người liên hệ</label>
+                    <input type="text" name="ContactName" id="ContactName" class="form-input" autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label for="EmailContact" class="form-label">Email Liên Hệ</label>
+                    <input type="text" name="EmailContact" id="EmailContact" class="form-input" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label for="Last_Access" class="form-label">Lần đăng nhập cuối</label>
+                    <input type="datetime" id="Last_Access" class="form-input" autocomplete="off" disabled>
+                    <input type="datetime" name="Last_Access" id="Last_Access2" class="form-input" autocomplete="off" hidden>
+                </div>
+
+                <div class="form-group">
+
+                    <input type="text" name="Semester_ID" id="Semester_ID" class="form-input" autocomplete="off" hidden>
+                </div>
+                <div class="form-group">
+                </div>
+                <div class="form-group">
+                </div>
+                <div class="form-group">
+                </div>
+                <div class="form-group">
+                </div>
+            </div>
+            <div class="form-column">
+                <div class="form-group">
+                    <label for="Password" class="form-label">Mật khẩu</label>
+                    <input type="password" name="Password" id="Password" class="form-input" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label for="status" class="form-label">Trạng thái</label>
+                    <select name="Status_ID" id="status" class="form-input">
+                        <option value="1">Đang hoạt động</option>
+                        <option value="2">Bị khóa</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="BusinessPhone" class="form-label">Số điện thoại</label>
+                    <input type="text" id="BusinessPhone" name="BusinessPhone" class="form-input" autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label for="Fanpage" class="form-label">Fanpage</label>
+                    <input type="text" id="Fanpage" name="Fanpage" class="form-input" autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label for="ContactPhone_1" class="form-label">SĐT Người liên hệ 1</label>
+                    <input type="text" id="ContactPhone_1" name="ContactPhone_1" class="form-input" autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label for="ContactPhone_2" class="form-label">SĐT Người liên hệ 2</label>
+                    <input type="text" id="ContactPhone_2" name="ContactPhone_2" class="form-input" autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label for="logo" class="form-label">Logo</label>
+                    <input type="file" name="logo" id="businessLogo" accept="image/*" onchange="loadFile(event)" class="form-input"
+                           autocomplete="off">
+                    <script>
+                        var loadFile = function (event) {
+                            var output1 = document.getElementById('output1');
+                            output1.src = URL.createObjectURL(event.target.files[0]);
+                            output1.onload = function () {
+                                URL.revokeObjectURL(output1.src); // free memory
+                                output1.style.display = 'block';
+                            }
+                            var fup = document.getElementById('businessLogo');
+                            var fileName = fup.value;
+                            var ext = fileName.substring(fileName.lastIndexOf('.') + 1);
+                            if (fileName == '' || ext == "gif" || ext == "GIF" || ext == "PNG" || ext == "png" || ext == "jpg" || ext == "JPG" || ext == "bmp" || ext == "BMP") {
+                                const fileSize = input.files[0].size / 1024 / 1024; // in MiB
+                                var fup = document.getElementById('businessLogo');
+                                if (fileSize < 2) {
+                                    return true;
+                                } else {
+                                    // Proceed further
+                                    alert('Dung lượng hình ảnh không vượt quá 2MiB');
+                                    fup.value = '';
+                                    return false;
+                                }
+                                return true;
+                            }
+                            else {
+                                fup.value = '';
+                                alert("Chỉ được tải lên hình ảnh dạng PNG, JPG, GIF và BMP");
+                                return false;
+                            }
+                        };
+                    </script>
+
+                </div>
+                <img id="output1" class="output" scr="" />
+                <input id="BusinessLogo" name="BusinessLogo" hidden />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <a class="btn btn--cancel">Hủy</a>
+            <button class="btn btn--confirm" id="btn--update">
+                Xác Nhận
+            </button>
+        </div>
+    </div>
+</form>
+@*--------------------------delete--------------------------------*@
+<form action="@Url.Action("Delete", "BusinessUsers")" class="form" id="deleteForm" method="post">
+    @{using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken();
+            <div class="form-container--small">
+                <h1 class="form-heading">Thông báo</h1>
+                <input name="id" id="iddele" hidden />
+                <span>
+                    Bạn chắc chắn muốn <strong style="font-weight: bold; color: #ce1b28;">xóa doanh nghiệp </strong>
+                    này không?
+                </span>
+
+                <div class="form-group">
+                    <a class="btn btn--cancel">Hủy</a>
+                    <button type="submit" class="btn btn--confirm">Xác nhận</button>
+                </div>
+            </div>
+        }
+    }
+</form>
+
+@section Scripts {
+    <script type="text/javascript">
+        function checkInputExcel(input) {
+            if (input.files && input.files[0]) {
+                var file = input.files[0];
+                var fileType = file.type.toLowerCase();
+                if (fileType != "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" && fileType != "application/vnd.ms-excel" && fileType != "text/csv") {
+                    input.value = "";
+                    $('#cv_validation').text('Vui Lòng Chọn File Excel');
+                }
+            } else {
+                input.value = "";
+                $('#cv_validation').text('Vui Lòng Chọn File Excel');
+            }
+        }
+        function loadDeleteUser(id) {
+            let formDelete = document.getElementById("deleteForm");
+            formDelete.classList.add('is-appear')
+            document.getElementById('iddele').value = id;
+        }
+        $('.btn--cancel').on('click', function () {
+            $('#importForm').removeClass('is-appear')
+        })
+
+        $('.btn--confirm').on('click', function () {
+            $('#dowloadForm').removeClass('is-appear')
+        })
+    </script>
+    <script>
+        $(function () {
+            var url = "@Url.Action("getDataList","BusinessUsers")"
+            "use strict";
+            (dataTable = $("#table_test").DataTable({
+                ajax: {
+                    url: url,
+                    type: "GET",
+                    dataType: "json",
+                    dataSrc: "",
+                },
+                deferRender: !0,
+                "order": [[1, "desc"]],
+                columns: [
+                    { data: null },
+                    { data: "id",visible: false},
+                    { data: "username"},
+                    { data: "buName" },
+                    { data: "emailContact" },
+                    { data: "contactName" },
+                    { data: "contactPhone1" },
+                    {
+                        data: "status",
+                        render: function (data) {
+                            if (data == "Đang hoạt động") {
+                                return '<span class="text--done">' + data + '</span>'
+                            } else {
+                                return '<span class="text--cancel">' + data + '</span>'
+                            }
+
+                             }
+                    },
+                    {
+                        data: "id",
+                        render: function (t, e, a) {
+                            return (
+                                `
+                                <a href="@Url.Action("Details", "BusinessUsers")${t}" id="business_detail" class="business_detail">
+                                <div class="btn btn--update">
+                                    <i class="btn-icon btn-icon--edit fal fa-edit"></i>
+                                </div>
+                                </a>
+                                <a onclick="loadDeleteUser(${t})">
+                                <div class="btn btn--delete">
+                                    <i class="btn-icon btn-icon--edit fal fa-times"></i>
+                                </div>
+                                </a>`
+                            );
+                        },
+                    },
+                ],
+                initComplete: function () {
+                    this.api()
+                        .columns(7)
+                        .every(function () {
+                            var t = this,
+                                e = $(
+                                    '<select id="UserType" style="margin-right: 8px;border: 1px solid #aaa;border-radius: 3px;padding: 5px;background-color: transparent; margin-left: 3px;" class="form-select text-capitalize mb-md-0 mb-2xx"><option value="">---- Chọn Trạng Thái Để Lọc ----</option></select>'
+                                )
+                                    .prependTo("#table_test_filter")
+                                    .on("change", function () {
+                                        var e = $.fn.dataTable.util.escapeRegex($(this).val());
+                                        t.search(e ? "^" + e + "$" : "", !0, !1).draw();
+                                    });
+                            t.data()
+                                .unique()
+                                .sort()
+                                .each(function (t, a) {
+                                    t &&
+                                        e.append(
+                                            '<option value="' +
+                                            t +
+                                            '" class="text-capitalize">' +
+                                            t +
+                                            "</option>"
+                                        );
+                                });
+                        })
+                }
+            }))
+            // Create Index column datatable
+            dataTable.on("draw.dt", function () {
+                dataTable.column(0, { search: "applied", order: "applied" }).nodes().each(function (cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            });
+
+        });
+
+        $(function () {
+            $("#table_test_filter").append($("#filterEvent")).clone();
+        });
+        $('#table_test').on('click', '.business_detail', function (e) {
+            e.preventDefault()
+            const form = document.getElementById('form_detail');
+        form.classList.add('is-appear');
+            const url = $(this).attr('href');
+            $.ajax({
+                url: url,
+                type: "get",
+                dataType: 'json',
+                success: function (res) {
+                    console.log(res)
+                    const imgPath = `@Url.Content("~/Uploads/Images/")` + res[0].buLogo
+                    const actionUrl = `@Url.Action("Edit","BusinessUsers")` + `/${res[0].id}`
+                    $('#ID').val(res[0].id)
+                    $('#Username').val(res[0].username)
+                    $('#BusinessName').val(res[0].buName)
+                    $('#Address').val(res[0].address)
+                    $('#Website').val(res[0].website)
+                    $('#ContactName').val(res[0].contactName)
+                    $('#ContactPhone_1').val(res[0].contactPhone1)
+                    $('#ContactPhone_2').val(res[0].contactPhone2)
+                    $('#Last_Access').val(res[0].lastAccess)
+                    $('#Last_Access2').val(res[0].lastAccess)
+                    $('#BusinessPhone').val(res[0].buPhone)
+                    $('#EmailContact').val(res[0].emailContact)
+                    $('#Fanpage').val(res[0].fanpage)
+                    $('#BusinessLogo').val(res[0].buLogo),
+                    $('#Password').val(res[0].password),
+                    $('#Semester_ID').val(res[0].sem_id)
+                    $('#output1').attr('src', `${imgPath}`)
+                    $('#output1').css('display','block')
+                    if (res[0].status === "Đang hoạt động") {
+                        $('select option[value="active"]').attr("selected", "selected");
+                    } else {
+                        $('select option[value="block"]').attr("selected", "selected");
+                    }
+                    $('#form_detail').attr('action', `${actionUrl}`)
+                }
+            })
+        })
+
+        $('.btn--cancel').on('click', function () {
+            $('#addForm').removeClass('is-appear')
+        })
+        $('#submitadd').on('click', function () {
+            $('#addForm').submit()
+        })
+        $('.btn--cancel').on('click', function () {
+            $('#form_detail').removeClass('is-appear')
+        })
+        $('#btn--update').on('click', function () {
+            $('#form_detail').submit()
+        })
+        $('.btn--cancel').on('click', function () {
+            $('#deleteForm').removeClass('is-appear')
+        })
+        $('.btn--cancel').on('click', function () {
+            $('#importAlert').removeClass('is-appear')
+        })
+        $('#btn--cancel').on('click', function () {
+            $('#importAlert').removeClass('is-appear')
+        })
+
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $.validator.addMethod("blank", function (value, element) {
+                return (!/^\s*$/.test(value));
+            }, "Vui lòng nhập dữ liệu.");
+
+            // Initialize the form validation
+            $("#addForm").validate();
+
+            // cái này là on blur nè
+            $("#addForm input, #addForm input").on("blur", function () {
+                $(this).valid();
+            });
+
+            // cái này là on change nè
+            $("#addForm input, #addForm input").on("change", function () {
+                $(this).removeClass("error");
+            });
+            /*--------------------------update---------------*/
+            // Initialize the form validation
+            $("#form_details").validate();
+
+            // cái này là on blur nè
+            $("#form_detail input, #form_detail input").on("blur", function () {
+                $(this).valid();
+            });
+
+            // cái này là on change nè
+            $("#form_detail input, #form_detail input").on("change", function () {
+                $(this).removeClass("error");
+            });
+        });
+        $("#addForm").validate({
+            rules: {
+                Username: {
+                    required: true,
+                    minlength: 3,
+                    blank: true
+                },
+                Password: {
+                    required: true,
+                    minlength: 3,
+                    blank: true
+                },
+                BusinessName: {
+                    required: true,
+                    minlength: 3,
+                    blank: true
+                },
+                BusinessPhone: {
+                    digits: true,
+                    minlength: 10,
+                    maxlength: 11
+                },
+                ContactName: {
+                    required: true,
+                    minlength: 3,
+                    blank: true
+                },
+                ContactPhone_1: {
+                    required: true,
+                    digits: true,
+                    minlength: 10,
+                    maxlength: 11
+                },
+                ContactPhone_2: {
+                    digits: true,
+                    minlength: 10,
+                    maxlength: 11
+                },
+                EmailContact: {
+                    email: true
+                },
+                logo: {
+                    required: true
+                }
+            },
+            messages: {
+                Username: {
+                    required: "Vui lòng nhập tên đăng nhập.",
+                    minlength: "Tên đăng nhập phải ít nhất 3 kí tự.",
+                },
+                Password: {
+                    required: "Vui lòng nhập mật khẩu.",
+                    minlength: "Mật khẩu phải ít nhất 3 kí tự.",
+                },
+                BusinessName: {
+                    required: "Vui lòng nhập tên doanh nghiệp.",
+                    minlength: "Tên doanh nghiệp phải ít nhất 3 kí tự.",
+                },
+                BusinessPhone: {
+                    digits: "Số điện thoại chỉ bao gồm các kí tự số.",
+                    minlength: "Số điện thoại phải có ít nhất 10 số.",
+                    maxlength: "Số điện thoại chỉ có thể có tối đa 11 số."
+                },
+                ContactName: {
+                    required: "Vui lòng nhập tên người liên hệ.",
+                    minlength: "Tên người liên hệ phải ít nhất 3 kí tự.",
+                },
+                ContactPhone_1: {
+                    required: "Vui lòng nhập số điện thoại.",
+                    digits: "Số điện thoại chỉ bao gồm các kí tự số.",
+                    minlength: "Số điện thoại phải có ít nhất 10 số.",
+                    maxlength: "Số điện thoại chỉ có thể có tối đa 11 số."
+                },
+                ContactPhone_2: {
+                    digits: "Số điện thoại chỉ bao gồm các kí tự số.",
+                    minlength: "Số điện thoại phải có ít nhất 10 số.",
+                    maxlength: "Số điện thoại chỉ có thể có tối đa 11 số."
+                },
+                EmailContact: {
+                    email: "Địa chỉ email không hợp lệ"
+                },
+                logo: {
+                    required: "Vui lòng tải lên hình ảnh.",
+                }
+            }
+        });
+        /*---------------------------update-----------------------*/
+        $("#form_detail").validate({
+            rules: {
+                Username: {
+                    required: true,
+                    minlength: 3,
+                    blank: true
+                },
+                Password: {
+                    required: true,
+                    minlength: 3,
+                    blank: true
+                },
+                BusinessName: {
+                    required: true,
+                    minlength: 3,
+                    blank: true
+                },
+                BusinessPhone: {
+                    digits: true,
+                    minlength: 10,
+                    maxlength: 11
+                },
+                ContactName: {
+                    required: true,
+                    minlength: 3,
+                    blank: true
+                },
+                ContactPhone_1: {
+                    required: true,
+                    digits: true,
+                    minlength: 10,
+                    maxlength: 11
+                },
+                ContactPhone_2: {
+                    digits: true,
+                    minlength: 10,
+                    maxlength: 11
+                },
+                EmailContact: {
+                    email: true
+                },
+
+            },
+            messages: {
+                Username: {
+                    required: "Vui lòng nhập tên đăng nhập.",
+                    minlength: "Tên đăng nhập phải ít nhất 3 kí tự.",
+                },
+                Password: {
+                    required: "Vui lòng nhập mật khẩu.",
+                    minlength: "Mật Khẩu phải ít nhất 3 kí tự.",
+                },
+                BusinessName: {
+                    required: "Vui lòng nhập tên doanh nghiệp.",
+                    minlength: "Tên doanh nghiệp phải ít nhất 3 kí tự.",
+                },
+                BusinessPhone: {
+                    digits: "Số điện thoại chỉ bao gồm các kí tự số.",
+                    minlength: "Số điện thoại phải có ít nhất 10 số.",
+                    maxlength: "Số điện thoại chỉ có thể có tối đa 11 số."
+                },
+                ContactName: {
+                    required: "Vui lòng nhập tên người liên hệ.",
+                    minlength: "Tên của bạn phải ít nhất 3 kí tự.",
+                },
+                ContactPhone_1: {
+                    required: "Vui lòng nhập số điện thoại.",
+                    digits: "Số điện thoại chỉ bao gồm các kí tự số.",
+                    minlength: "Số điện thoại phải có ít nhất 10 số.",
+                    maxlength: "Số điện thoại chỉ có thể có tối đa 11 số."
+                },
+                ContactPhone_2: {
+                    digits: "Số điện thoại chỉ bao gồm các kí tự số.",
+                    minlength: "Số điện thoại phải có ít nhất 10 số.",
+                    maxlength: "Số điện thoại chỉ có thể có tối đa 11 số."
+                },
+                EmailContact: {
+                    email: "Địa chỉ email không hợp lệ"
+                },
+
+            }
+        });
+
+    </script>
+    <script>
+
+    </script>
+
+}

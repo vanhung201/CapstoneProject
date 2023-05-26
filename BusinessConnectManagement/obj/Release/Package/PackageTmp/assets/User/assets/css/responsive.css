@@ -1,0 +1,51 @@
+@media only screen and (max-width: 400px) {
+    #gioi-thieu .body h2 {font-size: 1.6rem; line-height: 2rem !important;height: calc(4rem + 20px);}
+    #gioi-thieu .body p {position: relative; top: unset; margin-top: 10px; font-size: 1rem; font-weight: 500;}
+    #gioi-thieu .btn-position{position: relative; top: unset; margin-top: 20px;}
+    #featured-icon .text-center {margin-bottom: 15px;}
+    #featured-icon .text-center img { width: 50px; height: 50px;}
+    #featured-icon .text-center h3 {font-size: 1.8rem;}
+    #featured-icon .text-center p {font-size: 1.3rem;}
+    .title-home h3 {font-size: 1.4rem;}
+    .slider {width: 100%;}
+    .carousel {width: 95vw; transform: translateX(2.5vw); height: auto;}
+    .carousel .img {min-width: 95vw;}
+    .carousel_slider {height: auto; margin-bottom: 40px;}
+    .carousel .dotss {bottom: 0px;}
+    .carousel .prev_button,.carousel .next_button {display: none;}
+}
+
+@media only screen and (min-width: 400px) and (max-width: 912px) {
+    #gioi-thieu .body h2 {font-size: 1.6rem; line-height: 2rem !important;height: calc(4rem + 20px);}
+    #gioi-thieu .body p {position: relative; top: unset; margin-top: 10px; font-size: 1rem; font-weight: 500;}
+    #gioi-thieu .btn-position{position: relative; top: unset; margin-top: 20px;}
+    #featured-icon .text-center {margin-bottom: 15px;}
+    #featured-icon .text-center img { width: 50px; height: 50px;}
+    #featured-icon .text-center h3 {font-size: 1.8rem;}
+    #featured-icon .text-center p {font-size: 1.3rem;}
+    .title-home h3 {font-size: 1.4rem;}
+    .slider {width: 100%;}
+    .carousel {width: 95vw; transform: translateX(2.5vw); height: auto;}
+    .carousel .img {min-width: 95vw;}
+    .carousel_slider {height: auto; margin-bottom: 40px;}
+    .carousel .dotss {bottom: 0px;}
+    .carousel .prev_button,.carousel .next_button {display: none;}
+}
+
+@media only screen and (min-width: 912px) and (max-width: 1200px) {
+    #gioi-thieu .body h2 {font-size: 1.6rem; line-height: 2rem !important;height: calc(4rem + 20px);}
+    #gioi-thieu .body p {position: relative; top: unset; margin-top: 10px; font-size: 1rem; font-weight: 500;}
+    #gioi-thieu .btn-position{position: relative; top: unset; margin-top: 20px;}
+    #featured-icon .text-center {margin-bottom: 15px;}
+    #featured-icon .text-center img { width: 50px; height: 50px;}
+    #featured-icon .text-center h3 {font-size: 1.8rem;}
+    #featured-icon .text-center p {font-size: 1.3rem;}
+    .title-home h3 {font-size: 1.4rem;}
+    .slider {width: 100%;}
+    .carousel {width: 95vw; transform: translateX(2.5vw); height: auto;}
+    .carousel .img {min-width: 95vw;}
+    .carousel_slider {height: auto; margin-bottom: 40px;}
+    .carousel .dotss {bottom: 0px;}
+    .carousel .prev_button,.carousel .next_button {display: none;}
+
+}

@@ -1,0 +1,76 @@
+.dashboard {
+  width: 100%;
+  height: 100%;
+  padding-left: 20rem;
+  padding-top: 4rem;
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+.dashboard-heading {
+  color: #fff;
+  font-size: 3rem;
+  text-align: center;
+  transform: translateY(100%);
+  text-transform: uppercase;
+}
+
+.dashboard-list {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.dashboard-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dashboard-chart {
+  width: 25rem;
+  height: 25rem;
+  border-radius: 50%;
+  margin-top: 10px;
+}
+
+#peopleChart {
+  margin-left: 5rem;
+}
+
+.dashboard-content {
+  margin-left: 2rem;
+}
+
+.dashboard-desc {
+  color: #fff;
+  font-size: 2rem;
+}
+
+
+#block {
+  font-size: 15px;
+  color: #f64f59;
+}
+
+#active {
+  font-size: 15px;
+  color: #00b09b;
+}
+
+#student {
+  font-size: 15px;
+  color: #2980B9;
+}
+
+#mentor {
+  font-size: 15px;
+  color: #4e54c8;
+}
+
+#faculty {
+  font-size: 15px;
+  color: #CAC531;
+}

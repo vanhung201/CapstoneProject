@@ -1,0 +1,114 @@
+﻿@model BusinessConnectManagement.Models.Registration
+
+@{
+    ViewBag.Title = "Registration Details";
+    Layout = "~/Areas/Faculty/Views/Shared/_Layout.cshtml";
+}
+
+<section class="list">
+    <form method="post">
+        <h1 class="list-heading">Chi tiết Đơn đăng ký Ứng tuyển</h1>
+        <div class="grid wide">
+            <div class="tab-content">
+                <div class="row">
+
+                    @Html.HiddenFor(model => model.ID)
+
+                    <div class="col l-6">
+                        <div class="form-group">
+                            <label class="form-label">MSSV</label>
+                            @Html.EditorFor(model => model.VanLangUser.Student_ID, new { htmlAttributes = new { @class = "form-input", disabled = "true" } })
+                        </div>
+                    </div>
+
+                    <div class="col l-6">
+                        <div class="form-group">
+                            <label class="form-label">Họ và Tên</label>
+                            @Html.EditorFor(model => model.VanLangUser.FullName, new { htmlAttributes = new { @class = "form-input", disabled = "true" } })
+                        </div>
+                    </div>
+
+                    <div class="col l-6">
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            @Html.EditorFor(model => model.Email_VanLang, new { htmlAttributes = new { @class = "form-input", disabled = "true" } })
+                        </div>
+                    </div>
+
+                    <div class="col l-6">
+                        <div class="form-group">
+                            <label class="form-label">SĐT</label>
+                            @Html.EditorFor(model => model.VanLangUser.Mobile, new { htmlAttributes = new { @class = "form-input", disabled = "true" } })
+                        </div>
+                    </div>
+
+                    <div class="col l-6">
+                        <div class="form-group">
+                            <label class="form-label">CV</label>
+                            @Html.EditorFor(model => model.CV, new { htmlAttributes = new { @class = "form-input", disabled = "true" } })
+                        
+                            <a href="@Url.Action("DownloadFile", "Registration", new {filePath = @Html.DisplayFor(model => model.CV)})">
+                                <img src="~/assets/images/download.png" alt="dowloadCV" style="width: 20px; height: 30px; margin-left: 20px; margin-right: 15px" />
+                            </a>
+                            
+                        </div>
+                    </div>
+
+                    <div class="col l-6">
+                        <div class="form-group">
+                            <label class="form-label">Bài viết Ứng tuyển</label>
+                            @Html.EditorFor(model => model.Post.Title, new { htmlAttributes = new { @class = "form-input", disabled = "true" } })
+                        </div>
+                    </div>
+
+                    <div class="col l-6">
+                        <div class="form-group">
+                            <label class="form-label">Ngày Đăng ký</label>
+                            @Html.EditorFor(model => model.RegistrationDate, new { htmlAttributes = new { @class = "form-input", disabled = "true" } })
+                        </div>
+                    </div>
+
+                    <div class="col l-6">
+                        <div class="form-group">
+                            <label class="form-label">Ngày cập nhật Đăng ký</label>
+                            @Html.EditorFor(model => model.RegistrationModify, new { htmlAttributes = new { @class = "form-input", disabled = "true" } })
+                        </div>
+                    </div>
+
+                    <div class="col l-6">
+                        <div class="form-group">
+                            <label class="form-label">Trạng thái Ứng tuyển</label>
+                            @Html.EditorFor(model => model.StatusRegistration, new { htmlAttributes = new { @class = "form-input", disabled = "true" } })
+                        </div>
+                    </div>
+
+                    <div class="col l-6">
+                        <div class="form-group">
+                            <label class="form-label">Nhận xét đơn Ứng tuyển</label>
+                            @Html.EditorFor(model => model.Comment, new { htmlAttributes = new { @class = "form-input", disabled = "true" } })
+                        </div>
+                    </div>
+
+                    <div class="col l-6">
+                        <div class="form-group">
+                            <label class="form-label">Kết quả phỏng vấn</label>
+                            @Html.EditorFor(model => model.InterviewResult, new { htmlAttributes = new { @class = "form-input", disabled = "true" } })
+                        </div>
+                    </div>
+
+                    <div class="col l-6">
+                        <div class="form-group">
+                            <label class="form-label">Nhận xét Buổi phỏng vấn</label>
+                            @Html.EditorFor(model => model.InterviewResultComment, new { htmlAttributes = new { @class = "form-input", disabled = "true" } })
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="button-wrapper">
+                <a class="btn btn--detail" href="@Url.Action("Index", "Registration")">Trở Về</a>
+            </div>
+        </div>
+    </form>
+</section>

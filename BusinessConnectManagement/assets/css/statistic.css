@@ -1,0 +1,161 @@
+/* STATISTIC */
+/*#statistic {
+  width: 100%;
+  background-color: #fff;
+  text-align: center;
+  border-radius: 0.5rem;
+  user-select: none;
+  padding: 2rem;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
+}*/
+
+.filter {
+    width: 100%;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    user-select: none;
+}
+
+.filter-item:not(:first-child) {
+    margin-left: 2rem;
+}
+
+.filter-label {
+    margin-right: 1rem;
+}
+
+.filter-select {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    outline: none;
+    cursor: pointer;
+}
+
+.filter-option {
+    padding: 1rem;
+}
+
+/* statistic */
+.statistic-user, .statistic-job {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.heading {
+    margin-bottom: 1rem;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.6rem;
+    text-transform: capitalize;
+}
+
+.user, .cv, .interview, .intern, .statistic-business {
+    background-color: #fff;
+    margin-top: 3.5rem;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    user-select: none;
+}
+
+    .user:first-child {
+        width: 58%;
+    }
+
+    .user:last-child {
+        width: 40%;
+    }
+
+.cv, .interview {
+    width: 48%;
+}
+
+.intern {
+    width: 100%;
+}
+
+.statistic-business {
+    text-align: center;
+}
+
+.user-list, .business-list {
+    display: flex;
+    justify-content: center;
+}
+
+.user-item, .business-item {
+    padding: 1rem;
+    background-color: #fff;
+    color: #fff;
+    border-radius: 0.5rem;
+    margin-inline: 2rem;
+}
+
+.user-error {
+    background-color: #bd362f;
+}
+
+.user-info {
+    background-color: #2f96b4;
+}
+
+.user-warning {
+    background-color: #f89406;
+}
+
+.user-done {
+    background-color: #5d26c1;
+}
+
+.user-active {
+    background-color: #1E9600;
+}
+
+.user-block {
+    background-color: #ED213A;
+}
+
+.business-success {
+    background-color: #ff5e62;
+}
+
+.business-error {
+    background-color: #0082c8;
+}
+
+.business-sign {
+    margin-top: 1rem;
+}
+
+.chart {
+    display: flex;
+    justify-content: space-between;
+}
+
+.chart-item {
+    width: 45%;
+    height: 45%;
+    flex-shrink: 0;
+}
+
+.chart-select {
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    outline: none;
+    cursor: pointer;
+}
+
+.chart-heading {
+    text-transform: capitalize;
+    font-size: 1.6rem;
+    margin: 1rem 0;
+}
+
+.chart-wrap {
+    margin: 1rem 0;
+}

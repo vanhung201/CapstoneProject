@@ -1,0 +1,52 @@
+﻿@model IEnumerable<BusinessConnectManagement.Models.MOU>
+
+@{
+    ViewBag.Title = "BCM - Doanh Nghiệp";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<main>
+    <div id="bg-form">
+        <img class="img-responsive rounded" src="~/assets/User/assets/images/homepage.jpg" alt="macOS Yosemite Wallpaper">
+        <div class="form">
+            <div class="container">
+
+            </div>
+        </div>
+    </div>
+
+    <section id="news">
+
+        <div class="container">
+            <div class="title-home">
+                <h3>MOU</h3>
+            </div>
+            <div class="columns py20">
+                @foreach (var item in Model)
+                {
+                    <div class="column col-4 col-sm-12 col-md-12 col-xl-4 mb10 wow rollIn" data-wow-delay="0.5s">
+                        <div class="item">
+                            <div class="zoom-small" style="display:block; text-align:center">
+                                <img src="@Url.Content("~/Uploads/Images/" + item.BusinessUser.BusinessLogo)" style="height:100%;" alt="mou1">
+                            </div>
+                            <div class="name ellipsis">@item.BusinessUser.BusinessName</div>
+                            <div class="text-center mt10">
+                                <div class="btn btn-submit">
+                                    <a style="color:#fff !important" href="@Url.Action("Details", "MOUs",  new { id=item.ID })">
+                                        Xem Thêm
+                                    </a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+
+            </div>
+        </div>
+
+    </section>
+
+
+</main>

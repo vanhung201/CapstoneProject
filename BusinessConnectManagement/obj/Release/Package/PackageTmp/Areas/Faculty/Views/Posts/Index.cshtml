@@ -1,0 +1,647 @@
+﻿@model IEnumerable<BusinessConnectManagement.Models.Post>
+
+@{
+    ViewBag.Title = "Quản Lý - Tin Tuyển Dụng";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<section class="list">
+    <h1 class="list-heading">Danh sách tin tuyển dụng</h1>
+    @if (TempData != null)
+    {
+
+        @Html.Raw(@TempData["AlertMessage"])
+
+    }
+
+    
+        <div class="bu_status"></div>
+        <label id="nameLabel1" style="left: 48%;">Lọc:</label>
+    
+
+    <div class="btn btn--create" id="btn-create" style="float:right">
+        <span class="btn-text">Thêm</span>
+    </div>
+
+    <div class="list-table">
+
+        <table id="table_listData" class="display" width="100%">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>ID</th>
+                    <th>Tiêu đề</th>
+                    <th>Doanh Nghiệp</th>
+                    <th>Người đăng bài</th>
+                    <th>Ngày đăng</th>
+                    <th>Ngày hết hạn</th>
+                    <th width="10%">
+                        Chức năng
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</section>
+@*--------------------add-----------------------*@
+<form id="addForm" method="post" action="@Url.Action("Create", "Posts")" class="form" enctype="multipart/form-data" onsubmit="return validateForm()">
+    <div class="form-container">
+        <h1 class="list-heading">Thêm Tin Tuyển Dụng</h1>
+        <div class="form-row">
+            <div class="form-column">
+                <div class="form-group">
+                    <label class="form-label">Tiêu đề</label>
+                    <input list="" name="Title" class="form-input" value=""
+                           autocomplete="off" required />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Doanh Nghiệp</label>
+                    <select name="Business_ID" id="ddlBussines_ID" class="form-input">
+                        @foreach (var item in ViewBag.Business_ID)
+                        {
+                            <option value=@item.ID>@item.BusinessName</option>
+                        }
+
+                    </select>
+                </div>
+               
+                <div class="form-group">
+                    <label class="form-label">Chuyên Nghành</label>
+                    <select name="Major_ID" class="form-input">
+                        @foreach (var item in ViewBag.Major)
+                        {
+                            <option value=@item.ID>@item.Major1</option>
+                        }
+
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-column">
+                <div class="form-group">
+                    <label class="form-label">Ngày hết hạn</label>
+                    <input list="" name="DueDate" id="dueDate" onchange="checkDate()" class="form-input" type="date"
+                           autocomplete="off" />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Hình thức</label>
+                    <select name="Form" class="form-input">
+                        <option value="Online">Online</option>
+                        <option value="Offline">Offline</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Vị Trí</label>
+                    <select id="pos-select" multiple data-placeholder="Chọn vị trí" name="positions" class="chosen-select">
+                        @foreach (var item in ViewBag.Position)
+                        {
+                            <option value="@item.ID" data-shortName="@item.ShortName">@item.InternshipTopicName</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group" id="quantity-inputs">
+
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="address" class="form-label">Mô tả</label>
+            <textarea class="" name="Description" id="DescriptionCreate" autocomplete="off"></textarea>
+        </div>
+        <div class="form-group">
+            <a class="btn btn--cancel">
+                Hủy
+            </a>
+            <button class="btn btn--confirm" type="submit" id="btn--add">
+                Xác Nhận
+            </button>
+        </div>
+
+
+    </div>
+</form>
+@*--------------------update--------------------*@
+<form id="form_detail" method="post" action="" class="form" enctype="multipart/form-data">
+    <div class="form-container">
+        <h1 class="list-heading">Cập Nhật Tin Tuyển Dụng</h1>
+        <div class="form-row">
+            <div class="form-column">
+                <input id="ID" name="ID" hidden />
+                <input id="Email_ID" name="Email_ID" hidden />
+                <input name="Business_ID" id="Business_ID" hidden />
+                <div class="form-group">
+                    <label class="form-label">Tiêu Đề</label>
+                    <input list="" name="Title" id="Title" class="form-input" value=""
+                           autocomplete="off" />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Người Đăng Bài</label>
+                    <input list="" name="" id="Name" class="form-input" value=""
+                           autocomplete="off" disabled />
+
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Doanh Nghiệp</label>
+                    <input list="" id="BusinessName" class="form-input" value=""
+                           autocomplete="off" disabled />
+                </div>
+                <div class="form-group">
+                    <label for="Major_ID" class="form-label">Chuyên Nghành</label>
+                    <select name="Major_ID" id="majorr" class="form-input">
+                        <option value="1">Công nghệ phần mềm</option>
+                        <option value="2">Công nghệ dữ liệu</option>
+                        <option value="3">Tin học quản trị</option>
+                        <option value="4">An ninh Mạng</option>
+                        <option value="5">Hệ thống Thông tin</option>
+                        <option value="6">Kỹ thuật phần mềm</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Hình Thức</label>
+                    <select id="form" name="Form" class="form-input">
+                        <option value="Online">Online</option>
+                        <option value="Offline">Offline</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-column">
+                <div class="form-group">
+                    <label class="form-label">Ngày Đăng</label>
+                    <input list="" id="PostDay2" class="form-input" value=""
+                           autocomplete="off" disabled />
+                    <input list="" name="PostDay" id="PostDay" class="form-input" value=""
+                           autocomplete="off" hidden />
+
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Ngày Cập Nhật</label>
+                    <input list="" name="ModifyDay" id="ModifyDay" class="form-input" value=""
+                           autocomplete="off" disabled />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Ngày Hết Hạn</label>
+                    <input list="" name="DueDate" id="DueDate" type="date" class="form-input" onchange="checkDateUp()" value="" />
+                    <input list="" id="DueDate2" type="date" class="form-input" value="" hidden />
+                    <input list="" id="Semester_ID" name="Semester_ID" class="form-input"  hidden/>
+                </div>
+               
+                <div class="form-group">
+                    <label class="form-label">Vị Trí</label>
+                    <select multiple data-placeholder="Chọn vị trí" name="position" class="chosen-select PostI" required>
+                        @foreach (var item in ViewBag.Position)
+                        {
+                            <option value="@item.ID">@item.InternshipTopicName</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group" id="inputs"></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="address" class="form-label">Mô tả</label>
+            <textarea class="" name="Description" id="Description" autocomplete="off"></textarea>
+        </div>
+       
+        <div class="form-group">
+            <a class="btn btn--cancel">
+                Hủy
+            </a>
+            <button class="btn btn--confirm" id="btn--update">
+                Xác Nhận
+            </button>
+        </div>
+
+
+    </div>
+</form>
+@*---------------------------Delete-----------------------------ơ*@
+<form action="@Url.Action("Delete", "Posts")" class="form" id="deleteForm" method="post">
+    @{using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken();
+            <input name="id" id="iddele" hidden />
+            <div class="form-container--small">
+                <h1 class="form-heading">Xác nhận</h1>
+
+                <span>
+                    Bạn chắc chắn muốn <strong name="name" id="namedele" style="font-weight: bold; color: #ce1b28;">xóa tin tuyển dụng </strong>
+                    này không?
+                </span>
+
+                <div class="form-group">
+                    <a class="btn btn--cancel">
+                        Hủy
+                    </a>
+                    <button type="submit" class="btn btn-action btn--confirm">Xác nhận</button>
+                </div>
+            </div>
+        }
+    }
+</form>
+
+
+@section Scripts {
+    <script type="text/javascript">
+
+        function loadDeleteUser(id, name) {
+            let formDelete = document.getElementById("deleteForm");
+            formDelete.classList.add('is-appear')
+            document.getElementById('iddele').value = id;
+            document.getElementById('namedele').value = name;
+        }
+    </script>
+
+    <script type="text/javascript">
+    $('.btn--cancel').on('click', function () {
+        $('#form_detail').removeClass('is-appear')
+        $("#inputs").empty();
+
+    })
+    $('.btn--cancel').on('click', function () {
+        $('#addForm').removeClass('is-appear')
+        $('#input').empty();
+    })
+    $('.btn--cancel').on('click', function () {
+        $('#deleteForm').removeClass('is-appear')
+    })
+        $('#btn--update').on('click', function () {
+        $('#input').empty();
+        $('#form_detail').submit()
+    })
+        $('#btn--add').on('click', function () {
+        $('#input').empty();
+        $('#addForm').submit()
+    })
+
+
+
+    $(function () {
+        var url = "@Url.Action("getDataList", "Posts")"
+        "use strict";
+        (dataTable = $("#table_listData").DataTable({
+            ajax: {
+                url: url,
+                type: "GET",
+                dataType: "json",
+                dataSrc: "",
+            },
+            deferRender: !0,
+            "order": [[1, "desc"]],
+            "columnDefs": [
+                {"width": "10%", "target": 2}
+                ],
+            columns: [
+                { data: null },
+                { data: "id", visible: false },
+                {
+                    data: "title",
+                    render: function (data) {
+                        return '<span class="overFlow">' + data + '</span>'
+                    }
+                },
+                { data: "business"},
+                { data: "name" , },
+                { data: "postday" },
+                { data: "duedate" },
+                {
+                        data: "id",
+                        render: function (t, e, a) {
+                            return (
+                                `
+                                <a href="@Url.Action("Details", "Posts")${t}" id="business_detail" class="business_detail">
+                                <div class="btn btn--update" title="Cập Nhật">
+                                    <i class="btn-icon btn-icon--edit fal fa-edit"></i>
+                                </div>
+                                </a>
+                                <a onclick="loadDeleteUser(${t})">
+                                <div class="btn btn--delete">
+                                    <i class="btn-icon btn-icon--edit fal fa-times"></i>
+                                </div>
+                                </a>`
+                            );
+                        },
+                    },
+            ],
+            initComplete: function () {
+                this.api()
+                    .columns(3)
+                    .every(function () {
+                        var t = this,
+                            e = $(
+                                '<select id="UserType" style="margin-right: 8px;border: 1px solid #aaa;border-radius: 3px;padding: 5px;background-color: transparent; margin-left: 3px;" class="form-select text-capitalize mb-md-0 mb-2xx"><option value="" style="text-align: center;">---- Chọn Công Ty Để Lọc ----</option></select>'
+                            )
+                                .prependTo("#table_listData_filter")
+                                .on("change", function () {
+                                    var e = $.fn.dataTable.util.escapeRegex($(this).val());
+                                    t.search(e ? "^" + e + "$" : "", !0, !1).draw();
+                                });
+                        t.data()
+                            .unique()
+                            .sort()
+                            .each(function (t, a) {
+                                t &&
+                                    e.append(
+                                        '<option value="' +
+                                        t +
+                                        '" class="text-capitalize">' +
+                                        t +
+                                        "</option>"
+                                    );
+                            });
+                    })
+            }
+
+        }))
+        dataTable.on("draw.dt", function () {
+            dataTable.column(0, { search: "applied", order: "applied" }).nodes().each(function (cell, i) {
+                cell.innerHTML = i + 1;
+            });
+        });
+        // Create Index column datatable
+
+
+    });
+    $('#table_listData').on('click', '.business_detail', function (e) {
+            e.preventDefault()
+        const form = document.getElementById('form_detail');
+        form.classList.add('is-appear');
+            const url = $(this).attr('href');
+            $.ajax({
+                url: url,
+                type: "get",
+                dataType: 'json',
+                success: function (res) {
+                    console.log(res);
+                  
+                    const actionUrl = `@Url.Action("Edit","Posts")` + `${res.listData[0].id}`
+                    const arr = [];
+                    const list = document.querySelectorAll(".PostI option");
+                    for (let i = 0; i < list.length; i++) {
+                        if (res.postIntern[i].status == true) {
+                            if (list[i].value == res.postIntern[i].id) {
+                                arr.push(res.postIntern[i].id)
+                            }
+                        } 
+                    }
+                    $('.PostI').val(arr)
+                    $('.PostI').trigger('chosen:updated')
+                    var selectedOptions = $('.PostI option:selected');
+                    var quantityInputsContainer = $('<div style="display: flex; flex-wrap: wrap; max-width:345px"></div>');
+
+                    selectedOptions.each(function () {
+                        var optionValue = $(this).val();
+
+                        // Find the corresponding item in the postIntern array using its id
+                        var selectedItem = res.postIntern.find(function (item) {
+                            return item.id == optionValue;
+                        });
+
+                        // Create the quantity input field
+                        var quantityInput = '<label style="margin-bottom:2rem" class="form-label">Số lượng ' + selectedItem.shortName + ': </label>' +
+                            '<input min="1" class="form-input" style="margin-bottom:2rem" type="number" name="quantity-' + selectedItem.id + '" value="' + selectedItem.quantity + '"/>';
+
+                        // Add the quantity input field to the container
+                        $(quantityInput).appendTo(quantityInputsContainer);
+                    });
+                    $('#inputs').append(quantityInputsContainer);
+                    $('.PostI').on('change', function () {
+                        var selectedOptions = $('.PostI option:selected');
+                        var quantityInputsContainer = $('<div style="display: flex; flex-wrap: wrap; max-width:345px"></div>');
+                        selectedOptions.each(function () {
+                            var optionValue = $(this).val();
+
+                            // Find the corresponding item in the postIntern array using its id
+                            var selectedItem = res.postIntern.find(function (item) {
+                                return item.id == optionValue;
+                            });
+
+                            // Create the quantity input field
+                            var quantityInput = '<label style="margin-bottom:2rem" class="form-label">Số lượng ' + selectedItem.shortName + ': </label>' +
+                                '<input min="1" class="form-input" style="margin-bottom:2rem" type="number" name="quantity-' + selectedItem.id + '" value="' + selectedItem.quantity + '"/>';
+
+                            // Add the quantity input field to the container
+                            $(quantityInput).appendTo(quantityInputsContainer);
+                        });
+                        $("#inputs").empty();
+                        $('#inputs').append(quantityInputsContainer);
+                    });
+                        
+                    $('#ID').val(res.listData[0].id)
+                    $('#Title').val(res.listData[0].title)
+                    $('#Email_ID').val(res.listData[0].email)
+                    $('#Name').val(res.listData[0].name)
+                    $('#PostDay').val(res.listData[0].postday)
+                    $('#PostDay2').val(res.listData[0].postday)
+                    $('#ModifyDay').val(res.listData[0].modifyday)
+                    $('#Semester_ID').val(res.listData[0].semes_id)
+                    $('#BusinessName').val(res.listData[0].business)
+                    $('#Business_ID').val(res.listData[0].business_id)
+                    $('#DueDate').val(res.listData[0].duedate)
+                    $('#DueDate2').val(res.listData[0].duedate)
+                    $('#Quantity').val(res.listData[0].quatity)
+                    
+                   
+                    if (res.listData[0].form === "Online") {
+                        $('select option[value="Online"]').attr("selected", "selected");
+                    } else {
+                        $('select option[value="Offline"]').attr("selected", "selected");
+                    }
+
+                    if (res.listData[0].majorr === "Công nghệ phần mềm") {
+                        $('select option[value="1"]').attr("selected", "selected");
+                    } else if (res.listData[0].majorr === "Công nghệ dữ liệu") {
+                        $('select option[value="2"]').attr("selected", "selected");
+                    }
+                    else if (res.listData[0].majorr === "Tin học quản trị") {
+                        $('select option[value="3"]').attr("selected", "selected");
+                    }
+                    else if (res.listData[0].majorr === "An ninh Mạng") {
+                        $('select option[value="4"]').attr("selected", "selected");
+                    }
+                    else if (res.listData[0].majorr === "Hệ thống Thông tin") {
+                        $('select option[value="5"]').attr("selected", "selected");
+                    }
+                    else if (res.listData[0].majorr === "Kỹ thuật phần mềm") {
+                        $('select option[value="6"]').attr("selected", "selected");
+                    }
+                   
+                    CKEDITOR.instances['Description'].setData(res.listData[0].description)
+                    $('#form_detail').attr('action', `${actionUrl}`)
+                }
+
+            })
+        })
+
+    </script>
+    <script type="text/javascript" src="@Url.Content("~/assets/js/ckeditor/ckeditor.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/assets/js/ckfinder/ckfinder.js")"></script>
+    <script type="text/javascript">
+
+        $(function () {
+            $("#table_listData_filter").append($("#btn-create")).clone();
+        });
+        var editor = CKEDITOR.instances['editor1'];
+	 	    if (editor) { editor.destroy(true); }
+		    CKEDITOR.replace('Description', {
+		        enterMode: CKEDITOR.ENTER_BR,
+		    });
+        CKFinder.setupCKEditor(null, '@Url.Content("~/ckfinder")');
+
+         if (editor) { editor.destroy(true); }
+		    CKEDITOR.replace('DescriptionCreate', {
+		        enterMode: CKEDITOR.ENTER_BR,
+		    });
+		    CKFinder.setupCKEditor(null, '@Url.Content("~/ckfinder")');
+
+
+    </script>
+    <script>
+        /*------------------------add-----------------*/
+        $('#addForm').validate({
+            rules: {
+                
+                Title: {
+                    required: true,
+                    minlength: 3,
+                    blank: true
+                },
+                quantity: {
+                    required: true
+                },
+                DueDate: {
+                    required: true
+                }
+
+            },
+            messages: {
+                Title: {
+                    required: "Vui lòng nhập tiêu đề bài viết.",
+                    minlength: "Tiêu đề phải ít nhất 3 kí tự."
+                },
+                DueDate: {
+                    required: "Vui lòng chọn ngày hết hạn."
+                }
+            }
+        });
+        /*------------------------update-----------------*/
+        $('#form_detail').validate({
+            rules: {
+                Title: {
+                    required: true,
+                    minlength: 3,
+                    blank: true
+                },
+                DueDate: {
+                    required: true
+                },
+            },
+
+            messages: {
+                Title: {
+                    required: "Vui lòng nhập tiêu đề bài viết.",
+                    minlength: "Tiêu đề phải ít nhất 3 kí tự."
+                },
+                DueDate: {
+                    required: "Vui lòng chọn ngày hết hạn."
+                }
+            }
+        });
+        $(document).ready(function () {
+            $.validator.addMethod("blank", function (value, element) {
+                return (!/^\s*$/.test(value));
+            }, "Vui lòng nhập tiêu đề bài viết.");
+            // Initialize the form validation
+            $("#addForm").validate();
+
+            // cái này là on blur nè
+            $("#addForm input, #addForm input").on("blur", function () {
+                $(this).valid();
+            });
+
+            // cái này là on change nè
+            $("#addForm input, #addForm input").on("change", function () {
+                $(this).removeClass("error");
+            });
+
+            /*-------------------update--------------------*/
+            $("#form_detail").validate();
+
+            // cái này là on blur nè
+            $("#form_detail input, #form_detail input").on("blur", function () {
+                $(this).valid();
+            });
+
+            // cái này là on change nè
+            $("#form_detail input, #form_detail input").on("change", function () {
+                $(this).removeClass("error");
+            });
+
+
+        });
+
+        function validateForm() {
+            var selectedOptions = document.getElementById("pos-select").selectedOptions;
+            if (selectedOptions.length < 1) {
+                alert("Vui lòng chọn ít nhất một vị trí.");
+                return false;
+            }
+            return true;
+        }
+        function checkDate() {
+            var selectedText = document.getElementById('dueDate').value;
+            var selectedDate = new Date(selectedText);
+            var now = new Date();
+            if (selectedDate > now) {
+                return true
+            } else {
+                $('#dueDate').val("dd/mm/yyyy")
+                alert("Vui lòng không chọn những ngày trước.");
+                return false
+            }
+        }
+        function checkDateUp() {
+
+            var selectedPostDay = document.getElementById('PostDay').value;
+            var date = moment(selectedPostDay).format('DD/MM/YYYY');
+
+            var selectedText = document.getElementById('DueDate').value;
+            var selectedDueDate = document.getElementById('DueDate2').value;
+
+            var selectedDate = new Date(selectedText);
+
+            var now = new Date(date);
+
+            if (selectedDate > now) {
+                return true
+            } else {
+                $('#DueDate').val(selectedDueDate)
+                /* console.log($('#DueDate').val(selectedDueDate))*/
+                alert("Vui lòng không chọn những ngày trước ngày tạo.");
+                return false
+            }
+        }
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#pos-select').on('change', function () {
+                var selectedOptions = $('#pos-select option:selected');
+                $('#quantity-inputs').empty();
+
+                var quantityInputsContainer = $('<div style="display: flex; flex-wrap: wrap; max-width:345px"></div>');
+
+                selectedOptions.each(function () {
+                    var optionValue = $(this).val();
+                    console.log(optionValue);
+                    var optionName = $(this).data('shortname');
+                    var quantityInput = '<label style="margin-bottom:2rem" class="form-label">Số lượng ' + optionName + ': </label>' +
+                        '<input min="1" class="form-input" required style="margin-bottom:2rem" type="number" name="quantity-' + optionValue + '"/>';
+                    $(quantityInput).appendTo(quantityInputsContainer);
+                });
+
+                $('#quantity-inputs').append(quantityInputsContainer);
+            });
+        });
+    </script>
+}

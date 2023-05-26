@@ -1,0 +1,197 @@
+﻿@model BusinessConnectManagement.Models.BusinessUser
+
+@{
+    ViewBag.Title = "Business Details";
+    Layout = "~/Areas/Faculty/Views/Shared/_Layout.cshtml";
+}
+
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+<section class="list">
+    <form id="createBusiness"  method="post" enctype="multipart/form-data">
+        <h1 class="list-heading">Chi Tiết Doanh Nghiệp</h1>
+        <div class="grid wide">
+            <div class="tab-content">
+                <div class="row">
+                    @Html.HiddenFor(model => model.ID)
+                    <div class="col l-6">
+                        <div class="form-group">
+                            <label class="form-label">Tên Đăng Nhập&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-input", disabled = "true" } })
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" hidden></label>
+                            @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col l-6">
+                        <div class="form-group">
+                            <label class="form-label">Tên Doanh Nghiệp</label>
+                            @Html.EditorFor(model => model.BusinessName, new { htmlAttributes = new { @class = "form-input", disabled = "true" } })
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" hidden></label>
+                            @Html.ValidationMessageFor(model => model.BusinessName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col l-6">
+                        <div class="form-group">
+                            <label class="form-label">Mật Khẩu &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-input", disabled = "true", type="password" } })
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" hidden></label>
+                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                        </div>
+
+                    </div>
+                    <div class="col l-6">
+                        <div class="form-group">
+                            <label for="stat" class="form-label">Trạng Thái &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            <select name="Status_ID" id="" class="form-input" disabled>
+                                @foreach (var item in ViewBag.StatusList)
+                                {
+                                    if (item.ID == Model.Status_ID)
+                                    {
+                                        <option value=@Model.Status_ID selected>@Model.Status.Status1</option>
+                                    }
+                                    else
+                                    {
+                                        <option value=@item.ID>@item.Status1</option>
+                                    }
+                                }
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col l-6">
+                        <div class="form-group">
+                            <label for="lastAccess" class="form-label">Lần truy cập cuối &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            <input name="Last_Access" class="form-input" value="@Model.Last_Access"
+                                   autocomplete="off" disabled />
+                            @Html.HiddenFor(model => model.Last_Access)
+                        </div>
+                    </div>
+                    <div class="col l-6">
+                        <div class="form-group">
+                            <label class="form-label">Địa Chỉ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-input", disabled = "true" } })
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" hidden></label>
+                            @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col l-6">
+                        <div class="form-group">
+                            <label class="form-label">Số điện thoại &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            @Html.EditorFor(model => model.BusinessPhone, new { htmlAttributes = new { @class = "form-input", disabled = "true" } })
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" hidden></label>
+                            @Html.ValidationMessageFor(model => model.BusinessPhone, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col l-6">
+                        <div class="form-group">
+                            <label class="form-label">Website&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            @Html.EditorFor(model => model.Website, new { htmlAttributes = new { @class = "form-input", disabled = "true" } })
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" hidden></label>
+                            @Html.ValidationMessageFor(model => model.Website, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col l-6">
+                        <div class="form-group">
+                            <label class="form-label">Fanpage &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            @Html.EditorFor(model => model.Fanpage, new { htmlAttributes = new { @class = "form-input", disabled = "true" } })
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" hidden></label>
+                            @Html.ValidationMessageFor(model => model.Fanpage, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col l-6">
+                        <div class="form-group">
+                            <label class="form-label">Người Liên Hệ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            @Html.EditorFor(model => model.ContactName, new { htmlAttributes = new { @class = "form-input", disabled = "true" } })
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" hidden></label>
+                            @Html.ValidationMessageFor(model => model.ContactName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col l-6">
+                        <div class="form-group">
+                            <label class="form-label">SĐT Người Liên Hệ &nbsp;&nbsp;</label>
+                            @Html.EditorFor(model => model.ContactPhone_1, new { htmlAttributes = new { @class = "form-input", disabled = "true" } })
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" hidden></label>
+                            @Html.ValidationMessageFor(model => model.ContactPhone_1, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col l-6">
+                        <div class="form-group">
+                            <label class="form-label">SĐT Người Liên Hệ </label>
+                            @Html.EditorFor(model => model.ContactPhone_2, new { htmlAttributes = new { @class = "form-input", disabled = "true" } })
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" hidden></label>
+                            @Html.ValidationMessageFor(model => model.ContactPhone_2, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col l-6">
+                        <div class="form-group">
+                            <label class="form-label">Email Người Liên Hệ   </label>
+                            @Html.EditorFor(model => model.EmailContact, new { htmlAttributes = new { @class = "form-input", disabled = "true" } })
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" hidden></label>
+                            @Html.ValidationMessageFor(model => model.EmailContact, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    @*<div class="col l-6">
+                        <div class="form-group">
+                            <input id="CoopId" type="text" value="" name="ArrCoopId" hidden />
+                            <label for="cooperation" class="form-label">Loại Hợp Tác</label>
+                            <div class="checkbox-wrapper" id="checkBoxCoop">
+                                @foreach (var item in ViewBag.CooperationCategoriesDetail)
+                                {
+                                    <label class="container">
+                                        @item.name
+                                        @if (item.status)
+                                        {
+                                            <input type="checkbox" value="@item.value" checked="checked" disabled>
+                                            <span class="checkmark"></span>
+                                        }
+                                        else
+                                        {
+                                            <input type="checkbox" value="@item.value" disabled>
+                                            <span class="checkmark"></span>
+                                        }
+                                    </label>
+                                }
+                            </div>
+                        </div>
+                    </div>*@
+                    <div class="col l-6">
+                        <div class="form-group">
+                            <label for="logo" class="form-label">Logo</label>
+                            <div style="display: flex; flex-direction: column">
+                                <img src="@Url.Content("~/Uploads/Images/" + Model.BusinessLogo)" alt="businessLogo" style="width: 22rem; height:fit-content; margin: 0 0 1rem 0;" />
+                                
+                                <input name="BusinessLogo" id="img" value="@Model.BusinessLogo" hidden />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="button-wrapper">
+                <a class="btn btn--detail" href="@Url.Action("Index", "BusinessUsers")">Trở Về</a>
+                <a class="btn btn--update" href="@Url.Action("Details", "BusinessUsers",  new { id = Model.ID })">Cập Nhật</a>
+            </div>
+        </div>
+    </form>
+</section>

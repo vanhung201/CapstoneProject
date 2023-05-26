@@ -1,20 +1,24 @@
 ﻿@model BusinessConnectManagement.Models.BusinessUser
 
 @{
-    ViewBag.Title = "Business Details";
+    ViewBag.Title = "Update Business";
     Layout = "~/Areas/Faculty/Views/Shared/_Layout.cshtml";
 }
 
-@Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
 <section class="list">
-    <form id="createBusiness" action="@Url.Action("Details","BusinessUsers", new {id = Model.Business_ID})" method="post" enctype="multipart/form-data">
-        <h1 class="list-heading">Chi tiết doanh nghiệp</h1>
+    <form id="createBusiness" action="@Url.Action("Details","BusinessUsers", new {id = Model.ID})" method="post" enctype="multipart/form-data">
+        <h1 class="list-heading">Chỉnh Sửa Doanh Nghiệp</h1>
         <div class="grid wide">
             <div class="tab-content">
                 <div class="row">
-                    <input name="Business_ID" value="@Model.Business_ID" class="form-input" autocomplete="off"
-                           hidden />
+                    @Html.HiddenFor(model => model.ID)
+                    <div class="col l-6">
+                        <div class="form-group">
+                            <label class="form-label">Mã Doanh Nghiệp &nbsp;</label>
+                            @Html.EditorFor(model => model.ID, new { htmlAttributes = new { @class = "form-input", disabled = "true" } })
+                        </div>
+                    </div>
+
                     <div class="col l-6">
                         <div class="form-group">
                             <label class="form-label">Tên Doanh Nghiệp</label>
@@ -27,19 +31,8 @@
                     </div>
                     <div class="col l-6">
                         <div class="form-group">
-                            <label class="form-label">Mật Khẩu</label>
-                            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-input" } })
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label" hidden></label>
-                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-                        </div>
-
-                    </div>
-                    <div class="col l-6">
-                        <div class="form-group">
-                            <label for="stat" class="form-label">Trạng Thái</label>
-                            <select name="Status_ID" id="" class="form-select">
+                            <label for="stat" class="form-label">Trạng Thái&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            <select name="Status_ID" id="" class="form-input">
                                 @foreach (var item in ViewBag.StatusList)
                                 {
                                     if (item.ID == Model.Status_ID)
@@ -57,14 +50,38 @@
                     </div>
                     <div class="col l-6">
                         <div class="form-group">
-                            <label for="lastAccess" class="form-label">Lần truy cập cuối</label>
-                            <input name="Last_Access" class="form-input" value="@Model.Last_Access"
-                                   autocomplete="off" disabled />
+                            <label class="form-label">Tên Đăng Nhập &nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-input", disabled = "true" } })
+                            @Html.HiddenFor(model => model.Username);
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" hidden></label>
+                            @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="col l-6">
                         <div class="form-group">
-                            <label class="form-label">Địa Chỉ</label>
+                            <label class="form-label">Mật Khẩu &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-input", type = "password" } })
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" hidden></label>
+                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                        </div>
+
+                    </div>
+
+                    <div class="col l-6">
+                        <div class="form-group">
+                            <label for="lastAccess" class="form-label">Lần truy cập cuối &nbsp;&nbsp;</label>
+                            <input name="Last_Access" class="form-input" value="@Model.Last_Access"
+                                   autocomplete="off" disabled />
+                            @Html.HiddenFor(model => model.Last_Access)
+                        </div>
+                    </div>
+                    <div class="col l-6">
+                        <div class="form-group">
+                            <label class="form-label">Địa Chỉ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                             @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-input" } })
                         </div>
                         <div class="form-group">
@@ -74,7 +91,7 @@
                     </div>
                     <div class="col l-6">
                         <div class="form-group">
-                            <label class="form-label">Số điện thoại</label>
+                            <label class="form-label">Số điện thoại &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                             @Html.EditorFor(model => model.BusinessPhone, new { htmlAttributes = new { @class = "form-input" } })
                         </div>
                         <div class="form-group">
@@ -84,7 +101,7 @@
                     </div>
                     <div class="col l-6">
                         <div class="form-group">
-                            <label class="form-label">Website</label>
+                            <label class="form-label">Website &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                             @Html.EditorFor(model => model.Website, new { htmlAttributes = new { @class = "form-input" } })
                         </div>
                         <div class="form-group">
@@ -94,7 +111,7 @@
                     </div>
                     <div class="col l-6">
                         <div class="form-group">
-                            <label class="form-label">Fanpage</label>
+                            <label class="form-label">Fanpage &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                             @Html.EditorFor(model => model.Fanpage, new { htmlAttributes = new { @class = "form-input" } })
                         </div>
                         <div class="form-group">
@@ -104,7 +121,7 @@
                     </div>
                     <div class="col l-6">
                         <div class="form-group">
-                            <label class="form-label">Người Liên Hệ</label>
+                            <label class="form-label">Người Liên Hệ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                             @Html.EditorFor(model => model.ContactName, new { htmlAttributes = new { @class = "form-input" } })
                         </div>
                         <div class="form-group">
@@ -114,7 +131,7 @@
                     </div>
                     <div class="col l-6">
                         <div class="form-group">
-                            <label class="form-label">SĐT Người Liên Hệ 1</label>
+                            <label class="form-label">SĐT Người Liên Hệ </label>
                             @Html.EditorFor(model => model.ContactPhone_1, new { htmlAttributes = new { @class = "form-input" } })
                         </div>
                         <div class="form-group">
@@ -124,7 +141,7 @@
                     </div>
                     <div class="col l-6">
                         <div class="form-group">
-                            <label class="form-label">SĐT Người Liên Hệ 2</label>
+                            <label class="form-label">SĐT Người Liên Hệ </label>
                             @Html.EditorFor(model => model.ContactPhone_2, new { htmlAttributes = new { @class = "form-input" } })
                         </div>
                         <div class="form-group">
@@ -142,8 +159,9 @@
                             @Html.ValidationMessageFor(model => model.EmailContact, "", new { @class = "text-danger" })
                         </div>
                     </div>
-
                     <div class="col l-6">
+                    </div>
+                    @*<div class="col l-6">
                         <div class="form-group">
                             <input id="CoopId" type="text" value="" name="ArrCoopId" hidden />
                             <label for="cooperation" class="form-label">Loại Hợp Tác</label>
@@ -166,24 +184,23 @@
                                 }
                             </div>
                         </div>
-                    </div>
+                    </div>*@
                     <div class="col l-6">
                         <div class="form-group">
                             <label for="logo" class="form-label">Logo</label>
                             <div style="display: flex; flex-direction: column">
-                                <img src="@Url.Content("~/Image/"+ Model.BusinessLogo)" style="width: 22rem; height:fit-content; margin: 0 0 1rem 0;" />
-                                <input name="logo" class="form-input" type="file"
+                                <img src="@Url.Content("~/Uploads/Images/" + Model.BusinessLogo)" alt="businessLogo" style="width: 22rem; height:fit-content; margin: 0 0 1rem 0;" />
+                                <input name="logo" class="form-input" onchange="validateSize(this)" type="file" id="logo"
                                        accept="image/png, image/gif, image/jpeg" />
-                                <input name="BusinessLogo" value="@Model.BusinessLogo" hidden />
+                                <input name="BusinessLogo" id="img" value="@Model.BusinessLogo" hidden />
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+                </div>
             <div class="button-wrapper">
-                <a class="btn btn-action btn--detail" href="@Url.Action("Index", "BusinessUsers")">Trở Về</a>
-                @* <button class="btn btn-action btn--create" onclick="getValueCheckBoxAndSubmit()">Thêm</button>*@
-                <button class="btn btn-action btn--create" type="submit" onclick="getValueCheckBoxAndSubmit()">Cập Nhật</button>
+                <a class="btn btn--back" href="@Url.Action("Index", "BusinessUsers")">Trở Về</a>
+                <button class="btn btn--add" type="submit" onclick="checkImage()" >Lưu Thay Đổi</button>
             </div>
         </div>
     </form>
@@ -191,13 +208,45 @@
 
 @section Scripts {
     <script type="text/javascript">
-function getValueCheckBoxAndSubmit() {
+        function validateSize(input) {
+            var fup = document.getElementById('logo');
+            var fileName = fup.value;
+            var ext = fileName.substring(fileName.lastIndexOf('.') + 1);
+            if (fileName == '' || ext == "gif" || ext == "GIF" || ext == "PNG" || ext == "png" || ext == "jpg" || ext == "JPG" || ext == "bmp" || ext == "BMP") {
+                const fileSize = input.files[0].size / 1024 / 1024; // in MiB
+                var fup = document.getElementById('logo');
+                if (fileSize < 2) {
+                    $("#logo").prop('required', false);
+                    return true;
+                } else {
+                    // Proceed further
+                    alert('Dung lượng hình ảnh không vượt quá 2MiB');
+                    fup.value = '';
+                    return false;
+                }
+                return true;
+            }
+            else {
+                fup.value = '';
+                alert("Chỉ được tải lên hình ảnh dạng PNG, JPG, GIF và BMP");
+
+                return false;
+            }
+        }
+
+        function checkImage() {
+            //Get list cooperationcategories
             let arrayCheckbox = "";
             var allCheckBox = document.querySelectorAll("#checkBoxCoop > .container > input[type='checkbox']:checked");
             for (let i = 0; i < allCheckBox.length; i++) {
                 arrayCheckbox += allCheckBox[i].value + ",";
             }
             $("#CoopId").val(arrayCheckbox);
-            $("#createBusiness").save();
-        }</script>
+            $("#createBusiness");
+            //Validate only get image
+        }
+
+       
+    </script>
+
 }

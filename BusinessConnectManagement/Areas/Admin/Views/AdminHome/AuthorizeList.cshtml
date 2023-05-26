@@ -1,0 +1,400 @@
+﻿@model IEnumerable<BusinessConnectManagement.Models.VanLangUser>
+
+@{
+    ViewBag.Title = "Quản Lý - Phân Quyền";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<section class="list">
+    <h1 class="list-heading">DANH SÁCH TÀI KHOẢN</h1>
+    @if (TempData != null)
+    {
+        @Html.Raw(@TempData["AlertMessage"])
+    }
+
+    <div class="list-table">
+        <div id="filterEvent">
+            <a>
+                <div class="btn btn--create" style=" z-index: 1; width: 110px; margin-right: 130px;">
+                    <span class="btn-text btn--dowload">Excel Mẫu</span>
+
+                </div>
+                <div class="btn btn--create" style=" z-index: 1; width: 110px; margin-right: 10px;">
+                    <span class="btn-text btn--import">Import Excel</span>
+
+                </div>
+            </a>
+        </div>
+        <div class="rg_status"></div>
+        <div class="rg_role" style="left"></div>
+        @*<label id="nameLabel">Lọc:</label>*@
+        <table id="table_listData" class="display">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Email</th>
+                    <th>Tên</th>
+                    <th>SĐT</th>
+                    <th>Chức vụ</th>
+                    <th>Trạng thái</th>
+                    <th>Chức năng</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+@*-------------------Excel Mẫu -------------------------------*@
+<form class="form" action="@Url.Action("DownloadFile", "AdminHome")" id="dowloadForm" method="post" enctype="multipart/form-data">
+    <div class="form-container--small">
+        <h1 class="form-heading">Excel Mẫu</h1>
+        <div class="row">
+            <div class="column">
+                <div class="form-group">
+                    <label class="form-label">Student</label>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Mentor</label>
+                </div>
+            </div>
+            <div class="column">
+                <div class="form-group">
+                    <a href="@Url.Action("DownloadFile", "AdminHome", new { filePath = "Student.xlsx" })">Student.xlsx</a>
+                </div>
+                <div class="form-group">
+                    <a href="@Url.Action("DownloadFile", "AdminHome", new { filePath = "Mentor.xlsx" })">Mentor.xlsx</a>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <a class="btn btn--confirm">Xác Nhận</a>
+        </div>
+    </div>
+
+</form>
+@*--------------------------Import-------------------------------*@
+<form class="form" action="@Url.Action("ImportData", "AdminHome")" id="importForm" method="post" enctype="multipart/form-data">
+    <div class="form-container--small">
+        <h1 class="form-heading">Import Excel</h1>
+        <div class="form-group">
+            <input type="file" name="postFile" id="excelFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" onchange="checkInputExcel(this)" required class="form-input" />
+            <span class="text-danger" id="cv_validation" style="color:red;"></span>
+        </div>
+
+        <div class="form-group">
+            <a class="btn btn--cancel">Hủy</a>
+            <button type="submit" id="submit_edit" class="btn btn--confirm">Xác Nhận</button>
+        </div>
+    </div>
+
+</form>
+@*----------------------------------Update---------------------*@
+<form action="@Url.Action("Edit", "AdminHome")" method="post" class="form" id="updateForm" name="myForm" enctype="multipart/form-data">
+    <div>
+        <div class="form-container--small">
+            <h1 class="form-heading">Cập nhật Tài khoản</h1>
+            <input id="access" name="Last_Access" class="form-input" autocomplete="off" hidden />
+            <input id="student" name="Student_ID" class="form-input" autocomplete="off" hidden />
+            <div class="form-group">
+                <label for="emailVLU" class="form-label">Email</label>
+                <input id="email" name="Email" class="form-input" autocomplete="off" hidden />
+                <input id="email2" class="form-input" autocomplete="off" disabled />
+            </div>
+            <div class="form-group">
+                <label for="FullName" class="form-label">Họ và Tên</label>
+                <input id="username" name="FullName" class="form-input" autocomplete="off" required />
+            </div>
+
+            <div class="form-group">
+                <label for="Major_ID" class="form-label">Chuyên Nghành</label>
+                <select name="Major_ID" id="majorr" class="form-input">
+                    <option value="1">Công nghệ phần mềm</option>
+                    <option value="2">Công nghệ dữ liệu</option>
+                    <option value="3">Tin học quản trị</option>
+                    <option value="4">An ninh Mạng</option>
+                    <option value="5">Hệ thống Thông tin</option>
+                    <option value="6">Kỹ thuật phần mềm</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="" class="form-label">SĐT </label>
+                <input id="phone" name="Mobile" class="form-input" autocomplete="off" required />
+            </div>
+
+            <div class="form-group">
+                <label for="Role" class="form-label">Vai trò </label>
+                <select name="Role" id="role" class="form-input">
+                    <option value="Admin">Admin</option>
+                    <option value="Faculty">Faculty</option>
+                    <option value="Mentor">Mentor</option>
+                    <option value="Student">Student</option>
+                </select>
+            </div>
+
+
+
+            <div class="form-group">
+                <label for="Status_ID" class="form-label">Trạng thái</label>
+                <select name="Status_ID" id="status" class="form-input">
+                    <option value="1">Đang hoạt động</option>
+                    <option value="2">Khóa</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <a class="btn btn--cancel">Hủy</a>
+                <button type="submit" id="submit_edit" class="btn btn--confirm">Xác Nhận</button>
+
+            </div>
+        </div>
+    </div>
+
+</form>
+@section Scripts {
+    <script type="text/javascript">
+
+
+        $(function () {
+            var url = "@Url.Action("getDataList", "AdminHome")"
+            "use strict";
+            (dataTable = $("#table_listData").DataTable({
+                ajax: {
+                    url: url,
+                    type: "GET",
+                    dataType: "json",
+                    dataSrc: "",
+                },
+                deferRender: !0,
+                columns: [
+                    { data: "", defaultContent: "" },
+                    { data: "email" },
+                    { data: "username" },
+                    { data: "phone" },
+                    { data: "role" },
+                    {
+                        data: "status",
+                        render: function (data) {
+                            if (data == "Đang hoạt động") {
+                                return '<span class="text--done">' + data + '</span>'
+                            } else {
+                                return '<span class="text--cancel">' + data + '</span>'
+                            }
+
+                        }
+},
+                    {
+                        data: "email",
+                        render: function (t) {
+                            return (
+                                `
+                                <a href="@Url.Action("Details", "AdminHome")?email=${t}" id="business_detail" class="business_detail">
+                                <div class="btn btn--update" style="transform: translateX(100%);">
+                                    <span class="btn-tooltip">Cập nhật</span>
+                                    <i class="btn-icon btn-icon--edit fal fa-edit"></i>
+                                </div>
+                                </a>
+                                `
+                            );
+                        },
+                    },
+
+                ],
+                initComplete: function () {
+                    this.api()
+                        .columns(5)
+                        .every(function () {
+                            var t = this,
+                                e = $(
+                                    '<select id="UserType1" style="margin-inline: -10rem;border: 1px solid #aaa;border-radius: 3px;padding: 5px;background-color: transparent;" class="form-select text-capitalize mb-md-0 mb-2xx"><option value=""> Chọn trạng thái để lọc </option></select>'
+                                )
+                                    .prependTo("#table_listData_filter")
+                                    .on("change", function () {
+                                        var e = $.fn.dataTable.util.escapeRegex($(this).val());
+                                        t.search(e ? "^" + e + "$" : "", !0, !1).draw();
+                                    });
+                            t.data()
+                                .unique()
+                                .sort()
+                                .each(function (t) {
+                                    t &&
+                                        e.append(
+                                            '<option value="' + t + '" class="text-capitalize">' + t + '</option>'
+
+                                        );
+                                })
+
+                        }),
+                    this.api()
+                        .columns(4)
+                        .every(function () {
+                            var t = this,
+                                e = $(
+                                    '<select id="UserType2" style="margin-inline: 1rem;border: 1px solid #aaa;border-radius: 3px;padding: 5px;background-color: transparent;" class="form-select text-capitalize mb-md-0 mb-2xx"><option value=""> Chọn chức vụ để lọc </option></select>'
+                                )
+                                    .prependTo("#table_listData_filter")
+                                    .on("change", function () {
+                                        var e = $.fn.dataTable.util.escapeRegex($(this).val());
+                                        t.search(e ? "^" + e + "$" : "", !0, !1).draw();
+                                    });
+                            t.data()
+                                .unique()
+                                .sort()
+                                .each(function (t) {
+                                    t &&
+                                        e.append(
+                                            '<option value="' + t + '" class="text-capitalize">' + t + '</option>'
+
+                                        );
+                                })
+                        });
+                }
+            })
+            )
+            dataTable.on("draw.dt", function () {
+                dataTable.column(0, { search: "applied", order: "applied" }).nodes().each(function (cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            });
+        });
+        $('#table_listData').on('click', '.business_detail', function (e) {
+            e.preventDefault()
+            const form = document.getElementById('updateForm');
+            form.classList.add('is-appear');
+            const url = $(this).attr('href');
+            $.ajax({
+                url: url,
+                type: "get",
+                dataType: 'json',
+                success: function (res) {
+                    console.log(res)
+
+                    const actionUrl = `@Url.Action("Edit", "AdminHome")` + `?email=${res[0].email}`
+
+                    $('#email').val(res[0].email)
+                    $('#email2').val(res[0].email)
+                    $('#username').val(res[0].username)
+                    $('#phone').val(res[0].phone)
+                    $('#role').val(res[0].role)
+                    $('#access').val(res[0].access)
+                    $('#student').val(res[0].student)
+                   if (res[0].status === "Đang hoạt động") {
+                        $('select option[value="1"]').attr("selected", "selected");
+                    } else {
+                        $('select option[value="2"]').attr("selected", "selected");
+                    }
+                    if (res[0].majorr === "Công nghệ phần mềm") {
+                        $('select option[value="1"]').attr("selected", "selected");
+                    } else if (res[0].majorr === "Công nghệ dữ liệu") {
+                        $('select option[value="2"]').attr("selected", "selected");
+                    }
+                    else if (res[0].majorr === "Tin học quản trị") {
+                        $('select option[value="3"]').attr("selected", "selected");
+                    }
+                    else if (res[0].majorr === "An ninh Mạng") {
+                        $('select option[value="4"]').attr("selected", "selected");
+                    }
+                    else if (res[0].majorr === "Hệ thống Thông tin") {
+                        $('select option[value="5"]').attr("selected", "selected");
+                    }
+                    else if (res[0].majorr === "Kỹ thuật phần mềm") {
+                        $('select option[value="6"]').attr("selected", "selected");
+                    }
+                    $('#updateForm').attr('action', `${actionUrl}`)
+                }
+            })
+        })
+        $('.btn--cancel').on('click', function () {
+            $('#updateForm').removeClass('is-appear')
+        })
+        $('.btn--cancel').on('click', function () {
+            $('#importForm').removeClass('is-appear')
+        })
+
+        $('.btn--confirm').on('click', function () {
+            $('#dowloadForm').removeClass('is-appear')
+        })
+
+        $('#btn--cancel').on('click', function () {
+            $('#importAlert').removeClass('is-appear')
+        })
+
+        function checkInputExcel(input) {
+            if (input.files && input.files[0]) {
+                var file = input.files[0];
+                var fileType = file.type.toLowerCase();
+                if (fileType != "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" && fileType != "application/vnd.ms-excel" && fileType != "text/csv") {
+                    input.value = "";
+                    $('#cv_validation').text('Vui Lòng Chọn File Excel');
+                }
+            } else {
+                input.value = "";
+                $('#cv_validation').text('Vui Lòng Chọn File Excel');
+            }
+        }
+
+
+
+    </script>
+    <script>
+        $(document).ready(function () {
+            $.validator.addMethod("blank", function (value, element) {
+                return (!/^\s*$/.test(value));
+            }, "Vui lòng nhập Họ và tên");
+
+            // Initialize the form validation
+            $("#updateForm").validate();
+
+            // cái này là on blur nè
+            $("#updateForm input, #updateForm input").on("blur", function () {
+                $(this).valid();
+            });
+
+            // cái này là on change nè
+            $("#updateForm input, #updateForm input").on("change", function () {
+                $(this).removeClass("error");
+            });
+        });
+        $("#updateForm").validate({
+            rules: {
+                FullName: {
+                    required: true,
+                    minlength: 3,
+                    blank: true
+
+                },
+                Mobile: {
+                    required: true,
+                    digits: true,
+                    minlength: 10,
+                    maxlength: 11
+                },
+                Email: {
+                    required: true,
+                    email: true
+                }
+            },
+            messages: {
+                FullName: {
+                    required: "Vui lòng nhập Họ và tên",
+                    minlength: "Tên của bạn phải ít nhất 3 kí tự",
+                },
+                Mobile: {
+                    required: "Vui lòng nhập số điện thoại",
+                    digits: "Số điện thoại chỉ bao gồm các kí tự số",
+                    minlength: "Số điện thoại phải có ít nhất 10 số",
+                    maxlength: "Số điện thoại chỉ có thể có tối đa 11 số"
+                },
+                Email: {
+                    required: "Vui lòng nhập địa chỉ email",
+                    email: "Địa chỉ email không hợp lệ"
+                }
+            }
+        });
+    </script>
+}
+

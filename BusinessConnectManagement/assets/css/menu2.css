@@ -1,0 +1,77 @@
+.menu {
+    position: fixed;
+    height: 100%;
+    max-width: 20rem;
+    background: linear-gradient(to bottom, rgba(55, 64, 144, 0.7), rgba(0, 0, 0, 0.7)), url("../images/sidebar_VanLang.jpg") no-repeat center / cover;
+    color: #fff;
+    z-index: 5;
+}
+
+.menu-image {
+    display: flex;
+    align-items: center;
+    margin-top: 0.5rem;
+    position: relative;
+    padding-bottom: 0.5rem;
+}
+
+    .menu-image::after {
+        content: '';
+        position: absolute;
+        width: 60%;
+        height: 0.5px;
+        background-color: #fff;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .menu-image img {
+        width: 100%;
+        max-width: 2.8rem;
+        margin-left: 1rem;
+    }
+
+.menu-title {
+    color: #fff;
+    margin-left: 1rem;
+    line-height: 1.4;
+    font-weight: 600;
+}
+
+.menu-item {
+    padding: 1rem;
+}
+
+.menu-heading {
+    font-size: 1.1rem;
+    user-select: none;
+    font-weight: 600;
+}
+
+.menu-function {
+    display: flex;
+    flex-direction: column;
+}
+
+.menu-icon {
+    margin-right: 0.5rem;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.2s linear;
+}
+
+.menu-feature {
+    font-size: 1.3rem;
+    line-height: 1.5;
+    margin-top: 1rem;
+    cursor: pointer;
+    color: #fff;
+    text-transform: uppercase;
+    padding: 0.2rem;
+}
+
+    .menu-feature:hover .menu-icon {
+        opacity: 1;
+        visibility: visible;
+    }

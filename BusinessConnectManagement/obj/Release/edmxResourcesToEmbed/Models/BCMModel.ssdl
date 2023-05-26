@@ -5,16 +5,17 @@
       <PropertyRef Name="ID" />
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Business_ID" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="Business_ID" Type="int" Nullable="false" />
     <Property Name="CooperationCategories_ID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="BusinessUser">
     <Key>
-      <PropertyRef Name="Business_ID" />
+      <PropertyRef Name="ID" />
     </Key>
-    <Property Name="Business_ID" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Username" Type="varchar" MaxLength="25" />
     <Property Name="Password" Type="varchar" MaxLength="250" />
-    <Property Name="Last_Access" Type="datetime" />
+    <Property Name="Last_Access" Type="nvarchar" MaxLength="50" />
     <Property Name="Status_ID" Type="int" />
     <Property Name="BusinessName" Type="nvarchar" MaxLength="250" />
     <Property Name="Address" Type="nvarchar" MaxLength="250" />
@@ -26,6 +27,17 @@
     <Property Name="ContactPhone_1" Type="varchar" MaxLength="15" />
     <Property Name="ContactPhone_2" Type="varchar" MaxLength="15" />
     <Property Name="EmailContact" Type="varchar" MaxLength="150" />
+    <Property Name="Semester_ID" Type="int" />
+  </EntityType>
+  <EntityType Name="Contact">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FullName" Type="nvarchar" MaxLength="50" />
+    <Property Name="Mobile" Type="nvarchar" MaxLength="50" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" />
+    <Property Name="Note" Type="nvarchar(max)" />
   </EntityType>
   <EntityType Name="CooperationCategories">
     <Key>
@@ -44,9 +56,26 @@
     <Property Name="Mentor_Email" Type="varchar" MaxLength="250" />
     <Property Name="MentorPoint" Type="float" />
     <Property Name="MentorComment" Type="nvarchar(max)" />
-    <Property Name="Business_ID" Type="varchar" MaxLength="25" />
+    <Property Name="Business_ID" Type="int" Nullable="false" />
     <Property Name="BusinessPoint" Type="float" />
     <Property Name="BusinessComment" Type="nvarchar(max)" />
+    <Property Name="InternshipTopic_ID" Type="int" />
+    <Property Name="Status" Type="nvarchar" MaxLength="50" />
+    <Property Name="MentorComment2" Type="nvarchar(max)" />
+    <Property Name="MentorCommentB1" Type="nvarchar(max)" />
+    <Property Name="MentorCommentB2" Type="nvarchar(max)" />
+    <Property Name="BusinessComment2" Type="nvarchar(max)" />
+    <Property Name="BusinessPoint2" Type="float" />
+  </EntityType>
+  <EntityType Name="InternshipTopic">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="InternshipTopicName" Type="nvarchar" MaxLength="200" />
+    <Property Name="InternshipTopicGoals" Type="nvarchar(max)" />
+    <Property Name="InternshipTopicDescription" Type="nvarchar(max)" />
+    <Property Name="ShortName" Type="nvarchar" MaxLength="200" />
   </EntityType>
   <EntityType Name="Major">
     <Key>
@@ -60,12 +89,26 @@
       <PropertyRef Name="ID" />
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Business_ID" Type="varchar" MaxLength="25" />
-    <Property Name="SignDay" Type="date" />
+    <Property Name="Business_ID" Type="int" />
+    <Property Name="SignDay" Type="nvarchar" MaxLength="50" />
     <Property Name="Signer" Type="nvarchar" MaxLength="100" />
     <Property Name="ContactName" Type="nvarchar" MaxLength="100" />
     <Property Name="ContactPhone" Type="varchar" MaxLength="15" />
     <Property Name="EmailContact" Type="varchar" MaxLength="150" />
+    <Property Name="ResponsibleName" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Notifications">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Mentor_Email" Type="varchar" MaxLength="250" />
+    <Property Name="Business_ID" Type="int" />
+    <Property Name="Title" Type="nvarchar" MaxLength="250" />
+    <Property Name="Message" Type="nvarchar" MaxLength="250" />
+    <Property Name="Date" Type="nvarchar" MaxLength="250" />
+    <Property Name="IsRead" Type="bit" />
+    <Property Name="Link" Type="nvarchar" MaxLength="250" />
   </EntityType>
   <EntityType Name="Post">
     <Key>
@@ -73,11 +116,26 @@
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Title" Type="nvarchar" MaxLength="250" />
-    <Property Name="Poster_Email" Type="varchar" MaxLength="250" />
+    <Property Name="Email_ID" Type="varchar" MaxLength="250" />
     <Property Name="Description" Type="nvarchar(max)" />
-    <Property Name="PostDay" Type="datetime" />
-    <Property Name="ModifyDay" Type="datetime" />
+    <Property Name="PostDay" Type="nvarchar" MaxLength="50" />
+    <Property Name="ModifyDay" Type="nvarchar" MaxLength="50" />
     <Property Name="Semester_ID" Type="int" />
+    <Property Name="Business_ID" Type="int" />
+    <Property Name="Quantity" Type="int" />
+    <Property Name="DueDate" Type="nvarchar" MaxLength="50" />
+    <Property Name="Form" Type="nvarchar" MaxLength="50" />
+    <Property Name="Major_ID" Type="int" />
+  </EntityType>
+  <EntityType Name="PostInternshipTopic">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Post_ID" Type="int" />
+    <Property Name="InternshipTopic_ID" Type="int" />
+    <Property Name="Business_ID" Type="int" />
+    <Property Name="Quantity" Type="int" />
   </EntityType>
   <EntityType Name="Registration">
     <Key>
@@ -88,19 +146,16 @@
     <Property Name="Post_ID" Type="int" />
     <Property Name="Semester_ID" Type="int" />
     <Property Name="CV" Type="nvarchar" MaxLength="250" />
-    <Property Name="RegistrationDate" Type="datetime" />
-    <Property Name="RegistrationModify" Type="datetime" />
-    <Property Name="Business_ID" Type="varchar" MaxLength="25" />
+    <Property Name="RegistrationDate" Type="nvarchar" MaxLength="50" />
+    <Property Name="RegistrationModify" Type="nvarchar" MaxLength="50" />
+    <Property Name="Business_ID" Type="int" Nullable="false" />
     <Property Name="InterviewResult" Type="nvarchar" MaxLength="50" />
     <Property Name="InterviewResultComment" Type="nvarchar" MaxLength="250" />
-    <Property Name="Status" Type="nvarchar" MaxLength="50" />
-  </EntityType>
-  <EntityType Name="Role">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Role_Name" Type="varchar" MaxLength="20" />
+    <Property Name="StatusInternview" Type="nvarchar" MaxLength="30" />
+    <Property Name="StatusRegistration" Type="nvarchar" MaxLength="30" />
+    <Property Name="Comment" Type="nvarchar(max)" />
+    <Property Name="InternshipTopic_ID" Type="int" />
+    <Property Name="InternshipResult_ID" Type="int" />
   </EntityType>
   <EntityType Name="Semester">
     <Key>
@@ -109,6 +164,7 @@
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="YearStudy_ID" Type="int" />
     <Property Name="Semester" Type="varchar" MaxLength="15" />
+    <Property Name="Status" Type="bit" />
   </EntityType>
   <EntityType Name="Status">
     <Key>
@@ -143,8 +199,9 @@
     <Property Name="Email" Type="varchar" MaxLength="250" Nullable="false" />
     <Property Name="FullName" Type="nvarchar" MaxLength="100" />
     <Property Name="Student_ID" Type="varchar" MaxLength="20" />
-    <Property Name="Role_ID" Type="int" />
-    <Property Name="Last_Access" Type="datetime" />
+    <Property Name="Mobile" Type="varchar" MaxLength="11" />
+    <Property Name="Role" Type="varchar" MaxLength="20" />
+    <Property Name="Last_Access" Type="nvarchar" MaxLength="50" />
     <Property Name="Major_ID" Type="int" />
     <Property Name="Status_ID" Type="int" />
   </EntityType>
@@ -160,7 +217,7 @@
     <End Role="BusinessCooperationCategories" Type="Self.BusinessCooperationCategories" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="BusinessUser">
-        <PropertyRef Name="Business_ID" />
+        <PropertyRef Name="ID" />
       </Principal>
       <Dependent Role="BusinessCooperationCategories">
         <PropertyRef Name="Business_ID" />
@@ -179,6 +236,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_BusinessUser_Semester1">
+    <End Role="Semester" Type="Self.Semester" Multiplicity="0..1" />
+    <End Role="BusinessUser" Type="Self.BusinessUser" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Semester">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="BusinessUser">
+        <PropertyRef Name="Semester_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_BusinessUser_Status">
     <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
     <End Role="BusinessUser" Type="Self.BusinessUser" Multiplicity="*" />
@@ -192,14 +261,26 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_InternshipResult_BusinessUser">
-    <End Role="BusinessUser" Type="Self.BusinessUser" Multiplicity="0..1" />
+    <End Role="BusinessUser" Type="Self.BusinessUser" Multiplicity="1" />
     <End Role="InternshipResult" Type="Self.InternshipResult" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="BusinessUser">
-        <PropertyRef Name="Business_ID" />
+        <PropertyRef Name="ID" />
       </Principal>
       <Dependent Role="InternshipResult">
         <PropertyRef Name="Business_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_InternshipResult_InternshipTopic">
+    <End Role="InternshipTopic" Type="Self.InternshipTopic" Multiplicity="0..1" />
+    <End Role="InternshipResult" Type="Self.InternshipResult" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InternshipTopic">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="InternshipResult">
+        <PropertyRef Name="InternshipTopic_ID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -227,27 +308,39 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_InternshipResult_VanLangUser1">
-    <End Role="VanLangUser" Type="Self.VanLangUser" Multiplicity="0..1" />
-    <End Role="InternshipResult" Type="Self.InternshipResult" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="VanLangUser">
-        <PropertyRef Name="Email" />
-      </Principal>
-      <Dependent Role="InternshipResult">
-        <PropertyRef Name="Mentor_Email" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_MOU_BusinessUser">
     <End Role="BusinessUser" Type="Self.BusinessUser" Multiplicity="0..1" />
     <End Role="MOU" Type="Self.MOU" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="BusinessUser">
-        <PropertyRef Name="Business_ID" />
+        <PropertyRef Name="ID" />
       </Principal>
       <Dependent Role="MOU">
         <PropertyRef Name="Business_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Post_BusinessUser">
+    <End Role="BusinessUser" Type="Self.BusinessUser" Multiplicity="0..1" />
+    <End Role="Post" Type="Self.Post" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BusinessUser">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Post">
+        <PropertyRef Name="Business_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Post_Major">
+    <End Role="Major" Type="Self.Major" Multiplicity="0..1" />
+    <End Role="Post" Type="Self.Post" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Major">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Post">
+        <PropertyRef Name="Major_ID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -263,19 +356,103 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Registration_BusinessUser">
+  <Association Name="FK_Post_VanLangUser">
+    <End Role="VanLangUser" Type="Self.VanLangUser" Multiplicity="0..1" />
+    <End Role="Post" Type="Self.Post" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="VanLangUser">
+        <PropertyRef Name="Email" />
+      </Principal>
+      <Dependent Role="Post">
+        <PropertyRef Name="Email_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Post_VanLangUser1">
+    <End Role="VanLangUser" Type="Self.VanLangUser" Multiplicity="0..1" />
+    <End Role="Post" Type="Self.Post" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="VanLangUser">
+        <PropertyRef Name="Email" />
+      </Principal>
+      <Dependent Role="Post">
+        <PropertyRef Name="Email_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PostInternshipTopic_BusinessUser">
     <End Role="BusinessUser" Type="Self.BusinessUser" Multiplicity="0..1" />
+    <End Role="PostInternshipTopic" Type="Self.PostInternshipTopic" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BusinessUser">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="PostInternshipTopic">
+        <PropertyRef Name="Business_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PostInternshipTopic_InternshipTopic">
+    <End Role="InternshipTopic" Type="Self.InternshipTopic" Multiplicity="0..1" />
+    <End Role="PostInternshipTopic" Type="Self.PostInternshipTopic" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InternshipTopic">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="PostInternshipTopic">
+        <PropertyRef Name="InternshipTopic_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PostPosition_Post">
+    <End Role="Post" Type="Self.Post" Multiplicity="0..1" />
+    <End Role="PostInternshipTopic" Type="Self.PostInternshipTopic" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Post">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="PostInternshipTopic">
+        <PropertyRef Name="Post_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Registration_BusinessUser1">
+    <End Role="BusinessUser" Type="Self.BusinessUser" Multiplicity="1" />
     <End Role="Registration" Type="Self.Registration" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="BusinessUser">
-        <PropertyRef Name="Business_ID" />
+        <PropertyRef Name="ID" />
       </Principal>
       <Dependent Role="Registration">
         <PropertyRef Name="Business_ID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Registration_Post">
+  <Association Name="FK_Registration_InternshipResult">
+    <End Role="InternshipResult" Type="Self.InternshipResult" Multiplicity="0..1" />
+    <End Role="Registration" Type="Self.Registration" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InternshipResult">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Registration">
+        <PropertyRef Name="InternshipResult_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Registration_InternshipTopic">
+    <End Role="InternshipTopic" Type="Self.InternshipTopic" Multiplicity="0..1" />
+    <End Role="Registration" Type="Self.Registration" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InternshipTopic">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Registration">
+        <PropertyRef Name="InternshipTopic_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Registration_Post1">
     <End Role="Post" Type="Self.Post" Multiplicity="0..1" />
     <End Role="Registration" Type="Self.Registration" Multiplicity="*" />
     <ReferentialConstraint>
@@ -287,7 +464,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Registration_Semester">
+  <Association Name="FK_Registration_Semester1">
     <End Role="Semester" Type="Self.Semester" Multiplicity="0..1" />
     <End Role="Registration" Type="Self.Registration" Multiplicity="*" />
     <ReferentialConstraint>
@@ -299,7 +476,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Registration_VanLangUser">
+  <Association Name="FK_Registration_VanLangUser1">
     <End Role="VanLangUser" Type="Self.VanLangUser" Multiplicity="0..1" />
     <End Role="Registration" Type="Self.Registration" Multiplicity="*" />
     <ReferentialConstraint>
@@ -347,7 +524,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Trainee_VanLangUser1">
+  <Association Name="FK_Trainee_VanLangUserOfStudent">
     <End Role="VanLangUser" Type="Self.VanLangUser" Multiplicity="0..1" />
     <End Role="Trainee" Type="Self.Trainee" Multiplicity="*" />
     <ReferentialConstraint>
@@ -371,18 +548,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_VanLangUser_Role">
-    <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
-    <End Role="VanLangUser" Type="Self.VanLangUser" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Role">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="VanLangUser">
-        <PropertyRef Name="Role_ID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_VanLangUser_Status">
     <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
     <End Role="VanLangUser" Type="Self.VanLangUser" Multiplicity="*" />
@@ -398,13 +563,16 @@
   <EntityContainer Name="BCMModelStoreContainer">
     <EntitySet Name="BusinessCooperationCategories" EntityType="Self.BusinessCooperationCategories" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="BusinessUser" EntityType="Self.BusinessUser" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Contact" EntityType="Self.Contact" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CooperationCategories" EntityType="Self.CooperationCategories" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="InternshipResult" EntityType="Self.InternshipResult" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="InternshipTopic" EntityType="Self.InternshipTopic" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Major" EntityType="Self.Major" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="MOU" EntityType="Self.MOU" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Notifications" EntityType="Self.Notifications" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Post" EntityType="Self.Post" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PostInternshipTopic" EntityType="Self.PostInternshipTopic" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Registration" EntityType="Self.Registration" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Semester" EntityType="Self.Semester" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
@@ -419,12 +587,20 @@
       <End Role="CooperationCategories" EntitySet="CooperationCategories" />
       <End Role="BusinessCooperationCategories" EntitySet="BusinessCooperationCategories" />
     </AssociationSet>
+    <AssociationSet Name="FK_BusinessUser_Semester1" Association="Self.FK_BusinessUser_Semester1">
+      <End Role="Semester" EntitySet="Semester" />
+      <End Role="BusinessUser" EntitySet="BusinessUser" />
+    </AssociationSet>
     <AssociationSet Name="FK_BusinessUser_Status" Association="Self.FK_BusinessUser_Status">
       <End Role="Status" EntitySet="Status" />
       <End Role="BusinessUser" EntitySet="BusinessUser" />
     </AssociationSet>
     <AssociationSet Name="FK_InternshipResult_BusinessUser" Association="Self.FK_InternshipResult_BusinessUser">
       <End Role="BusinessUser" EntitySet="BusinessUser" />
+      <End Role="InternshipResult" EntitySet="InternshipResult" />
+    </AssociationSet>
+    <AssociationSet Name="FK_InternshipResult_InternshipTopic" Association="Self.FK_InternshipResult_InternshipTopic">
+      <End Role="InternshipTopic" EntitySet="InternshipTopic" />
       <End Role="InternshipResult" EntitySet="InternshipResult" />
     </AssociationSet>
     <AssociationSet Name="FK_InternshipResult_Semester" Association="Self.FK_InternshipResult_Semester">
@@ -435,31 +611,63 @@
       <End Role="VanLangUser" EntitySet="VanLangUser" />
       <End Role="InternshipResult" EntitySet="InternshipResult" />
     </AssociationSet>
-    <AssociationSet Name="FK_InternshipResult_VanLangUser1" Association="Self.FK_InternshipResult_VanLangUser1">
-      <End Role="VanLangUser" EntitySet="VanLangUser" />
-      <End Role="InternshipResult" EntitySet="InternshipResult" />
-    </AssociationSet>
     <AssociationSet Name="FK_MOU_BusinessUser" Association="Self.FK_MOU_BusinessUser">
       <End Role="BusinessUser" EntitySet="BusinessUser" />
       <End Role="MOU" EntitySet="MOU" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Post_BusinessUser" Association="Self.FK_Post_BusinessUser">
+      <End Role="BusinessUser" EntitySet="BusinessUser" />
+      <End Role="Post" EntitySet="Post" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Post_Major" Association="Self.FK_Post_Major">
+      <End Role="Major" EntitySet="Major" />
+      <End Role="Post" EntitySet="Post" />
     </AssociationSet>
     <AssociationSet Name="FK_Post_Semester" Association="Self.FK_Post_Semester">
       <End Role="Semester" EntitySet="Semester" />
       <End Role="Post" EntitySet="Post" />
     </AssociationSet>
-    <AssociationSet Name="FK_Registration_BusinessUser" Association="Self.FK_Registration_BusinessUser">
+    <AssociationSet Name="FK_Post_VanLangUser" Association="Self.FK_Post_VanLangUser">
+      <End Role="VanLangUser" EntitySet="VanLangUser" />
+      <End Role="Post" EntitySet="Post" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Post_VanLangUser1" Association="Self.FK_Post_VanLangUser1">
+      <End Role="VanLangUser" EntitySet="VanLangUser" />
+      <End Role="Post" EntitySet="Post" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PostInternshipTopic_BusinessUser" Association="Self.FK_PostInternshipTopic_BusinessUser">
+      <End Role="BusinessUser" EntitySet="BusinessUser" />
+      <End Role="PostInternshipTopic" EntitySet="PostInternshipTopic" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PostInternshipTopic_InternshipTopic" Association="Self.FK_PostInternshipTopic_InternshipTopic">
+      <End Role="InternshipTopic" EntitySet="InternshipTopic" />
+      <End Role="PostInternshipTopic" EntitySet="PostInternshipTopic" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PostPosition_Post" Association="Self.FK_PostPosition_Post">
+      <End Role="Post" EntitySet="Post" />
+      <End Role="PostInternshipTopic" EntitySet="PostInternshipTopic" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Registration_BusinessUser1" Association="Self.FK_Registration_BusinessUser1">
       <End Role="BusinessUser" EntitySet="BusinessUser" />
       <End Role="Registration" EntitySet="Registration" />
     </AssociationSet>
-    <AssociationSet Name="FK_Registration_Post" Association="Self.FK_Registration_Post">
+    <AssociationSet Name="FK_Registration_InternshipResult" Association="Self.FK_Registration_InternshipResult">
+      <End Role="InternshipResult" EntitySet="InternshipResult" />
+      <End Role="Registration" EntitySet="Registration" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Registration_InternshipTopic" Association="Self.FK_Registration_InternshipTopic">
+      <End Role="InternshipTopic" EntitySet="InternshipTopic" />
+      <End Role="Registration" EntitySet="Registration" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Registration_Post1" Association="Self.FK_Registration_Post1">
       <End Role="Post" EntitySet="Post" />
       <End Role="Registration" EntitySet="Registration" />
     </AssociationSet>
-    <AssociationSet Name="FK_Registration_Semester" Association="Self.FK_Registration_Semester">
+    <AssociationSet Name="FK_Registration_Semester1" Association="Self.FK_Registration_Semester1">
       <End Role="Semester" EntitySet="Semester" />
       <End Role="Registration" EntitySet="Registration" />
     </AssociationSet>
-    <AssociationSet Name="FK_Registration_VanLangUser" Association="Self.FK_Registration_VanLangUser">
+    <AssociationSet Name="FK_Registration_VanLangUser1" Association="Self.FK_Registration_VanLangUser1">
       <End Role="VanLangUser" EntitySet="VanLangUser" />
       <End Role="Registration" EntitySet="Registration" />
     </AssociationSet>
@@ -475,16 +683,12 @@
       <End Role="VanLangUser" EntitySet="VanLangUser" />
       <End Role="Trainee" EntitySet="Trainee" />
     </AssociationSet>
-    <AssociationSet Name="FK_Trainee_VanLangUser1" Association="Self.FK_Trainee_VanLangUser1">
+    <AssociationSet Name="FK_Trainee_VanLangUserOfStudent" Association="Self.FK_Trainee_VanLangUserOfStudent">
       <End Role="VanLangUser" EntitySet="VanLangUser" />
       <End Role="Trainee" EntitySet="Trainee" />
     </AssociationSet>
     <AssociationSet Name="FK_VanLangUser_Major" Association="Self.FK_VanLangUser_Major">
       <End Role="Major" EntitySet="Major" />
-      <End Role="VanLangUser" EntitySet="VanLangUser" />
-    </AssociationSet>
-    <AssociationSet Name="FK_VanLangUser_Role" Association="Self.FK_VanLangUser_Role">
-      <End Role="Role" EntitySet="Role" />
       <End Role="VanLangUser" EntitySet="VanLangUser" />
     </AssociationSet>
     <AssociationSet Name="FK_VanLangUser_Status" Association="Self.FK_VanLangUser_Status">

@@ -1,0 +1,238 @@
+body {
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)), url("../images/bg-vanlang.jpg") no-repeat center / cover;
+    user-select: none;
+}
+html {
+    scroll-behavior: smooth;
+}
+.login {
+    padding: 3rem;
+}
+
+.login-info {
+    font-weight: bold;
+    text-align: center;
+    color: #fff;
+    font-size: 2rem;
+    display: inline-block;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    line-height: 1.4;
+}
+
+.login-heading {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #fff;
+    margin-top: 2.5rem;
+    letter-spacing: 0.5px;
+}
+
+.login-wrap {
+    width: 28rem;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 3rem auto 0;
+    border-radius: 0.5rem;
+    animation: fadeIn 0.3s linear 0s 1 alternate forwards;
+}
+
+.login-image {
+    width: 8rem;
+    height: 8rem;
+    object-fit: contain;
+}
+
+.login-desc {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #fff;
+    margin-top: 2rem;
+}
+
+.login-link {
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 0.8rem 2rem;
+    border-radius: 0.5rem;
+    text-align: center;
+    margin-top: 2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    line-height: 1.4;
+    cursor: pointer;
+    transition: all 0.1s linear;
+    will-change: opacity, top;
+}
+
+    .login-link:hover {
+        opacity: 0.8;
+    }
+
+.login-more {
+    color: #fff;
+    text-align: center;
+    margin-top: 3rem;
+    font-size: 1.5rem;
+}
+
+/* Login Business */
+.login-wrap--row {
+    flex-direction: row;
+    width: 45rem;
+    background-color: #f7f7f7;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.3s linear 0s 1 alternate forwards;
+    padding: 0;
+}
+
+    .login-wrap--row .login-image {
+        width: 25%;
+        height: 100%;
+    }
+
+.login-trademark {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 1rem;
+    font-size: 1.5rem;
+    width: 15rem;
+    text-align: center;
+    animation: slideDown 0.5s linear 0s 1 alternate forwards;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-100%) scale(0);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
+
+.login-trademark .login-image {
+    width: 5rem;
+    height: 5rem;
+    margin-bottom: 1rem;
+}
+
+.login-wrap--row .login-form {
+    width: 75%;
+    padding: 1rem;
+    background-color: #fff;
+    border-radius: 0 0.5rem 0.5rem 0;
+}
+
+.login-wrap--row .login-heading {
+    font-weight: bold;
+    text-transform: capitalize;
+    text-align: center;
+    user-select: none;
+    color: var(--primary-color);
+    font-size: 1.8rem;
+    margin-top: 0;
+}
+
+.login-wrap--row .login-group {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.login-wrap--row .login-label {
+    margin-bottom: 0.5rem;
+    display: inline-block;
+    user-select: none;
+    font-weight: bold;
+    font-size: 1.4rem;
+}
+
+.login-wrap--row .login-input {
+    padding: 0.8rem;
+    border: 1px solid #333;
+    border-radius: 0.5rem;
+    font-size: 1.4rem;
+    cursor: auto;
+    transition: all 0.2s linear;
+}
+
+    .login-wrap--row .login-input:focus {
+        border-color: var(--primary-color);
+    }
+
+.login-wrap--row .login-message {
+    color: #ce1b28;
+    margin-top: 0.3rem;
+    line-height: 1.4;
+    display: none;
+}
+
+.login-wrap--row .login-submit {
+    display: flex;
+    margin-top: 1rem;
+    align-items: center;
+}
+
+.login-wrap--row .login-button {
+    padding: 1rem 2rem;
+    background-color: var(--primary-color);
+    color: #fff;
+    border-radius: 0.5rem;
+    margin: 0 auto;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.4rem;
+}
+
+.login-wrap--row .login-forgot {
+    width: 10rem;
+    cursor: pointer;
+    color: var(--primary-color);
+    font-weight: bold;
+    font-size: 1.3rem;
+}
+
+.login-wrap--row .login-group:nth-last-child(2) {
+    position: relative;
+}
+
+    .login-wrap--row .login-group:nth-last-child(2) .login-desc {
+        width: 28rem;
+        position: absolute;
+        top: -1rem;
+        right: -2rem;
+        z-index: -1;
+        background-color: #fff;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        color: var(--primary-color);
+        animation: fadeOut 0.5s linear 0s 1 alternate forwards;
+    }
+
+@keyframes fadeOut {
+    from {
+        opacity: 0;
+        transform: translateX(0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(100%);
+    }
+}

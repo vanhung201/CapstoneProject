@@ -1,0 +1,246 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 10px;
+}
+
+body {
+    font-family: "Nunito Sans", sans-serif;
+    font-size: 1.4rem;
+    line-height: 1.5;
+    color: #333;
+    /* background: url("./bg.jpg") no-repeat center/ cover; */
+    background: linear-gradient(90deg, rgba(2, 0, 36, 0.7), rgba(9, 9, 121, 0.7)), url("../images/homepage.jpg") no-repeat center / cover;
+    height: 100vh;
+    user-select: none;
+}
+
+.is-hide {
+    display: none !important;
+}
+
+.is-active {
+    display: block !important;
+}
+
+.info {
+    width: 80rem;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.row {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.column {
+    width: calc(50% - 5rem);
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+    padding: 2rem;
+    background-color: #fff;
+}
+
+.info-heading {
+    color: #374090;
+    font-size: 1.8rem;
+    text-transform: capitalize;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+    .info-heading::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 15rem;
+        height: 1px;
+        background-color: #ccc;
+        z-index: 10;
+    }
+
+.info-item {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+    .info-item:not(:first-child) {
+        margin-top: 3rem;
+    }
+
+.info-icon {
+    width: 4rem;
+    height: 4rem;
+    font-size: 2.2rem;
+    text-align: center;
+    color: #fff;
+    background-color: #374090;
+    border-radius: 50%;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
+    margin-right: 2rem;
+    flex-shrink: 0;
+}
+
+    .info-icon i {
+        line-height: 4rem;
+    }
+
+.info-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.info-title {
+    color: #374090;
+    font-weight: 600;
+    text-transform: capitalize;
+    font-size: 1.6rem;
+}
+
+.info-desc {
+    color: #000;
+}
+
+.info-input {
+    padding: 0.5rem;
+    border: 1px solid #000;
+    border-radius: 0.5rem;
+    outline: none;
+    margin-top: 0.2rem;
+    display: none;
+}
+
+.info-button {
+    padding: 1rem;
+    color: #fff;
+    background-color: #374090;
+    border-radius: 0.5rem;
+    outline: none;
+    border: 0;
+    margin-top: 1rem;
+    position: relative;
+    /*left: 50%;
+    transform: translateX(-50%);*/
+    cursor: pointer;
+    display: none;
+}
+
+.column:last-child {
+    align-self: center;
+    position: relative;
+}
+
+.info-avatar,
+.info-main {
+    text-align: center;
+}
+
+    .info-avatar img {
+        width: 6rem;
+        height: 6rem;
+        object-fit: cover;
+    }
+
+.info-main {
+    color: #000;
+    font-weight: 600;
+    margin-top: 1rem;
+}
+
+.info-name {
+    font-size: 1.6rem;
+}
+
+#info-edit {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    z-index: 10;
+    color: #374090;
+    border-radius: 0.5rem;
+}
+
+    #info-edit i {
+        font-size: 1.8rem;
+        cursor: pointer;
+    }
+
+@media screen and (max-width: 767px) {
+    .info {
+        margin-top: 30px;
+        width: 35rem;
+    }
+
+    .row {
+        flex-direction: column-reverse;
+    }
+
+    .column {
+        width: 100%;
+    }
+
+        .column:last-child {
+            margin-bottom: 2rem;
+        }
+}
+
+.info-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1.5rem;
+}
+
+.info-button:last-child {
+    margin-left: 1rem;
+}
+
+@media screen and (max-width: 380px) {
+    .info {
+        width: 30rem;
+    }
+
+    .column {
+        padding: 1rem;
+    }
+
+    .info-avatar img {
+        width: 4.5rem;
+        height: 4.5rem;
+    }
+
+    .info-main {
+        margin-top: 0;
+    }
+
+    .info-icon {
+        width: 3rem;
+        height: 3rem;
+        font-size: 1.6rem;
+        margin-right: 1rem;
+    }
+
+        .info-icon i {
+            line-height: 3rem;
+        }
+
+    .info-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+    }
+
+    .info-desc {
+        font-size: 1.5rem;
+    }
+}

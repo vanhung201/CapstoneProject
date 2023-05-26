@@ -1,0 +1,418 @@
+﻿@model IEnumerable<BusinessConnectManagement.Models.Registration>
+
+@{
+    ViewBag.Title = "Doanh Nghiệp - Phỏng Vấn";
+    Layout = "~/Areas/Business/Views/Shared/_Layout.cshtml";
+}
+
+<section class="list">
+    <h1 class="list-heading">Danh sách ứng tuyển</h1>
+    @if (TempData != null)
+    {
+
+        @Html.Raw(@TempData["AlertMessage"]);
+
+
+    }
+<div class="list-table">
+    <div id="filterEvent">
+        <div class="btn btn--create" id="export" style=" z-index: 1; width: 110px; margin-right: 10px;">
+            <span class="btn-text">Export Excel</span>
+        </div>
+    </div>
+    <div class="rg_status"></div>
+    <div class="rg_role" style="left"></div>
+    <label id="nameLabel">Lọc:</label>
+    <table id="table_listData" class="display">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Họ và Tên</th>
+                <th>Email</th>
+                <th>SĐT</th>
+                <th>CV</th>
+                <th>Kết quả phỏng vấn</th>
+                <th>Học kỳ</th>
+                <th>Chức năng</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+</section>
+@*-----------------------detail-----------------------*@
+<form class="form" id="detailForm" method="post">
+    <div class="form-container">
+        <h1 class="form-heading">Thông Tin Sinh Viên Ứng Tuyển</h1>
+        <div class="form-row">
+            <div class="form-column">
+                <div class="form-group">
+                    <label for="Username" class="form-label">Họ và tên</label>
+                    <input class="form-input" id="usernameget" autocomplete="off" disabled />
+                </div>
+                <div class="form-group">
+                    <label for="BusinessName" class="form-label">Email</label>
+                    <input class="form-input" id="emailget" autocomplete="off" disabled />
+                </div>
+                <div class="form-group">
+                    <label for="status" class="form-label">Chuyên Nghành</label>
+                    <input class="form-input" id="majorget" autocomplete="off" disabled />
+                </div>
+            </div>
+            <div class="form-column">
+                <div class="form-group">
+                    <label for="Password" class="form-label">MSSV</label>
+                    <input type="text" id="student_idget" class="form-input" autocomplete="off" disabled />
+                </div>
+                <div class="form-group">
+                    <label for="Address" class="form-label">SĐT</label>
+                    <input type="text" id="mobileget" class="form-input" autocomplete="off" disabled />
+                </div>
+
+                <div class="form-group">
+                    <label for="BusinessPhone" class="form-label">Vị trí  thực tập</label>
+                    <input type="text" id="positionget" class="form-input" autocomplete="off" disabled />
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <a class="btn btn--confirm" id="btn--cancel">
+                Xác Nhận
+            </a>
+
+        </div>
+    </div>
+</form>
+
+@*---------------------update----------------------*@
+<form class="form" id="updateForm" method="post">
+
+    <div class="form-container--small">
+        <h1 class="form-heading">Cập Nhật Trạng Thái</h1>
+        <div class="form-group">
+            <label class="form-label">Nhận xét</label>
+            <textarea id="InterviewResultComment" name="InterviewResultComment" class="form-input"></textarea>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Trạng Thái</label>
+            <input list="" name="ID" id="ID" class="form-input" hidden />
+            <input list="" name="Business_ID" id="Business_ID" class="form-input" hidden />
+            <input list="" name="Email_VanLang" id="Email" class="form-input" hidden />
+            <input list="" name="Post_ID" id="Post_ID" class="form-input" hidden />
+            <input list="" name="Semester_ID" id="Semester_ID" class="form-input" hidden />
+            <input list="" name="CV" id="CV" class="form-input" hidden />
+            <input list="" name="RegistrationDate" id="RegistrationDate" class="form-input" hidden />
+            <input list="" name="RegistrationModify" id="RegistrationModify" class="form-input" hidden />
+            <input list="" name="InterviewResult" id="InterviewResult" class="form-input" hidden />
+            <input list="" name="RegistrationPosition" id="RegistrationPosition" class="form-input" hidden />
+            <input list="" name="Comment" id="Comment" class="form-input" hidden />
+            <input list="" name="StatusRegistration" id="StatusRegistration" class="form-input" hidden />
+            <input list="" name="InternshipTopic_ID" id="InternshipTopic_ID" class="form-input" hidden />
+            <input list="" name="InternshipResult_ID" id="InternshipResult_ID" class="form-input" hidden />
+            <select name="StatusInternview" id="interviewStatus" class="form-input">
+                <option class="text-center" value="Đậu Phỏng Vấn">Đậu Phỏng Vấn</option>
+                <option class="text-center" value="Rớt Phỏng Vấn">Rớt Phỏng Vấn</option>
+            </select>
+        </div>
+
+
+
+        <div class="form-group">
+            <a class="btn btn--cancel">Hủy</a>
+            <button class="btn btn--confirm" type="submit">Xác Nhận</button>
+        </div>
+    </div>
+
+</form>
+@*-----------------Export------------------*@
+<form action="@Url.Action("ExportToExcel", "InternViews")" class="form" id="export_form" method="post">
+    <div class="form-container--small">
+        <h1 class="form-heading">Export Excel</h1>
+        <div class="form-row">
+            <div class="form-column">
+                <div class="form-group">
+                    <label class="form-label">Năm Học</label>
+                    <select class="form-input" id="year">
+                        @foreach (var item in ViewBag.YearStudy)
+                        {
+                            <option value="@item.ID">@item.YearStudy1</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Học Kỳ</label>
+                    <select class="form-input" name="semester_id" id="semester">
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <a class="btn btn--cancel" id="cancel_export">Hủy</a>
+            <button type="submit" id="confirm" class="btn btn-action btn--confirm">Xác Nhận</button>
+        </div>
+    </div>
+</form>
+@section Scripts {
+    <script>
+        $(function () {
+            var url = "@Url.Action("getDataList", "InternViews")"
+             var urlCV = "@Url.Action("DownloadFile", "InternViews")"
+            "use strict";
+            (dataTable = $("#table_listData").DataTable({
+                ajax: {
+                    url: url,
+                    type: "GET",
+                    dataType: "json",
+                    dataSrc: "",
+                },
+                deferRender: !0,
+                columns: [
+                    { data: null },
+                    { data: "fullname"},
+                    { data: "email" },
+                    { data: "phone" },
+                    {
+                        data: "cv",
+                        render: function (data) {
+                            return '<a href=' + urlCV + "?filePath=" + data + '>' + data + '<a/>'
+                        }
+                    },
+                    {
+                        data: "status",
+                        render: function (data) {
+                            if (data == "Đậu Phỏng Vấn") {
+                                return '<span class="text-center text--done">' + data + '</span>'
+                            } else if (data == "Rớt Phỏng Vấn"){
+                                return '<span class="text-center text--cancel">' + data + '</span>'
+                            } else if (data == "Chờ Phỏng Vấn"){
+                                return '<span class="text-center text--wait">' + data + '</span>'
+                            }
+
+                        }
+                    },
+
+                    { data: "semester", visible: false },
+                    {
+                        data: "id",
+                        render: function (t, e, a) {
+                            const getBtn = (a.status == "Đậu Phỏng Vấn") ?
+                                `` : 
+                                `
+                                <a href="@Url.Action("Details", "InternViews")/${t}" id="business_detail" class="business_detail">
+                                <div class="btn btn--update">
+                                    <i class="btn-icon btn-icon--edit fal fa-edit"></i>
+                                </div>
+                                </a>`
+                            return (
+                                `
+                                  <a href="@Url.Action("Details", "InternViews")/${t}" id="business_getdetail" class="business_getdetail">
+                                <div class="btn btn--detail">
+                                    <i class="btn-icon btn-icon--detail fal fa-info-circle"></i>
+                                </div>
+                                </a>
+                                ${getBtn}
+                               `
+                            );
+                        },
+
+                    },
+                ],
+                initComplete: function () {
+                    this.api()
+                        .columns(6)
+                        .every(function () {
+                            var t = this,
+                                e = $(
+                                    '<select id="UserType1" style="margin-right: 8px;border: 1px solid #aaa;border-radius: 3px;padding: 5px;background-color: transparent; margin-left: 3px;" class="form-select text-capitalize mb-md-0 mb-2xx"><option value=""> Chọn học kỳ để lọc </option></select>'
+                                )
+                                    .prependTo("#table_listData_filter")
+                                    .on("change", function () {
+                                        var e = $.fn.dataTable.util.escapeRegex($(this).val());
+                                        t.search(e ? "^" + e + "$" : "", !0, !1).draw();
+                                    });
+                            t.data()
+                                .unique()
+                                .sort()
+                                .each(function (t) {
+                                    t &&
+                                        e.append(
+                                            '<option value="' + t + '" class="text-capitalize">' + t + '</option>'
+
+                                        );
+                                })
+
+                        }),
+                        this.api()
+                            .columns(5)
+                            .every(function () {
+                                var t = this,
+                                    e = $(
+                                        '<select id="UserType2" style="margin-right: 8px;border: 1px solid #aaa;border-radius: 3px;padding: 5px;background-color: transparent; margin-left: 3px;" class="form-select text-capitalize mb-md-0 mb-2xx"><option value=""> Chọn trạng thái để lọc </option></select>'
+                                    )
+                                        .prependTo("#table_listData_filter")
+                                        .on("change", function () {
+                                            var e = $.fn.dataTable.util.escapeRegex($(this).val());
+                                            t.search(e ? "^" + e + "$" : "", !0, !1).draw();
+                                        });
+                                t.data()
+                                    .unique()
+                                    .sort()
+                                    .each(function (t) {
+                                        t &&
+                                            e.append(
+                                                '<option value="' + t + '" class="text-capitalize">' + t + '</option>'
+
+                                            );
+                                    })
+                            });
+                }
+            }))
+            // Create Index column datatable
+            dataTable.on("draw.dt", function () {
+                dataTable.column(0, { search: "applied", order: "applied" }).nodes().each(function (cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            });
+
+        });
+        $('#table_listData').on('click', '.business_detail', function (e) {
+            e.preventDefault()
+            const form = document.getElementById('updateForm');
+        form.classList.add('is-appear');
+            const url = $(this).attr('href');
+            $.ajax({
+                url: url,
+                type: "get",
+                dataType: 'json',
+                success: function (res) {
+                    console.log(res)
+                    const actionUrl = `@Url.Action("Edit", "InternViews")` + `/${res[0].id}`
+                    $('#ID').val(res[0].id)
+                    $('#Email').val(res[0].email)
+                    $('#Post_ID').val(res[0].post_id)
+                    $('#Semester_ID').val(res[0].semester_id)
+                    $('#CV').val(res[0].cv)
+                    $('#RegistrationDate').val(res[0].registrationdate)
+                    $('#RegistrationModify').val(res[0].registrationModify)
+                    $('#Business_ID').val(res[0].business_id)
+                    $('#InterviewResult').val(res[0].internviewresult)
+                    $('#InterviewResultComment').val(res[0].internviewcomment)
+                    $('#StatusRegistration').val(res[0].statusregistration)
+                    $('#Comment').val(res[0].comment)
+                    $('#InternshipTopic_ID').val(res[0].interntopic_id)
+                    $('#InternshipResult_ID').val(res[0].internshipresult_id)
+
+                    if (res[0].statusinternview === "Đậu Phỏng Vấn") {
+                        $('select option[value="Đậu Phỏng Vấn"]').attr("selected", "selected");
+                    } else if (res[0].statusinternview === "Rớt Phỏng Vấn"){
+                        $('select option[value="Rớt Phỏng Vấn"]').attr("selected", "selected");
+                    }
+                    else if (res[0].statusinternview === "Chờ Phỏng Vấn") {
+                        $('select option[value="Chờ Phỏng Vấn"]').attr("selected", "selected");
+                    }
+                    $('#updateForm').attr('action', `${actionUrl}`)
+                }
+            })
+        })
+
+
+
+
+        $('#table_listData').on('click', '.business_getdetail', function (e) {
+            e.preventDefault()
+            const form = document.getElementById('detailForm');
+            form.classList.add('is-appear');
+            const url = $(this).attr('href');
+            $.ajax({
+                url: url,
+                type: "get",
+                dataType: 'json',
+                success: function (res) {
+                    console.log(res)
+                    $('#emailget').val(res[0].email)
+                    $('#usernameget').val(res[0].username)
+                    $('#majorget').val(res[0].major)
+                    $('#bunameget').val(res[0].buname)
+                    $('#student_idget').val(res[0].student_id)
+                    $('#mobileget').val(res[0].mobile)
+                    $('#positionget').val(res[0].position)
+                    $('#bumailget').val(res[0].bumail)
+
+                }
+            })
+        })
+        $('#btn--cancel').on('click', function () {
+            $('#detailForm').removeClass('is-appear')
+        })
+    </script>
+
+    <script type="text/javascript">
+
+        function loadEditUser(id, idb, email, post, semeter, cv, rd, rm, ir, rp, StatusRegistration, StatusInternview, irc, Comment, InternshipTopic) {
+            let formUpdate = document.getElementById("updateForm");
+            formUpdate.classList.add('is-appear');
+            document.getElementById('id').value = id;
+            document.getElementById('idb').value = idb;
+            document.getElementById('email').value = email;
+            document.getElementById('semeter').value = semeter;
+            document.getElementById('post').value = post;
+            document.getElementById('cv').value = cv;
+            document.getElementById('rd').value = rd;
+            document.getElementById('rm').value = rm;
+            document.getElementById('ir').value = ir;
+            document.getElementById('irc').value = irc;
+            document.getElementById('rp').value = rp;
+            document.getElementById('StatusRegistration').value = StatusRegistration;
+            document.getElementById('StatusInternview').value = StatusInternview;
+            document.getElementById('rp').value = rp;
+            document.getElementById('Comment').value = Comment;
+            document.getElementById('InternshipTopic').value = InternshipTopic;
+
+        }
+
+        $(document).ready(function () {
+            var yearSelect = $('#year');
+            var semesterSelect = $('#semester');
+
+            yearSelect.on('change', function () {
+        var selectedYearId = yearSelect.val();
+        var selectedSemesterId = semesterSelect.val();
+                var url = '@Url.Action("BindingSemester", "InternshipResults")' + '?selectedYearId=' + selectedYearId;
+                console.log(url)
+    $.ajax({
+      url: url,
+      type: 'GET',
+      dataType: 'json',
+        success: function (res) {
+        semesterSelect.empty();
+        console.log(res)
+        $.each(res, function (index, semester) {
+          var selectedAttr = semester.Status ? 'selected' : '';
+          semesterSelect.append('<option value="' + semester.ID + '" ' + selectedAttr + '>' + semester.Semester + '</option>');
+        });
+        semesterSelect.trigger('change'); // trigger the change event on semesterSelect
+      },
+    });
+  });
+
+
+});
+        $('#export').on('click', function () {
+            $('#year').trigger('change');
+            $('#semester').trigger('change');
+            $('#export_form').addClass('is-appear')
+        })
+        $('#cancel_export').on('click', function () {
+            $('#export_form').removeClass('is-appear')
+        })
+        $('#confirm').on('click', function () {
+            $('#export_form').removeClass('is-appear')
+        })
+
+    </script>
+
+}

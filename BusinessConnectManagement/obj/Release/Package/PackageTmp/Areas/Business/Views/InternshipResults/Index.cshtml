@@ -1,0 +1,661 @@
+﻿@model IEnumerable<BusinessConnectManagement.Models.InternshipResult>
+
+@{
+    ViewBag.Title = "Doanh Nghiệp - Thực Tập";
+    Layout = "~/Areas/Business/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .boder {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+
+    .overFlowExport {
+        display: block;
+        width: 372px;
+    }
+</style>
+<section class="list">
+    <h1 class="list-heading">Danh sách thực tập</h1>
+    @if (TempData != null)
+    {
+
+        @Html.Raw(@TempData["AlertMessage"]);
+
+
+    }
+    <div class="list-table">
+        <div id="filterEvent">
+            <div class="btn btn--create" id="export" style=" z-index: 1; width: 110px; margin-right: 10px;">
+                <span class="btn-text">Export Excel</span>
+            </div>
+        </div>
+        <div class="rg_status"></div>
+        <div class="rg_role" style="left"></div>
+        <label id="nameLabel">Lọc:</label>
+        <table id="table_listData" class="display">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Tên</th>
+                    <th>Email</th>
+                    <th>SĐT</th>
+                    <th width="333px">Vị Trí</th>
+                    <th>Trạng thái</th>
+                    <th>Học Kỳ</th>
+                    <th>Chức năng</th>
+
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+
+<form class="form" id="updateForm" method="post">
+
+    <div class="form-container">
+        <h1 class="form-heading">Cập Nhật Trạng Thái</h1>
+
+        <div class="form-group">
+
+        </div>
+        <div style="word-wrap: break-word;">
+            <table width="100%">
+                <thead style="color: #ffffff">
+                    <tr style="background-color: #374090">
+                        <th class="boder" width="4%">
+                            #
+                        </th>
+                        <th class="boder" width="30%">Tiêu Chí Đánh Giá</th>
+                        <th class="boder" width="48%">Nhận xét</th>
+                        <th class="boder" width="18%">Điểm<br /><span style="font-size: 12px">(Thang điểm 10)</span></th>
+                    </tr>
+                </thead>
+                <tbody style=" word-wrap: break-word;">
+
+                    <tr>
+                        <td class="boder">1</td>
+                        <td class="boder">Về ý thức tổ chức kỷ luật, thái độ</td>
+                        <td class="boder"><textarea name="BusinessComment" id="BusinessComment" class="overFlowExport"></textarea></td>
+                        <td class="boder"><input name="BusinessPoint" id="BusinessPoint" class="form-input" type="number" style="width:120px" min="1" max="10" required/></td>
+                    </tr>
+                    <tr>
+                        <td class="boder">2</td>
+                        <td class="boder">Về kỹ năng (giao tiếp, quan hệ, học tập, làm việc)</td>
+                        <td class="boder"><textarea name="BusinessComment2" id="BusinessComment2" class="overFlowExport"></textarea></td>
+                        <td class="boder"><input min="1" max="10" name="BusinessPoint2" id="BusinessPoint2" class="form-input" type="number" style="width:120px" required/></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="form-group">
+            @*-------------------------------------*@
+            <input list="" name="ID" id="ID" class="form-input" hidden />
+            <input list="" name="Student_Email" id="Student_Email" class="form-input" hidden />
+            <input list="" name="Semester_ID" id="Semester_ID" class="form-input" hidden />
+            <input list="" name="Mentor_Email" id="Mentor_Email" class="form-input" hidden />
+            <input list="" name="MentorPoint" id="MentorPoint" class="form-input" hidden />
+            <input list="" name="MentorComment" id="MentorComment" class="form-input" hidden />
+            <input list="" name="MentorComment2" id="MentorComment2" class="form-input" hidden />
+            <input list="" name="MentorCommentB1" id="MentorComment3" class="form-input" hidden />
+            <input list="" name="MentorCommentB2" id="MentorComment4" class="form-input" hidden />
+            <input list="" name="Business_ID" id="Business_ID" class="form-input" hidden />
+            <input list="" name="BusinessComment" id="BusinessComment" class="form-input" hidden />
+            <input list="" name="InternshipTopic_ID" id="InternshipTopic_ID" class="form-input" hidden />
+            <input list="" name="InternshipResult_ID" id="InternshipResult_ID" class="form-input" hidden />
+            @*-------------------------------------*@
+            <label class="form-label">Trạng Thái</label>
+            <select name="Status" id="interviewStatus" class="form-input">
+                <option class="text-center" value="Đang Thực Tập">Đang Thực Tập</option>
+                <option class="text-center" value="Thực Tập Xong">Thực Tập Xong</option>
+            </select>
+        </div>
+
+
+
+        <div class="form-group">
+            <a class="btn btn--cancel">Hủy</a>
+            <button class="btn btn--confirm" type="submit">Xác Nhận</button>
+        </div>
+    </div>
+
+</form>
+@*-----------------------export excel------------------------------*@
+<form action="@Url.Action("ExportToExcel", "InternshipResults")" class="form" id="export_form" method="post">
+    <div class="form-container--small">
+        <h1 class="form-heading">Export Excel</h1>
+        <div class="form-row">
+            <div class="form-column">
+                <div class="form-group">
+                    <label class="form-label">Năm Học</label>
+                    <select class="form-input" id="year">
+                        @foreach (var item in ViewBag.YearStudy)
+                        {
+                            <option value="@item.ID">@item.YearStudy1</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Học Kỳ</label>
+                    <select class="form-input" name="semester_id" id="semester">
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <a class="btn btn--cancel" id="cancel_export">Hủy</a>
+            <button type="submit" id="confirm" class="btn btn-action btn--confirm">Xác Nhận</button>
+        </div>
+    </div>
+</form>
+@*---------------------export word---------------------------------*@
+<form class="form" action="@Url.Action("ExportWord", "InternshipResults")" id="formExportWord" method="post">
+    <div class="form-container">
+        <div id="Grid">
+            <div style="text-align: center" hidden>
+                <span style="font-size: 15px; font-weight: 700;">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</span>
+                <br />
+                <span style=" text-decoration: underline; font-size: 15px; font-weight: 700;">Độc lập – Tự do – Hạnh phúc</span>
+            </div>
+            <br />
+            <div style="text-align: center">
+                <span style="font-size: 18px; font-weight: 700; ">PHIẾU NHẬN XÉT SINH VIÊN</span>
+                <br />
+                <span style="font-size: 16px; font-weight: 700;">CỦA ĐƠN VỊ THỰC TẬP</span>
+            </div>
+            <br />
+            <div class="form-group">
+                <label class="form-label" style="width: 130px;">Họ và tên sinh viên:</label>
+                <span id="nameEx"></span>
+                <br />
+            </div>
+            <div class="form-group" style="line-height: 1.5">
+                <label class="form-label" style="width: 130px">Khoa: </label>
+                <span>Công Nghệ Thông Tin</span>
+                <br />
+            </div>
+            <div class="form-group line" style="line-height: 1.5">
+                <label class="form-label" style="width: 130px">Trực thuộc Trường:</label>
+                <span id="majorEx">Đại Học Văn Lang</span>
+                <br />
+            </div>
+            <div class="form-group line" style="line-height: 1.5">
+                <label class="form-label" style="width: 130px">Trong thời gian:</label>
+                <span>Từ ngày.....tháng.....năm.......đến ngày.....tháng.....năm......</span>
+                <br />
+            </div>
+            <div class="form-group line" style="line-height: 1.5">
+                <label class="form-label" style="width: 130px">Tại Công ty:</label>
+                <span id="businessnameEx"></span>
+                <br />
+            </div>
+            <div class="form-group line">
+                <label class="form-label" style="width: 130px">Địa chỉ:</label>
+                <span id="addressEx"></span>
+            </div>
+            <br />
+
+            <div style="text-align: center; margin-top: 3%">
+                <span style="font-size: 15px;">Sau quá trình thực tập tại đơn vị của sinh viên, chúng tôi có một số nhận xét đánh giá như sau:</span>
+            </div>
+            <br />
+            <div style="word-wrap: break-word;">
+                <table width="100%">
+                    <thead style="color: #ffffff">
+                        <tr style="background-color: #374090">
+                            <th class="boder" width="4%">
+                                #
+                            </th>
+                            <th class="boder" width="30%">Tiêu Chí Đánh Giá</th>
+                            <th class="boder" width="48%">Nhận xét</th>
+                            <th class="boder" width="18%">Điểm<br /><span style="font-size: 12px">(Thang điểm 10)</span></th>
+                        </tr>
+                    </thead>
+                    <tbody style=" word-wrap: break-word;">
+
+                        <tr>
+                            <td class="boder">1</td>
+                            <td class="boder">Về ý thức tổ chức kỷ luật, thái độ</td>
+                            <td class="boder"><span id="businessCommentEx" class="overFlowExport"></span></td>
+                            <td class="boder"><span id="businessPointEx"></span></td>
+                        </tr>
+                        <tr>
+                            <td class="boder">2</td>
+                            <td class="boder">Về kỹ năng (giao tiếp, quan hệ, học tập, làm việc)</td>
+                            <td class="boder"><span id="businessComment2Ex" class="overFlowExport"></span></td>
+                            <td class="boder"><span id="businessPointEx2"></span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br />
+            <div style="font-size: 15px; font-weight: 700; font-style:italic" hidden>
+                <span>
+                    Đánh giá chung sau khi thực tập:
+                </span>
+                <br />
+                <span>
+                    ......................................................................................................................................................................
+                    ......................................................................................................................................................................
+                    ......................................................................................................................................................................
+                    ......................................................................................................................................................................
+                </span>
+            </div>
+            <div style=" display: flex; justify-content: space-between;" >
+                <table style="width:100%" hidden>
+
+                    <tr style="width:40%">
+                        <td>
+                            <div style=" text-align: left;">
+                                <br />
+                                <div style=" text-align: left; margin-right: 26px">
+                                    <b style="font-size: 15px; font-weight: 700; ">Người hướng dẫn trực tiếp</b>
+                                    <br />
+                                    <i style=" font-style: italic;">(Ký và ghi rõ họ và tên)</i>
+                                </div>
+                            </div>
+                        </td>
+                        <td style="text-align: right; width: 60%">
+                            <div style=" text-align: right;">
+                                <div style=" text-align: right;">
+                                    <span>TP. Hồ Chí Minh, ngày...tháng...năm 2023</span>
+                                </div>
+                                <div style=" text-align: right; margin-right: 26px">
+                                    <b style="font-size: 15px; font-weight: 700; ">Xác nhận của đơn vị thực tập</b>
+                                    <br />
+                                    <i style=" font-style: italic;">(Ký và ghi rõ họ và tên, và <span style="color: red">đóng mộc Cty</span>)</i>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+
+        </div>
+        <div class="form-group">
+            <input class="form-input" name="GridHtml" autocomplete="off" hidden />
+            <input class="form-input" name="fullname" id="nameExGet" autocomplete="off" hidden />
+            <a class="btn btn--cancel">
+                Hủy
+            </a>
+            <button class="btn btn--confirm" id="btn--submitExport" type="submit">
+                Export
+            </button>
+        </div>
+    </div>
+
+</form>
+@*------------------------detail------------------------------*@
+<form class="form" id="detailForm" method="post">
+    <div class="form-container">
+        <h1 class="form-heading">Thông Tin Sinh Viên Ứng Tuyển</h1>
+        <div class="form-row">
+            <div class="form-column">
+                <div class="form-group">
+                    <label for="Username" class="form-label">Họ và tên</label>
+                    <input class="form-input" id="FullName" autocomplete="off" disabled />
+                </div>
+                <div class="form-group">
+                    <label for="BusinessName" class="form-label">Email</label>
+                    <input class="form-input" id="Email" autocomplete="off" disabled />
+                </div>
+                <div class="form-group">
+                    <label for="status" class="form-label">Chuyên Nghành</label>
+                    <input class="form-input" id="Major" autocomplete="off" disabled />
+                </div>
+            </div>
+            <div class="form-column">
+                <div class="form-group">
+                    <label for="Password" class="form-label">MSSV</label>
+                    <input type="text" id="Student_ID" class="form-input" autocomplete="off" disabled />
+                </div>
+                <div class="form-group">
+                    <label for="Address" class="form-label">SĐT</label>
+                    <input type="text" id="Mobile" class="form-input" autocomplete="off" disabled />
+                </div>
+
+                <div class="form-group">
+                    <label for="BusinessPhone" class="form-label">Vị trí  thực tập</label>
+                    <input type="text" id="Position" class="form-input" autocomplete="off" disabled />
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <a class="btn btn--confirm" id="btn--cancel">
+                Xác Nhận
+            </a>
+
+        </div>
+    </div>
+</form>
+@section Scripts{
+
+    <script type="text/javascript">
+
+        $(function () {
+
+            var url = "@Url.Action("getDataList", "InternshipResults")"
+            "use strict";
+             (dataTable = $("#table_listData").DataTable({
+                ajax: {
+                    url: url,
+                    type: "GET",
+                    dataType: "json",
+                     dataSrc: "",
+                },
+                deferRender: !0,
+                 columns: [
+                    { data: null },
+                    { data: "name" },
+                    { data: "email" },
+                    { data: "phone" },
+                     { data: "position" },
+                     {
+                         data: "status",
+                         render: function (data) {
+                             if (data == "Đang Thực Tập") {
+                                 return '<span class="text-center text--none">' + data + '</span>'
+                             } else if (data == "Thực Tập Xong") {
+                                 return '<span class="text-center text--done">' + data + '</span>'
+                             } else if (data == "Chờ Xác Nhận") {
+                                 return '<span class="text-center text--wait">' + data + '</span>'
+                             } else if (data == "Hủy Đơn") {
+                                 return '<span class="text-center text--wait">' + data + '</span>'
+                             }
+
+                         }
+                     },
+                     { data: "semester", visible: false },
+                    {
+                        data: "id",
+                        render: function (t, e, a) {
+                            console.log(a);
+
+                            const getBtn = (a.status == "Đang Thực Tập" && a.mentor_email != null) ?
+                                `
+                                </a>
+                                <a href="@Url.Action("Details", "InternshipResults")/${t}" id="business_detail" class="business_detail">
+                                <div class="btn btn--update">
+                                    <i class="btn-icon btn-icon--edit fal fa-edit"></i>
+                                </div>
+                                </a>`
+                                :
+                                ``
+                            const getBtnExport = (a.businesscomment != null) ?
+                                `
+                                <a class="exportWord" href="@Url.Action("Details/", "InternshipResults")${t}">
+                                        <div class="btn btn--detail">
+                                          <i class="btn-icon btn-icon--detail fa fa-download"></i>
+                                        </div>
+                                </a>`
+                                :
+                                `
+                                `
+                            return (
+
+                                `
+                                 <a href="@Url.Action("Details", "InternshipResults")/${t}" id="business_getdetail" class="business_getdetail">
+                                <div class="btn btn--detail">
+                                    <i class="btn-icon btn-icon--detail fal fa-info-circle"></i>
+                                </div>
+                                ${getBtn}
+                                ${getBtnExport}
+                               `
+                            );
+                        },
+
+                    },
+
+                ],
+                 initComplete: function () {
+                     this.api()
+                         .columns(6)
+                         .every(function () {
+                             var t = this,
+                                 e = $(
+                                     '<select id="UserType1" style="margin-right: 8px;border: 1px solid #aaa;border-radius: 3px;padding: 5px;background-color: transparent; margin-left: 3px;" class="form-select text-capitalize mb-md-0 mb-2xx"><option value=""> Chọn học kỳ để lọc </option></select>'
+                                 )
+                                     .prependTo("#table_listData_filter")
+                                     .on("change", function () {
+                                         var e = $.fn.dataTable.util.escapeRegex($(this).val());
+                                         t.search(e ? "^" + e + "$" : "", !0, !1).draw();
+                                     });
+                             t.data()
+                                 .unique()
+                                 .sort()
+                                 .each(function (t) {
+                                     t &&
+                                         e.append(
+                                             '<option value="' + t + '" class="text-capitalize">' + t + '</option>'
+
+                                         );
+                                 })
+
+                         }),
+                         this.api()
+                             .columns(5)
+                             .every(function () {
+                                 var t = this,
+                                     e = $(
+                                         '<select id="UserType2" style="margin-right: 8px;border: 1px solid #aaa;border-radius: 3px;padding: 5px;background-color: transparent; margin-left: 3px;" class="form-select text-capitalize mb-md-0 mb-2xx"><option value=""> Chọn trạng thái để lọc </option></select>'
+                                     )
+                                         .prependTo("#table_listData_filter")
+                                         .on("change", function () {
+                                             var e = $.fn.dataTable.util.escapeRegex($(this).val());
+                                             t.search(e ? "^" + e + "$" : "", !0, !1).draw();
+                                         });
+                                 t.data()
+                                     .unique()
+                                     .sort()
+                                     .each(function (t) {
+                                         t &&
+                                             e.append(
+                                                 '<option value="' + t + '" class="text-capitalize">' + t + '</option>'
+
+                                             );
+                                     })
+                             });
+                 }
+            })
+            )
+            dataTable.on("draw.dt", function () {
+                dataTable.column(0, { search: "applied", order: "applied" }).nodes().each(function (cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            });
+        });
+
+         $('#table_listData').on('click', '.business_detail', function (e) {
+            e.preventDefault()
+             const form = document.getElementById('updateForm');
+        form.classList.add('is-appear');
+            const url = $(this).attr('href');
+            $.ajax({
+                url: url,
+                type: "get",
+                dataType: 'json',
+                success: function (res) {
+                    console.log(res)
+                    const actionUrl = `@Url.Action("Edit", "InternshipResults")` + `/${res[0].id}`
+                    $('#ID').val(res[0].id)
+                    $('#Student_Email').val(res[0].Student_Email)
+                    $('#Post_ID').val(res[0].post_id)
+                    $('#Semester_ID').val(res[0].Semester_ID)
+                    $('#Mentor_Email').val(res[0].Mentor_Email)
+                    $('#MentorPoint').val(res[0].MentorPoint)
+                    $('#MentorComment').val(res[0].MentorComment)
+                    $('#MentorComment2').val(res[0].MentorComment2)
+                    $('#MentorComment3').val(res[0].MentorComment3)
+                    $('#MentorComment4').val(res[0].MentorComment4)
+                    $('#Business_ID').val(res[0].Business_ID)
+                    $('#BusinessPoint').val(res[0].BusinessPoint)
+                    $('#BusinessPoint2').val(res[0].BusinessPoint2)
+                    $('#BusinessComment').val(res[0].BusinessComment)
+                    $('#BusinessComment2').val(res[0].BusinessComment2)
+                    $('#InternshipTopic_ID').val(res[0].InternshipTopic_ID)
+                    if (res[0].status === "Chờ Xác Nhận") {
+                        $('select option[value="Chờ Xác Nhận"]').attr("selected", "selected");
+                    } else if (res[0].status === "Đang Thực Tập"){
+                        $('select option[value="Đang Thực Tập"]').attr("selected", "selected");
+                    }
+                    else if (res[0].status === "Thực Tập Xong") {
+                        $('select option[value="Thực Tập Xong"]').attr("selected", "selected");
+                    }
+                    $('#updateForm').attr('action', `${actionUrl}`)
+                }
+            })
+         })
+        /*---------------------------------detail---------------------------*/
+        $('#table_listData').on('click', '.business_getdetail', function (e) {
+            e.preventDefault()
+             const form = document.getElementById('detailForm');
+        form.classList.add('is-appear');
+            const url = $(this).attr('href');
+            $.ajax({
+                url: url,
+                type: "get",
+                dataType: 'json',
+                success: function (res) {
+                    console.log(res)
+
+                    $('#Email').val(res[0].Student_Email)
+                    $('#Position').val(res[0].Position)
+                    $('#Major').val(res[0].Major)
+                    $('#Mobile').val(res[0].Mobile)
+                    $('#Student_ID').val(res[0].Student_ID)
+                    $('#FullName').val(res[0].FullName)
+
+                }
+            })
+        })
+        /*---------------export---------------------------*/
+         $('#table_listData').on('click', '.exportWord', function (e) {
+            e.preventDefault()
+            const form = document.getElementById('formExportWord');
+            form.classList.add('is-appear');
+            const url = $(this).attr('href');
+            $.ajax({
+                url: url,
+                type: "get",
+                dataType: 'json',
+                success: function (res) {
+                    console.log(res)
+                    $('#nameEx').text(res[0].FullName)
+                    $('#nameExGet').val(res[0].FullName)
+                    $('#businessnameEx').text(res[0].BusinessName)
+                    $('#addressEx').text(res[0].Address)
+                    $('#businessPointEx').text(res[0].BusinessPoint)
+                    $('#businessPointEx2').text(res[0].BusinessPoint2)
+                    $('#businessCommentEx').text(res[0].BusinessComment)
+                    $('#businessComment2Ex').text(res[0].BusinessComment2)
+                }
+            })
+         })
+        $(function () {
+            $("#btn--submitExport").click(function () {
+                $("input[name='GridHtml']").val($("#Grid").html());
+            })
+        })
+    </script>
+    <script>
+     /*   $(document).ready(function () {
+            $.validator.addMethod("blank", function (value, element) {
+                return (!/^\s*$/.test(value));
+            }, "Vui lòng nhập điểm đánh giá.");
+            *//*--------------------------update---------------*//*
+            $("#updateForm").validate();
+            // cái này là on blur nè
+            $("#updateForm input, #updateForm input").on("blur", function () {
+                $(this).valid();
+            });
+
+            // cái này là on change nè
+            $("#updateForm input, #updateForm input").on("change", function () {
+                $(this).removeClass("error");
+            });
+        });
+        $("#updateForm").validate({
+            rules: {
+                BusinessPoint: {
+                    required: true,
+                    digits: true,
+                    min: 0,
+                    max: 10
+
+                } ,
+                BusinessPoint2: {
+                    required: true,
+                    digits: true,
+                    min: 0,
+                    max: 10
+                }
+            },
+            messages: {
+                BusinessPoint: {
+                    required: "Vui lòng nhập điểm đánh giá.",
+                    digits: "Điểm đánh giá chỉ bao gồm các kí tự số.",
+                    min: "Điểm đánh giá từ 0 đến 10",
+                    max: "Điểm đánh giá từ 0 đến 10",
+                } ,
+                BusinessPoint2: {
+                    required: "Vui lòng nhập điểm đánh giá.",
+                    digits: "Điểm đánh giá chỉ bao gồm các kí tự số.",
+                    min: "Điểm đánh giá từ 0 đến 10",
+                    max: "Điểm đánh giá từ 0 đến 10",
+                }
+            }
+        });*/
+        $(document).ready(function () {
+            var yearSelect = $('#year');
+            var semesterSelect = $('#semester');
+
+            yearSelect.on('change', function () {
+    var selectedYearId = yearSelect.val();
+    var selectedSemesterId = semesterSelect.val();
+                var url = '@Url.Action("BindingSemester", "InternshipResults")' + '?selectedYearId=' + selectedYearId;
+                console.log(url)
+    $.ajax({
+      url: url,
+      type: 'GET',
+      dataType: 'json',
+        success: function (res) {
+        semesterSelect.empty();
+        console.log(res)
+        $.each(res, function (index, semester) {
+          var selectedAttr = semester.Status ? 'selected' : '';
+          semesterSelect.append('<option value="' + semester.ID + '" ' + selectedAttr + '>' + semester.Semester + '</option>');
+        });
+        semesterSelect.trigger('change'); // trigger the change event on semesterSelect
+      },
+    });
+  });
+
+
+});
+        $('#export').on('click', function () {
+            $('#year').trigger('change');
+            $('#semester').trigger('change');
+            $('#export_form').addClass('is-appear')
+        })
+        $('#cancel_export').on('click', function () {
+            $('#export_form').removeClass('is-appear')
+        })
+        $('#confirm').on('click', function () {
+            $('#export_form').removeClass('is-appear')
+        })
+
+        $('#btn--cancel').on('click', function () {
+            $('#detailForm').removeClass('is-appear')
+        })
+        $('.btn--cancel').on('click', function () {
+            $('#formExportWord').removeClass('is-appear')
+        })
+    </script>
+}

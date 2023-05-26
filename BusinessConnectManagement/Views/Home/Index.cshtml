@@ -1,0 +1,367 @@
+﻿
+@model PagedList.IPagedList<BusinessConnectManagement.Models.Post>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "BCM - Trang Chủ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<main>
+    <!---------------------------------------------------
+    // Slider :
+    //----------------------------------------------->
+    <div id="slider">
+        <!-- carousel locator -->
+        <video id="video-background" autoplay muted loop>
+            <source src="https://vhub.vanlanguni.edu.vn/images/banner1.mp4" type="video/mp4">
+        </video>
+        <div class="form">
+            <div class="container">
+                <form id="Search" action="">
+                    <div class="columns">
+                        <div class="column col-3 col-sm-12 col-md-6 col-xl-3 mb10 px-0">
+                            <div class="form-group">
+                                <input class="form-input" type="text" id="searchString" name="SearchString" placeholder="Tìm việc">
+                            </div>
+                        </div>
+                        <div class="column col-3 col-sm-12 col-md-6 col-xl-3 mb10 px-0">
+                            <div class="form-group">
+                                <select id="Form" name="Form" class="form-select">
+                                    <option value="">Chọn Hình Thức Thực Tập</option>
+                                    <option value="Online">Online</option>
+                                    <option value="Offline">Offline</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="column col-3 col-sm-12 col-md-6 col-xl-3 mb10 px-0">
+                            <div class="form-group">
+                                <select name="Major" class="form-select">
+                                    <option value="">Chọn Chuyên Nghành</option>
+                                    @foreach (var item in ViewBag.Major)
+                                    {
+                                        <option value="@item.Major1">@item.Major1</option>
+                                    }
+
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="column col-3 col-sm-12 col-md-6 col-xl-3 mb10 px-0">
+                            <button class="btn btn-error w100" onclick="insertParam()">Tim Kiem</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <section id="featured-icon" style="background-image: url(https://vhub.vanlanguni.edu.vn/images/stat.jpg);">
+        <div class="container">
+            <div class="columns">
+                <div class="column col-4">
+                    <div class="text-center">
+                        <img src="~/assets/User/assets/images/user.png" alt="user">
+                        <h3 class="count">@ViewBag.CountStudent</h3>
+                        <p>Sinh viên</p>
+                    </div>
+                </div>
+                <div class="column col-4">
+                    <div class="text-center">
+                        <img src="~/assets/User/assets/images/paper.png" alt="paper">
+                        <h3 class="count">@ViewBag.CountPost</h3>
+                        <p>Tin tuyển dụng</p>
+                    </div>
+                </div>
+                <div class="column col-4">
+                    <div class="text-center">
+                        <img src="~/assets/User/assets/images/company.png" alt="company">
+                        <h3 class="count">@ViewBag.CountBusiness</h3>
+                        <p>Công ty</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="job" class="jobhot">
+        <div class="container">
+            <div class="title-home">
+                <h3>Công việc nổi bật</h3>
+                <a href="@Url.Action("Index", "Posts")">Xem thêm</a>
+            </div>
+
+            <div class="columns pt30">
+                @foreach (var item in ViewBag.PostsHot)
+                {
+                    DateTime dueDate = DateTime.Parse(item.DueDate);
+                    string formattedDate = dueDate.ToString("dd/MM/yyyy");
+                    <div class="column col-6 col-sm-12 col-md-12 col-xl-6 mb10 wow rollIn" data-wow-delay="0.5s">
+                        <a href="@Url.Action("Details", "Posts", new { id = item.ID })">
+                            <div class="item d-flex align-middle">
+                                <img src="@Url.Content("~/Uploads/Images/" + item.BusinessUser.BusinessLogo)" alt="image-job">
+                                <div class="content">
+                                    <div class="d-flex align-middle justify-between mb-2">
+                                        <h3 class="text-h4 bold-6 mb-0 ellipsis"> @item.Title</h3>
+                                        <div class="chip bg-error">
+                                            <small class="bold-6">Nổi bật</small>
+                                        </div>
+                                    </div>
+                                    <p class="bold-6 text-italic mb-2"> @item.BusinessUser.BusinessName</p>
+                                    <div class="desc d-flex align-middle mb-2">
+                                        <span class="mb-0 mr10 text-success">
+                                            @if (item.Major_ID != null)
+                                            {
+                                                <i class="fa-solid fa-tag"></i> @item.Major.Major1
+                                            }
+                                            else
+                                            {
+
+                                            }
+                                        </span>
+                                        <span class="mb-0 mr10 text-warning">
+                                            <i class="fa-solid fa-tag"></i> @item.Form
+                                        </span>
+
+                                    </div>
+                                    <div class="desc d-flex align-middle mb-2">
+                                        <span class="mb-0 mr10 text-muted">
+                                            <i class="fa-solid fa-location-dot"></i> @item.BusinessUser.Address
+                                        </span>
+                                    </div>
+                                    <p class="text-primary bold-6">
+                                        <i>Hạn nộp: @formattedDate</i>
+
+                                        <i style="margin-left:10%">Lượt ứng tuyển: @item.Registrations.Count</i>
+                                        @{int totalQuantity = 0;}
+                                            
+                                        @foreach (var topic in item.PostInternshipTopics)
+                                        {
+                                        if (topic.Quantity >= 0)
+                                        {
+                                        totalQuantity += topic.Quantity;
+                                        }
+                                        }
+                                        <i style="float:right">SL còn lại: @totalQuantity</i>
+                                       
+                                    </p>
+
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+                }
+            </div>
+            <div class="pagination-container" style="float: right">
+                Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+            </div>
+            <div class="center">
+                <div class="pagination-container" id="pagination-hot">
+                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="job" class="jobnew">
+        <div class="container">
+            <div class="title-home">
+                <h3>Công việc mới nhất</h3>
+                <a href="@Url.Action("IndexNew", "Posts")">Xem thêm</a>
+            </div>
+
+            <div class="columns pt30">
+                @foreach (var item in Model)
+                {
+
+                    DateTime dueDate = DateTime.Parse(item.DueDate);
+                    string formattedDate = dueDate.ToString("dd/MM/yyyy");
+                    <div class="column col-6 col-sm-12 col-md-12 col-xl-6 mb10 wow rollIn" data-wow-delay="0.5s">
+                        <a href="@Url.Action("Details", "Posts",  new { id=item.ID })">
+                            <div class="item d-flex align-middle">
+                                <img src="@Url.Content("~/Uploads/Images/" + item.BusinessUser.BusinessLogo)" alt="image-job">
+                                <div class="content">
+                                    <div class="d-flex align-middle justify-between mb-2">
+                                        <h3 class="text-h4 bold-6 mb-0 ellipsis"> @item.Title</h3>
+                                        <div class="chip bg-error">
+                                            <small class="bold-6">Mới nhất</small>
+                                        </div>
+                                    </div>
+                                    <p class="bold-6 text-italic mb-2"> @item.BusinessUser.BusinessName</p>
+                                    <div class="desc d-flex align-middle mb-2">
+                                        <span class="mb-0 mr10 text-success">
+                                            @if (item.Major_ID != null)
+                                            {
+                                                <i class="fa-solid fa-tag"></i> @item.Major.Major1
+                                            }
+                                            else
+                                            {
+
+                                            }
+                                        </span>
+                                        <span class="mb-0 mr10 text-warning">
+                                            <i class="fa-solid fa-tag"></i> @item.Form
+                                        </span>
+
+                                    </div>
+                                    <div class="desc d-flex align-middle mb-2">
+                                        <span class="mb-0 mr10 text-muted">
+                                            <i class="fa-solid fa-location-dot"></i> @item.BusinessUser.Address
+                                        </span>
+                                    </div>
+                                    <p class="text-primary bold-6">
+                                        <i>Hạn nộp: @formattedDate</i>
+                                        <i style="margin-left:10%">Lượt ứng tuyển: @item.Registrations.Count()</i>
+                                        @{
+                                            var totalQuantity = item.PostInternshipTopics.Where(x => x.Quantity > 0).Sum(x => x.Quantity);
+                                        }
+                                        <i style="float:right">SL còn lại: @totalQuantity</i>
+                                    </p>
+
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+                }
+            </div>
+            <div class="pagination-container" style="float: right">
+                Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+            </div>
+            <div class="center">
+                <div class="pagination-container" id="pagination-new">
+                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="employer" class="mb30">
+        <div class="container" style="background:#fff; padding:20px">
+            <div class="title-home">
+                <h3>Nhà tuyển dụng hàng đầu</h3>
+            </div>
+
+            <div class="slider mt30">
+                <div class="slide-track">
+                    @foreach (var item in ViewBag.MOUs)
+                    {
+                        <div class="slide">
+                            <a href="@Url.Action("Details", "MOUs", new {id = item.ID})">
+                                <img src="@Url.Content("~/Uploads/Images/" + item.BusinessUser.BusinessLogo)" alt="employer" />
+                            </a>
+                        </div>
+                    }
+                    @foreach (var item in ViewBag.MOUs)
+                    {
+                        <div class="slide">
+                            <a href="@Url.Action("Details", "MOUs", new {id = item.ID})">
+                                <img src="@Url.Content("~/Uploads/Images/" + item.BusinessUser.BusinessLogo)" alt="employer" />
+                            </a>
+                        </div>
+                    }
+                    @foreach (var item in ViewBag.MOUs)
+                    {
+                        <div class="slide">
+                            <a href="@Url.Action("Details", "MOUs", new {id = item.ID})">
+                                <img src="@Url.Content("~/Uploads/Images/" + item.BusinessUser.BusinessLogo)" alt="employer" />
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <section id="question">
+        <div class="container">
+            <div class="title-home">
+                <h3>Câu hỏi thường gặp</h3>
+            </div>
+            <article class="p15 bg-white mb15 shadow-xl">
+                <div class="accordion item">
+                    <input type="checkbox" id="accordion-1" name="accordion-radio" hidden />
+                    <label class="accordion-header question" for="accordion-1">
+                        <div class="d-flex justify-between align-middle">
+                            <p class="mb-0">Kết quả thực tập của sinh viên sẽ do ai đánh giá</p>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </label>
+                    <div class="accordion-body answer">
+                        Kết quả thực tập của bạn sẽ do doanh nghiệp và giảng viên hướng dẫn đánh giá.
+                    </div>
+                </div>
+                <div class="accordion item">
+                    <input type="checkbox" id="accordion-2" name="accordion-checkbox" hidden />
+                    <label class="accordion-header question" for="accordion-2">
+                        <div class="d-flex justify-between align-middle">
+                            <p class="mb-0">Sinh viên có được ứng tuyển và phỏng vấn nhiều doanh nghiệp không?</p>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </label>
+                    <div class="accordion-body answer">
+                        Bạn có thể ứng tuyển và phỏng vấn ở nhiều doanh nghiệp nhưng khi bạn xác nhận thực tập ở một doanh nghiệp thì những đơn ứng tuyển còn lại sẽ bị hủy.
+                    </div>
+                </div>
+                <div class="accordion item">
+                    <input type="checkbox" id="accordion-3" name="accordion-checkbox" hidden />
+                    <label class="accordion-header question" for="accordion-3">
+                        <div class="d-flex justify-between align-middle">
+                            <p class="mb-0">Sau khi CV bị từ chối có thể ứng tuyển lại vị trị đó không</p>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </label>
+                    <div class="accordion-body answer">
+                        Sau khi bạn ứng tuyển vào vị trí nhưng CV của bạn bị khoa từ chối thì bạn sẽ mất cơ hội để ứng tuyển lần lại. Do đó hãy đầu tư vào CV của bạn thật kỹ nhé.
+                    </div>
+                </div>
+               
+            </article>
+
+        </div>
+    </section>
+</main>
+
+@section Scripts {
+    <script>
+        function insertParam() {
+            searchString = document.getElementById("searchString").value;
+            form = document.getElementById("Form").value;
+            console.log(searchString)
+
+            const actionUrl = `@Url.Action("Search", "Posts")`;
+            console.log(actionUrl)
+            $('#Search').attr('action', `${actionUrl}`)
+        }
+        $('.count').each(function () {
+            $(this).prop('Counter', 0).animate({
+                Counter: $(this).text()
+            }, {
+                duration: 4000,
+                easing: 'swing',
+                step: function (now) {
+                    $(this).text(Math.ceil(now));
+                }
+            });
+        });
+        $(document).ready(function () {
+            $('body').on('click', '#pagination-new a', function (e) {
+                e.preventDefault();
+                var url = $(this).attr('href');
+                $.get(url, function (data) {
+                    $('.jobnew').html($(data).find('.jobnew').html());
+                    $('html, body').animate({ scrollTop: $('.jobnew').offset().top - 73 }, 'slow');
+                });
+            });
+        });
+    
+        $(document).ready(function () {
+            $('body').on('click', '#pagination-hot a', function (e) {
+                e.preventDefault();
+                var url = $(this).attr('href');
+                $.get(url, function (data) {
+                    $('.jobhot').html($(data).find('.jobhot').html());
+                    $('html, body').animate({ scrollTop: $('.jobhot').offset().top - 73 }, 'slow');
+                });
+            });
+        });
+    </script>
+}

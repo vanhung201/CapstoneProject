@@ -1,0 +1,343 @@
+﻿@{
+    Layout = null;
+}
+@using BusinessConnectManagement.Models;
+@{
+    BCMEntities db = new BCMEntities();
+
+    var isStudent = db.VanLangUsers.Where(x => x.Email == User.Identity.Name && x.Role == "Student").Any();
+    var curUser = db.VanLangUsers.Where(x => x.Email == User.Identity.Name).FirstOrDefault();
+    var link = "";
+    var curYearStudy = db.YearStudies.Where(x => x.Status == true).Select(x=>x.EndDate).FirstOrDefault();
+    if (Request.IsAuthenticated)
+    {
+        var email = User.Identity.Name;
+        if(isStudent)
+        {
+            if (curUser.Mobile == null || curUser.Major_ID == null)
+            {
+                TempData["message"] = "Vui Lòng Cập Nhật Chuyên Ngành Hoặc Số Điện Thoại";
+                TempData["messageType"] = "warning";
+                Response.Redirect("~/cap-nhat-thong-tin-tai-khoan");
+            }
+        }
+        if(curUser.Status_ID == 2)
+        {
+            Session.Clear();
+            Session.RemoveAll();
+            Session.Abandon();
+
+            if (Request.Cookies["ASP.NET_SessionId"] != null)
+            {
+
+                HttpCookie httpCookie  = Response.Cookies["ASP.NET_SessionId"];
+                httpCookie.Expires = DateTime.Now.AddDays(-1);
+                Response.Cookies.Add(httpCookie);
+            }
+            if (Request.Cookies[".AspNet.Cookies"] != null)
+            {
+                HttpCookie cookie =  Response.Cookies[".AspNet.Cookies"];
+                cookie.Expires = DateTime.Now.AddDays(-1);
+
+                Response.Cookies.Add(cookie);
+            }
+            TempData["message"] = "Tài Khoản Đã Bị Khóa Vui Lòng Liên Hệ Khoa";
+            TempData["messageType"] = "warning";
+            Response.Redirect("~/trang-dang-nhap");
+        }
+    }
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://site-assets.fontawesome.com/releases/v5.15.4/css/all.css" />
+    <link href="~/assets/User/assets/css/font/fontawesome/css/all.css" rel="stylesheet" />
+    <link href="~/assets/User/assets/css/spectre/spectre.min.css" rel="stylesheet" />
+    <link href="~/assets/User/assets/css/spectre/spectre-exp.min.css" rel="stylesheet" />
+    <link href="~/assets/User/assets/css/spectre/spectre-icons.min.css" rel="stylesheet" />
+    <link href="~/assets/User/assets/css/custom.css" rel="stylesheet" />
+    <link href="~/assets/User/assets/css/animation.css" rel="stylesheet" />
+    <link href="~/assets/User/assets/css/style.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="~/assets/images/favicon.ico" type="image/x-icon">
+    <link href="~/Content/toastr.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/toastr.min.js"></script>
+    <link href="~/assets/css/jquery2.dataTables.min.css" rel="stylesheet" />
+    <link href="~/assets/css/table2.css" rel="stylesheet" />
+    <link href="~/assets/User/assets/css/topic.css" rel="stylesheet" />
+    <script src="~/assets/js/datatable/dataTable.min.js"></script>
+    <link href="~/Content/PagedList.css" rel="stylesheet" />
+    <link href="~/assets/User/assets/css/responsive.css" rel="stylesheet" />
+    <link rel='stylesheet' href='https://cdn.rawgit.com/daneden/animate.css/v3.1.0/animate.min.css'>
+    <script src='https://cdn.rawgit.com/matthieua/WOW/1.0.1/dist/wow.min.js'></script>
+    <title>@ViewBag.Title</title>
+</head>
+
+<body>
+    <header>
+        <div id="header-desktop" class="main-bg-color d-block d-none-sm d-none-md d-none-xl">
+            <div class="container">
+                <div class="d-flex align-middle justify-between">
+                    <div class="logo">
+                        <a href="@Url.Action("Index", "Home")">
+                            <img src="~/assets/User/assets/images/logo.png" alt="logo">
+                        </a>
+                    </div>
+                    <div id="main-menu">
+                        <ul class="d-flex align-middle justify-center">
+                            <li class="item">
+                                <a href="@Url.Action("Index", "Home")">Trang chủ</a>
+                            </li>
+                            <li class="item">
+                                <a href="https://www.vlu.edu.vn/" target="_blank">Giới thiệu</a>
+                            </li>
+                            <li class="item">
+                                <a href="@Url.Action("IndexNew", "Posts")">Công Việc</a>
+                            </li>
+                            <li class="item">
+                                <a href="@Url.Action("Index", "MOUs")">Doanh Nghiệp</a>
+                            </li>
+                            <li class="item">
+                                <a href="@Url.Action("Position","Home")">Vị Trí</a>
+                            </li>
+                            <li class="item">
+                                <a href="@Url.Action("Index","Contact")">Liên Hệ</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div id="user">
+                        @if (Request.IsAuthenticated)
+                        {
+                            <a href="#" class="user">
+                                <img src="~/assets/User/assets/images/user.png" alt="user">
+                            </a>
+                            <ul class="submenu">
+                                <li><a href="@Url.Action("Information", "Account")">Thông Tin Cá Nhân</a></li>
+                                @if (isStudent)
+                                {
+                                    <li><a href="@Url.Action("listReg","Registration")">Danh Sách Ứng Tuyển</a></li>
+                                    <li><a href="@Url.Action("Index","InternshipResults")">Kết Quả Thực Tập</a></li>
+                                }
+                                @if (!isStudent)
+                                {
+                                    switch (curUser.Role)
+                                    {
+                                        case "Admin":
+                                            link = Url.Action(curUser.Role + "Home", curUser.Role);
+                                            break;
+                                        case "Mentor":
+                                            link = Url.Action(curUser.Role + "Home", curUser.Role);
+                                            break;
+                                        case "Faculty":
+                                            link = Url.Action(curUser.Role + "Home", curUser.Role);
+                                            break;
+                                        case "Business":
+                                            link = Url.Action(curUser.Role + "Home", curUser.Role);
+                                            break;
+                                    }
+                                    <li><a href="@link">Trở Về Trang Quản Lý</a></li>
+                                }
+                                <li><a href="@Url.Action("SignOut","Account")">Đăng Xuất</a></li>
+                            </ul>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("Login","Account")" class="btn-login">
+                                Đăng Nhập
+                            </a>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="header-mobile" class="main-bg-color d-none d-sm d-md d-xl">
+            <div class="container">
+                <div class="d-flex align-middle justify-between">
+
+                    <div class="sidebar">
+                        <label for="nav-mobile-input"><i class="fa-solid fa-bars"></i></label>
+                    </div>
+                    <input type="checkbox" hidden class="nav__input" name="" id="nav-mobile-input">
+
+                    <label for="nav-mobile-input" class="nav__overlay"></label>
+
+                    <nav class="nav__mobile">
+                        <div class="img-wrapper">
+                            <img class="nav__mobile-logo" src="~/assets/User/assets/images/logo.png" />
+                        </div>
+                        <label for="nav-mobile-input" class="nav__mobile-close">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                                <path d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z" fill="#fff" />
+                            </svg>
+                        </label>
+                        <ul class="nav__mobile-list">
+                            <li>
+                                <a class="nav__mobile-link" href="@Url.Action("Index", "Home")">Trang chủ</a>
+                            </li>
+                            <li>
+                                <a class="nav__mobile-link" href="https://www.vlu.edu.vn/" target="_blank">Giới thiệu</a>
+                            </li>
+                            <li>
+                                <a class="nav__mobile-link" href="@Url.Action("Index", "Posts")">Công Việc</a>
+                            </li>
+                            <li>
+                                <a class="nav__mobile-link" href="@Url.Action("Index", "MOUs")">Doanh Nghiệp</a>
+                            </li>
+                            <li>
+                                <a class="nav__mobile-link" href="@Url.Action("Position","Home")">Vị Trí</a>
+                            </li>
+                            <li>
+                                <a class="nav__mobile-link" href="@Url.Action("Contact", "Home")">Liên hệ</a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <div class="logo">
+                        <a href="@Url.Action("Index", "Home")">
+                            <img src="~/assets/User/assets/images/logo.png" alt="logo">
+                        </a>
+                    </div>
+                    <div id="user">
+                        @if (Request.IsAuthenticated)
+                        {
+                            <a href="#" class="user">
+                                <img src="~/assets/User/assets/images/user.png" alt="user">
+                            </a>
+                            <ul class="submenu">
+                                <li><a href="@Url.Action("Information", "Account")">Thông Tin Cá Nhân</a></li>
+                                @if (isStudent)
+                                {
+                                    <li><a href="@Url.Action("listReg","Registration")">Danh Sách Ứng Tuyển</a></li>
+                                    <li><a href="@Url.Action("Index","InternshipResults")">Kết Quả Thực Tập</a></li>
+                                }
+                                @if (!isStudent)
+                                {
+                                    switch (curUser.Role)
+                                    {
+                                        case "Admin":
+                                            link = Url.Action(curUser.Role + "Home", curUser.Role);
+                                            break;
+                                        case "Mentor":
+                                            link = Url.Action(curUser.Role + "Home", curUser.Role);
+                                            break;
+                                        case "Faculty":
+                                            link = Url.Action(curUser.Role + "Home", curUser.Role);
+                                            break;
+                                        case "Business":
+                                            link = Url.Action(curUser.Role + "Home", curUser.Role);
+                                            break;
+                                    }
+                                    <li><a href="@link">Trở Về Trang Quản Lý</a></li>
+                                }
+                                <li><a href="@Url.Action("SignOut","Account")">Đăng Xuất</a></li>
+                            </ul>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("Login","Account")" class="btn-login">
+                                Đăng Nhập
+                            </a>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </header>
+
+    @RenderBody()
+    <footer style="background-image: url(https://sukien.vanlanguni.edu.vn/images/footer.jpg);">
+        <div class="container">
+            <div class="columns py20">
+                <div class="column col-2 col-sm-12 col-md-6 col-xl-6 mb10">
+                    <div class="logo text-center">
+                        <img src="/assets/User/assets/images/logo2.png" alt="logo" />
+                    </div>
+                </div>
+                <div class="column col-4 col-sm-12 col-md-12 col-xl-12 mb10">
+                    <div class="title-ft">Địa chỉ</div>
+                    <ul class="text-white">
+                        <li><strong>Trụ sở:</strong> 45 Nguyễn Khắc Nhu, P. Cô Giang, Q.1, Tp. HCM</li>
+                        <li><strong>Cơ sở 2:</strong> 80/68 Dương Quảng Hàm, P.5, Q. Gò Vấp, Tp. HCM</li>
+                        <li><strong>Cơ sở 3:</strong> 69/68 Đặng Thùy Trâm, P. 13, Q. Bình Thạnh, Tp. HCM</li>
+                        <li><strong>Văn phòng:</strong> P. 2.02, Tòa nhà LV (Cơ sở 3)</li>
+                        <li><strong>Liên hệ :</strong> qhdn@vanlanguni.edu.vn - (028) 71099 224</li>
+                    </ul>
+
+                </div>
+                <div class="column col-3 col-sm-12 col-md-12 col-xl-12 mb10">
+                    <div class="title-ft">Liên hệ</div>
+                    <ul class="text-white">
+                        <li>Phòng đào tạo: <i class="fa-solid fa-phone" style="margin-inline: 0.2rem;"></i>02871099221</li>
+                        <li>Hỗ trợ sinh viên: <i class="fa-solid fa-phone" style="margin-inline: 0.2rem;"></i>02871061111</li>
+                        <li><i class="fa-solid fa-envelope"></i> admin@mail.com</li>
+                    </ul>
+                </div>
+                <div class="column col-3 col-sm-12 col-md-12 col-xl-12 mb10">
+                    <div class="title-ft">Theo dõi chúng tôi</div>
+                    <div class="d-flex mt15">
+                        <a href="https://www.facebook.com/truongdaihocvanlang" class="mr-2">
+                            <i class="fa-lg fa-brands fa-facebook"></i>
+                        </a>
+                        <a href= "https://www.instagram.com/vanlanguniversity/" class="mr-2">
+                            <i class="fa-lg fa-brands fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </footer>
+    <noscript>
+        <style type="text/css">
+            .wrapper {
+                display: none;
+            }
+        </style>
+        <font face="arial">
+            <p class="text-dark">
+                Bạn phải bật JavaScript để sử dụng trang web này. Tuy nhiên, có vẻ như JavaScript đã bị tắt hoặc không được trình duyệt của bạn hỗ trợ. Để sử dụng chế độ xem tiêu chuẩn, hãy bật JavaScript bằng cách thay đổi tùy chọn trình duyệt của bạn, sau đó <a href="">thử lại</a>.
+            </p>
+        </font>
+    </noscript>
+    <script src="~/assets/js/admin.js"></script>
+    <script>new WOW().init();</script>
+    <script>
+        $(document).ready(function () {
+            var url = "@Url.Action("ChangeYearStudy","Home")";
+            $.ajax({
+                url: url,
+                type: 'get',
+                dataType: 'json',
+                success: function (res) {
+                    console.log(res);
+                }
+            })
+            var urlSemester = "@Url.Action("ChangeSemester","Home")";
+            $.ajax({
+                url: urlSemester,
+                type: 'get',
+                dataType: 'json',
+                success: function (res) {
+                    console.log(res);
+                }
+            })
+        })
+    </script>
+    @RenderSection("scripts", required: false)
+</body>
+
+</html>

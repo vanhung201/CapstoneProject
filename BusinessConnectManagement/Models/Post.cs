@@ -17,18 +17,30 @@ namespace BusinessConnectManagement.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Post()
         {
+            this.PostInternshipTopics = new HashSet<PostInternshipTopic>();
             this.Registrations = new HashSet<Registration>();
         }
     
         public int ID { get; set; }
         public string Title { get; set; }
-        public string Poster_Email { get; set; }
+        public string Email_ID { get; set; }
         public string Description { get; set; }
-        public Nullable<System.DateTime> PostDay { get; set; }
-        public Nullable<System.DateTime> ModifyDay { get; set; }
+        public string PostDay { get; set; }
+        public string ModifyDay { get; set; }
         public Nullable<int> Semester_ID { get; set; }
+        public Nullable<int> Business_ID { get; set; }
+        public Nullable<int> Quantity { get; set; }
+        public string DueDate { get; set; }
+        public string Form { get; set; }
+        public Nullable<int> Major_ID { get; set; }
     
+        public virtual BusinessUser BusinessUser { get; set; }
+        public virtual Major Major { get; set; }
         public virtual Semester Semester { get; set; }
+        public virtual VanLangUser VanLangUser { get; set; }
+        public virtual VanLangUser VanLangUser1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PostInternshipTopic> PostInternshipTopics { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Registration> Registrations { get; set; }
     }

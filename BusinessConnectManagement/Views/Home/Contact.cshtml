@@ -1,0 +1,80 @@
+﻿
+@{
+    ViewBag.Title = "Contact";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<main>
+    <!---------------------------------------------------
+      // Contact : info
+      //----------------------------------------------->
+    <section id="contact" style="margin-top: 40px">
+        <div class="container">
+            <div class="columns">
+                <div class="column col-md-12 col-sm-12 col-xl-6">
+                    <div class="px15">
+                        <!-- .... -->
+                        <h3 class="text-h2 main-text-color mb10">Yêu cầu của bạn</h3>
+                        <form action="">
+                            <div class="form-group">
+                                <label class="form-label" for="input-example-1">Họ Tên</label>
+                                <input class="form-input" type="text" id="fullnam" placeholder="Họ và tên">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="input-example-1">Số điện thoại</label>
+                                <input class="form-input" type="number" id="phone" placeholder="Số điện thoại">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="input-example-1">Email</label>
+                                <input class="form-input" type="email" id="email" placeholder="Email">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="note">Ghi chú</label>
+                                <textarea class="form-input" id="note" placeholder="Ghi chú (nếu có)" rows="5"
+                                          cols="100"></textarea>
+                            </div>
+                            <div class="mt10">
+                                <div class="btn btn-submit">
+                                    Gửi yêu cầu
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="column col-md-12 col-sm-12 col-xl-6">
+                    <!-- .... -->
+                    <h3 class="text-h2 main-text-color mb10">
+                        Trường Đại Học Văn Lang
+                    </h3>
+                    <table class="table bg-white">
+                        <thead style="background-color: #374090 !important">
+                            <tr class="main-bg-color text-uppercase" style="background-color: #374090 !important">
+                                <th>Trường Đại Học Văn Lang - Phòng tuyển dụng</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="active">
+                                <td>Phone: (028) 71099 224</td>
+                            </tr>
+                            <tr class="">
+                                <td>Email: qhdn@vanlanguni.edu.vn</td>
+                            </tr>
+                            <tr class="active">
+                                <td>Địa chỉ: 45 Nguyễn Khắc Nhu, P. Cô Giang, Q.1, Tp. HCM</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div id="google_map">
+        <!-- Google map   -->
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.632774611401!2d106.69111781451058!3d10.762759092330763!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f16ae3eb491%3A0xf05f67bb1b381d58!2zNDUgTmd1eeG7hW4gS2jhuq9jIE5odSwgUGjGsOG7nW5nIEPDtCBHaWFuZywgUXXhuq1uIDEsIFRow6BuaCBwaOG7kSBI4buTIENow60gTWluaCwgVmnhu4d0IE5hbQ!5e0!3m2!1svi!2s!4v1667987023949!5m2!1svi!2s"
+                width="100%" height="500px" style="border:0;" allowfullscreen="" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+
+
+
+</main>

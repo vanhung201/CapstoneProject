@@ -4,7 +4,50 @@
     BCMEntities db = new BCMEntities();
     var query = db.VanLangUsers.Where(x => x.Email == User.Identity.Name).FirstOrDefault();
 
+    string Role = query.Role;
     string FullName = "";
+    string ControllerName = "";
+    string Area = "";
+    int count = 0;
+    if(query.Status_ID == 2)
+    {
+        Session.Clear();
+        Session.RemoveAll();
+        Session.Abandon();
+
+        if (Request.Cookies["ASP.NET_SessionId"] != null)
+        {
+
+            HttpCookie httpCookie = Response.Cookies["ASP.NET_SessionId"];
+            httpCookie.Expires = DateTime.Now.AddDays(-1);
+            Response.Cookies.Add(httpCookie);
+        }
+        if (Request.Cookies[".AspNet.Cookies"] != null)
+        {
+            HttpCookie cookie = Response.Cookies[".AspNet.Cookies"];
+            cookie.Expires = DateTime.Now.AddDays(-1);
+
+            Response.Cookies.Add(cookie);
+        }
+        TempData["message"] = "Tài Khoản Đã Bị Khóa Vui Lòng Liên Hệ Khoa";
+        TempData["messageType"] = "warning";
+        Response.Redirect("~/trang-dang-nhap");
+    }
+    if (Role == "Admin")
+    {
+        ControllerName = "AdminHome";
+        Area = "Admin";
+    }
+    else if (Role == "Faculty")
+    {
+        ControllerName = "FacultyHome";
+        Area = "Faculty";
+    }
+    else if (Role == "Mentor")
+    {
+        ControllerName = "MentorHome";
+        Area = "Mentor";
+    }
 
     if (string.IsNullOrEmpty(query.FullName))
     {
@@ -14,7 +57,25 @@
     {
         FullName = query.FullName;
     }
-}
+    if(query.Role == "Admin" || query.Role == "Faculty")
+    {
+        ViewBag.Notifications = db.Notifications.Where(x => x.Mentor_Email == null && x.Business_ID == null).OrderByDescending(x=> x.Date).ToList();
+        count = db.Notifications.Where(x => x.Mentor_Email == null && x.Business_ID == null && x.IsRead == false).Count();
+    }
+    else if(query.Role == "Mentor")
+    {
+        ViewBag.Notifications = db.Notifications.Where(x => x.Mentor_Email == query.Email).OrderByDescending(x => x.Date).ToList();
+        count = db.Notifications.Where(x => x.Mentor_Email == query.Email && x.IsRead == false).Count();
+
+    }
+    else
+    {
+        int BusinessID = Convert.ToInt16(Session["BusinessID"]);
+        ViewBag.Notifications = db.Notifications.Where(x => x.Business_ID == BusinessID).OrderByDescending(x => x.Date).ToList();
+        count = db.Notifications.Where(x => x.Business_ID == BusinessID && x.IsRead == false).Count();
+
+    }
+    }
 
 <!DOCTYPE html>
 <html lang="en">
@@ -24,72 +85,470 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewBag.Title</title>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" />
+    <link rel="stylesheet"
+          href="https://site-assets.fontawesome.com/releases/v5.15.4/css/all.css" />
+    @*<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">*@
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="~/assets/css/jquery2.dataTables.min.css" rel="stylesheet" />
+
+    <link href="~/assets/css/grid.css" rel="stylesheet" />
     <link href="~/assets/css/reset.css" rel="stylesheet" />
     <link href="~/assets/css/global.css" rel="stylesheet" />
-    <link href="~/assets/css/menu.css" rel="stylesheet" />
+    <link href="~/assets/css/toast.css" rel="stylesheet" />
+    <link href="~/assets/css/layout.css" rel="stylesheet" />
+    <link href="~/assets/css/style.css" rel="stylesheet" />
     <link href="~/assets/css/form.css" rel="stylesheet" />
-    <link href="~/assets/css/nav.css" rel="stylesheet" />
-    <link href="~/assets/css/button.css" rel="stylesheet" />
-    <link href="~/assets/css/admin.css" rel="stylesheet" />
-    <link href="~/assets/css/table.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" />
+
+    <link href="~/Content/bootstrap-chosen.css" rel="stylesheet" />
     <link rel="shortcut icon" href="~/assets/images/favicon.ico" type="image/x-icon">
+    <style>
+        .field-validation-error {
+            color: red;
+        }
+    </style>
+    <link href="~/assets/css/statistic.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
-    <section class="menu">
-        <a href="@Url.Action("Index", "Home")" class="menu-image">
-            <img src="~/assets/images/adminVLU.png" alt="adminVLU.png" />
-        </a>
-        <ul class="menu-list">
-            <li class="menu-item">
-                <h4 class="menu-heading">Phân quyền</h4>
-                <div class="menu-function">
-                    <a href="@Url.Action("AuthorizeList", "Home")" class="menu-feature">
-                        <i class="menu-icon fas fa-hand-point-right"></i>
-                        QL Đăng Nhập
-                    </a>
-                </div>
-            </li>
-        </ul>
-    </section>
 
-    <nav class="nav">
-        <div class="nav-list">
-            <div class="nav-item">
-                <i class="nav-icon far fa-bell"></i>
-            </div>
-            <div class="nav-item">
-                <div style="display: flex; align-items: center;">
-                    <img src="~/assets/images/avatarAdmin.png" alt="avatarAdmin.png" class="nav-image" />@FullName
+
+    <div class="wrap" id="wrap">
+        @{
+            <section class="menu">
+                @if (Role == "Admin")
+                {
+                    <div class="menu-logo">
+                        <a href="@Url.Action("Index", "AdminHome", new { area = "Admin" })" class="menu-link">
+                            <img src="~/assets/images/logoVL.png"
+                                 alt=""
+                                 class="menu-image" />
+                            <span class="menu-title">Business Connection Management</span>
+                        </a>
+                        <i class="fal fa-long-arrow-left" id="menu-icon"></i>
+                    </div>
+
+                    <ul class="menu-list">
+                        <li class="menu-item">
+                            <a href="@Url.Action("AuthorizeList", "AdminHome", new { area = "Admin" })" class="menu-feature">
+                                <i class="menu-icon fal fa-users"></i>
+                                <span class="menu-text">Tài khoản</span>
+                            </a>
+                            <span class="menu-tooltip">Tài khoản</span>
+                        </li>
+                        <li class="menu-item">
+                            <a href="@Url.Action("Index", "BusinessUsers", new { area = "Faculty" })" class="menu-feature">
+                                <i class="menu-icon fal fa-building"></i>
+                                <span class="menu-text">Doanh nghiệp</span>
+                            </a>
+                            <span class="menu-tooltip">Doanh nghiệp</span>
+                        </li>
+                        <li class="menu-item">
+                            <a href="@Url.Action("Index", "CooperationCategories", new { area = "Faculty" })" class="menu-feature">
+                                <i class="menu-icon fal fa-globe"></i>
+                                <span class="menu-text">Hợp tác</span>
+                            </a>
+                            <span class="menu-tooltip">Hợp tác</span>
+                        </li>
+                        <li class="menu-item">
+                            <a href="@Url.Action("Index", "YearStudies", new { area = "Faculty" })" class="menu-feature">
+                                <i class="menu-icon fal fa-calendar-alt"></i>
+                                <span class="menu-text">Năm Học</span>
+                            </a>
+                            <span class="menu-tooltip">Năm Học</span>
+                        </li>
+                        <li class="menu-item">
+                            <a href="@Url.Action("Index", "MOUs", new { area = "Faculty" })" class="menu-feature">
+                                <i class="menu-icon fal fa-file-signature"></i>
+                                <span class="menu-text">Ký kết MOU</span>
+                            </a>
+                            <span class="menu-tooltip">Ký kết MOU</span>
+                        </li>
+                        <li class="menu-item">
+                            <a href="@Url.Action("Index", "Posts", new { area = "Faculty" })" class="menu-feature">
+                                <i class="menu-icon fal fa-newspaper"></i>
+                                <span class="menu-text">Tin tuyển dụng</span>
+                            </a>
+                            <span class="menu-tooltip">Tin tuyển dụng</span>
+                        </li>
+                        <li class="menu-item">
+                            <a href="@Url.Action("Index", "BusinessCooperationCategories", new { area = "Faculty" })" class="menu-feature">
+                                <i class="menu-icon fal fa-running"></i>
+                                <span class="menu-text">Hoạt động</span>
+                            </a>
+                            <span class="menu-tooltip">Hoạt động</span>
+                        </li>
+                        <li class="menu-item">
+                            <a href="@Url.Action("Index", "Registration", new { area = "Faculty" })" class="menu-feature">
+                                <i class="menu-icon fal fa-id-card"></i>
+                                <span class="menu-text">Ứng tuyển</span>
+                            </a>
+                            <span class="menu-tooltip">Ứng tuyển</span>
+                        </li>
+                        <li class="menu-item">
+                            <a href="@Url.Action("Index", "AppointmentMentor", new { area = "Faculty" })" class="menu-feature">
+                                <i class="menu-icon fal fa-id-card-alt"></i>
+                                <span class="menu-text">Thực Tập</span>
+                            </a>
+                            <span class="menu-tooltip">Thực Tập</span>
+                        </li>
+
+                        <li class="menu-item">
+                            <a href="@Url.Action("Index", "InternshipResultsMentor",new { area = "Mentor" })" class="menu-feature">
+                                <i class="menu-icon fal fa-user-graduate"></i>
+                                <span class="menu-text">Sinh Viên Hướng Dẫn</span>
+                            </a>
+                            <span class="menu-tooltip">Sinh Viên Hướng Dẫn</span>
+                        </li>
+
+                        <li class="menu-item">
+                            <a class="menu-feature" id="send-mail">
+                                <i class="menu-icon fal fa-mail-bulk" id=""></i>
+                                <span class="menu-text">Gửi Mail</span>
+                            </a>
+                            <span class="menu-tooltip">Gửi Mail</span>
+                        </li>
+                        <li class="menu-item">
+                            <a href="@Url.Action("Index", "Contacts",new { area = "Faculty" })" class="menu-feature">
+                                <i class="menu-icon fal fa-headset"></i>
+                                <span class="menu-text">Liên Hệ</span>
+                            </a>
+                            <span class="menu-tooltip">Liên Hệ</span>
+                        </li>
+                        <li class="menu-item">
+                            <a href="@Url.Action("Index", "Home",new { area = "" })" class="menu-feature">
+                                <i class="menu-icon fal fa-home"></i>
+                                <span class="menu-text">Trở Về Trang Chủ</span>
+                            </a>
+                            <span class="menu-tooltip">Trở Về Trang Chủ</span>
+                        </li>
+                    </ul>
+                }
+                else if (Role == "Faculty")
+                {
+                    <div class="menu-logo">
+                        <a href="@Url.Action("Index", "FacultyHome", new { area = "Faculty" })" class="menu-link">
+                            <img src="~/assets/images/logoVL.png"
+                                 alt=""
+                                 class="menu-image" />
+                            <span class="menu-title">Business Connection Management</span>
+                        </a>
+                        <i class="fal fa-long-arrow-left" id="menu-icon"></i>
+                    </div>
+
+                    <ul class="menu-list">
+                        <li class="menu-item">
+                            <a href="@Url.Action("Index", "BusinessUsers", new { area = "Faculty" })" class="menu-feature">
+                                <i class="menu-icon fal fa-building"></i>
+                                <span class="menu-text">Doanh nghiệp</span>
+                            </a>
+                            <span class="menu-tooltip">Doanh nghiệp</span>
+                        </li>
+                        <li class="menu-item">
+                            <a href="@Url.Action("Index", "CooperationCategories", new { area = "Faculty" })" class="menu-feature">
+                                <i class="menu-icon fal fa-globe"></i>
+                                <span class="menu-text">Hợp tác</span>
+                            </a>
+                            <span class="menu-tooltip">Hợp tác</span>
+                        </li>
+                        <li class="menu-item">
+                            <a href="@Url.Action("Index", "YearStudies", new { area = "Faculty" })" class="menu-feature">
+                                <i class="menu-icon fal fa-calendar-alt"></i>
+                                <span class="menu-text">Năm Học</span>
+                            </a>
+                            <span class="menu-tooltip">Năm Học</span>
+                        </li>
+                        <li class="menu-item">
+                            <a href="@Url.Action("Index", "MOUs", new { area = "Faculty" })" class="menu-feature">
+                                <i class="menu-icon fal fa-file-signature"></i>
+                                <span class="menu-text">Ký kết MOU</span>
+                            </a>
+                            <span class="menu-tooltip">Ký kết MOU</span>
+                        </li>
+                        <li class="menu-item">
+                            <a href="@Url.Action("Index", "Posts", new { area = "Faculty" })" class="menu-feature">
+                                <i class="menu-icon fal fa-newspaper"></i>
+                                <span class="menu-text">Tin tuyển dụng</span>
+                            </a>
+                            <span class="menu-tooltip">Tin tuyển dụng</span>
+                        </li>
+                        <li class="menu-item">
+                            <a href="@Url.Action("Index", "BusinessCooperationCategories", new { area = "Faculty" })" class="menu-feature">
+                                <i class="menu-icon fal fa-running"></i>
+                                <span class="menu-text">Hoạt động</span>
+                            </a>
+                            <span class="menu-tooltip">Hoạt động</span>
+                        </li>
+                        <li class="menu-item">
+                            <a href="@Url.Action("Index", "Registration", new { area = "Faculty" })" class="menu-feature">
+                                <i class="menu-icon fal fa-id-card"></i>
+                                <span class="menu-text">Ứng tuyển</span>
+                            </a>
+                            <span class="menu-tooltip">Ứng tuyển</span>
+                        </li>
+                        <li class="menu-item">
+                            <a href="@Url.Action("Index", "AppointmentMentor", new { area = "Faculty" })" class="menu-feature">
+                                <i class="menu-icon fal fa-id-card-alt"></i>
+                                <span class="menu-text">Thực Tập</span>
+                            </a>
+                            <span class="menu-tooltip">Thực Tập</span>
+                        </li>
+
+                        <li class="menu-item">
+                            <a href="@Url.Action("Index", "InternshipResultsMentor",new { area = "Mentor" })" class="menu-feature">
+                                <i class="menu-icon fal fa-user-graduate"></i>
+                                <span class="menu-text">Sinh Viên Hướng Dẫn</span>
+                            </a>
+                            <span class="menu-tooltip">Sinh Viên Hướng Dẫn</span>
+                        </li>
+                        <li class="menu-item">
+                            <a href="@Url.Action("Index", "Contacts",new { area = "Faculty" })" class="menu-feature">
+                                <i class="menu-icon fal fa-headset"></i>
+                                <span class="menu-text">Liên Hệ</span>
+                            </a>
+                            <span class="menu-tooltip">Liên Hệ</span>
+                        </li>
+                        <li class="menu-item">
+                            <a href="@Url.Action("Index", "Home",new { area = "" })" class="menu-feature">
+                                <i class="menu-icon fal fa-home"></i>
+                                <span class="menu-text">Trở Về Trang Chủ</span>
+                            </a>
+                            <span class="menu-tooltip">Trở Về Trang Chủ</span>
+                        </li>
+                    </ul>
+                }
+                else
+                {
+                    <div class="menu-logo">
+                        <a href="@Url.Action("Index", "MentorHome", new { area = "Mentor" })" class="menu-link">
+                            <img src="~/assets/images/logoVL.png"
+                                 alt=""
+                                 class="menu-image" />
+                            <span class="menu-title">Business Connection Management</span>
+                        </a>
+                        <i class="fal fa-long-arrow-left" id="menu-icon"></i>
+                    </div>
+                    <ul>
+                        <li class="menu-item">
+                            <a href="@Url.Action("Index", "InternshipResultsMentor",new { area = "Mentor" })" class="menu-feature">
+                                <i class="menu-icon fal fa-user-graduate"></i>
+                                <span class="menu-text">Sinh Viên Hướng Dẫn</span>
+                            </a>
+                            <span class="menu-tooltip">Sinh Viên Hướng Dẫn</span>
+                        </li>
+                        <li class="menu-item">
+                            <a href="@Url.Action("Index", "Home",new { area = "" })" class="menu-feature">
+                                <i class="menu-icon fal fa-home"></i>
+                                <span class="menu-text">Trở Về Trang Chủ</span>
+                            </a>
+                            <span class="menu-tooltip">Trở Về Trang Chủ</span>
+                        </li>
+                    </ul>
+
+                }
+
+            </section>
+        }
+
+        <div class="content">
+            <nav class="nav">
+                <div class="nav-wrap">
+                    <div class="notification">
+                        <a href="#">
+                            <div class="notBtn" href="#">
+                                <!--Number supports double digets and automaticly hides itself when there is nothing between divs -->
+                                    @if(count != 0)
+                                    {
+                                <div class="number" id="numNoti">
+                                        @count
+                                </div>
+                                    }
+                                <i class="fas fa-bell bell-icon"></i>
+                                <div class="box">
+                                    <div class="display">
+                                        <div class="cont">
+                                            <!-- Fold this div and try deleting evrything inbetween -->
+                                                @foreach (var item in ViewBag.Notifications)
+                                                {
+                                            <div class="sec new">
+                                                <a href="@item.Link">
+                                                        <div class="txt">@item.Message</div>
+                                                        <div class="txt sub">@item.Date</div>
+                                                </a>  
+                                            </div>
+                                                }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <span class="nav-role">@FullName</span>
+                    <div class="nav-avatar">
+                        <img src="~/assets/images/avatarAdmin.png"
+                             alt=""
+                             class="nav-image" />
+                        <div class="nav-account-list">
+                            <a href="@Url.Action("SignOut", "Account", new { area = "" })" class="nav-account-item">Đăng xuất</a>
+                        </div>
+                    </div>
                 </div>
-                <ul class="nav-account-list">
-                    <a href="@Url.Action("SignOut", "Account", new { area = "" })" class="nav-account-item">Đăng xuất</a>
-                </ul>
-            </div>
+            </nav>
+
+            @RenderBody()
+
+
         </div>
-    </nav>
+    </div>
+    <form id="form-mail" method="post" action="@Url.Action("SendMail", "AdminHome", new { area = "Admin" })" class="form" enctype="multipart/form-data">
+    <div class="form-container">
+        <h1 class="list-heading">Gửi Mail</h1>
+        <div class="form-group">
+            <label for="address" class="form-label">Nội Dung</label>
+            <textarea class="" name="content" id="mail-editor" autocomplete="off"></textarea>
+        </div>
+        <div class="form-group">
+            <a class="btn btn--cancel">
+                Hủy
+            </a>
+            <button class="btn btn--confirm" type="submit" id="btn--add">
+                Xác Nhận
+            </button>
+        </div>
 
-    @RenderBody()
 
+    </div>
+</form>
+    <div id="icon">
+        <i class="fal fa-bars"></i>
+    </div>
+    <div id="moveTop">
+        <a href="#wrap" class="moveTop-link"><i class="fal fa-arrow-up"></i><a>
+    </div>
+
+    <script type="text/javascript" src="@Url.Content("~/assets/js/ckeditor/ckeditor.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/assets/js/ckfinder/ckfinder.js")"></script>
+    <script src="~/assets/js/index.js"></script>
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/chosen.jquery.js"></script>
+    <script src="~/assets/js/datatable/dataTable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+    <script>
+        $('#send-mail').on('click', function (e) {
+            e.preventDefault();
+            $('#form-mail').addClass('is-appear');
+        })
+        $('.btn--cancel').on('click', function (e) {
+            $('#form-mail').removeClass('is-appear');
+        })
+
+         var editor = CKEDITOR.instances['editor1'];
+	 	    if (editor) { editor.destroy(true); }
+		    CKEDITOR.replace('mail-editor', {
+		        enterMode: CKEDITOR.ENTER_BR,
+		    });
+        CKFinder.setupCKEditor(null, '@Url.Content("~/ckfinder")');
+
+        $(function () {
+            $("#table_id_filter").append($("#filterEvent")).clone();
+        });
+        $(".notBtn").hover(function () {
+            const role = "@query.Role";
+            let url = ""
+            if (role === "Admin") {
+                url = "@Url.Action("ChangeNotification","AdminHome")"
+            } else if (role === "Faculty") {
+                url = "@Url.Action("ChangeNotification","FacultyHome",new {area = "Faculty"})"
+            } else if (role === "Mentor") {
+                url = "@Url.Action("ChangeNotification","MentorHome",new {area = "Mentor"})"
+            }
+            console.log(url);
+            $.ajax({
+                url: url,
+                success: function (res) {
+                    $("#numNoti").text("");
+                }
+            })
+        })
+        let formAddCr = document.getElementById("addFormCr");
+        let formAdd = document.getElementById("addForm");
+        let formImport = document.getElementById("importForm");
+        let formDowload = document.getElementById("dowloadForm");
+        let formUpdate = document.getElementById("updateForm");
+        let formDelete = document.getElementById("deleteForm");
+        let icon = document.querySelector(".form-icon");
+        let isHide = "is-hide";
+        let isAppear = "is-appear";
+        $(".btn--import").on("click", function () {
+            formImport.classList.add(isAppear);
+        });
+        $(".btn--dowload").on("click", function () {
+            formDowload.classList.add(isAppear);
+        });
+        $(".btn--create").on("click", function () {
+            formAdd.classList.add(isAppear);
+        });
+
+        $("#btn--create").on("click", function () {
+            formAddCr.classList.add(isAppear);
+        });
+
+        $(".form-icon").on("click", function () {
+            formDelete.classList.remove(isAppear);
+        });
+
+        $(".form-icon").on("click", function () {
+            formUpdate.classList.remove(isAppear);
+        });
+
+        $(".form-icon").on("click", function () {
+            formAdd.classList.remove(isAppear);
+        });
+
+        $(function () {
+            $("#ddlBussines_ID").chosen();
+
+            $(".chosen-select").chosen();
+        });
+        $(function () {
+            const toast = document.querySelector(".toast");
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+
+        })
+        function remove() {
+            let toast = document.querySelector(".toast");
+            document.querySelector(".toast-right").addEventListener("click", () => {
+                toast.remove();
+            });
+
+        }
+    </script>
+    <noscript>
+        <style type="text/css">
+            .wrapper {
+                display: none;
+            }
+        </style>
+        <font face="arial">
+            <p class="text-dark">
+                Bạn phải bật JavaScript để sử dụng trang web này. Tuy nhiên, có vẻ như JavaScript đã bị tắt hoặc không được trình duyệt của bạn hỗ trợ. Để sử dụng chế độ xem tiêu chuẩn, hãy bật JavaScript bằng cách thay đổi tùy chọn trình duyệt của bạn, sau đó <a href="">thử lại</a>.
+            </p>
+        </font>
+    </noscript>
+    @RenderSection("scripts", required: false)
 </body>
 
-@RenderSection("scripts", required: false)
-
-<script src="~/assets/js/greet.js"></script>
-<script src="~/assets/js/time.js"></script>
-<script src="~/assets/js/admin.js"></script>
-<script src="~/assets/js/jquery/jquery.min.js"></script>
-<script src="~/assets/js/datatable/dataTable.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $("#table_id").DataTable({
-            ordering: false,
-        });
-    });
-</script>
 
 </html>

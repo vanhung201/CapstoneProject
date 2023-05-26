@@ -1,4 +1,5 @@
-﻿using BusinessConnectManagement.Models;
+﻿using BusinessConnectManagement.Middleware;
+using BusinessConnectManagement.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -9,7 +10,7 @@ using System.Web.Mvc;
 
 namespace BusinessConnectManagement.Areas.Faculty.Controllers
 {
-    [Authorize]
+    [LoginVerification]
     public class MOUsController : Controller
     {
         private BCMEntities db = new BCMEntities();
@@ -18,7 +19,9 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         public ActionResult Index()
         {
             var mOUs = db.MOUs.Include(m => m.BusinessUser);
+          
 
+            ViewBag.Business_ID = db.BusinessUsers.Where(x => x.Status_ID == 1).ToList();
             return View(mOUs.ToList());
         }
 
@@ -36,6 +39,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.Business_ID = db.BusinessUsers.ToList();
 
             return View(mOU);
         }
@@ -43,8 +47,8 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         // GET: Faculty/MOUs/Create
         public ActionResult Create()
         {
-            ViewBag.Business_ID = new SelectList(db.BusinessUsers, "Business_ID", "Password");
-            
+            ViewBag.Business_ID = db.BusinessUsers.ToList();
+
             return View();
         }
 
@@ -53,28 +57,31 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
 
-        public ActionResult Create([Bind(Include = "ID,Business_ID,SignDay,Signer,ContactName,ContactPhone,EmailContact")] MOU mOU)
+        public ActionResult Create([Bind(Include = "ID,Business_ID,SignDay,Signer,ContactName,ContactPhone,EmailContact,ResponsibleName")] MOU mOU, HttpPostedFileBase logo)
         {
             if (ModelState.IsValid)
             {
+                if(db.MOUs.Where(x => x.Business_ID == mOU.Business_ID).Any() == true)
+                {
+                    TempData["AlertMessage"] = "<div class=\"toast toast--error\">\r\n     <div class=\"toast-left toast-left--error\">\r\n       <i class=\"fas fa-times-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n       <p class=\"toast-text\">Doanh nghiệp đã ký kết MOU.</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n       <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>";
+                    return RedirectToAction("Index");
+                }
                 db.MOUs.Add(mOU);
+                TempData["AlertMessage"] = "<div class=\"toast toast--success\">\r\n     <div class=\"toast-left toast-left--success\">\r\n       <i class=\"fas fa-check-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n       <p class=\"toast-text\">Thêm thành công.</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n      <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>\r\n";
                 db.SaveChanges();
-                
+
                 return RedirectToAction("Index");
             }
 
             ViewBag.Business_ID = new SelectList(db.BusinessUsers, "Business_ID", "Password", mOU.Business_ID);
-            
+
             return View(mOU);
         }
 
         // GET: Faculty/MOUs/Edit/5
         public ActionResult Edit(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+           
 
             MOU mOU = db.MOUs.Find(id);
 
@@ -84,7 +91,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
             }
 
             ViewBag.Business_ID = new SelectList(db.BusinessUsers, "Business_ID", "Password", mOU.Business_ID);
-            
+
             return View(mOU);
         }
 
@@ -92,20 +99,19 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Business_ID,SignDay,Signer,ContactName,ContactPhone,EmailContact")] MOU mOU)
+        public ActionResult Edit([Bind(Include = "ID,Business_ID,SignDay,Signer,ContactName,ContactPhone,EmailContact,ResponsibleName")] MOU mOU)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(mOU).State = EntityState.Modified;
                 db.SaveChanges();
-                
+                TempData["AlertMessage"] = "<div class=\"toast toast--success\">\r\n     <div class=\"toast-left toast-left--success\">\r\n       <i class=\"fas fa-check-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n       <p class=\"toast-text\">Cập nhật thành công.</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n      <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>\r\n";
                 return RedirectToAction("Index");
             }
             else
             {
                 ViewBag.Business_ID = new SelectList(db.BusinessUsers, "Business_ID", "Password", mOU.Business_ID);
-                
+
                 return View(mOU);
             }
         }
@@ -137,7 +143,7 @@ namespace BusinessConnectManagement.Areas.Faculty.Controllers
 
             db.MOUs.Remove(mOU);
             db.SaveChanges();
-
+            TempData["AlertMessage"] = "<div class=\"toast toast--success\">\r\n     <div class=\"toast-left toast-left--success\">\r\n       <i class=\"fas fa-check-circle\"></i>\r\n     </div>\r\n     <div class=\"toast-content\">\r\n       <p class=\"toast-text\">Xóa thành công.</p>\r\n     </div>\r\n     <div class=\"toast-right\">\r\n      <i style=\"cursor:pointer\" class=\"toast-icon fas fa-times\" onclick=\"remove()\"></i>\r\n     </div>\r\n   </div>";
             return RedirectToAction("Index");
         }
 

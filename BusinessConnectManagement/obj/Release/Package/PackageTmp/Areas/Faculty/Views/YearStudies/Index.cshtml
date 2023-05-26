@@ -1,0 +1,245 @@
+﻿@model IEnumerable<BusinessConnectManagement.Models.YearStudy>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<section class="list">
+
+    <h1 class="list-heading">DANH SÁCH NĂM HỌC</h1>
+    @if (TempData != null)
+    {
+        @Html.Raw(@TempData["AlertMessage"])
+    }
+    <div class="list-table">
+        <div id="filterEvent">
+            <a>
+                <div class="btn btn--create" style="margin-right:10px; z-index:1;">
+                    <span class="btn-text">Thêm</span>
+                </div>
+            </a>
+        </div>
+        <table id="table_listData" class="display" width="100%">
+
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Năm Học</th>
+                    <th>Học Kỳ</th>
+                    <th width="20%">Chức Năng</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</section>
+@*-------------------addyear-----------------------------------*@
+<form action="@Url.Action("Create", "YearStudies")" class="form" id="addForm" method="post">
+    <div class="form-container--small">
+        <h1 class="form-heading">Thêm Năm Học</h1>
+        <div class="form-group">
+            <label for="cooperationName" class="form-label">Năm Học</label>
+            <input name="YearStudy1" type="text" class="form-input" id="checkspace2" required>
+        </div>
+        <div class="form-group">
+            <a class="btn btn--cancel">Hủy</a>
+            <button type="submit" class="btn btn--confirm">Xác Nhận</button>
+        </div>
+    </div>
+</form>
+
+
+@*---------------------------semester------------------------*@
+@*--------------------------update---------------------*@
+<form class="form" id="updateForm" method="post">
+    <div class="form-container--small">
+        <h1 class="form-heading">Cập Nhật Năm Học</h1>
+        <div class="form-group">
+            <label for="cooperationName" class="form-label">Năm Học</label>
+            <input name="ID" id="ID" hidden />
+            <input type="text" name="YearStudy1" class="form-input" id="YearStudy" required>
+        </div>
+        <div class="form-group">
+            <a class="btn btn--cancel">Hủy</a>
+            <button class="btn btn--confirm" id="btn--update" type="submit">
+                Xác Nhận
+            </button>
+        </div>
+    </div>
+</form>
+
+@*-------------delete------------*@
+
+@section Scripts {
+    <script type="text/javascript">
+        $('#btn--update').on('click', function () {
+            $('#updateForm').submit()
+        })
+        $('.btn--cancel').on('click', function () {
+            $('#addForm').removeClass('is-appear')
+        })
+         $(function () {
+        var url = "@Url.Action("getDataList", "YearStudies")"
+        "use strict";
+             (dataTable = $("#table_listData").DataTable({
+            ajax: {
+                url: url,
+                type: "GET",
+                dataType: "json",
+                dataSrc: "",
+            },
+                 deferRender: !0,
+                 "order": [[1, "desc"]],
+                columns: [
+                    { data: null },
+                    { data: "name" },
+                    {
+                            data: "id",
+                            render: function (t, e, a) {
+                                return (
+                                    `
+                                    <a href="@Url.Action("Details", "YearStudies")/${t}" id="business_detail" class="business_detail">
+                                    <div class="btn btn--detail" title="Cập Nhật">
+                                        <i class="btn-icon btn-icon--detail fal fa-info-circle"></i>
+                                    </div>
+                                    </a>
+                                   `
+                                );
+                            },
+                    },
+                    {
+                            data: "id",
+                            render: function (t, e, a) {
+                                return (
+                                    `
+                                    <a href="@Url.Action("Edit", "YearStudies")/${t}" class="business_update">
+                                        <div class="btn btn--update">
+                                            <i class="btn-icon btn-icon--edit fal fa-edit"></i>
+                                        </div>
+                                    </a>`
+                                );
+                            },
+                    },
+                ],
+        }))
+        dataTable.on("draw.dt", function () {
+            dataTable.column(0, { search: "applied", order: "applied" }).nodes().each(function (cell, i) {
+                cell.innerHTML = i + 1;
+            });
+        });
+        // Create Index column datatable
+
+
+         });
+
+
+
+        /*---------------------------update------------------------*/
+        $('#table_listData').on('click', '.business_update', function (e) {
+            e.preventDefault()
+            const form = document.getElementById('updateForm');
+            form.classList.add('is-appear');
+            const url = $(this).attr('href');
+            $.ajax({
+                url: url,
+                type: "get",
+                dataType: 'json',
+                success: function (res) {
+                    console.log(res);
+                    const actionUrl = `@Url.Action("Edit", "YearStudies")` + `/${res[0].id}`
+                    $('#ID').val(res[0].id)
+                    $('#YearStudy').val(res[0].name)
+                    $('#updateForm').attr('action', `${actionUrl}`)
+                }
+
+            })
+        })
+        /*---------------delete------------*/
+        function loadDeleteUser(id) {
+            let formDelete = document.getElementById("deleteForm");
+            formDelete.classList.add('is-appear')
+            document.getElementById('iddele').value = id;
+        }
+/*------------------close-form-----------------------*/
+        $('#form_detail .btn--cancel').on('click', function () {
+            $('#form_detail').removeClass('is-appear')
+        })
+
+        $('#form_detail .btn--create').on('click', function () {
+            $('#addFormCr').addClass('is-appear')
+        })
+        $('.btn--cancel').on('click', function () {
+            $('#updateForm').removeClass('is-appear')
+        })
+
+        $('#addFormCr .btn--cancel').on('click', function () {
+            $('#addFormCr').removeClass('is-appear')
+        })
+
+        function reLoad() {
+            window.location.reload();
+        }
+
+    </script>
+    <script>
+        $(document).ready(function () {
+            $.validator.addMethod("blank", function (value, element) {
+                return (!/^\s*$/.test(value));
+            }, "Vui lòng nhập năm học.");
+
+            // Initialize the form validation
+            $("#addForm").validate();
+
+            // cái này là on blur nè
+            $("#addForm input, #addForm input").on("blur", function () {
+                $(this).valid();
+            });
+
+            // cái này là on change nè
+            $("#addForm input, #addForm input").on("change", function () {
+                $(this).removeClass("error");
+            });
+            
+            /*--------------------------update---------------*/
+            $("#updateForm").validate();
+            // cái này là on blur nè
+            $("#updateForm input, #updateForm input").on("blur", function () {
+                $(this).valid();
+            });
+
+            // cái này là on change nè
+            $("#updateForm input, #updateForm input").on("change", function () {
+                $(this).removeClass("error");
+            });
+        });
+        $("#addForm").validate({
+            rules: {
+                YearStudy1: {
+                    required: true,
+                    blank: true
+                }
+            },
+            messages: {
+                YearStudy1: {
+                    required: "Vui lòng nhập năm học"
+                }
+            }
+        });
+        $("#updateForm").validate({
+            rules: {
+                YearStudy1: {
+                    required: true,
+                    blank: true
+                }
+            },
+            messages: {
+                YearStudy1: {
+                    required: "Vui lòng nhập năm học"
+                }
+            }
+        });
+
+    </script>
+}

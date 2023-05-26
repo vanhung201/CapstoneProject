@@ -24,32 +24,45 @@ namespace BusinessConnectManagement.Areas.Business.Controllers
         [HttpPost]
         public ActionResult Login(string username, string password)
         {
-            var query = db.BusinessUsers.FirstOrDefault(x => x.Business_ID == username);
+            var query = db.BusinessUsers.FirstOrDefault(x => x.Username.Equals(username));
 
             if (query != null)
             {
-                if (query.Password == password)
+                if (query.Status_ID == 2)
                 {
-                    Session["BusinessID"] = query.Business_ID;
-                    Session["BusinessName"] = query.BusinessName;
+                    TempData["message"] = "Tài khoản của bạn đang bị khóa. Vui lòng liên hệ Khoa CNTT để được hỗ trợ.";
+                    TempData["messageType"] = "warning";
 
-                    query.Last_Access= DateTime.Now;
-
-                    db.Entry(query).State = EntityState.Modified;
-                    db.SaveChanges();
-
-                    return RedirectToAction("Index", "Home");
+                    return View();
                 }
                 else
                 {
-                    Session["password-incorrect"] = true;
+                    if (query.Password.Equals(password))
+                    {
+                        Session["BusinessID"] = query.ID;
+                        Session["BusinessName"] = query.BusinessName;
 
-                    return View();
+                        query.Last_Access = (DateTime.Now).ToString();
+
+                        db.Entry(query).State = EntityState.Modified;
+                        db.SaveChanges();
+
+                        return RedirectToAction("Index", "BusinessHome");
+                    }
+                    else
+                    {
+                        TempData["message"] = "Đăng Nhập Thất Bại. Sai Tài Khoản Hoặc Mật Khẩu";
+                        TempData["messageType"] = "error";
+
+
+                        return View();
+                    }
                 }
             }
             else
             {
-                Session["username-incorrect"] = true;
+                TempData["message"] = "Tài Khoản Không Tồn Tại";
+                TempData["messageType"] = "warning";
 
                 return View();
             }

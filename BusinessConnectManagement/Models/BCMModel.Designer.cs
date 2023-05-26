@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'D:\LAPTRINHASP.NET_MVC\Capstone Project Local\BusinessConnectManagement\Models\BCMModel.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\LENOVO\source\repos\CapstoneProject\BusinessConnectManagement\Models\BCMModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.
