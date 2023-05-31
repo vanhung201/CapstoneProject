@@ -41,11 +41,13 @@
                         <td>@count</td>
                         <td>@item.Semester1</td>
                         <td>
-                            <a onclick="loadUpdate('@item.ID', '@item.Semester1', '@item.YearStudy_ID', '@getStatus')" class="business_update">
+                            <a class="business_update" href="@Url.Action("Details", "Semesters", new {id = item.ID})">
                                 <div class="btn btn--update">
+                                    <span class="btn-tooltip">Cập nhật</span>
                                     <i class="btn-icon btn-icon--edit fal fa-edit"></i>
                                 </div>
                             </a>
+                            
                             @if (item.Status == true)
                             {
                                 <a href="#" style="margin-left: 10px">
@@ -54,19 +56,26 @@
                                     </div>
                                 </a>
 
-                            }
-                            else
-                            {
-                                <a onclick="loadEdit('@item.ID', '@item.Semester1', '@item.YearStudy_ID')" style="margin-left: 10px">
-                                    <div class="btn btn--update" style=" width: 200px; position: absolute;">
-                                        Đặt Làm Học Kỳ Hiện Tại
-                                    </div>
-                                </a>
+                                        }
+                                        else
+                                        {
+                                           
+                                            if (item.YearStudy.StartDate > DateTime.Now && item.StartDate > DateTime.Now)
+                                            {
+                                    <a onclick="loadEdit('@item.ID', '@item.Semester1', '@item.YearStudy_ID')" style="margin-left: 10px">
+                                        <div class="btn btn--update" style=" width: 200px; position: absolute;">
+                                            Đặt Làm Học Kỳ Hiện Tại
+                                        </div>
+                                    </a>
 
+                                }
+                                else {
+                       
+                           
+
+                            }
                             }
                         </td>
-
-
                     </tr>
                     count++;
                 }
@@ -87,6 +96,14 @@
             <input name="Status" type="text" value="false" class="form-input" hidden />
         </div>
         <div class="form-group">
+            <label for="cooperationName" class="form-label">Ngày Bắt Đầu</label>
+            <input name="StartDate" id="StartDate" type="date" onchange="checkDate()" class="form-input" required>
+        </div>
+        <div class="form-group">
+            <label for="cooperationName" class="form-label">Ngày Kết Thúc</label>
+            <input name="EndDate" id="EndDate" type="date" onchange="checkDate()" class="form-input" required>
+        </div>
+        <div class="form-group">
             <a class="btn btn--cancel">Hủy</a>
             <button type="submit" class="btn btn--confirm">Xác Nhận</button>
         </div>
@@ -98,10 +115,18 @@
         <h1 class="form-heading">Cập Nhật Học Kỳ</h1>
         <div class="form-group">
             <label for="cooperationName" class="form-label">Học Kỳ</label>
-            <input name="ID" id="idup" hidden />
-            <input name="Semester1" class="form-input" id="nameup" required />
-            <input name="YearStudy_ID" id="idyearup" hidden />
-            <input name="Status" id="statusup" hidden />
+            <input name="ID" id="IDU" hidden />
+            <input name="Semester1" class="form-input" id="SemesterU" required />
+            <input name="YearStudy_ID" id="YearStudy_IDU" hidden />
+            <input name="Status" id="StatusU" hidden />
+        </div>
+        <div class="form-group">
+            <label for="cooperationName" class="form-label">Ngày Bắt Đầu</label>
+            <input name="StartDate" id="StartDateU" type="date" onchange="checkDate()" class="form-input" required>
+        </div>
+        <div class="form-group">
+            <label for="cooperationName" class="form-label">Ngày Kết Thúc</label>
+            <input name="EndDate" id="EndDateU" type="date" onchange="checkDate()" class="form-input" required>
         </div>
         <div class="form-group">
             <a class="btn btn--cancel">Hủy</a>
@@ -110,6 +135,7 @@
             </button>
         </div>
     </div>
+
 </form>
 @*---------------modifysemesternow--------------*@
 <form action="@Url.Action("Edit", "Semesters")" class="form" id="confirmForm" method="post">
@@ -119,7 +145,7 @@
             <input name="ID" id="id" hidden />
             <input name="Semester1" class="form-input" id="name" hidden />
             <input name="YearStudy_ID" id="idyear" hidden />
-            <input name="status" value="true" hidden />
+            <input name="Status" value="true" hidden />
             <span>
                 Bạn chắc chắn muốn đặt<strong name="name" style="font-weight: bold; color: #ce1b28;"> Học Kỳ </strong><strong name="name" id="namedele" style="font-weight: bold; color: #ce1b28;"></strong>
                 là học kỳ hiện tại không?
@@ -137,6 +163,23 @@
 @section Scripts {
     <script>
 
+        function checkDate() {
+            var dateInputs = document.querySelectorAll('input[type="date"]');
+            var now = Date.now();
+
+            for (var i = 0; i < dateInputs.length; i++) {
+                var selectedText = dateInputs[i].value;
+                var selectedDate = new Date(selectedText);
+
+                if (selectedDate <= now) {
+                    dateInputs[i].value = "dd/mm/yyyy";
+                    alert("Vui lòng không chọn những ngày trước.");
+                    return false;
+                }
+            }
+
+            return true;
+        }
         function loadEdit(id, name, idyear) {
             let formUpdate = document.getElementById("confirmForm");
             formUpdate.classList.add('is-appear')
@@ -146,16 +189,54 @@
             $('#namedele').text(name)
 
         }
-        function loadUpdate(id, name, idyear, status) {
-            let formUpdate = document.getElementById("updateForm");
-            formUpdate.classList.add('is-appear')
-            document.getElementById('nameup').value = name;
-            document.getElementById('idup').value = id;
-            document.getElementById('idyearup').value = idyear;
-            document.getElementById('statusup').value = status;
-            $('#namedele').text(name)
 
+        function formatDate(dateString) {
+            let [month, day, year] = dateString.split('/');
+            return `${year}-${month}-${day}`;
         }
+
+        function convertDate(dateString) {
+            const timestamp = parseInt(dateString.match(/\d+/)[0]);
+            const date = new Date(timestamp);
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const formattedDate = `${year}-${month}-${day}`;
+            return formattedDate;
+        }
+
+        $('#table_id').on('click', '.business_update', function (e) {
+            e.preventDefault()
+            const form = document.getElementById('updateForm');
+            form.classList.add('is-appear');
+            const url = $(this).attr('href');
+            $.ajax({
+                url: url,
+                type: "get",
+                dataType: 'json',
+                success: function (res) {
+                    console.log(res);
+                    const actionUrl = `@Url.Action("Update", "Semesters")` + `/${res[0].id}`
+                    var startDate = res[0].startDate
+                    var splitedSDate = startDate.split(' ')[0]
+                    var converStartDate = convertDate(splitedSDate)
+                    var endDate = res[0].endDate
+                    var splitedEDate = endDate.split(' ')[0]
+                    var converEndDate = convertDate(splitedEDate)
+                    console.log(converStartDate)
+                    $('#IDU').val(res[0].id)
+                    $('#SemesterU').val(res[0].name)
+                    $('#YearStudy_IDU').val(res[0].year_id)
+                    $('#StartDateU').val(converStartDate);
+                    $('#EndDateU').val(converEndDate);
+                    $('#StatusU').val(res[0].status);
+
+                    $('#updateForm').attr('action', `${actionUrl}`)
+                }
+
+            })
+        })
+
 
         $('#confirmForm .btn--cancel').on('click', function () {
             $('#confirmForm').removeClass('is-appear')
@@ -205,12 +286,26 @@
                     required: true,
                     digits: true,
                     blank: true
+                },
+                EndDate: {
+                    required: true,
+                    blank:true
+                },
+                StartDate: {
+                    required: true,
+                    blank: true
                 }
             },
             messages: {
                 Semester1: {
                     required: "Vui lòng nhập học kỳ.",
                     digits: "Học kỳ chỉ bao gồm các kí tự số.",
+                },
+                EndDate1: {
+                    required: "Vui lòng nhập ngày"
+                },
+                StartDate1: {
+                    required: "Vui lòng nhập ngày"
                 }
             }
         });

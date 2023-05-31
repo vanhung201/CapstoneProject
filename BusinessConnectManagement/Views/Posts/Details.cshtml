@@ -157,6 +157,8 @@
                         <div class="p15 bg-gray mb15">
                             @Html.Raw(Model.Description)
                         </div>
+                        <p class="bold-7 mb10"> <a href="@Url.Action("Position","Home")">Mô Tả Vị Trị Công Việc</a></p>
+
                     </div>
 
                 </div>
@@ -204,6 +206,7 @@
                 <a href="@Url.Action("Index", "Posts")">Xem thêm</a>
             </div>
             <div class="columns pt30">
+
                 @foreach (var item in ViewBag.Post)
                 {
                     <div class="column col-6 col-sm-12 col-md-12 col-xl-6 mb10">

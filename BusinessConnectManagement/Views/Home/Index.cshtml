@@ -127,10 +127,10 @@
                                             <i class="fa-solid fa-location-dot"></i> @item.BusinessUser.Address
                                         </span>
                                     </div>
-                                    <p class="text-primary bold-6">
+                                    <p class="text-primary bold-6 custom">
                                         <i>Hạn nộp: @formattedDate</i>
 
-                                        <i style="margin-left:10%">Lượt ứng tuyển: @item.Registrations.Count</i>
+                                        <i>Lượt ứng tuyển: @item.Registrations.Count</i>
                                         @{int totalQuantity = 0;}
                                             
                                         @foreach (var topic in item.PostInternshipTopics)
@@ -140,7 +140,7 @@
                                         totalQuantity += topic.Quantity;
                                         }
                                         }
-                                        <i style="float:right">SL còn lại: @totalQuantity</i>
+                                        <i>SL còn lại: @totalQuantity</i>
                                        
                                     </p>
 
@@ -207,13 +207,13 @@
                                             <i class="fa-solid fa-location-dot"></i> @item.BusinessUser.Address
                                         </span>
                                     </div>
-                                    <p class="text-primary bold-6">
+                                    <p class="text-primary bold-6 custom">
                                         <i>Hạn nộp: @formattedDate</i>
-                                        <i style="margin-left:10%">Lượt ứng tuyển: @item.Registrations.Count()</i>
+                                        <i>Lượt ứng tuyển: @item.Registrations.Count()</i>
                                         @{
                                             var totalQuantity = item.PostInternshipTopics.Where(x => x.Quantity > 0).Sum(x => x.Quantity);
                                         }
-                                        <i style="float:right">SL còn lại: @totalQuantity</i>
+                                        <i>SL còn lại: @totalQuantity</i>
                                     </p>
 
                                 </div>
@@ -313,18 +313,7 @@
                         Sau khi bạn ứng tuyển vào vị trí nhưng CV của bạn bị khoa từ chối thì bạn sẽ mất cơ hội để ứng tuyển lần lại. Do đó hãy đầu tư vào CV của bạn thật kỹ nhé.
                     </div>
                 </div>
-                <div class="accordion item">
-                    <input type="checkbox" id="accordion-4" name="accordion-checkbox" hidden />
-                    <label class="accordion-header question" for="accordion-4">
-                        <div class="d-flex justify-between align-middle">
-                            <p class="mb-0">Câu hỏi 4</p>
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                    </label>
-                    <div class="accordion-body answer">
-
-                    </div>
-                </div>
+               
             </article>
 
         </div>

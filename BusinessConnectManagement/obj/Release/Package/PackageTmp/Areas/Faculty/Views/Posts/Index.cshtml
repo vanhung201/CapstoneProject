@@ -16,7 +16,7 @@
 
     
         <div class="bu_status"></div>
-        <label id="nameLabel1" style="left: 48%;">Lọc:</label>
+        @*<label id="nameLabel1" style="left: 48%;">Lọc:</label>*@
     
 
     <div class="btn btn--create" id="btn-create" style="float:right">
@@ -312,11 +312,13 @@
                                 `
                                 <a href="@Url.Action("Details", "Posts")${t}" id="business_detail" class="business_detail">
                                 <div class="btn btn--update" title="Cập Nhật">
+                                    <span class="btn-tooltip">Cập nhật</span>
                                     <i class="btn-icon btn-icon--edit fal fa-edit"></i>
                                 </div>
                                 </a>
                                 <a onclick="loadDeleteUser(${t})">
                                 <div class="btn btn--delete">
+                                    <span class="btn-tooltip">Xóa</span>
                                     <i class="btn-icon btn-icon--edit fal fa-times"></i>
                                 </div>
                                 </a>`

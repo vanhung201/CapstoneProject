@@ -16,7 +16,7 @@
     <div class="list-table">
         <div id="filterEvent">
             <a>
-                <div class="btn btn--detail" style=" margin-left: 742px; width: 9rem;">
+                <div class="btn btn--detail" style=" margin-left: 1rem; width: 9rem;">
                     <span class="btn-text btn--dowload">Excel Mẫu</span>
                 </div>
                 <div class="btn btn--createe" id="btn--import" style="margin-right: 88px">
@@ -30,7 +30,7 @@
         </div>
         
             <div class="bu_status"></div>
-            <label id="nameLabel1">Lọc:</label>
+            @*<label id="nameLabel1">Lọc:</label>*@
         
         <table id="table_test" class="display">
             <thead>
@@ -441,11 +441,13 @@
                                 `
                                 <a href="@Url.Action("Details", "BusinessUsers")${t}" id="business_detail" class="business_detail">
                                 <div class="btn btn--update">
+                                    <span class="btn-tooltip">Cập nhật</span>
                                     <i class="btn-icon btn-icon--edit fal fa-edit"></i>
                                 </div>
                                 </a>
                                 <a onclick="loadDeleteUser(${t})">
                                 <div class="btn btn--delete">
+                                    <span class="btn-tooltip">Xóa</span>
                                     <i class="btn-icon btn-icon--edit fal fa-times"></i>
                                 </div>
                                 </a>`
@@ -459,7 +461,7 @@
                         .every(function () {
                             var t = this,
                                 e = $(
-                                    '<select id="UserType" style="margin-right: 8px;border: 1px solid #aaa;border-radius: 3px;padding: 5px;background-color: transparent; margin-left: 3px;" class="form-select text-capitalize mb-md-0 mb-2xx"><option value="">---- Chọn Trạng Thái Để Lọc ----</option></select>'
+                                    '<select id="UserType" style="margin-inline: 8px;border: 1px solid #aaa;border-radius: 3px;padding: 5px;background-color: transparent; margin-left: 3px;" class="form-select text-capitalize mb-md-0 mb-2xx"><option value="">---- Chọn Trạng Thái Để Lọc ----</option></select>'
                                 )
                                     .prependTo("#table_test_filter")
                                     .on("change", function () {
