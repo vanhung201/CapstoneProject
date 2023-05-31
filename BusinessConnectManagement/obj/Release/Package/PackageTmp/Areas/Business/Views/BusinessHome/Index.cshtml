@@ -18,7 +18,14 @@
             <select name="" id="year" class="filter-select">
                 @foreach (var item in years)
                 {
-                    <option value="@item.ID">@item.YearStudy1</option>
+                    if (item.Status == true)
+                    {
+                        <option value="@item.ID" selected>@item.YearStudy1</option>
+                    }
+                    else
+                    {
+                        <option value="@item.ID">@item.YearStudy1</option>
+                    }
                 }
             </select>
         </div>

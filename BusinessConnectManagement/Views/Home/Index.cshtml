@@ -127,10 +127,10 @@
                                             <i class="fa-solid fa-location-dot"></i> @item.BusinessUser.Address
                                         </span>
                                     </div>
-                                    <p class="text-primary bold-6">
+                                    <p class="text-primary bold-6 custom">
                                         <i>Hạn nộp: @formattedDate</i>
 
-                                        <i style="margin-left:10%">Lượt ứng tuyển: @item.Registrations.Count</i>
+                                        <i>Lượt ứng tuyển: @item.Registrations.Count</i>
                                         @{int totalQuantity = 0;}
                                             
                                         @foreach (var topic in item.PostInternshipTopics)
@@ -140,7 +140,7 @@
                                         totalQuantity += topic.Quantity;
                                         }
                                         }
-                                        <i style="float:right">SL còn lại: @totalQuantity</i>
+                                        <i>SL còn lại: @totalQuantity</i>
                                        
                                     </p>
 
@@ -207,13 +207,13 @@
                                             <i class="fa-solid fa-location-dot"></i> @item.BusinessUser.Address
                                         </span>
                                     </div>
-                                    <p class="text-primary bold-6">
+                                    <p class="text-primary bold-6 custom">
                                         <i>Hạn nộp: @formattedDate</i>
-                                        <i style="margin-left:10%">Lượt ứng tuyển: @item.Registrations.Count()</i>
+                                        <i>Lượt ứng tuyển: @item.Registrations.Count()</i>
                                         @{
                                             var totalQuantity = item.PostInternshipTopics.Where(x => x.Quantity > 0).Sum(x => x.Quantity);
                                         }
-                                        <i style="float:right">SL còn lại: @totalQuantity</i>
+                                        <i>SL còn lại: @totalQuantity</i>
                                     </p>
 
                                 </div>

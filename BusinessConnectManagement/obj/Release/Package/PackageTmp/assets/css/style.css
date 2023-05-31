@@ -38,7 +38,6 @@
 }
 
 #UserType{
-    
     position: absolute;
     left: 52%;
     top: 0;
@@ -46,24 +45,26 @@
     background-color: #fff !important;
     z-index: 10;
 }
+
 #UserType1 {
     position: absolute;
-    left: 42%;
+    left: 50%;
     top: 0;
     transform: translateX(-50%);
     background-color: #fff !important;
     z-index: 10;
+    margin-inline: 1rem;
 }
-
 
 
 #UserType2 {
     position: absolute;
-    left: 55%;
+    left: 56%;
     top: 0;
     transform: translateX(-50%);
     background-color: #fff !important;
     z-index: 10;
+    margin-inline: 1rem;
 }
 
 #table_listData {
@@ -313,5 +314,3 @@ bell-icon{
 .sec:hover {
     background-color: #BFBFBF;
 }
-
-

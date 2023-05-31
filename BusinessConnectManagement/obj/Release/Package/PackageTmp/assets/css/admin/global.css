@@ -264,6 +264,7 @@ tbody > tr:last-child td:first-child {
     width: 8rem;
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
     transition: all 0.1s linear;
+    position: relative;
 }
 
     .btn:not(:first-child) {
@@ -287,7 +288,7 @@ tbody > tr:last-child td:first-child {
     color: #fff;
 }
 
-.btn:hover {
+.btn:hover .btn-icon {
     opacity: 0.8;
 }
 
@@ -326,6 +327,27 @@ tbody > tr:last-child td:first-child {
     width: 3rem;
     height: 3rem;
     background-color: #4286f4;
+}
+
+
+/* Btn ToolTip*/
+.btn-tooltip {
+    display: none;
+    position: absolute;
+    width: 8rem;
+    top: -3rem;
+    line-height: 1.8;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    border-radius: 0.5rem;
+    background-color: #86A8E7;
+    z-index: 99;
+}
+
+.btn:hover .btn-tooltip {
+    display: block;
+    opacity: 1 !important;
 }
 
 /* Greeting */

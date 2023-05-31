@@ -84,6 +84,13 @@ namespace BusinessConnectManagement
             );
 
             routes.MapRoute(
+                name: "Position",
+                url: "vi-tri",
+                defaults: new { controller = "Home", action = "Position", id = UrlParameter.Optional },
+                namespaces: new[] { "BusinessConnectManagement.Controllers" }
+            );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },

@@ -82,7 +82,7 @@
         <h1 class="form-heading">Import Excel</h1>
         <div class="form-group">
             <input type="file" name="postFile" id="excelFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" onchange="checkInputExcel(this)" required class="form-input" />
-            <span class="text-danger" id="cv_validation" style="color:red;"></span>
+            <p class="text-danger" id="cv_validation" style="color:red;"></p>
         </div>
 
         <div class="form-group">
@@ -327,13 +327,19 @@
             if (input.files && input.files[0]) {
                 var file = input.files[0];
                 var fileType = file.type.toLowerCase();
-                if (fileType != "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" && fileType != "application/vnd.ms-excel" && fileType != "text/csv") {
+                var fileSize = file.size; 
+                var maxSize = 2 * 1024 * 1024;
+
+                if (fileSize > maxSize) {
                     input.value = "";
-                    $('#cv_validation').text('Vui Lòng Chọn File Excel');
+                    $('#cv_validation').text('File Excel không được vượt quá 2MB');
+                } else if (fileType != "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" && fileType != "application/vnd.ms-excel" && fileType != "text/csv") {
+                    input.value = "";
+                    $('#cv_validation').text('Vui lòng chọn File Excel');
                 }
             } else {
                 input.value = "";
-                $('#cv_validation').text('Vui Lòng Chọn File Excel');
+                $('#cv_validation').text('Vui lòng chọn File Excel');
             }
         }
 

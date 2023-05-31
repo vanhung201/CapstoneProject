@@ -16,21 +16,27 @@ namespace BusinessConnectManagement.Controllers
         // GET: Home
         public ActionResult Index(int? page)
         {
-          
             ViewBag.MOUs = db.MOUs.ToList();
             ViewBag.Major = db.Majors.ToList();
             if (page == null) page = 1;
 
             var posts = (from post in db.Posts
                          select post).OrderByDescending(x => x.ID);
-           /* var totalQuantity = posts.Where(x => x.Quantity > 0).Sum(x => x.Quantity);*/
 
             int pageSize = 6;
             int pageNumber = (page ?? 1);
 
-            var filteredPosts = posts.Where(p => p.BusinessUser.Status_ID == 1)
-                         .ToPagedList(pageNumber, pageSize);
-            var filteredPostsHot = posts.Where(x => x.BusinessUser.Status_ID == 1).OrderByDescending(x => x.Registrations.Count).ToPagedList(pageNumber, pageSize);
+            var filteredPosts = posts
+                .AsEnumerable()
+                .Where(p => p.BusinessUser.Status_ID == 1 && DateTime.Parse(p.DueDate) >= DateTime.Now)
+                .ToPagedList(pageNumber, pageSize);
+
+            var filteredPostsHot = filteredPosts
+                .AsEnumerable()
+                .Where(x => DateTime.Parse(x.DueDate) >= DateTime.Now && x.BusinessUser.Status_ID == 1)
+                .OrderByDescending(x => x.Registrations.Count)
+                .ToPagedList(pageNumber, pageSize);
+
             ViewBag.PostsHot = filteredPostsHot;
             ViewBag.Posts = filteredPosts;
             ViewBag.CountStudent = db.VanLangUsers.Count();
